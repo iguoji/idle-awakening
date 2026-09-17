@@ -1,8 +1,8 @@
+import { GameWorkerClient } from '../engine/worker-client.js';
 import { createGameAdapter } from './game-adapter.js';
-import { createPreviewEngine } from './preview-engine.js';
 import { mountUiShell } from './ui-shell.js';
 
-const engine = createPreviewEngine();
+const engine = new GameWorkerClient();
 const adapter = createGameAdapter(engine);
 const root = document.getElementById('root');
 
@@ -11,5 +11,7 @@ if (!root) {
 }
 
 const ui = mountUiShell({ root, game: adapter });
+engine.start();
 
-window.IdleAwakening = Object.freeze({ adapter, ui });
+window.addEventListener('beforeunload', () => engine.destroy(), { once: true });
+window.IdleAwakening = Object.freeze({ adapter, engine, ui });
