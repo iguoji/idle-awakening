@@ -9,33 +9,36 @@ function ensureRelative(specifier) {
   return specifier.startsWith('.') ? specifier : `./${specifier}`;
 }
 
-function resolveImport(sourceModule, outputFile, importedId) {
-  let target;
-  if (importedId === './src/index.js') {
-    target = path.join(outputRoot, 'index.js');
-  } else if (importedId.startsWith('./src/worker/')) {
+function resolveImport(importedId, outputFile) {
+  let target = null;
+
+  if (importedId.startsWith('./src/worker/')) {
     target = path.join(outputRoot, importedId.slice('./src/'.length));
   } else if (importedId.startsWith('./node_modules/game-framework/')) {
     target = path.join(outputRoot, 'framework', importedId.slice('./node_modules/game-framework/'.length));
   } else if (importedId.startsWith('game-framework')) {
     const suffix = importedId.slice('game-framework'.length).replace(/^\//, '');
     target = path.join(outputRoot, 'framework', suffix || 'index.js');
-  } else if (importedId.startsWith('./node_modules/')) {
-    const packagePath = importedId.slice('./node_modules/'.length);
-    const packageName = packagePath.startsWith('@') ? packagePath.split('/').slice(0, 2).join('/') : packagePath.split('/')[0];
-    return packageName;
-  } else {
+  }
+
+  if (!target) {
+    if (importedId.startsWith('./node_modules/')) {
+      const packagePath = importedId.slice('./node_modules/'.length);
+      return packagePath.startsWith('@')
+        ? packagePath.split('/').slice(0, 2).join('/')
+        : packagePath.split('/')[0];
+    }
     return importedId;
   }
 
-  const fromDir = path.dirname(outputFile);
-  const rel = path.relative(fromDir, target).split(path.sep).join('/');
+  const rel = path.relative(path.dirname(outputFile), target).split(path.sep).join('/');
   return ensureRelative(rel);
 }
 
-function transformModule(content, sourceModule, outputFile) {
+function transformModule(content, outputFile) {
   let code = content;
   const imports = [];
+
   const aliasRe = /\/\* harmony import \*\/ var ([A-Za-z0-9_$]+) = __webpack_require__\(\/\*! [^*]+ \*\/ "([^"]+)"\);/g;
   code = code.replace(aliasRe, (_, alias, importedId) => {
     imports.push({ alias, importedId, defaultAlias: null });
@@ -55,37 +58,36 @@ function transformModule(content, sourceModule, outputFile) {
 
   for (const { alias, defaultAlias } of imports) {
     if (defaultAlias) code = code.split(defaultAlias).join(alias);
-    const marker = `${alias}__WEBPACK_IMPORTED_MODULE_`;
-    // The variable may have a compiler suffix in the identifier. We already
-    // know the exact alias from the import declaration, so rewrite every
-    // generated namespace reference that starts with it.
-    code = code.replace(new RegExp(`${alias.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}\\.`, 'g'), `${alias}.`);
   }
 
   const exportMatches = [...content.matchAll(/\/\* harmony export \*\/ __webpack_require__\.d\(__webpack_exports__, \{([\s\S]*?)\}\);/g)];
   const exports = [];
   for (const match of exportMatches) {
     for (const item of match[1].matchAll(/([A-Za-z0-9_$]+): \(\) => \(\/\* binding \*\/ ([A-Za-z0-9_$]+)\)/g)) {
-      exports.push({ name: item[1], binding: item[2] });
+      exports.push({ type: 'binding', name: item[1], local: item[2] });
+    }
+    for (const item of match[1].matchAll(/([A-Za-z0-9_$]+): \(\) => \(\/\* reexport safe \*\/ ([A-Za-z0-9_$]+)\.([A-Za-z0-9_$]+)\)/g)) {
+      exports.push({ type: 'reexport', name: item[1], namespace: item[2], local: item[3] });
     }
   }
 
-  // The extractor aliases webpack modules exactly as the original source
-  // importer did. For native ESM a namespace import is enough, and it also
-  // preserves lodash-style named property access.
+  // Keep the compiler-generated identifiers stable for the first migration.
+  // Native ESM imports are still vastly easier to navigate and build than the
+  // original webpack module registry, and lodash namespace access remains valid.
   const importText = imports.length
-    ? `${imports.map(({ alias, importedId }) => `import * as ${alias} from '${resolveImport(sourceModule, outputFile, importedId)}';`).join('\n')}\n\n`
+    ? `${imports.map(({ alias, importedId }) => `import * as ${alias} from '${resolveImport(importedId, outputFile)}';`).join('\n')}\n\n`
     : '';
 
-  // Strip the one generated variable alias that was used only for default
-  // interop. It has already been rewritten to the namespace variable above.
-  code = code.replace(/\/\* harmony import \*\/[\t ]*var [A-Za-z0-9_$]+ = [^\n]*\n?/g, '');
+  const exportLines = [];
+  const seenExports = new Set();
+  for (const entry of exports) {
+    if (seenExports.has(entry.name)) continue;
+    seenExports.add(entry.name);
+    if (entry.type === 'reexport') exportLines.push(`export const ${entry.name} = ${entry.namespace}.${entry.local};`);
+    else exportLines.push(`export { ${entry.local}${entry.local === entry.name ? '' : ` as ${entry.name}`} };`);
+  }
 
-  const exportText = exports.length
-    ? `\n\nexport { ${exports.map(({ name, binding }) => name === binding ? binding : `${binding} as ${name}`).join(', ')} };\n`
-    : '\n';
-
-  return `${importText}${code.trim()}${exportText}`;
+  return `${importText}${code.trim()}${exportLines.length ? `\n\n${exportLines.join('\n')}\n` : '\n'}`;
 }
 
 function collectFiles(dir) {
@@ -105,15 +107,14 @@ const files = [
   ...(fs.existsSync(frameworkSource) ? collectFiles(frameworkSource) : []),
 ];
 
-if (!files.length) {
-  throw new Error(`No recovered worker/framework modules found under ${inputRoot}`);
-}
+if (!files.length) throw new Error(`No recovered worker/framework modules found under ${inputRoot}`);
 
+fs.rmSync(outputRoot, { recursive: true, force: true });
 for (const file of files) {
   const rel = path.relative(inputRoot, file).split(path.sep).join('/');
-  const outputFile = path.join(outputRoot, rel);
-  const content = fs.readFileSync(file, 'utf8');
-  const transformed = transformModule(content, file, outputFile);
+  const normalizedRel = rel.startsWith('src/') ? rel.slice('src/'.length) : rel;
+  const outputFile = path.join(outputRoot, normalizedRel);
+  const transformed = transformModule(fs.readFileSync(file, 'utf8'), outputFile);
   fs.mkdirSync(path.dirname(outputFile), { recursive: true });
   fs.writeFileSync(outputFile, `${transformed.trim()}\n`, 'utf8');
 }
