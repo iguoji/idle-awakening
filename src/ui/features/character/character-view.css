@@ -1,0 +1,22 @@
+.ui-character-attributes { display:grid; gap:12px; }
+.ui-character-attribute { padding:12px 0; border-bottom:1px solid var(--ui-border); }
+.ui-character-attribute:last-child { border-bottom:0; }
+.ui-character-attribute > div:first-child { display:flex; justify-content:space-between; gap:16px; font-size:13px; }
+.ui-character-attribute > div:first-child span { color:var(--ui-primary-strong); font-weight:700; }
+.ui-character-attribute small { display:block; margin-top:7px; color:var(--ui-muted); font-size:10px; }
+.ui-character-stat__detail { margin-top:5px; color:var(--ui-muted); font-size:10px; }
+.ui-character-skills { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.ui-character-skill { display:flex; gap:14px; align-items:center; padding:14px; border:1px solid var(--ui-border); border-radius:var(--ui-radius-md); background:rgba(17,21,29,.72); }
+.ui-character-skill[data-locked="true"] { opacity:.5; }
+.ui-character-skill__main { min-width:0; flex:1; }
+.ui-character-skill__title { display:flex; justify-content:space-between; gap:12px; }
+.ui-character-skill__title strong { font-size:13px; }
+.ui-character-skill__title span { color:var(--ui-muted); font-size:10px; white-space:nowrap; }
+.ui-character-skill__main p { margin:6px 0 8px; color:var(--ui-muted); font-size:11px; line-height:1.45; }
+.ui-character-skill__main small { display:block; margin-top:6px; color:var(--ui-muted); font-size:9px; }
+.ui-character-effects { display:grid; gap:8px; }
+.ui-character-effect { display:flex; justify-content:space-between; gap:12px; padding:10px 12px; border:1px solid var(--ui-border); border-radius:var(--ui-radius-sm); background:var(--ui-surface-2); }
+.ui-character-effect strong { font-size:11px; }
+.ui-character-effect span { color:var(--ui-muted); font-size:10px; }
+@media (max-width:900px) { .ui-character-skills { grid-template-columns:1fr; } }
+@media (max-width:800px) { .ui-character-skill { align-items:flex-start; flex-direction:column; } .ui-character-skill > .ui-btn { width:100%; } }
