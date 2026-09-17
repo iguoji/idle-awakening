@@ -8,7 +8,9 @@ for (let i = 2; i < process.argv.length; i += 1) {
   if (arg.startsWith('--')) args.set(arg.slice(2), process.argv[i + 1]);
 }
 
-const inputs = [args.get('main'), args.get('worker')].filter(Boolean);
+// Worker bundle first: it owns the real worker entry/module graph. The main
+// bundle also embeds a small worker factory with the same source path.
+const inputs = [args.get('worker'), args.get('main')].filter(Boolean);
 const outputRoot = path.resolve(args.get('out') || 'src/recovered');
 
 if (!inputs.length) {
@@ -28,9 +30,7 @@ function decodeEvalString(source, start) {
       if (i < source.length) raw += source[i];
       continue;
     }
-    if (char === '"') {
-      return JSON.parse(`"${raw}"`);
-    }
+    if (char === '"') return JSON.parse(`"${raw}"`);
     raw += char;
   }
   throw new Error(`Unterminated eval string at offset ${start}`);
@@ -87,9 +87,10 @@ for (const input of inputs) {
 
     if (seen.has(relativePath)) {
       const previous = seen.get(relativePath);
-      if (previous.code !== item.code) {
-        throw new Error(`Conflicting module content for ${relativePath}: ${previous.sourceFile} vs ${item.sourceFile}`);
-      }
+      if (previous.code === item.code) continue;
+      // Earlier input wins. This matters for src/worker/main.worker.js, where
+      // the worker bundle contains the actual worker entry and the main bundle
+      // contains a browser-side factory with the same source URL.
       continue;
     }
 
