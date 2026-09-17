@@ -43,6 +43,7 @@ function normalizeActionsMeta(payload) {
     automationUnlocked: Boolean(payload.automationUnlocked),
     autotriggerIntervalSetting: payload.autotriggerIntervalSetting ?? null,
     current: Array.isArray(payload.current) ? payload.current : [],
+    runningList: payload.runningList || null,
     actionLists: payload.actionLists || [],
     aspects: payload.aspects || null,
   };
