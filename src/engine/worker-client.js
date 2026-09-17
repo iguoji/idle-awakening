@@ -1,6 +1,35 @@
+function normalizeResources(payload) {
+  const list = Array.isArray(payload) ? payload : payload?.resources || [];
+  return list.map((resource) => ({
+    id: resource.id,
+    label: resource.name || resource.label || resource.id,
+    value: Number(resource.amount ?? resource.balance ?? 0),
+    cap: resource.hasCap ? Number(resource.cap ?? 0) : null,
+    delta: Number(resource.income ?? resource.netIncome ?? resource.production ?? 0),
+    raw: resource,
+  }));
+}
+
+function normalizeActions(payload) {
+  const list = Array.isArray(payload) ? payload : payload?.available || payload?.actions || [];
+  return list.map((action) => ({
+    id: action.id,
+    name: action.name || action.id,
+    category: action.category || action.tags?.[0] || 'general',
+    level: Number(action.level ?? 1),
+    xp: Number(action.xp ?? 0),
+    maxXp: Number(action.maxXP ?? action.maxXp ?? 0),
+    active: Boolean(action.isActive),
+    description: action.description || '',
+    tags: action.tags || [],
+    raw: action,
+  }));
+}
+
 export class GameWorkerClient {
   #worker;
   #listeners = new Set();
+  #started = false;
   #snapshot = {
     initialized: false,
     resources: [],
@@ -8,6 +37,7 @@ export class GameWorkerClient {
     attributes: [],
     unlocks: {},
     actionDetails: {},
+    actionsRunning: {},
     raw: {},
   };
 
@@ -18,13 +48,9 @@ export class GameWorkerClient {
   }
 
   start(initialPayload = {}) {
+    if (this.#started) return;
+    this.#started = true;
     this.dispatch('initialize-game', initialPayload);
-    this.dispatch('query-unlocks', {});
-    this.dispatch('query-resources-data', {});
-    this.dispatch('query-attributes-data', {});
-    this.dispatch('query-actions-data', {});
-    this.dispatch('query-actions-running', {});
-    this.dispatch('start-ticking');
   }
 
   getSnapshot() {
@@ -47,6 +73,15 @@ export class GameWorkerClient {
     this.#listeners.clear();
   }
 
+  #bootQueries() {
+    this.dispatch('query-unlocks', {});
+    this.dispatch('query-resources-data', {});
+    this.dispatch('query-attributes-data', {});
+    this.dispatch('query-actions-data', {});
+    this.dispatch('query-actions-running', {});
+    this.dispatch('start-ticking');
+  }
+
   #handleMessage(event) {
     if (typeof event.data !== 'string') return;
 
@@ -64,15 +99,16 @@ export class GameWorkerClient {
     switch (type) {
       case 'initialized':
         patch.initialized = true;
+        this.#bootQueries();
         break;
       case 'resources-data':
-        patch.resources = Array.isArray(payload) ? payload : payload?.resources || [];
+        patch.resources = normalizeResources(payload);
         break;
       case 'actions-data':
-        patch.actions = Array.isArray(payload) ? payload : payload?.actions || payload?.items || [];
+        patch.actions = normalizeActions(payload);
         break;
       case 'attributes-data':
-        patch.attributes = Array.isArray(payload) ? payload : payload?.attributes || [];
+        patch.attributes = Array.isArray(payload) ? payload : payload?.list || [];
         break;
       case 'unlocks':
       case 'unlocks-actions':
@@ -82,9 +118,12 @@ export class GameWorkerClient {
       case 'actions-running':
         patch.actionsRunning = payload || {};
         break;
+      case 'action-details':
+        if (payload?.id) patch.actionDetails = { ...this.#snapshot.actionDetails, [payload.id]: payload };
+        break;
       default:
-        if (type?.startsWith('action-details')) {
-          const id = type.replace(/^action-details-?/, '') || payload?.id || 'unknown';
+        if (type?.startsWith('action-details-')) {
+          const id = type.replace(/^action-details-/, '') || payload?.id || 'unknown';
           patch.actionDetails = { ...this.#snapshot.actionDetails, [id]: payload };
         }
     }
