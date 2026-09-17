@@ -4,7 +4,7 @@
 
 The development tree is bundle-free. `index.html` starts the Vite application from `src/ui/index.js`, which talks to the game worker through `GameWorkerClient` and `GameAdapter`.
 
-The legacy webpack bundles are no longer runtime dependencies. The recovered game/worker modules live under `src/game`, where they can be migrated and cleaned up one module at a time.
+The legacy webpack bundles are no longer runtime dependencies. The game/worker modules now live under `src/game` as native source modules and can be cleaned up one module at a time.
 
 ### Layers
 
