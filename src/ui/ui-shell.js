@@ -1,6 +1,7 @@
 import './tokens.css';
 import { renderResourceCard } from './components/resource-card.js';
 import { renderActionsView } from './features/actions/actions-view.js';
+import { getAutomationQueries, renderAutomationView } from './features/automation/automation-view.js';
 import { getCharacterQueries, renderCharacterView } from './features/character/character-view.js';
 import { getCoursesQueries, renderCoursesView } from './features/courses/courses-view.js';
 import { getDomainQueryConfig, renderDomainView } from './features/domain/domain-view.js';
@@ -13,6 +14,7 @@ const NAV = [
   ['shop', 'Shop', '◈', 'shop'],
   ['inventory', 'Inventory', '▦', 'inventory'],
   ['courses', 'Courses', '▤', 'courses'],
+  ['automation', 'Automation', '⟳', 'automations'],
   ['world', 'World', '◎', 'world'],
   ['property', 'Property', '⌂', 'property'],
   ['workshop', 'Workshop', '◇', 'workshop'],
@@ -125,6 +127,7 @@ export function mountUiShell({ root, game }) {
   function getViewCommands(view) {
     if (view === 'character') return getCharacterQueries();
     if (view === 'courses') return getCoursesQueries();
+    if (view === 'automation') return getAutomationQueries();
     return getDomainQueryConfig(view)?.queries || [];
   }
 
@@ -135,7 +138,7 @@ export function mountUiShell({ root, game }) {
   function scheduleViewRefresh(view) {
     if (refreshTimer) clearInterval(refreshTimer);
     refreshTimer = null;
-    const interval = view === 'character' ? 500 : view === 'actions' ? 250 : view === 'courses' ? 500 : view === 'world' ? 1500 : 750;
+    const interval = view === 'character' ? 500 : view === 'actions' ? 250 : view === 'courses' ? 500 : view === 'automation' ? 750 : view === 'world' ? 1500 : 750;
     if (getViewCommands(view).length) refreshTimer = setInterval(() => requestView(view, true), interval);
   }
 
@@ -257,6 +260,14 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, { id });
         } else if (command === 'run-course' || command === 'stop-course') {
           game.dispatch?.(command, { id });
+        } else if (command === 'run-list' || command === 'stop-list') {
+          game.dispatch?.(command, { id });
+        } else if (command === 'set-automation-enabled') {
+          game.dispatch?.(command, { flag: button.checked });
+        } else if (command === 'set-autotrigger-interval') {
+          game.dispatch?.(command, { interval: amount });
+        } else if (command === 'query-actions-lists') {
+          game.dispatch?.(command, {});
         } else {
           game.dispatch?.(command, id ? { id } : {});
         }
@@ -284,8 +295,19 @@ export function mountUiShell({ root, game }) {
       }, 180);
     });
 
-    shell.querySelectorAll('[data-action="action-xp-breakdown"]').forEach((button) => {
-      button.addEventListener('click', () => game.dispatch?.('query-action-xp-breakdown', { id: button.dataset.id }));
+    shell.querySelector('[data-action="action-xp-breakdown"]')?.addEventListener('click', (event) => {
+      game.dispatch?.('query-action-xp-breakdown', { id: event.currentTarget.dataset.id });
+      event.currentTarget.textContent = 'Refreshing…';
+    });
+
+    shell.querySelector('[data-action="automation-enabled"]')?.addEventListener('change', (event) => {
+      game.dispatch?.('set-automation-enabled', { flag: event.target.checked });
+    });
+
+    shell.querySelector('[data-action="automation-interval"]')?.addEventListener('change', (event) => {
+      const interval = Math.max(1, Number(event.target.value) || 10);
+      game.dispatch?.('set-autotrigger-interval', { interval });
+      event.target.value = String(interval);
     });
 
     shell.querySelector('[data-action="import-save-file"]')?.addEventListener('change', async (event) => {
@@ -305,6 +327,7 @@ export function mountUiShell({ root, game }) {
     if (view === 'actions') return renderActionsView(gameState);
     if (view === 'character') return renderCharacterView(gameState);
     if (view === 'courses') return renderCoursesView(gameState);
+    if (view === 'automation') return renderAutomationView(gameState);
     if (view === 'settings') return renderSettingsView(gameState);
     if (view === 'about') return renderAboutView(gameState);
     return renderDomainView(view, gameState);
