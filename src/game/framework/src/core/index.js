@@ -122,4 +122,5 @@ class GameCore {
 
 const gameCore = GameCore.instance || new GameCore();
 
-export { GameCore, gameCore };
+export { GameCore };
+export { gameCore };

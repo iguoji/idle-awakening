@@ -36,4 +36,5 @@ class UnlocksApi {
 
 const unlocksApi = UnlocksApi.instance || new UnlocksApi();
 
-export { UnlocksApi, unlocksApi };
+export { UnlocksApi };
+export { unlocksApi };

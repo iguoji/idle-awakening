@@ -109,4 +109,5 @@ class GameUnlocks {
 
 const gameUnlocks = GameUnlocks.instance || new GameUnlocks();
 
-export { GameUnlocks, gameUnlocks };
+export { GameUnlocks };
+export { gameUnlocks };
