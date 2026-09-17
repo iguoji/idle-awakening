@@ -36,17 +36,18 @@ function resolveImport(importedId, outputFile) {
 }
 
 function parseExports(content) {
-  const block = content.match(/\/\* harmony export \*\/ __webpack_require__\.d\(__webpack_exports__, \{([\s\S]*?)\n\/\* harmony export \*\/ \}\);/m)?.[1];
+  const block = content.match(/\/\* harmony export \*\/ __webpack_require__\.d\(__webpack_exports__, \{([\s\S]*?)\n(?:\/\* harmony export \*\/ )?\}\);/m)?.[1];
   if (!block) return [];
 
   const result = [];
   for (const line of block.split('\n')) {
-    let match = line.match(/^\s*([A-Za-z0-9_$]+): \(\) => \(\/\* binding \*\/ ([A-Za-z0-9_$]+)\),?$/);
+    const clean = line.replace(/^\/\* harmony export \*\/\s*/, '').trim();
+    let match = clean.match(/^([A-Za-z0-9_$]+): \(\) => \(\/\* binding \*\/ ([A-Za-z0-9_$]+)\),?$/);
     if (match) {
       result.push({ type: 'binding', name: match[1], local: match[2] });
       continue;
     }
-    match = line.match(/^\s*([A-Za-z0-9_$]+): \(\) => \(\/\* reexport safe \*\/ ([A-Za-z0-9_$]+)\.([A-Za-z0-9_$]+)\),?$/);
+    match = clean.match(/^([A-Za-z0-9_$]+): \(\) => \(\/\* reexport safe \*\/ ([A-Za-z0-9_$]+)\.([A-Za-z0-9_$]+)\),?$/);
     if (match) result.push({ type: 'reexport', name: match[1], namespace: match[2], local: match[3] });
   }
   return result;
@@ -59,7 +60,6 @@ function transformModule(content, outputFile, normalizedRel) {
 
   let code = content;
   const imports = [];
-
   const aliasRe = /\/\* harmony import \*\/ var ([A-Za-z0-9_$]+) = __webpack_require__\(\/\*! [^*]+ \*\/ "([^"]+)"\);/g;
   code = code.replace(aliasRe, (_, alias, importedId) => {
     imports.push({ alias, importedId, defaultAlias: null });
@@ -74,7 +74,7 @@ function transformModule(content, outputFile, normalizedRel) {
   });
 
   code = code.replace(/^__webpack_require__\.r\(__webpack_exports__\);\s*/m, '');
-  code = code.replace(/\/\* harmony export \*\/ __webpack_require__\.d\(__webpack_exports__, \{[\s\S]*?\n\/\* harmony export \*\/ \}\);\s*/m, '');
+  code = code.replace(/\/\* harmony export \*\/ __webpack_require__\.d\(__webpack_exports__, \{[\s\S]*?\n(?:\/\* harmony export \*\/ )?\}\);\s*/m, '');
   code = code.replace(/\/\/#[ \t]*sourceURL=.*$/m, '');
 
   for (const { alias, defaultAlias } of imports) {
