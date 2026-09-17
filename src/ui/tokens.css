@@ -97,6 +97,11 @@ html, body { margin:0; min-height:100%; background:var(--ui-bg); }
 .ui-action__controls .ui-btn { padding:8px 12px; font-size:12px; }
 .ui-action__hints { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
 .ui-action__hints span { padding:4px 7px; border:1px solid var(--ui-border); border-radius:999px; color:var(--ui-muted); font-size:10px; }
+.ui-action-breakdown { display:grid; gap:6px; margin-top:16px; }
+.ui-action-breakdown__row { display:flex; justify-content:space-between; gap:12px; padding:8px 10px; border:1px solid var(--ui-border); border-radius:var(--ui-radius-sm); background:rgba(17,21,29,.64); font-size:11px; }
+.ui-action-breakdown__row span { color:var(--ui-muted); }
+.ui-action-breakdown__eta { display:flex; flex-wrap:wrap; gap:7px; align-items:center; margin-top:4px; color:var(--ui-muted); font-size:10px; }
+.ui-action-breakdown__eta strong { color:var(--ui-text); }
 .ui-actions-toolbar { margin-bottom:var(--ui-space-5); }
 .ui-action-toolbar-row { display:flex; align-items:end; gap:16px; }
 .ui-search { display:grid; gap:6px; min-width:min(420px,100%); }
