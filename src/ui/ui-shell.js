@@ -233,8 +233,6 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, {});
         } else if (command === 'set-purchase-multiplier') {
           game.dispatch?.(command, { amount });
-        } else if (command === 'set-shop-show-maxed') {
-          game.dispatch?.(command, { flag: button.checked });
         } else if (command === 'set-crafting-level') {
           game.dispatch?.(command, { id, level: amount, filterId, isForce: false });
         } else if (command === 'set-plantation-watering') {
@@ -249,11 +247,13 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, { id, amount: amount || 1, sendDetails: false });
         } else if (command === 'purchase-item' || command === 'use-spell') {
           game.dispatch?.(command, { id, amount: amount || 1 });
+        } else if (command === 'purchase-resource') {
+          game.dispatch?.(command, { id, amount: amount || 1 });
         } else if (command === 'purchase-skill') {
           game.dispatch?.(command, { id });
         } else if (command === 'toggle-speedup') {
           game.dispatch?.(command, {});
-        } else if (command === 'query-action-details' || command === 'query-item-details' || command === 'query-inventory-details') {
+        } else if (command === 'query-action-details' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details') {
           game.dispatch?.(command, { id });
         } else if (command === 'run-course' || command === 'stop-course') {
           game.dispatch?.(command, { id });
