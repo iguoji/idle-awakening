@@ -10,5 +10,13 @@ export function createGameAdapter(engine) {
       if (typeof engine.dispatch !== 'function') return undefined;
       return engine.dispatch(command, payload);
     },
+    loadSave: (saveObject, options) => {
+      if (typeof engine.loadSave !== 'function') return undefined;
+      return engine.loadSave(saveObject, options);
+    },
+    resetGame: () => {
+      if (typeof engine.resetGame === 'function') return engine.resetGame();
+      return engine.dispatch?.('reset-game', {});
+    },
   });
 }
