@@ -10,7 +10,7 @@ function renderItemCard(item, config, context = {}) {
 
   if (context.type === 'plantation') {
     controls = renderButton('purchase-plantation', 'Upgrade', item);
-    if (item?.isWateringUnlocked) {
+    if (context.wateringUnlocked) {
       controls += renderButton('set-plantation-watering', 'Water', item, {
         amount: Math.max(0, Number(item?.wateringLevel || 0) + 1),
       });
@@ -83,7 +83,10 @@ function renderDataBlock(label, data, config) {
   }
   if (config.title === 'Social') return renderSocial(data);
   if (config.title === 'Workshop' && label === 'plantations data' && Array.isArray(data.available)) {
-    return renderListBlock('Plantations', data.available, config, { type: 'plantation' });
+    return renderListBlock('Plantations', data.available, config, {
+      type: 'plantation',
+      wateringUnlocked: Boolean(data.isWateringUnlocked),
+    });
   }
   const collection = pickCollection(data);
   if (collection.length) return renderListBlock(label, collection, config);
