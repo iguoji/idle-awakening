@@ -14,9 +14,7 @@ export class GameWorkerClient {
   constructor() {
     this.#worker = new Worker(new URL('../game/worker/main.worker.js', import.meta.url), { type: 'module' });
     this.#worker.addEventListener('message', (event) => this.#handleMessage(event));
-    this.#worker.addEventListener('error', (error) => {
-      console.error('[GameWorker]', error);
-    });
+    this.#worker.addEventListener('error', (error) => console.error('[GameWorker]', error));
   }
 
   start(initialPayload = {}) {
@@ -45,7 +43,6 @@ export class GameWorkerClient {
   }
 
   destroy() {
-    this.dispatch('stop-ticking');
     this.#worker.terminate();
     this.#listeners.clear();
   }
