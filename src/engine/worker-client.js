@@ -1,3 +1,5 @@
+const SAVE_STORAGE_KEY = 'idlemanceryV2Reworked';
+
 function normalizeResources(payload) {
   const list = Array.isArray(payload) ? payload : payload?.resources || [];
   return list.map((resource) => ({
@@ -26,12 +28,33 @@ function normalizeActions(payload) {
   }));
 }
 
+function readStoredSave() {
+  try {
+    const text = localStorage.getItem(SAVE_STORAGE_KEY);
+    return text ? JSON.parse(text) : null;
+  } catch (error) {
+    console.warn('[GameWorker] Ignoring invalid local save', error);
+    try { localStorage.removeItem(SAVE_STORAGE_KEY); } catch {}
+    return null;
+  }
+}
+
+function writeStoredSave(payload) {
+  try {
+    localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(payload));
+  } catch (error) {
+    console.warn('[GameWorker] Unable to persist save', error);
+  }
+}
+
 export class GameWorkerClient {
   #worker;
   #listeners = new Set();
+  #timers = [];
   #started = false;
   #snapshot = {
     initialized: false,
+    loading: false,
     resources: [],
     actions: [],
     attributes: [],
@@ -44,7 +67,7 @@ export class GameWorkerClient {
   constructor() {
     this.#worker = new Worker(new URL('../game/worker/main.worker.js', import.meta.url), { type: 'module' });
     this.#worker.addEventListener('message', (event) => this.#handleMessage(event));
-    this.#worker.addEventListener('error', (error) => console.error('[GameWorker]', error));
+    this.#worker.addEventListener('error', (error) => this.#setError(error));
   }
 
   start(initialPayload = {}) {
@@ -68,18 +91,76 @@ export class GameWorkerClient {
     this.#worker.postMessage(JSON.stringify({ event, payload }));
   }
 
+  loadSave(saveObject) {
+    this.dispatch('load-game', saveObject || {});
+  }
+
+  resetGame() {
+    this.dispatch('reset-game', {});
+  }
+
   destroy() {
+    for (const timer of this.#timers) clearInterval(timer);
+    this.#timers = [];
     this.#worker.terminate();
     this.#listeners.clear();
   }
 
+  #notify() {
+    for (const listener of [...this.#listeners]) listener(this.#snapshot);
+  }
+
+  #setError(error) {
+    this.#snapshot = {
+      ...this.#snapshot,
+      raw: { ...this.#snapshot.raw, error },
+      loading: false,
+    };
+    this.#notify();
+    console.error('[GameWorker]', error);
+  }
+
+  #dispatchQuiet(event, payload = {}) {
+    try {
+      this.dispatch(event, payload);
+    } catch (error) {
+      this.#setError(error);
+    }
+  }
+
+  #startRefreshLoops() {
+    if (this.#timers.length) return;
+
+    const refresh = (event, payload, interval) => {
+      this.#dispatchQuiet(event, payload);
+      return setInterval(() => this.#dispatchQuiet(event, payload), interval);
+    };
+
+    this.#timers.push(
+      refresh('query-resources-data', { includePinned: true }, 200),
+      refresh('query-actions-data', {}, 100),
+      refresh('query-actions-running', {}, 150),
+      refresh('query-attributes-data', {}, 500),
+      refresh('query-unlocks', {}, 1000),
+    );
+  }
+
   #bootQueries() {
-    this.dispatch('query-unlocks', {});
-    this.dispatch('query-resources-data', {});
-    this.dispatch('query-attributes-data', {});
-    this.dispatch('query-actions-data', {});
-    this.dispatch('query-actions-running', {});
-    this.dispatch('start-ticking');
+    this.#dispatchQuiet('query-unlocks', {});
+    this.#dispatchQuiet('query-resources-data', { includePinned: true });
+    this.#dispatchQuiet('query-attributes-data', {});
+    this.#dispatchQuiet('query-actions-data', {});
+    this.#dispatchQuiet('query-actions-running', {});
+    this.#startRefreshLoops();
+    this.#dispatchQuiet('start-ticking');
+  }
+
+  #refreshAfterLoad() {
+    this.#dispatchQuiet('query-unlocks', {});
+    this.#dispatchQuiet('query-resources-data', { includePinned: true });
+    this.#dispatchQuiet('query-attributes-data', {});
+    this.#dispatchQuiet('query-actions-data', {});
+    this.#dispatchQuiet('query-actions-running', {});
   }
 
   #handleMessage(event) {
@@ -97,9 +178,30 @@ export class GameWorkerClient {
     const patch = { raw: { ...this.#snapshot.raw, [type]: payload } };
 
     switch (type) {
-      case 'initialized':
+      case 'initialized': {
         patch.initialized = true;
-        this.#bootQueries();
+        patch.loading = true;
+        this.#snapshot = { ...this.#snapshot, ...patch };
+        this.#notify();
+
+        const save = readStoredSave();
+        if (save && typeof save === 'object') this.#dispatchQuiet('load-game', save);
+        else this.#dispatchQuiet('reset-game', {});
+
+        this.#refreshAfterLoad();
+        this.#startRefreshLoops();
+        this.#dispatchQuiet('start-ticking');
+        return;
+      }
+      case 'loading':
+        patch.loading = true;
+        break;
+      case 'loaded':
+        patch.loading = false;
+        this.#refreshAfterLoad();
+        break;
+      case 'save-game':
+        writeStoredSave(payload);
         break;
       case 'resources-data':
         patch.resources = normalizeResources(payload);
@@ -129,6 +231,6 @@ export class GameWorkerClient {
     }
 
     this.#snapshot = { ...this.#snapshot, ...patch };
-    for (const listener of [...this.#listeners]) listener(this.#snapshot);
+    this.#notify();
   }
 }
