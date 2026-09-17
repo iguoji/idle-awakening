@@ -87,6 +87,7 @@ export class GameWorkerClient {
     attributes: [],
     unlocks: {},
     actionDetails: {},
+    actionXpBreakdowns: {},
     actionsRunning: {},
     raw: {},
   };
@@ -252,6 +253,9 @@ export class GameWorkerClient {
         if (type?.startsWith('action-details-')) {
           const id = type.replace(/^action-details-/, '') || payload?.id || 'unknown';
           patch.actionDetails = { ...this.#snapshot.actionDetails, [id]: payload };
+        } else if (type?.startsWith('action-xp-breakdown-')) {
+          const id = type.replace(/^action-xp-breakdown-/, '') || 'unknown';
+          patch.actionXpBreakdowns = { ...this.#snapshot.actionXpBreakdowns, [id]: payload };
         }
     }
 
