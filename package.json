@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "recover": "node scripts/extract-webpack-sources.mjs --main bundle.js --worker bundle.worker.js --out src/recovered"
+    "recover": "node scripts/extract-webpack-sources.mjs --main bundle.js --worker bundle.worker.js --out src/recovered",
+    "check:architecture": "node scripts/check-no-bundle-runtime.mjs"
   },
   "devDependencies": {
     "vite": "^7.1.4"
