@@ -67,10 +67,17 @@ function renderEffects(data) {
   return `<div class="ui-character-effects">${list.slice(0, 80).map((effect) => `<div class="ui-character-effect"><strong>${escapeHtml(effect.name || effect.id)}</strong><span>${escapeHtml(number(effect.duration ?? ''))}</span></div>`).join('')}</div>`;
 }
 
-function renderDrafts(data) {
+function renderDrafts(data, exportedDraft) {
   const drafts = Array.isArray(data?.drafts) ? data.drafts : [];
+  let exportBlock = '';
+  if (exportedDraft && typeof exportedDraft === 'object') {
+    const filename = `skill-draft-${String(exportedDraft.name || exportedDraft.id || 'export').replace(/[^a-z0-9-_]+/gi, '-').replace(/^-|-$/g, '') || 'export'}.json`;
+    const href = `data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify(exportedDraft, null, 2))}`;
+    exportBlock = `<div class="ui-character-export"><span>Export ready: ${escapeHtml(exportedDraft.name || exportedDraft.id || 'draft')}</span><a class="ui-btn ui-btn--primary" href="${escapeHtml(href)}" download="${escapeHtml(filename)}">Download JSON</a></div>`;
+  }
   return `<div class="ui-character-drafts">
     <div class="ui-character-draft-create"><input class="ui-save-input" data-action="skill-draft-name" placeholder="Draft name" /><button class="ui-btn" data-command="save-skill-draft">Save draft</button><label class="ui-btn"><input type="file" accept="application/json,.json,.txt" data-action="skill-draft-import-file" hidden />Import</label></div>
+    ${exportBlock}
     ${drafts.map((draft) => `<div class="ui-character-draft"><div><strong>${escapeHtml(draft.name || draft.id)}</strong><span>${draft.timestamp ? new Date(draft.timestamp).toLocaleString() : ''}</span></div><div class="ui-character-draft__controls"><button class="ui-btn" data-command="load-skill-draft" data-id="${escapeHtml(draft.id)}">Load</button><button class="ui-btn" data-command="export-skill-draft" data-id="${escapeHtml(draft.id)}">Export</button><button class="ui-btn" data-command="delete-skill-draft" data-id="${escapeHtml(draft.id)}">Delete</button></div></div>`).join('') || '<p class="ui-muted">No saved skill drafts.</p>'}
   </div>`;
 }
@@ -132,6 +139,6 @@ export function renderCharacterView(snapshot) {
   </div></section>
   <section class="ui-card" style="margin-top:20px"><div class="ui-card__body">
     <div class="ui-section-title"><div><strong>Skill drafts</strong><span>${Array.isArray(skills.drafts) ? skills.drafts.length : 0} saved</span></div></div>
-    ${renderDrafts(skills)}
+    ${renderDrafts(skills, raw['export-skill-draft-blob'])}
   </div></section>`;
 }
