@@ -323,6 +323,3 @@ var registerAmplifiersStage1 = function registerAmplifiersStage1() {
     }
   });
 };
-
-export { registerAmplifier };
-export { registerAmplifiersStage1 };

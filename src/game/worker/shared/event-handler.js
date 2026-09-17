@@ -41,5 +41,3 @@ var EventHandler = /*#__PURE__*/function () {
   }]);
 }();
 _defineProperty(EventHandler, "instance", null);
-
-export { EventHandler };

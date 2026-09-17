@@ -248,5 +248,3 @@ class GameResources {
 }
 
 const gameResources = GameResources.instance || new GameResources();
-
-export { gameResources };

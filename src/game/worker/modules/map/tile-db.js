@@ -36,5 +36,3 @@ var registerTileTypesDB = function registerTileTypesDB() {
     icon: 'terrain_lake'
   }];
 };
-
-export { registerTileTypesDB };

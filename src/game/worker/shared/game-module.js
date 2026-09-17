@@ -11,5 +11,3 @@ var GameModule = /*#__PURE__*/_createClass(function GameModule() {
   _classCallCheck(this, GameModule);
   this.eventHandler = new _event_handler__WEBPACK_IMPORTED_MODULE_0__.EventHandler();
 });
-
-export { GameModule };

@@ -186,6 +186,3 @@ var MainModule = /*#__PURE__*/function (_GameModule) {
 var mainModule = function mainModule() {
   return MainModule.instance || new MainModule();
 };
-
-export { MainModule };
-export { mainModule };

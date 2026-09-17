@@ -125,5 +125,3 @@ var MonitoringModule = /*#__PURE__*/function (_GameModule) {
     value: function load() {}
   }]);
 }(_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
-
-export { MonitoringModule };

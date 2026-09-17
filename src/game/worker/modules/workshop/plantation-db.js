@@ -149,7 +149,3 @@ function registerPlantations() {
     description: 'Grow Mystic Bloom'
   });
 }
-
-export { getWateringEffectId };
-export { registerPlant };
-export { registerPlantations };

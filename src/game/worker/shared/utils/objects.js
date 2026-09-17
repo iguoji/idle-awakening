@@ -23,6 +23,3 @@ var mapObject = function mapObject(o, cb) {
     return acc;
   }, {});
 };
-
-export { mapObject };
-export { packEffects };

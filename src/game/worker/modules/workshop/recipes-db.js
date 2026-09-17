@@ -1177,7 +1177,3 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
     }
   });
 };
-
-export { getPrimaryBonus };
-export { registerCraftingRecipe };
-export { registerCraftingRecipes };

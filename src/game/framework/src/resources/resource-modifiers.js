@@ -219,6 +219,3 @@ class ResourceModifiers {
 }
 
 const resourceModifiers = ResourceModifiers.instance || new ResourceModifiers();
-
-export { ResourceModifiers };
-export { resourceModifiers };

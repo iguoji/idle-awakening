@@ -341,5 +341,3 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     unlockCondition: function unlockCondition() {}
   });
 };
-
-export { registerTemporaryEffectsDB };

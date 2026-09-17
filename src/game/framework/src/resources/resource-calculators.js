@@ -689,5 +689,3 @@ class ResourceCalculators {
 }
 
 const resourceCalculators = ResourceCalculators.instance || new ResourceCalculators();
-
-export { resourceCalculators };

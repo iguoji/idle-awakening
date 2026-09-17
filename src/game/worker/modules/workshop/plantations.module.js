@@ -265,5 +265,3 @@ var PlantationsModule = /*#__PURE__*/function (_GameModule) {
     }
   }]);
 }(_shared_game_module__WEBPACK_IMPORTED_MODULE_1__.GameModule);
-
-export { PlantationsModule };

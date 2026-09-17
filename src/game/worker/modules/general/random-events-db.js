@@ -789,6 +789,3 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
   });
   return randomEventsDB;
 };
-
-export { randomEventScalingFactor };
-export { registerRandomEventsDb };
