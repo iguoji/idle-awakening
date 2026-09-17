@@ -1,4 +1,4 @@
-name: Recover bundled source
+name: Recover and dewebpack runtime source
 
 on:
   push:
@@ -21,17 +21,20 @@ jobs:
         with:
           node-version: 22
 
-      - name: Recover project modules from webpack eval bundles
+      - name: Recover webpack modules
         run: node scripts/extract-webpack-sources.mjs --main bundle.js --worker bundle.worker.js --out src/recovered
 
-      - name: Commit recovered modules
+      - name: Convert worker/framework modules to native ESM
+        run: node scripts/dewebpack-worker-source.mjs src/recovered src/game
+
+      - name: Commit recovered source
         run: |
-          if [ -z "$(git status --porcelain -- src/recovered)" ]; then
+          if [ -z "$(git status --porcelain -- src/recovered src/game)" ]; then
             echo "No recovered source changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/recovered
-          git commit -m "[source-recovery] recover source modules from bundles"
+          git add src/recovered src/game
+          git commit -m "[source-recovery] recover and dewebpack runtime source"
           git push
