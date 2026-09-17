@@ -6,16 +6,16 @@ import { decodePortableSave, renderSettingsView } from './features/settings/sett
 import { createUiState, setActiveView, toggleSidebar } from './ui-state.js';
 
 const NAV = [
-  ['actions', 'Actions', '⚔'],
-  ['shop', 'Shop', '◈'],
-  ['inventory', 'Inventory', '▦'],
-  ['world', 'World', '◎'],
-  ['property', 'Property', '⌂'],
-  ['workshop', 'Workshop', '◇'],
-  ['spellbook', 'Spellbook', '✦'],
-  ['social', 'Social', '♧'],
-  ['settings', 'Settings', '⚙'],
-  ['about', 'About', 'ⓘ'],
+  ['actions', 'Actions', '⚔', 'actions'],
+  ['shop', 'Shop', '◈', 'shop'],
+  ['inventory', 'Inventory', '▦', 'inventory'],
+  ['world', 'World', '◎', 'world'],
+  ['property', 'Property', '⌂', 'property'],
+  ['workshop', 'Workshop', '◇', 'workshop'],
+  ['spellbook', 'Spellbook', '✦', 'spellbook'],
+  ['social', 'Social', '♧', 'social'],
+  ['settings', 'Settings', '⚙', null],
+  ['about', 'About', 'ⓘ', null],
 ];
 
 function escapeHtml(value) {
@@ -109,6 +109,10 @@ export function mountUiShell({ root, game }) {
     }
   }
 
+  function isUnlocked(unlockKey) {
+    return !unlockKey || gameState?.unlocks?.[unlockKey] === true;
+  }
+
   function render() {
     const shell = document.createElement('div');
     shell.className = 'ui-shell';
@@ -122,11 +126,12 @@ export function mountUiShell({ root, game }) {
       <div class="ui-shell__body">
         <aside class="ui-shell__nav">
           <div class="ui-nav__section-title">Game</div>
-          ${NAV.map(([id, label, icon]) => `
-            <button type="button" data-view="${id}" data-active="${uiState.activeView === id}">
-              <span class="ui-nav__icon">${icon}</span><span>${label}</span>
-            </button>
-          `).join('')}
+          ${NAV.map(([id, label, icon, unlockKey]) => {
+            const unlocked = isUnlocked(unlockKey);
+            return `<button type="button" data-view="${id}" data-active="${uiState.activeView === id}" data-locked="${!unlocked}" ${unlocked ? '' : 'disabled aria-disabled="true"'}>
+              <span class="ui-nav__icon">${icon}</span><span>${label}</span>${unlocked ? '' : '<span class="ui-nav__lock">⌘</span>'}
+            </button>`;
+          }).join('')}
           <div class="ui-nav__section-title ui-nav__section-title--lower">Resources</div>
           <div class="ui-resources">${(gameState.resources || []).map(renderResourceCard).join('')}</div>
         </aside>
@@ -136,7 +141,7 @@ export function mountUiShell({ root, game }) {
 
     root.replaceChildren(shell);
 
-    shell.querySelectorAll('[data-view]').forEach((button) => {
+    shell.querySelectorAll('[data-view]:not(:disabled)').forEach((button) => {
       button.addEventListener('click', () => {
         const view = button.dataset.view;
         uiState = setActiveView(uiState, view);
