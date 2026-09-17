@@ -63,6 +63,18 @@ async function copyText(text) {
   return copied;
 }
 
+function downloadText(filename, text) {
+  if (!text) return false;
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+  return true;
+}
+
 export function mountUiShell({ root, game }) {
   if (!root) throw new Error('UI root is required');
   if (!game || typeof game.getSnapshot !== 'function' || typeof game.subscribe !== 'function') {
@@ -73,6 +85,7 @@ export function mountUiShell({ root, game }) {
   let gameState = game.getSnapshot();
   const requested = new Set();
   let refreshTimer = null;
+  let actionSearchDebounce = null;
 
   function requestCommands(view, commands, force = false) {
     for (const [command, payload] of commands) {
@@ -185,6 +198,9 @@ export function mountUiShell({ root, game }) {
         } else if (command === 'copy-save') {
           const save = gameState?.raw?.['saved-string']?.string;
           if (await copyText(save)) button.textContent = 'Copied';
+        } else if (command === 'download-save') {
+          const save = gameState?.raw?.['saved-string']?.string;
+          downloadText('idle-awakening-save.txt', save);
         } else if (command === 'load-save-text') {
           await loadTextSave(shell.querySelector('[data-action="save-text"]')?.value || '');
         } else if (command === 'reset-game') {
@@ -209,10 +225,43 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, { id });
         } else if (command === 'toggle-speedup') {
           game.dispatch?.(command, {});
+        } else if (command === 'action-filter') {
+          game.dispatch?.('set-selected-actions-filter', { filterId: button.dataset.filterId });
+          requestCommands('actions', [['query-actions-data', {}]], true);
+        } else if (command === 'toggle-show-hidden') {
+          game.dispatch?.('toggle-show-hidden', event.target.checked);
+        } else if (command === 'query-action-details') {
+          game.dispatch?.('query-action-details', { id });
         } else {
           game.dispatch?.(command, id ? { id } : {});
         }
       });
+    });
+
+    shell.querySelector('[data-action="action-filter"]');
+    shell.querySelectorAll('[data-action="action-filter"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const filterId = button.dataset.filterId;
+        game.dispatch?.('set-selected-actions-filter', { filterId });
+        game.dispatch?.('query-actions-data', {});
+      });
+    });
+
+    shell.querySelector('[data-action="toggle-show-hidden"]')?.addEventListener('change', (event) => {
+      game.dispatch?.('toggle-show-hidden', { payload: event.target.checked });
+    });
+
+    shell.querySelector('[data-action="action-search"]')?.addEventListener('input', (event) => {
+      const search = event.target.value;
+      clearTimeout(actionSearchDebounce);
+      actionSearchDebounce = setTimeout(() => {
+        game.dispatch?.('set-actions-search', { searchData: { search, selectedScopes: ['name', 'tags', 'description', 'resources', 'effects'] } });
+        game.dispatch?.('query-actions-data', {});
+      }, 180);
+    });
+
+    shell.querySelectorAll('[data-action="action-details"]').forEach((button) => {
+      button.addEventListener('click', () => game.dispatch?.('query-action-details', { id: button.dataset.id }));
     });
 
     shell.querySelector('[data-action="import-save-file"]')?.addEventListener('change', async (event) => {
@@ -237,11 +286,11 @@ export function mountUiShell({ root, game }) {
   if (uiState.activeView === 'character') requestCharacter(); else requestView(uiState.activeView);
   scheduleViewRefresh(uiState.activeView);
   render();
-
   return {
     getState: () => uiState,
     destroy: () => {
       if (refreshTimer) clearInterval(refreshTimer);
+      clearTimeout(actionSearchDebounce);
       refreshTimer = null;
       unsubscribe();
     },
