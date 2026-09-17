@@ -24,8 +24,28 @@ function normalizeActions(payload) {
     active: Boolean(action.isActive),
     description: action.description || '',
     tags: action.tags || [],
+    focused: action.focused || null,
+    affordable: action.affordable,
+    xpRate: Number(action.xpRate ?? 0),
+    missingResourceId: action.missingResourceId || null,
     raw: action,
   }));
+}
+
+function normalizeActionsMeta(payload) {
+  if (!payload || typeof payload !== 'object') return {};
+  return {
+    actionCategories: Array.isArray(payload.actionCategories) ? payload.actionCategories : [],
+    selectedCategory: payload.selectedCategory || 'all',
+    showHidden: Boolean(payload.showHidden),
+    searchData: payload.searchData || { search: '', selectedScopes: ['name', 'tags'] },
+    automationEnabled: Boolean(payload.automationEnabled),
+    automationUnlocked: Boolean(payload.automationUnlocked),
+    autotriggerIntervalSetting: payload.autotriggerIntervalSetting ?? null,
+    current: Array.isArray(payload.current) ? payload.current : [],
+    actionLists: payload.actionLists || [],
+    aspects: payload.aspects || null,
+  };
 }
 
 function readStoredSave() {
@@ -63,6 +83,7 @@ export class GameWorkerClient {
     loading: false,
     resources: [],
     actions: [],
+    actionsMeta: {},
     attributes: [],
     unlocks: {},
     actionDetails: {},
@@ -193,7 +214,6 @@ export class GameWorkerClient {
 
         this.#refreshAfterLoad();
         this.#startRefreshLoops();
-        this.#dispatchQuiet('start-ticking');
         return;
       }
       case 'loading':
@@ -212,6 +232,7 @@ export class GameWorkerClient {
         break;
       case 'actions-data':
         patch.actions = normalizeActions(payload);
+        patch.actionsMeta = normalizeActionsMeta(payload);
         break;
       case 'attributes-data':
         patch.attributes = Array.isArray(payload) ? payload : payload?.list || [];
