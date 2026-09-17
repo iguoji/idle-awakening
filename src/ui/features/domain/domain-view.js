@@ -31,6 +31,9 @@ function renderItemCard(item, config, context = {}) {
   if (config.actions) {
     controls = config.actions.map((action) => renderButton(action.command, action.label, item, { amount: action.amount })).join('');
   }
+  if (config.detailsCommand && id) {
+    controls += `<button class="ui-btn" data-command="${escapeHtml(config.detailsCommand)}" data-id="${escapeHtml(id)}">Details</button>`;
+  }
 
   return `<article class="ui-domain-item">
     <div class="ui-domain-item__main">
@@ -75,6 +78,34 @@ function renderSocial(data) {
   return guildBlock + upgradeBlock;
 }
 
+function renderShopToolbar(data) {
+  const multiplier = Number(data?.purchaseMultiplier) || 1;
+  const showMaxed = Boolean(data?.showMaxed);
+  return `<article class="ui-card ui-domain-toolbar"><div class="ui-card__body">
+    <div class="ui-domain-toolbar__row">
+      <div><strong>Purchase multiplier</strong><span class="ui-muted">Current ×${escapeHtml(multiplier)}</span></div>
+      <div class="ui-actions ui-actions--compact">
+        ${[1, 5, 10, 25].map((value) => `<button class="ui-btn ${multiplier === value ? 'ui-btn--primary' : ''}" data-command="set-purchase-multiplier" data-amount="${value}">×${value}</button>`).join('')}
+      </div>
+    </div>
+    <label class="ui-check"><input type="checkbox" data-action="shop-show-maxed" ${showMaxed ? 'checked' : ''}/> Show maxed upgrades</label>
+  </div></article>`;
+}
+
+function renderInventoryToolbar(data) {
+  const categories = Array.isArray(data?.itemCategories) ? data.itemCategories : [];
+  const selected = data?.selectedFilterId || 'all';
+  const search = data?.searchData?.search || '';
+  return `<article class="ui-card ui-domain-toolbar"><div class="ui-card__body">
+    <div class="ui-action-toolbar-row">
+      <label class="ui-search"><span>Search</span><input data-action="inventory-search" value="${escapeHtml(search)}" placeholder="Name, tags…" /></label>
+    </div>
+    <div class="ui-action-filters">
+      ${categories.map((category) => `<button class="ui-filter ${selected === category.id ? 'is-active' : ''}" data-action="inventory-filter" data-filter-id="${escapeHtml(category.id)}">${escapeHtml(category.name || category.id)}<span>${category.items?.length ?? 0}</span></button>`).join('')}
+    </div>
+  </div></article>`;
+}
+
 function renderDataBlock(label, data, config) {
   if (data == null) {
     return `<article class="ui-card"><div class="ui-card__body ui-domain-empty">
@@ -107,16 +138,6 @@ function renderDataBlock(label, data, config) {
   </div></article>`;
 }
 
-function renderWorldMap(data) {
-  if (!data) return '';
-  const tiles = data.tiles || data.mapTiles || data.mapTilesProcessed;
-  if (!Array.isArray(tiles) || !Array.isArray(tiles[0])) return '';
-  return `<article class="ui-card"><div class="ui-card__body">
-    <div class="ui-section-title"><div><strong>Map</strong><span>${tiles.length} × ${tiles[0].length}</span></div></div>
-    <div class="ui-map-grid">${tiles.flat().map((tile) => `<span title="${escapeHtml(tile?.metaData?.name || 'Unknown')}">${tile?.isRunning ? '●' : '·'}</span>`).join('')}</div>
-  </div></article>`;
-}
-
 export function getDomainQueryConfig(view) {
   return DOMAIN_CONFIG[view] || null;
 }
@@ -128,11 +149,41 @@ export function renderDomainView(view, snapshot) {
   const readiness = snapshot?.initialized ? 'Live worker data' : 'Waiting for game runtime';
   const responseData = config.responses.map((key) => [key, raw[key]]);
   const blocks = responseData.map(([key, data]) => renderDataBlock(key.replaceAll('-', ' '), data, config));
+  if (view === 'shop') blocks.unshift(renderShopToolbar(raw['items-data']));
+  if (view === 'inventory') blocks.unshift(renderInventoryToolbar(raw['inventory-data']));
   if (view === 'world') blocks.unshift(renderWorldMap(raw['map-data']));
+  const detail = config.detailsCommand ? raw['item-details'] : null;
+  if (detail) blocks.splice(1, 0, renderDetailBlock(detail));
 
   return `<section class="ui-page-head">
     <div><div class="ui-kicker">${escapeHtml(config.kicker)}</div><h1>${escapeHtml(config.title)}</h1><p>${escapeHtml(config.description)}</p></div>
     <div class="ui-status-pill">${escapeHtml(readiness)}</div>
   </section>
   <section class="ui-grid ui-grid--single">${blocks.filter(Boolean).join('')}</section>`;
+}
+
+function renderDetailBlock(data) {
+  const stats = [
+    ['Level', data.level],
+    ['Max', data.max],
+    ['Amount', data.amount],
+    ['Sell price', data.sellPrice],
+  ].filter(([, value]) => value !== undefined && value !== null);
+  const effects = Array.isArray(data.effects) ? data.effects : Array.isArray(data.potentialEffects) ? data.potentialEffects : [];
+  return `<article class="ui-card ui-domain-detail"><div class="ui-card__body">
+    <div class="ui-section-title"><div><strong>${escapeHtml(data.name || data.id || 'Item')}</strong><span>Details</span></div></div>
+    ${data.description ? `<p class="ui-muted">${escapeHtml(data.description)}</p>` : ''}
+    <div class="ui-stat-grid">${stats.map(([label, value]) => `<div class="ui-stat"><div class="ui-stat__label">${escapeHtml(label)}</div><div class="ui-stat__value">${escapeHtml(formatNumber(value))}</div></div>`).join('')}</div>
+    ${effects.length ? `<div class="ui-detail-effects"><strong>Effects</strong><pre class="ui-domain-json">${escapeHtml(JSON.stringify(effects, null, 2).slice(0, 8000))}</pre></div>` : ''}
+  </div></article>`;
+}
+
+function renderWorldMap(data) {
+  if (!data) return '';
+  const tiles = data.tiles || data.mapTiles || data.mapTilesProcessed;
+  if (!Array.isArray(tiles) || !Array.isArray(tiles[0])) return '';
+  return `<article class="ui-card"><div class="ui-card__body">
+    <div class="ui-section-title"><div><strong>Map</strong><span>${tiles.length} × ${tiles[0].length}</span></div></div>
+    <div class="ui-map-grid">${tiles.flat().map((tile) => `<span title="${escapeHtml(tile?.metaData?.name || 'Unknown')}">${tile?.isRunning ? '●' : '·'}</span>`).join('')}</div>
+  </div></article>`;
 }
