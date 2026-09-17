@@ -1,4 +1,4 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -8,7 +8,7 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var getPrimaryBonus = function getPrimaryBonus(attributeId) {
-  return 0.99 + 0.01 * Math.pow(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(attributeId), 0.5);
+  return 0.99 + 0.01 * Math.pow(index.gameEffects.getEffectValue(attributeId), 0.5);
 };
 var getRankId = function getRankId(id) {
   return "".concat(id, "_rank_multiplier");
@@ -50,7 +50,7 @@ var getResourceModifierDataSearchable = function getResourceModifierDataSearchab
       var _searchables$type;
       (_searchables$type = searchables[type]).push.apply(_searchables$type, _toConsumableArray(Object.keys(rObj[type]).map(function (one) {
         var _gameEffects$getEffec;
-        return type === 'resources' ? game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(one).name.toLowerCase() : (_gameEffects$getEffec = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect(one)) === null || _gameEffects$getEffec === void 0 ? void 0 : _gameEffects$getEffec.name.toLowerCase();
+        return type === 'resources' ? index.gameResources.getResource(one).name.toLowerCase() : (_gameEffects$getEffec = index.gameEffects.getEffect(one)) === null || _gameEffects$getEffec === void 0 ? void 0 : _gameEffects$getEffec.name.toLowerCase();
       })));
     };
     for (var type in rObj) {
@@ -64,11 +64,11 @@ var registerGameAction = function registerGameAction(id, options) {
 
   var primaryAttribute = options.attributes.primaryAttribute;
   if (!options.resourceModifier) {
-    return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity(id, options);
+    return index.gameEntity.registerGameEntity(id, options);
   }
   options.resourceModifier.prefix = 'Action: ';
   if (options.attributes.isRankAvailable) {
-    game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.registerEffect(getRankId(id), {
+    index.gameEffects.registerEffect(getRankId(id), {
       name: "".concat(options.name, " Rank Multiplier"),
       minValue: 1,
       defaultValue: 1
@@ -93,7 +93,7 @@ var registerGameAction = function registerGameAction(id, options) {
       return getPrimaryBonus(primaryAttribute);
     };
     options.getIntensityAspect = function () {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue("aspect_".concat(primaryAttribute));
+      return index.gameEffects.getEffectValue("aspect_".concat(primaryAttribute));
     };
     if (options.attributes.isTraining) {
       options.resourceModifier.customAmplifierApplyTypes = ['resources'];
@@ -105,7 +105,7 @@ var registerGameAction = function registerGameAction(id, options) {
     };
   }
   options.searchableMeta = getResourceModifierDataSearchable(options.resourceModifier);
-  return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity(id, options);
+  return index.gameEntity.registerGameEntity(id, options);
 };
 var registerActionsStage1 = function registerActionsStage1() {
   registerGameAction('action_walk', {
@@ -122,7 +122,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_stamina': {
-              A: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_walk')),
+              A: 1 * index.gameEffects.getEffectValue(getRankId('action_walk')),
               B: 0,
               type: 0
             }
@@ -186,8 +186,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'coins': {
-              A: 0.03 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('begging_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
-              B: 0.27 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('begging_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
+              A: 0.03 * index.gameEffects.getEffectValue('begging_efficiency') * index.gameEffects.getEffectValue('coins_earned_bonus'),
+              B: 0.27 * index.gameEffects.getEffectValue('begging_efficiency') * index.gameEffects.getEffectValue('coins_earned_bonus'),
               type: 0
             }
           }
@@ -238,8 +238,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'coins': {
-              A: 0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
-              B: 1.8 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
+              A: 0.2 * index.gameEffects.getEffectValue('coins_earned_bonus'),
+              B: 1.8 * index.gameEffects.getEffectValue('coins_earned_bonus'),
               type: 0
             }
           }
@@ -286,8 +286,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'coins': {
-              A: 0.3 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('clean_stable_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
-              B: 2.7 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('clean_stable_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
+              A: 0.3 * index.gameEffects.getEffectValue('clean_stable_efficiency') * index.gameEffects.getEffectValue('coins_earned_bonus'),
+              B: 2.7 * index.gameEffects.getEffectValue('clean_stable_efficiency') * index.gameEffects.getEffectValue('coins_earned_bonus'),
               type: 0
             }
           }
@@ -339,8 +339,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'coins': {
-              A: 0.5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
-              B: 4.5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
+              A: 0.5 * index.gameEffects.getEffectValue('coins_earned_bonus'),
+              B: 4.5 * index.gameEffects.getEffectValue('coins_earned_bonus'),
               type: 0
             }
           }
@@ -392,8 +392,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'coins': {
-              A: 1.5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
-              B: 13.5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
+              A: 1.5 * index.gameEffects.getEffectValue('coins_earned_bonus'),
+              B: 13.5 * index.gameEffects.getEffectValue('coins_earned_bonus'),
               type: 0
             }
           }
@@ -445,8 +445,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'coins': {
-              A: 3 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
-              B: 27 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('coins_earned_bonus'),
+              A: 3 * index.gameEffects.getEffectValue('coins_earned_bonus'),
+              B: 27 * index.gameEffects.getEffectValue('coins_earned_bonus'),
               type: 0
             }
           }
@@ -494,8 +494,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'inventory_wood': {
-              A: 0.002 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('manual_labor_efficiency'),
-              B: 0.028 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('manual_labor_efficiency'),
+              A: 0.002 * index.gameEffects.getEffectValue('manual_labor_efficiency'),
+              B: 0.028 * index.gameEffects.getEffectValue('manual_labor_efficiency'),
               type: 0
             }
           }
@@ -543,8 +543,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'inventory_stone': {
-              A: 0.001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('manual_labor_efficiency'),
-              B: 0.004 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('manual_labor_efficiency'),
+              A: 0.001 * index.gameEffects.getEffectValue('manual_labor_efficiency'),
+              B: 0.004 * index.gameEffects.getEffectValue('manual_labor_efficiency'),
               type: 0
             }
           }
@@ -592,8 +592,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'inventory_iron_ore': {
-              A: 0.0004 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('manual_labor_efficiency'),
-              B: 0.002 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('manual_labor_efficiency'),
+              A: 0.0004 * index.gameEffects.getEffectValue('manual_labor_efficiency'),
+              B: 0.002 * index.gameEffects.getEffectValue('manual_labor_efficiency'),
               type: 0
             }
           }
@@ -674,7 +674,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       level: 2
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_tent') < 1;
+      return index.gameEntity.getLevel('shop_item_tent') < 1;
     },
     attributes: {
       baseXPCost: 1.e+10
@@ -696,12 +696,12 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'energy': {
-              A: 1.0 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('rest_efficiency'),
+              A: 1.0 * index.gameEffects.getEffectValue('rest_efficiency'),
               B: 0,
               type: 0
             },
             'health': {
-              A: 0.25 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('rest_efficiency'),
+              A: 0.25 * index.gameEffects.getEffectValue('rest_efficiency'),
               B: 0,
               type: 0
             }
@@ -741,7 +741,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_charisma': {
-              A: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_gossip')),
+              A: 1 * index.gameEffects.getEffectValue(getRankId('action_gossip')),
               B: 0,
               type: 0
             }
@@ -788,8 +788,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'learning_rate': {
-              A: 0.01 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_knowledge_exchange')),
-              B: 0.99 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_knowledge_exchange')),
+              A: 0.01 * index.gameEffects.getEffectValue(getRankId('action_knowledge_exchange')),
+              B: 0.99 * index.gameEffects.getEffectValue(getRankId('action_knowledge_exchange')),
               type: 0
             }
           }
@@ -845,8 +845,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'shop_max_stock': {
-              A: 0.05 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_trade_efficiency')),
-              B: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_trade_efficiency')),
+              A: 0.05 * index.gameEffects.getEffectValue(getRankId('action_trade_efficiency')),
+              B: 1 * index.gameEffects.getEffectValue(getRankId('action_trade_efficiency')),
               type: 0
             },
             'shop_stock_renew_rate': {
@@ -902,7 +902,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_bargaining': {
-              A: 0.5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_train_bargaining')),
+              A: 0.5 * index.gameEffects.getEffectValue(getRankId('action_train_bargaining')),
               B: 0,
               type: 0
             }
@@ -954,8 +954,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'social_training_learning_rate': {
-              A: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_public_engagement')),
-              B: 0.98 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_public_engagement')),
+              A: 0.02 * index.gameEffects.getEffectValue(getRankId('action_public_engagement')),
+              B: 0.98 * index.gameEffects.getEffectValue(getRankId('action_public_engagement')),
               type: 0
             }
           }
@@ -1006,8 +1006,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'learning_rate': {
-              A: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_academic_discussions')),
-              B: 0.98 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_academic_discussions')),
+              A: 0.02 * index.gameEffects.getEffectValue(getRankId('action_academic_discussions')),
+              B: 0.98 * index.gameEffects.getEffectValue(getRankId('action_academic_discussions')),
               type: 0
             }
           }
@@ -1060,12 +1060,12 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_strength': {
-              A: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_pushup')),
+              A: 1 * index.gameEffects.getEffectValue(getRankId('action_pushup')),
               B: 0,
               type: 0
             },
             'attribute_vitality': {
-              A: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_pushup')),
+              A: 1 * index.gameEffects.getEffectValue(getRankId('action_pushup')),
               B: 0,
               type: 0
             }
@@ -1094,7 +1094,7 @@ var registerActionsStage1 = function registerActionsStage1() {
     },
     learningEffects: ['physical_training_learn_speed'],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('action_walk') > 19;
+      return index.gameEntity.getLevel('action_walk') > 19;
     },
     attributes: {
       baseXPCost: 25,
@@ -1116,7 +1116,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_strength': {
-              A: 2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_heavy_lifting')),
+              A: 2 * index.gameEffects.getEffectValue(getRankId('action_heavy_lifting')),
               B: -2,
               type: 0
             }
@@ -1150,7 +1150,7 @@ var registerActionsStage1 = function registerActionsStage1() {
     },
     learningEffects: ['physical_training_learn_speed'],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('action_walk') > 19;
+      return index.gameEntity.getLevel('action_walk') > 19;
     },
     attributes: {
       baseXPCost: 250000,
@@ -1191,7 +1191,7 @@ var registerActionsStage1 = function registerActionsStage1() {
     },
     unlockCondition: function unlockCondition() {
       // console.log('Beggar level: ', gameEntity.getLevel('action_beggar'));
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_book_of_motivation') > 0;
+      return index.gameEntity.getLevel('shop_item_book_of_motivation') > 0;
     },
     attributes: {
       baseXPCost: 50,
@@ -1231,7 +1231,7 @@ var registerActionsStage1 = function registerActionsStage1() {
     },
     unlockCondition: function unlockCondition() {
       // console.log('Beggar level: ', gameEntity.getLevel('action_beggar'));
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_book_of_math') > 0;
+      return index.gameEntity.getLevel('shop_item_book_of_math') > 0;
     },
     attributes: {
       baseXPCost: 50,
@@ -1256,8 +1256,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'gathering_effort': {
-              A: 0.002 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.048 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.002 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.048 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             }
           }
@@ -1277,7 +1277,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['gathering_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_map') > 0;
+      return index.gameEntity.getLevel('shop_item_map') > 0;
     },
     attributes: {
       baseXPCost: 50,
@@ -1302,8 +1302,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'gathering_effort': {
-              A: 0.001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.039 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.039 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'gathering_perception': {
@@ -1333,7 +1333,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['gathering_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     attributes: {
       baseXPCost: 50,
@@ -1356,8 +1356,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'inventory_berry': {
-              A: 0.001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.009 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.009 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             }
           }
@@ -1377,7 +1377,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['gathering_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && false;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && false;
     },
     attributes: {
       baseXPCost: 50,
@@ -1402,8 +1402,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'knowledge': {
-              A: 0.007 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('read_books_efficiency'),
-              B: 0.027 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('read_books_efficiency'),
+              A: 0.007 * index.gameEffects.getEffectValue('read_books_efficiency'),
+              B: 0.027 * index.gameEffects.getEffectValue('read_books_efficiency'),
               type: 0
             }
           }
@@ -1428,7 +1428,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['read_books_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_library_entrance') > 0;
+      return index.gameEntity.getLevel('shop_item_library_entrance') > 0;
     },
     attributes: {
       baseXPCost: 50
@@ -1452,7 +1452,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_spell_reading': {
-              A: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_read_mages_handbook')),
+              A: 1 * index.gameEffects.getEffectValue(getRankId('action_read_mages_handbook')),
               B: -1,
               type: 0
             }
@@ -1478,7 +1478,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['read_books_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_mages_handbook') > 0;
+      return index.gameEntity.getLevel('shop_item_mages_handbook') > 0;
     },
     attributes: {
       baseXPCost: 50,
@@ -1500,12 +1500,12 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_patience': {
-              A: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_yoga_practices')),
+              A: 1 * index.gameEffects.getEffectValue(getRankId('action_yoga_practices')),
               B: -1,
               type: 0
             },
             'attribute_stamina': {
-              A: 0.5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_yoga_practices')),
+              A: 0.5 * index.gameEffects.getEffectValue(getRankId('action_yoga_practices')),
               B: -0.5,
               type: 0
             }
@@ -1535,7 +1535,7 @@ var registerActionsStage1 = function registerActionsStage1() {
     },
     learningEffects: ['yoga_learn_speed', 'mental_training_learning_rate'],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_yoga_manual') > 0;
+      return index.gameEntity.getLevel('shop_item_yoga_manual') > 0;
     },
     attributes: {
       baseXPCost: 50,
@@ -1562,7 +1562,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'coins_cap_bonus': {
-              A: 0.05 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_home_errands')),
+              A: 0.05 * index.gameEffects.getEffectValue(getRankId('action_home_errands')),
               B: 0.95,
               type: 0
             }
@@ -1582,7 +1582,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_tent') > 3;
+      return index.gameEntity.getLevel('shop_item_tent') > 3;
     },
     attributes: {
       baseXPCost: 50,
@@ -1609,7 +1609,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'coins_cap_bonus': {
-              A: 0.025 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_dig_vaults')),
+              A: 0.025 * index.gameEffects.getEffectValue(getRankId('action_dig_vaults')),
               B: 0.975,
               type: 0
             }
@@ -1658,12 +1658,12 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_recovery': {
-              A: 0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_learn_anatomy')),
+              A: 0.2 * index.gameEffects.getEffectValue(getRankId('action_learn_anatomy')),
               B: -0.2,
               type: 0
             },
             'attribute_stamina': {
-              A: 3 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_learn_anatomy')),
+              A: 3 * index.gameEffects.getEffectValue(getRankId('action_learn_anatomy')),
               B: -3,
               type: 0
             }
@@ -1689,7 +1689,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['read_books_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_anatomy_book') > 0;
+      return index.gameEntity.getLevel('shop_item_anatomy_book') > 0;
     },
     attributes: {
       baseXPCost: 50,
@@ -1716,7 +1716,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'manual_labor_efficiency': {
-              A: 0.005 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_learn_geography')),
+              A: 0.005 * index.gameEffects.getEffectValue(getRankId('action_learn_geography')),
               B: 0.995,
               type: 0
             }
@@ -1742,7 +1742,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['read_books_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_geography_book') > 0;
+      return index.gameEntity.getLevel('shop_item_geography_book') > 0;
     },
     attributes: {
       baseXPCost: 5000,
@@ -1769,7 +1769,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'plantations_efficiency': {
-              A: 0.005 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_learn_geography')),
+              A: 0.005 * index.gameEffects.getEffectValue(getRankId('action_learn_geography')),
               B: 0.995,
               type: 0
             }
@@ -1795,7 +1795,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['read_books_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_botany_book') > 0;
+      return index.gameEntity.getLevel('shop_item_botany_book') > 0;
     },
     attributes: {
       baseXPCost: 2500000,
@@ -1822,12 +1822,12 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'books_learning_rate': {
-              A: 0.1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_learn_languages')),
+              A: 0.1 * index.gameEffects.getEffectValue(getRankId('action_learn_languages')),
               B: -0.1,
               type: 0
             },
             'attribute_memory': {
-              A: 0.5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_learn_languages')),
+              A: 0.5 * index.gameEffects.getEffectValue(getRankId('action_learn_languages')),
               B: -0.5,
               type: 0
             }
@@ -1853,7 +1853,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['read_books_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_vocabulary') > 0;
+      return index.gameEntity.getLevel('shop_item_vocabulary') > 0;
     },
     attributes: {
       baseXPCost: 50,
@@ -1880,7 +1880,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_recovery': {
-              A: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_endurance_training')),
+              A: 1 * index.gameEffects.getEffectValue(getRankId('action_endurance_training')),
               B: -1,
               type: 0
             }
@@ -1930,7 +1930,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_stamina': {
-              A: 8 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_stamina_training')),
+              A: 8 * index.gameEffects.getEffectValue(getRankId('action_stamina_training')),
               B: -8,
               type: 0
             }
@@ -1985,7 +1985,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_recovery': {
-              A: 3 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_cardio_training')),
+              A: 3 * index.gameEffects.getEffectValue(getRankId('action_cardio_training')),
               B: -3,
               type: 0
             }
@@ -2033,23 +2033,23 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'inventory_berry': {
-              A: 0.004 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.036 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.004 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.036 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'inventory_fly_mushroom': {
-              A: 0.001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.009 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.009 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'inventory_aloe_vera': {
-              A: 0.0002 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.0018 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.0002 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.0018 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'rare_herbs_loot': {
               A: 0,
-              B: 0.0004 * getChanceBased(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'), 1.5, 10),
+              B: 0.0004 * getChanceBased(index.gameEffects.getEffectValue('gathering_efficiency'), 1.5, 10),
               type: 0
             }
           }
@@ -2074,7 +2074,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['gathering_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && false;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && false;
     },
     attributes: {
       baseXPCost: 50,
@@ -2101,23 +2101,23 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'inventory_aloe_vera': {
-              A: 0.001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.009 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.009 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'inventory_ginseng': {
-              A: 0.001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.009 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.009 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'inventory_nightshade': {
-              A: 0.0002 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.0018 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.0002 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.0018 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'rare_herbs_loot': {
               A: 0,
-              B: 0.0004 * getChanceBased(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'), 1.5, 10),
+              B: 0.0004 * getChanceBased(index.gameEffects.getEffectValue('gathering_efficiency'), 1.5, 10),
               type: 0
             }
           }
@@ -2142,7 +2142,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['gathering_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0 && false;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0 && false;
     },
     attributes: {
       baseXPCost: 50,
@@ -2171,23 +2171,23 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'inventory_fly_mushroom': {
-              A: 0.001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.009 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.009 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'inventory_ginseng': {
-              A: 0.001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.009 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.009 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'inventory_nightshade': {
-              A: 0.0002 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.0018 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.0002 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.0018 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'rare_herbs_loot': {
               A: 0,
-              B: 0.0004 * getChanceBased(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'), 1.5, 10),
+              B: 0.0004 * getChanceBased(index.gameEffects.getEffectValue('gathering_efficiency'), 1.5, 10),
               type: 0
             }
           }
@@ -2212,7 +2212,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['gathering_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0 && false;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0 && false;
     },
     attributes: {
       baseXPCost: 500,
@@ -2242,23 +2242,23 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'inventory_harmony_blossom': {
-              A: 0.00001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.00009 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.00001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.00009 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'inventory_ember_leaf': {
-              A: 0.00001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.00009 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.00001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.00009 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'inventory_mystic_bloom': {
-              A: 0.00001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.00009 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.00001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.00009 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'rare_herbs_loot': {
               A: 0,
-              B: 0.0004 * getChanceBased(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'), 1.5, 10),
+              B: 0.0004 * getChanceBased(index.gameEffects.getEffectValue('gathering_efficiency'), 1.5, 10),
               type: 0
             }
           }
@@ -2283,7 +2283,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['gathering_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0 && false;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0 && false;
     },
     attributes: {
       baseXPCost: 500,
@@ -2311,23 +2311,23 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'inventory_fly_mushroom': {
-              A: 0.001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.009 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.009 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'inventory_ginseng': {
-              A: 0.001 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.009 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.001 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.009 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'inventory_nightshade': {
-              A: 0.0002 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
-              B: 0.0018 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'),
+              A: 0.0002 * index.gameEffects.getEffectValue('gathering_efficiency'),
+              B: 0.0018 * index.gameEffects.getEffectValue('gathering_efficiency'),
               type: 0
             },
             'rare_herbs_loot': {
               A: 0,
-              B: 0.0004 * getChanceBased(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('gathering_efficiency'), 1.5, 10),
+              B: 0.0004 * getChanceBased(index.gameEffects.getEffectValue('gathering_efficiency'), 1.5, 10),
               type: 0
             }
           }
@@ -2352,7 +2352,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: ['gathering_efficiency']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('guild_herbalists') > 0 && false;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0 && index.gameEntity.getLevel('guild_herbalists') > 0 && false;
     },
     attributes: {
       baseXPCost: 5000,
@@ -2379,12 +2379,12 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_magic_ability': {
-              A: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_meditate')),
+              A: 1 * index.gameEffects.getEffectValue(getRankId('action_meditate')),
               B: -1,
               type: 0
             },
             'attribute_patience': {
-              A: 0.25 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_meditate')),
+              A: 0.25 * index.gameEffects.getEffectValue(getRankId('action_meditate')),
               B: -0.25,
               type: 0
             }
@@ -2412,7 +2412,7 @@ var registerActionsStage1 = function registerActionsStage1() {
     },
     learningEffects: ['spiritual_learning_rate'],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_meditation') > 0;
+      return index.gameEntity.getLevel('shop_item_meditation') > 0;
     },
     attributes: {
       baseXPCost: 100,
@@ -2435,8 +2435,8 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           resources: {
             'coins': {
-              A: 75 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('urn_storage_bonus'),
-              B: -75 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('urn_storage_bonus'),
+              A: 75 * index.gameEffects.getEffectValue('urn_storage_bonus'),
+              B: -75 * index.gameEffects.getEffectValue('urn_storage_bonus'),
               type: 0
             }
           }
@@ -2463,7 +2463,7 @@ var registerActionsStage1 = function registerActionsStage1() {
     },
     learningEffects: ['spiritual_learning_rate'],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_less_illusion') > 0;
+      return index.gameEntity.getLevel('shop_item_less_illusion') > 0;
     },
     attributes: {
       baseXPCost: 500,
@@ -2484,7 +2484,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_magic_capability': {
-              A: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_magic_training')),
+              A: 1 * index.gameEffects.getEffectValue(getRankId('action_magic_training')),
               B: 0,
               type: 0
             }
@@ -2512,7 +2512,7 @@ var registerActionsStage1 = function registerActionsStage1() {
     },
     learningEffects: ['spiritual_learning_rate'],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_magic_training') > 0;
+      return index.gameEntity.getLevel('shop_item_magic_training') > 0;
     },
     attributes: {
       baseXPCost: 200,
@@ -2538,7 +2538,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'spiritual_learning_rate': {
-              A: 0.05 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_spiritual_alignment')),
+              A: 0.05 * index.gameEffects.getEffectValue(getRankId('action_spiritual_alignment')),
               B: 0.95,
               type: 0
             }
@@ -2564,7 +2564,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: []
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spiritualism') > 0;
+      return index.gameEntity.getLevel('shop_item_spiritualism') > 0;
     },
     attributes: {
       baseXPCost: 200,
@@ -2614,7 +2614,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: []
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     attributes: {
       baseXPCost: 100,
@@ -2668,7 +2668,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       level: 500
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     attributes: {
       baseXPCost: 500,
@@ -2722,7 +2722,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       level: 40000
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     attributes: {
       baseXPCost: 100000,
@@ -2771,7 +2771,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: []
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     attributes: {
       baseXPCost: 100,
@@ -2792,12 +2792,12 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_magic_ability': {
-              A: 2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_meditative_insight')),
+              A: 2 * index.gameEffects.getEffectValue(getRankId('action_meditative_insight')),
               B: -2,
               type: 0
             },
             'attribute_memory': {
-              A: 4 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_meditative_insight')),
+              A: 4 * index.gameEffects.getEffectValue(getRankId('action_meditative_insight')),
               B: -4,
               type: 0
             }
@@ -2830,7 +2830,7 @@ var registerActionsStage1 = function registerActionsStage1() {
     },
     learningEffects: ['spiritual_learning_rate'],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_metaphysics_handbook') > 0;
+      return index.gameEntity.getLevel('shop_item_metaphysics_handbook') > 0;
     },
     attributes: {
       baseXPCost: 1000,
@@ -2856,7 +2856,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'routine_learning_speed': {
-              A: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_nail_standing')),
+              A: 0.02 * index.gameEffects.getEffectValue(getRankId('action_nail_standing')),
               B: 0.98,
               type: 0
             }
@@ -2867,7 +2867,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_recovery': {
-              A: 2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_nail_standing')),
+              A: 2 * index.gameEffects.getEffectValue(getRankId('action_nail_standing')),
               B: -2,
               type: 0
             }
@@ -2924,7 +2924,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'routine_actions_discount': {
-              A: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_routine_mastery')),
+              A: 0.02 * index.gameEffects.getEffectValue(getRankId('action_routine_mastery')),
               B: 0.98,
               type: 0
             }
@@ -2981,7 +2981,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'mental_training_learning_rate': {
-              A: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_deep_focus')),
+              A: 0.02 * index.gameEffects.getEffectValue(getRankId('action_deep_focus')),
               B: 0.98,
               type: 0
             }
@@ -3038,7 +3038,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_charisma': {
-              A: 5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_social_debates')),
+              A: 5 * index.gameEffects.getEffectValue(getRankId('action_social_debates')),
               B: -5,
               type: 0
             }
@@ -3095,12 +3095,12 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_charisma': {
-              A: 2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_charity')),
+              A: 2 * index.gameEffects.getEffectValue(getRankId('action_charity')),
               B: -2,
               type: 0
             },
             'attribute_patience': {
-              A: 0.5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_charity')),
+              A: 0.5 * index.gameEffects.getEffectValue(getRankId('action_charity')),
               B: -0.5,
               type: 0
             }
@@ -3153,7 +3153,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_magic_capability': {
-              A: 3 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_magic_analyzes')),
+              A: 3 * index.gameEffects.getEffectValue(getRankId('action_magic_analyzes')),
               B: 0,
               type: 0
             }
@@ -3191,7 +3191,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       level: 500
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_metaphysics_handbook') > 0;
+      return index.gameEntity.getLevel('shop_item_metaphysics_handbook') > 0;
     },
     attributes: {
       baseXPCost: 1000,
@@ -3241,7 +3241,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: []
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('guilds').selectedGuild != null;
+      return index.gameCore.getModule('guilds').selectedGuild != null;
     },
     attributes: {
       baseXPCost: 20000
@@ -3289,7 +3289,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       effectDeps: []
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('guilds').selectedGuild != null;
+      return index.gameCore.getModule('guilds').selectedGuild != null;
     },
     attributes: {
       baseXPCost: 20000
@@ -3342,7 +3342,7 @@ var registerActionsStage1 = function registerActionsStage1() {
       level: 1250
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('guilds').selectedGuild != null;
+      return index.gameCore.getModule('guilds').selectedGuild != null;
     },
     attributes: {
       baseXPCost: 20000
@@ -3365,7 +3365,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'mental_activities_learn_rate': {
-              A: 0.01 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_magical_immersion')),
+              A: 0.01 * index.gameEffects.getEffectValue(getRankId('action_magical_immersion')),
               B: 0.99,
               type: 0
             }
@@ -3422,7 +3422,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_clarity': {
-              A: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_mind_cleansing')),
+              A: 1 * index.gameEffects.getEffectValue(getRankId('action_mind_cleansing')),
               B: 1,
               type: 0
             }
@@ -3479,12 +3479,12 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'attribute_willpower': {
-              A: 2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_mental_endurance')),
+              A: 2 * index.gameEffects.getEffectValue(getRankId('action_mental_endurance')),
               B: 1,
               type: 0
             },
             'attribute_patience': {
-              A: 0.5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_mental_endurance')),
+              A: 0.5 * index.gameEffects.getEffectValue(getRankId('action_mental_endurance')),
               B: -0.5,
               type: 0
             }
@@ -3541,7 +3541,7 @@ var registerActionsStage1 = function registerActionsStage1() {
         return {
           effects: {
             'elemental_spells_efficiency': {
-              A: 0.005 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getRankId('action_elemental_channeling')),
+              A: 0.005 * index.gameEffects.getEffectValue(getRankId('action_elemental_channeling')),
               B: 1.495,
               type: 0
             }

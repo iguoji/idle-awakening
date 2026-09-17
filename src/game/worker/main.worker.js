@@ -1,8 +1,8 @@
-import * as _main_module__WEBPACK_IMPORTED_MODULE_0__ from './main.module.js';
+import * as main_module from './main.module.js';
 
 // console.log('re-inc', MainModule.instance);
 
-const mainGame = (0,_main_module__WEBPACK_IMPORTED_MODULE_0__.mainModule)();
+const mainGame = (0,main_module.mainModule)();
 
 self.addEventListener('message', (event) => {
     // Perform some computation

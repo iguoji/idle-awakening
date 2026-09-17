@@ -1,4 +1,4 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -25,7 +25,7 @@ var getResourceModifierDataSearchable = function getResourceModifierDataSearchab
       var _searchables$type;
       (_searchables$type = searchables[type]).push.apply(_searchables$type, _toConsumableArray(Object.keys(rObj[type]).map(function (one) {
         var _gameEffects$getEffec;
-        return type === 'resources' ? game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(one).name.toLowerCase() : (_gameEffects$getEffec = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect(one)) === null || _gameEffects$getEffec === void 0 ? void 0 : _gameEffects$getEffec.name.toLowerCase();
+        return type === 'resources' ? index.gameResources.getResource(one).name.toLowerCase() : (_gameEffects$getEffec = index.gameEffects.getEffect(one)) === null || _gameEffects$getEffec === void 0 ? void 0 : _gameEffects$getEffec.name.toLowerCase();
       })));
     };
     for (var type in rObj) {
@@ -36,11 +36,11 @@ var getResourceModifierDataSearchable = function getResourceModifierDataSearchab
 };
 var registerFurniture = function registerFurniture(id, options) {
   options.searchableMeta = getResourceModifierDataSearchable(options.resourceModifier);
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity(id, options);
+  index.gameEntity.registerGameEntity(id, options);
 };
 var registerFurnitureStage1 = function registerFurnitureStage1() {
   var charismaMod = function charismaMod(attr) {
-    return attr > 0 ? 1. / (1. + 0.02 * Math.log2(attr * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('prices_discount'))) : 1.;
+    return attr > 0 ? 1. / (1. + 0.02 * Math.log2(attr * index.gameEffects.getEffectValue('prices_discount'))) : 1.;
   };
   registerFurniture('furniture_sleeping_bag', {
     tags: ["furniture", "upgrade", "purchaseable", "actions"],
@@ -75,7 +75,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 50 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 50 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -93,7 +93,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 2,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_map') > 0;
+      return index.gameEntity.getLevel('shop_item_map') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -119,7 +119,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 30 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 30 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -143,7 +143,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
         return {
           resources: {
             'coins': {
-              A: 75 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('urn_storage_bonus'),
+              A: 75 * index.gameEffects.getEffectValue('urn_storage_bonus'),
               B: 0,
               type: 0
             }
@@ -165,7 +165,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 20 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 20 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -183,14 +183,14 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     isUnpurchaseable: true,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('action_channel_illusory_urn') > 1;
+      return index.gameEntity.getLevel('action_channel_illusory_urn') > 1;
     },
     resourceModifier: {
       get_rawCap: function get_rawCap() {
         return {
           resources: {
             'coins': {
-              A: 75 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('urn_storage_bonus'),
+              A: 75 * index.gameEffects.getEffectValue('urn_storage_bonus'),
               B: 0,
               type: 0
             }
@@ -203,7 +203,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 40 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 40 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -250,7 +250,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 50 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 50 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -297,7 +297,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 50 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 50 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -315,7 +315,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 3,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_library_entrance');
+      return index.gameEntity.getLevel('shop_item_library_entrance');
     },
     resourceModifier: {
       multiplier: {
@@ -350,7 +350,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 100 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 100 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -368,7 +368,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 5,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_library_entrance') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('furniture_table') > 0;
+      return index.gameEntity.getLevel('shop_item_library_entrance') > 0 && index.gameEntity.getLevel('furniture_table') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -401,7 +401,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 250 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 250 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -419,7 +419,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 1,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_tent') > 3;
+      return index.gameEntity.getLevel('shop_item_tent') > 3;
     },
     resourceModifier: {
       multiplier: {
@@ -445,7 +445,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 50 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 50 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -463,7 +463,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 1,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_tent') > 3;
+      return index.gameEntity.getLevel('shop_item_tent') > 3;
     },
     resourceModifier: {
       multiplier: {
@@ -489,7 +489,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 75 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 75 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -507,7 +507,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 1,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_tent') > 3;
+      return index.gameEntity.getLevel('shop_item_tent') > 3;
     },
     resourceModifier: {
       multiplier: {
@@ -533,7 +533,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 150 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 150 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -551,7 +551,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 6,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_yoga_manual') > 0;
+      return index.gameEntity.getLevel('shop_item_yoga_manual') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -577,7 +577,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 150 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 150 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -626,7 +626,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 20000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 20000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -675,7 +675,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 5.e+8 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 5.e+8 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -724,7 +724,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 8.e+8 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 8.e+8 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -773,7 +773,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 8.e+9 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 8.e+9 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -791,7 +791,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 4,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_tent') > 3 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('action_pushup') > 4;
+      return index.gameEntity.getLevel('shop_item_tent') > 3 && index.gameEntity.getLevel('action_pushup') > 4;
     },
     resourceModifier: {
       multiplier: {
@@ -817,7 +817,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 150 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 150 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -866,7 +866,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 100000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 100000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -884,7 +884,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 4,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') > 0;
+      return index.gameEntity.getLevel('shop_item_spellbook') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -910,7 +910,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 1250 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 1250 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -928,7 +928,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 3,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') > 0;
+      return index.gameEntity.getLevel('shop_item_spellbook') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -954,7 +954,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 2500 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 2500 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -972,7 +972,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 5,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') > 0;
+      return index.gameEntity.getLevel('shop_item_spellbook') > 0;
     },
     resourceModifier: {
       rawCap: {
@@ -998,7 +998,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 5000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 5000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1016,7 +1016,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 4,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_less_restoration') > 0;
+      return index.gameEntity.getLevel('shop_item_less_restoration') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -1042,7 +1042,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 10000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 10000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1060,7 +1060,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 4,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_less_illusion') > 0;
+      return index.gameEntity.getLevel('shop_item_less_illusion') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -1086,7 +1086,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 10000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 10000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1109,7 +1109,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       level: 8000
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_less_illusion') > 0;
+      return index.gameEntity.getLevel('shop_item_less_illusion') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -1135,7 +1135,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 1000000000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 1000000000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1153,7 +1153,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 5,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spiritualism') > 0;
+      return index.gameEntity.getLevel('shop_item_spiritualism') > 0;
     },
     resourceModifier: {
       capMult: {
@@ -1188,7 +1188,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 100000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 100000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1206,7 +1206,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 5,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spiritualism') > 0;
+      return index.gameEntity.getLevel('shop_item_spiritualism') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -1232,7 +1232,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 2,
-          B: 100000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 100000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1249,7 +1249,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     description: 'Provides additional space for crafting, revealing new crafting slot',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     resourceModifier: {
       income: {
@@ -1275,7 +1275,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 80000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 80000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1292,7 +1292,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     description: 'A massive and meticulously crafted workbench that requires both strength and skill to wield effectively. In the hands of a true master, it turns raw materials into works of perfection, pushing the limits of craftsmanship beyond the ordinary.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     unlockedBy: [{
       type: 'effect',
@@ -1333,7 +1333,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.75,
-          B: 2.e+11 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 2.e+11 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1350,7 +1350,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     description: 'Specialized "master’s table" with enhanced tools that boosts crafting efficiency',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -1376,7 +1376,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 80000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 80000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1393,7 +1393,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     description: 'Provides additional space for alchemy, revealing new alchemy slot',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     resourceModifier: {
       income: {
@@ -1419,7 +1419,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 80000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 80000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1436,7 +1436,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     description: 'Place some additional equipment to improve your ability of studying chemical reactions between ingredients',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -1462,7 +1462,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 80000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 80000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1479,7 +1479,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     description: 'This rustic wooden rack is woven with strands of enchanted twine, used by skilled herbalists to preserve the potency of rare plants. Hanging bunches of herbs and roots sway gently, their fragrance filling the room and infusing the air with traces of ancient magic. With this rack, even common plants yield their highest quality, providing you a greater chance to find potent herbs in the wild.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -1505,7 +1505,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 120000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 120000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1522,7 +1522,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     description: 'Devote some space for platations to grow your very own herbs and plants',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbalists_handbook') > 0;
+      return index.gameEntity.getLevel('shop_item_herbalists_handbook') > 0;
     },
     resourceModifier: {
       income: {
@@ -1548,7 +1548,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 1000000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 1000000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1565,10 +1565,10 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     description: 'Dig well to make watering process more efficient, increasing plants growth rate',
     level: 0,
     getMaxLevel: function getMaxLevel() {
-      return 5 + game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('max_wells');
+      return 5 + index.gameEffects.getEffectValue('max_wells');
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbalists_handbook') > 0;
+      return index.gameEntity.getLevel('shop_item_herbalists_handbook') > 0;
     },
     resourceModifier: {
       income: {
@@ -1594,7 +1594,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 1000000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 1000000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1612,7 +1612,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 6,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_woodcutter') > 0;
+      return index.gameEntity.isEntityUnlocked('action_woodcutter') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -1638,7 +1638,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 600000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 600000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1656,7 +1656,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 4,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_soil_manual') > 0;
+      return index.gameEntity.getLevel('shop_item_soil_manual') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -1682,7 +1682,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 1500000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 1500000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1700,7 +1700,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     level: 0,
     maxLevel: 4,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_ink_crafting') > 0;
+      return index.gameEntity.getLevel('shop_item_ink_crafting') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -1731,7 +1731,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 5.e+8 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 5.e+8 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1748,7 +1748,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     description: 'A powerful machine that allows to supply water to your plantations',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_water');
+      return index.gameResources.isResourceUnlocked('inventory_water');
     },
     resourceModifier: {
       get_income: function get_income() {
@@ -1760,7 +1760,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
               type: 0
             },
             'max_wells': {
-              A: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('max_wells_per_water_pump'),
+              A: index.gameEffects.getEffectValue('max_wells_per_water_pump'),
               B: 0,
               type: 0
             }
@@ -1782,7 +1782,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 5.e+9 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 5.e+9 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {
@@ -1802,7 +1802,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return 5;
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_paper_cutting') > 0;
+      return index.gameEntity.getLevel('shop_item_paper_cutting') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -1833,7 +1833,7 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
       return {
         'coins': {
           A: 1.5,
-          B: 2.e+9 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')),
+          B: 2.e+9 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma')),
           type: 1
         },
         'living_space': {

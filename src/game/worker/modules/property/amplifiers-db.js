@@ -1,5 +1,5 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
-import * as _accessories_db__WEBPACK_IMPORTED_MODULE_1__ from './accessories-db.js';
+import * as index from '../../../framework/index.js';
+import * as accessories_db from './accessories-db.js';
 
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -27,7 +27,7 @@ var getResourceModifierDataSearchable = function getResourceModifierDataSearchab
       var _searchables$type;
       (_searchables$type = searchables[type]).push.apply(_searchables$type, _toConsumableArray(Object.keys(rObj[type]).map(function (one) {
         var _gameEffects$getEffec;
-        return type === 'resources' ? game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(one).name.toLowerCase() : (_gameEffects$getEffec = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect(one)) === null || _gameEffects$getEffec === void 0 ? void 0 : _gameEffects$getEffec.name.toLowerCase();
+        return type === 'resources' ? index.gameResources.getResource(one).name.toLowerCase() : (_gameEffects$getEffec = index.gameEffects.getEffect(one)) === null || _gameEffects$getEffec === void 0 ? void 0 : _gameEffects$getEffec.name.toLowerCase();
       })));
     };
     for (var type in rObj) {
@@ -38,7 +38,7 @@ var getResourceModifierDataSearchable = function getResourceModifierDataSearchab
 };
 var registerAmplifier = function registerAmplifier(id, options) {
   options.searchableMeta = getResourceModifierDataSearchable(options.resourceModifier);
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity(id, options);
+  index.gameEntity.registerGameEntity(id, options);
 };
 var registerAmplifiersStage1 = function registerAmplifiersStage1() {
   registerAmplifier('amplifier_dimensional_amplifier', {
@@ -47,7 +47,7 @@ var registerAmplifiersStage1 = function registerAmplifiersStage1() {
     description: 'Harness the power of the Earth element to reshape and expand spatial properties, increasing available living space.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_earth');
+      return index.gameResources.isResourceUnlocked('inventory_earth');
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
@@ -78,7 +78,7 @@ var registerAmplifiersStage1 = function registerAmplifiersStage1() {
     description: 'Infuse your crafting with Earth’s stability, amplifying crafting efficiency and precision.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_earth');
+      return index.gameResources.isResourceUnlocked('inventory_earth');
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
@@ -109,7 +109,7 @@ var registerAmplifiersStage1 = function registerAmplifiersStage1() {
     description: 'Channel the Air element to enhance bodily coordination, reducing the XP requirements for physical actions.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_air');
+      return index.gameResources.isResourceUnlocked('inventory_air');
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
@@ -141,7 +141,7 @@ var registerAmplifiersStage1 = function registerAmplifiersStage1() {
     description: 'Attune your mind to the flow of Air, decreasing the XP cost for mental actions through enhanced cognitive ease.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_air');
+      return index.gameResources.isResourceUnlocked('inventory_air');
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
@@ -173,7 +173,7 @@ var registerAmplifiersStage1 = function registerAmplifiersStage1() {
     description: 'Utilize the Air element to sharpen your understanding of social interactions, reducing the XP requirements for social actions.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_air');
+      return index.gameResources.isResourceUnlocked('inventory_air');
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
@@ -210,7 +210,7 @@ var registerAmplifiersStage1 = function registerAmplifiersStage1() {
       level: 20000
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_air');
+      return index.gameResources.isResourceUnlocked('inventory_air');
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
@@ -247,7 +247,7 @@ var registerAmplifiersStage1 = function registerAmplifiersStage1() {
       level: 60000
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_spark');
+      return index.gameResources.isResourceUnlocked('inventory_spark');
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
@@ -296,7 +296,7 @@ var registerAmplifiersStage1 = function registerAmplifiersStage1() {
       level: 60000
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_spark');
+      return index.gameResources.isResourceUnlocked('inventory_spark');
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {

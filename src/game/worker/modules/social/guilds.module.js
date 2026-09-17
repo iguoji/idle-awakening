@@ -1,8 +1,8 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_1__ from '../../shared/game-module.js';
-import * as _guilds_db__WEBPACK_IMPORTED_MODULE_2__ from './guilds-db.js';
-import * as _guild_upgrades_db__WEBPACK_IMPORTED_MODULE_3__ from './guild-upgrades-db.js';
-import * as _shared_utils_objects__WEBPACK_IMPORTED_MODULE_4__ from '../../shared/utils/objects.js';
+import * as index from '../../../framework/index.js';
+import * as game_module from '../../shared/game-module.js';
+import * as guilds_db from './guilds-db.js';
+import * as guild_upgrades_db from './guild-upgrades-db.js';
+import * as objects from '../../shared/utils/objects.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -58,8 +58,8 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(GuildsModule, [{
     key: "initialize",
     value: function initialize() {
-      (0,_guilds_db__WEBPACK_IMPORTED_MODULE_2__.registerGuilds)();
-      (0,_guild_upgrades_db__WEBPACK_IMPORTED_MODULE_3__.registerGuildUpgrades)();
+      (0,guilds_db.registerGuilds)();
+      (0,guild_upgrades_db.registerGuildUpgrades)();
     }
   }, {
     key: "leaveGuild",
@@ -76,13 +76,13 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
           maxLevel: 0
         };
       }
-      this.guildsStats[this.selectedGuild].maxLevel = Math.max(this.guildsStats[this.selectedGuild].maxLevel, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(this.selectedGuild));
+      this.guildsStats[this.selectedGuild].maxLevel = Math.max(this.guildsStats[this.selectedGuild].maxLevel, index.gameEntity.getLevel(this.selectedGuild));
       for (var key in this.purchasedUpgrades) {
         this.setItem(key, 0, true);
       }
       this.purchasedUpgrades = {};
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(this.selectedGuild, 0, true);
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.setResource('guild_reputation', 0);
+      index.gameEntity.setEntityLevel(this.selectedGuild, 0, true);
+      index.gameResources.setResource('guild_reputation', 0);
       /*gameEntity.listEntitiesByTags(['action', 'guild-activity']).map(a => {
           gameCore.getModule('actions').setAction(a.id, 1, true);
           if(gameCore.getModule('actions').actions[a.id]) {
@@ -90,7 +90,7 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
           }
       })*/
       this.setPermaBonus(this.selectedGuild, this.guildsStats[this.selectedGuild].maxLevel - 1, true);
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').generateNotifications();
+      index.gameCore.getModule('unlock-notifications').generateNotifications();
 
       // handle perma guild bonus
       this.selectedGuild = null;
@@ -99,14 +99,14 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
     key: "selectGuild",
     value: function selectGuild(id) {
       this.selectedGuild = id;
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(this.selectedGuild, 1, true);
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').generateNotifications();
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.setResource('guild_reputation', 0);
+      index.gameEntity.setEntityLevel(this.selectedGuild, 1, true);
+      index.gameCore.getModule('unlock-notifications').generateNotifications();
+      index.gameResources.setResource('guild_reputation', 0);
     }
   }, {
     key: "getPotentialPermaLevel",
     value: function getPotentialPermaLevel(id) {
-      var cl = this.selectedGuild === id ? game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(this.selectedGuild) : this.guildsStats[id].maxLevel;
+      var cl = this.selectedGuild === id ? index.gameEntity.getLevel(this.selectedGuild) : this.guildsStats[id].maxLevel;
       return Math.max(0, cl - 1);
     }
   }, {
@@ -120,30 +120,30 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
     key: "getCurrentActualPermaLevel",
     value: function getCurrentActualPermaLevel(id) {
       var _gameEntity$getLevel;
-      var ent = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAttribute(id, 'permaBonusId');
-      var relLevel = (_gameEntity$getLevel = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(ent)) !== null && _gameEntity$getLevel !== void 0 ? _gameEntity$getLevel : 1;
+      var ent = index.gameEntity.getAttribute(id, 'permaBonusId');
+      var relLevel = (_gameEntity$getLevel = index.gameEntity.getLevel(ent)) !== null && _gameEntity$getLevel !== void 0 ? _gameEntity$getLevel : 1;
       return relLevel;
     }
   }, {
     key: "setPermaBonus",
     value: function setPermaBonus(id, level) {
       var bForce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var ent = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAttribute(id, 'permaBonusId');
+      var ent = index.gameEntity.getAttribute(id, 'permaBonusId');
       // console.log('Setting: ', id, ent, level);
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(ent, level, bForce);
+      index.gameEntity.setEntityLevel(ent, level, bForce);
     }
   }, {
     key: "tick",
     value: function tick(game, delta) {
       this.leveledId = null;
       if (!this.selectedGuild) return;
-      var guild = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(this.selectedGuild);
-      var rs = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('guild_reputation');
+      var guild = index.gameEntity.getLevel(this.selectedGuild);
+      var rs = index.gameResources.getResource('guild_reputation');
       if (rs.amount >= rs.cap) {
-        var rslt = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.levelUpEntity(this.selectedGuild);
+        var rslt = index.gameEntity.levelUpEntity(this.selectedGuild);
         // gameResources.addResource('guild-points', 1);
         this.isLeveledUp = true;
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').setViewedById("guild_leveled", false);
+        index.gameCore.getModule('unlock-notifications').setViewedById("guild_leveled", false);
         // const data = this.getMageData();
         // this.eventHandler.sendData('mage-data', data);
       }
@@ -153,7 +153,7 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
     value: function save() {
       return {
         selectedGuild: this.selectedGuild,
-        guildLevel: this.selectedGuild ? game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(this.selectedGuild) : 0,
+        guildLevel: this.selectedGuild ? index.gameEntity.getLevel(this.selectedGuild) : 0,
         purchasedUpgrades: this.purchasedUpgrades,
         guildsStats: this.guildsStats
       };
@@ -162,11 +162,11 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
     key: "load",
     value: function load(obj) {
       if (this.selectedGuild) {
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(this.selectedGuild, 0, true);
+        index.gameEntity.setEntityLevel(this.selectedGuild, 0, true);
       }
       this.selectedGuild = obj === null || obj === void 0 ? void 0 : obj.selectedGuild;
       if (this.selectedGuild) {
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(this.selectedGuild, obj === null || obj === void 0 ? void 0 : obj.guildLevel);
+        index.gameEntity.setEntityLevel(this.selectedGuild, obj === null || obj === void 0 ? void 0 : obj.guildLevel);
       }
       for (var key in this.purchasedUpgrades) {
         this.setItem(key, 0, true);
@@ -200,16 +200,16 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
     key: "setItem",
     value: function setItem(itemId, amount) {
       var bForce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(itemId, amount, bForce);
-      this.purchasedUpgrades[itemId] = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(itemId);
+      index.gameEntity.setEntityLevel(itemId, amount, bForce);
+      this.purchasedUpgrades[itemId] = index.gameEntity.getLevel(itemId);
     }
   }, {
     key: "purchaseItem",
     value: function purchaseItem(itemId) {
-      var newEnt = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.levelUpEntity(itemId);
+      var newEnt = index.gameEntity.levelUpEntity(itemId);
       // console.log('Purchase Guild Upgrade: ', newEnt)
       if (newEnt.success) {
-        this.purchasedUpgrades[itemId] = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(itemId);
+        this.purchasedUpgrades[itemId] = index.gameEntity.getLevel(itemId);
         this.leveledId = itemId;
         this.sendItemsData();
       }
@@ -218,15 +218,15 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "regenerateNotifications",
     value: function regenerateNotifications() {
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').registerNewNotification('social', 'guilds', 'all', "no_guild_selected", !this.selectedGuild);
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').registerNewNotification('social', 'guilds', 'all', "guild_leveled", this.selectedGuild && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(this.selectedGuild) > 0);
+      index.gameCore.getModule('unlock-notifications').registerNewNotification('social', 'guilds', 'all', "no_guild_selected", !this.selectedGuild);
+      index.gameCore.getModule('unlock-notifications').registerNewNotification('social', 'guilds', 'all', "guild_leveled", this.selectedGuild && index.gameEntity.getLevel(this.selectedGuild) > 0);
     }
   }, {
     key: "getItemsData",
     value: function getItemsData() {
       var _this2 = this,
         _this$guildsStats$thi;
-      var guilds = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['guild']).map(function (one) {
+      var guilds = index.gameEntity.listEntitiesByTags(['guild']).map(function (one) {
         return _objectSpread(_objectSpread({}, one), {}, {
           icon_id: one.attributes.icon_id
         });
@@ -234,8 +234,8 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
       var current = this.selectedGuild ? guilds.find(function (g) {
         return g.id === _this2.selectedGuild;
       }) : undefined;
-      var upgrades = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['guild-upgrade']);
-      var cLv = this.selectedGuild ? game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(this.selectedGuild) : 0;
+      var upgrades = index.gameEntity.listEntitiesByTags(['guild-upgrade']);
+      var cLv = this.selectedGuild ? index.gameEntity.getLevel(this.selectedGuild) : 0;
       return {
         guilds: guilds,
         current: current,
@@ -246,10 +246,10 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
             id: entity.id,
             name: entity.name,
             description: entity.description,
-            max: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntityMaxLevel(entity.id),
+            max: index.gameEntity.getEntityMaxLevel(entity.id),
             level: _this2.purchasedUpgrades[entity.id] || 0,
-            affordable: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAffordable(entity.id),
-            potentialEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id, 1),
+            affordable: index.gameEntity.getAffordable(entity.id),
+            potentialEffects: index.gameEntity.getEffects(entity.id, 1),
             isLeveled: _this2.leveledId === entity.id,
             tier: entity.attributes.tier
           };
@@ -271,15 +271,15 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
             level: c
           };
         }),
-        points: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('guild-points'),
-        reputation: _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('guild_reputation')), {}, {
-          eta: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.assertToCapOrEmpty('guild_reputation')
+        points: index.gameResources.getResource('guild-points'),
+        reputation: _objectSpread(_objectSpread({}, index.gameResources.getResource('guild_reputation')), {}, {
+          eta: index.gameResources.assertToCapOrEmpty('guild_reputation')
         }),
         maxLevel: this.selectedGuild ? ((_this$guildsStats$thi = this.guildsStats[this.selectedGuild]) === null || _this$guildsStats$thi === void 0 ? void 0 : _this$guildsStats$thi.maxLevel) || 1 : 1,
         prestige: this.selectedGuild ? {
           canPrestige: this.getPotentialPermaLevel(this.selectedGuild) > this.getCurrentActualPermaLevel(this.selectedGuild),
-          currentEffects: (0,_shared_utils_objects__WEBPACK_IMPORTED_MODULE_4__.packEffects)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(current.attributes.permaBonusId)),
-          potentialEffects: (0,_shared_utils_objects__WEBPACK_IMPORTED_MODULE_4__.packEffects)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(current.attributes.permaBonusId, 0, this.getPotentialPermaLevel(this.selectedGuild)))
+          currentEffects: (0,objects.packEffects)(index.gameEntity.getEffects(current.attributes.permaBonusId)),
+          potentialEffects: (0,objects.packEffects)(index.gameEntity.getEffects(current.attributes.permaBonusId, 0, this.getPotentialPermaLevel(this.selectedGuild)))
         } : null
       };
     }
@@ -293,19 +293,19 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
     key: "getItemDetails",
     value: function getItemDetails(id, meta) {
       if (!id) return null;
-      var entity = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(id);
+      var entity = index.gameEntity.getEntity(id);
       return {
         id: entity.id,
         name: entity.name,
         description: entity.description,
-        max: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntityMaxLevel(entity.id),
+        max: index.gameEntity.getEntityMaxLevel(entity.id),
         level: this.purchasedUpgrades[entity.id] || 0,
-        affordable: meta === 'guild' ? undefined : game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAffordable(entity.id),
-        potentialEffects: meta === 'guild' ? undefined : game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id, 1),
-        effects: meta === 'guild' ? (0,_shared_utils_objects__WEBPACK_IMPORTED_MODULE_4__.packEffects)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id, 1).filter(function (one) {
+        affordable: meta === 'guild' ? undefined : index.gameEntity.getAffordable(entity.id),
+        potentialEffects: meta === 'guild' ? undefined : index.gameEntity.getEffects(entity.id, 1),
+        effects: meta === 'guild' ? (0,objects.packEffects)(index.gameEntity.getEffects(entity.id, 1).filter(function (one) {
           return one.id !== 'guild_reputation';
         })) : undefined,
-        currentEffects: meta === 'guild' ? undefined : game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id),
+        currentEffects: meta === 'guild' ? undefined : index.gameEntity.getEffects(entity.id),
         tags: entity.tags,
         purchaseMultiplier: 1
       };
@@ -313,12 +313,12 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getAllGuildsPermas",
     value: function getAllGuildsPermas() {
-      var permas = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['guild-bonus', 'permanent']);
+      var permas = index.gameEntity.listEntitiesByTags(['guild-bonus', 'permanent']);
       var effects = permas.map(function (one) {
         return {
           id: one.id,
           name: one.name,
-          effects: (0,_shared_utils_objects__WEBPACK_IMPORTED_MODULE_4__.packEffects)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(one.id).filter(function (one) {
+          effects: (0,objects.packEffects)(index.gameEntity.getEffects(one.id).filter(function (one) {
             return one.id !== 'guild_reputation';
           }))
         };
@@ -338,6 +338,6 @@ var GuildsModule = /*#__PURE__*/function (_GameModule) {
       this.eventHandler.sendData('guild-item-details', data);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_1__.GameModule);
+}(game_module.GameModule);
 
 export { GuildsModule };

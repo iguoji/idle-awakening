@@ -1,7 +1,7 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 var randomEventScalingFactor = function randomEventScalingFactor(id) {
-  var level = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(id);
+  var level = index.gameEntity.getLevel(id);
   var result = Math.pow(1 + level, 1.5);
   if (level > 100) {
     result *= Math.pow(1.03, level);
@@ -33,7 +33,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1);
           }
         }, {
           id: 'curse_of_greed',
@@ -43,7 +43,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.setResource('coins', 0);
+            index.gameResources.setResource('coins', 0);
           }
         }]
       },
@@ -77,7 +77,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.7);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.7);
           }
         }, {
           id: 'coins_lost_small',
@@ -87,7 +87,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource('coins', -0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('coins').amount);
+            index.gameResources.addResource('coins', -0.2 * index.gameResources.getResource('coins').amount);
           }
         }]
       }
@@ -116,7 +116,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1.4);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1.4);
           }
         }, {
           id: 'investment_fraud',
@@ -126,7 +126,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.setResource('coins', 0);
+            index.gameResources.setResource('coins', 0);
           }
         }]
       },
@@ -160,7 +160,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.7);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.7);
           }
         }, {
           id: 'partial_loss',
@@ -170,7 +170,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource('coins', -0.25 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('coins').amount);
+            index.gameResources.addResource('coins', -0.25 * index.gameResources.getResource('coins').amount);
           }
         }]
       }
@@ -199,7 +199,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource('coins', 0.5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('coins').amount);
+            index.gameResources.addResource('coins', 0.5 * index.gameResources.getResource('coins').amount);
           }
         }, {
           id: 'gold_cursed',
@@ -209,7 +209,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
           }
         }]
       },
@@ -243,7 +243,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource('coins', 0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('coins').amount);
+            index.gameResources.addResource('coins', 0.2 * index.gameResources.getResource('coins').amount);
           }
         }, {
           id: 'wasted_effort',
@@ -253,7 +253,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
           }
         }]
       }
@@ -282,7 +282,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1.5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1.5);
           }
         }, {
           id: 'draining_curse_strong',
@@ -292,7 +292,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
           }
         }]
       },
@@ -326,7 +326,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1);
           }
         }, {
           id: 'minor_energy_drain',
@@ -336,7 +336,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 0.5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 0.5);
           }
         }]
       }
@@ -365,7 +365,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1);
           }
         }]
       },
@@ -383,7 +383,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 0.7);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 0.7);
           }
         }, {
           id: 'nothing_special',
@@ -436,7 +436,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1.5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1.5);
           }
         }, {
           id: 'mild_exhaustion',
@@ -446,7 +446,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 0.5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 0.5);
           }
         }]
       },
@@ -464,7 +464,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1);
           }
         }]
       },
@@ -509,7 +509,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1);
           }
         }, {
           id: 'coins_income_boost',
@@ -519,7 +519,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1);
           }
         }, {
           id: 'gold_vanishes',
@@ -529,7 +529,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource('coins', -0.25 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('coins').amount);
+            index.gameResources.addResource('coins', -0.25 * index.gameResources.getResource('coins').amount);
           }
         }]
       },
@@ -547,7 +547,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1.5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1.5);
           }
         }, {
           id: 'temporary_exhaustion',
@@ -557,7 +557,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
           }
         }, {
           id: 'coins_vanish',
@@ -567,7 +567,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource('coins', -0.3 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('coins').amount);
+            index.gameResources.addResource('coins', -0.3 * index.gameResources.getResource('coins').amount);
           }
         }]
       },
@@ -612,7 +612,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1);
           }
         }]
       },
@@ -630,7 +630,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1);
           }
         }]
       },
@@ -648,8 +648,8 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.7);
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 0.7);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.7);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 0.7);
           }
         }]
       }
@@ -678,7 +678,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 0.8);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 0.8);
           }
         }]
       },
@@ -696,7 +696,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.8);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.8);
           }
         }]
       },
@@ -714,8 +714,8 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.5);
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 0.5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 0.5);
           }
         }]
       }
@@ -744,7 +744,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 1);
           }
         }]
       },
@@ -762,7 +762,7 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 1);
           }
         }]
       },
@@ -780,8 +780,8 @@ var registerRandomEventsDb = function registerRandomEventsDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.7);
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 0.7);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_coins_buff', 0.7);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_buff', 0.7);
           }
         }]
       }

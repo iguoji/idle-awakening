@@ -1,7 +1,7 @@
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_0__ from '../../shared/game-module.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_1__ from '../../../framework/index.js';
-import * as _shared_utils_rule_utils__WEBPACK_IMPORTED_MODULE_2__ from '../../shared/utils/rule-utils.js';
-import * as _shared_utils_objects__WEBPACK_IMPORTED_MODULE_3__ from '../../shared/utils/objects.js';
+import * as game_module from '../../shared/game-module.js';
+import * as index from '../../../framework/index.js';
+import * as rule_utils from '../../shared/utils/rule-utils.js';
+import * as objects from '../../shared/utils/objects.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
@@ -105,7 +105,7 @@ var CraftingListsSubmodule = /*#__PURE__*/function (_GameModule) {
       var resourcesEffects = _this.packEffects(data.effects.filter(function (one) {
         return one.type === 'resources';
       }).map(function (effect) {
-        var prev = game_framework__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.assertResource(effect.id, false, ['runningCrafting']);
+        var prev = index.resourceCalculators.assertResource(effect.id, false, ['runningCrafting']);
         if (effect.scope !== 'income' && effect.scope !== 'consumption') return effect;
         var pScope = effect.scope === 'consumption' ? 'income' : effect.scope;
         var nPrv = _objectSpread(_objectSpread({}, effect), {}, {
@@ -151,7 +151,7 @@ var CraftingListsSubmodule = /*#__PURE__*/function (_GameModule) {
         return;
       }
       var category = cat !== null && cat !== void 0 ? cat : this.craftingLists[id].category;
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('crafting').stopAllCrafting(category);
+      index.gameCore.getModule('crafting').stopAllCrafting(category);
       if (!this.runningList) {
         this.runningList = {};
       }
@@ -163,13 +163,13 @@ var CraftingListsSubmodule = /*#__PURE__*/function (_GameModule) {
       };
       var distributions = this.getRealListLevelsDistribution(id);
       distributions.forEach(function (item) {
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('crafting').setCraftingLevel({
+        index.gameCore.getModule('crafting').setCraftingLevel({
           id: item.id,
           level: item.level,
           isForce: true
         });
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('crafting').sendCraftingData({
+      index.gameCore.getModule('crafting').sendCraftingData({
         filterId: this.craftingLists[id].category
       });
     }
@@ -177,7 +177,7 @@ var CraftingListsSubmodule = /*#__PURE__*/function (_GameModule) {
     key: "stopList",
     value: function stopList(category) {
       this.runningList[category] = null;
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('crafting').stopAllCrafting(category);
+      index.gameCore.getModule('crafting').stopAllCrafting(category);
     }
   }, {
     key: "saveCraftingList",
@@ -273,7 +273,7 @@ var CraftingListsSubmodule = /*#__PURE__*/function (_GameModule) {
     key: "save",
     value: function save() {
       return {
-        list: (0,_shared_utils_objects__WEBPACK_IMPORTED_MODULE_3__.mapObject)(this.craftingLists, function (one) {
+        list: (0,objects.mapObject)(this.craftingLists, function (one) {
           return {
             id: one.id,
             name: one.name,
@@ -306,7 +306,7 @@ var CraftingListsSubmodule = /*#__PURE__*/function (_GameModule) {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var _this$craftingLists$l, _this$craftingLists$l2;
           var list = _step.value;
-          if ((0,_shared_utils_rule_utils__WEBPACK_IMPORTED_MODULE_2__.checkMatchingRules)((_this$craftingLists$l = this.craftingLists[list.id]) === null || _this$craftingLists$l === void 0 || (_this$craftingLists$l = _this$craftingLists$l.autotrigger) === null || _this$craftingLists$l === void 0 ? void 0 : _this$craftingLists$l.rules, (_this$craftingLists$l2 = this.craftingLists[list.id]) === null || _this$craftingLists$l2 === void 0 || (_this$craftingLists$l2 = _this$craftingLists$l2.autotrigger) === null || _this$craftingLists$l2 === void 0 ? void 0 : _this$craftingLists$l2.pattern)) {
+          if ((0,rule_utils.checkMatchingRules)((_this$craftingLists$l = this.craftingLists[list.id]) === null || _this$craftingLists$l === void 0 || (_this$craftingLists$l = _this$craftingLists$l.autotrigger) === null || _this$craftingLists$l === void 0 ? void 0 : _this$craftingLists$l.rules, (_this$craftingLists$l2 = this.craftingLists[list.id]) === null || _this$craftingLists$l2 === void 0 || (_this$craftingLists$l2 = _this$craftingLists$l2.autotrigger) === null || _this$craftingLists$l2 === void 0 ? void 0 : _this$craftingLists$l2.pattern)) {
             return list.id;
           }
         }
@@ -361,7 +361,7 @@ var CraftingListsSubmodule = /*#__PURE__*/function (_GameModule) {
       var data = this.craftingLists[id];
       data.recipes = (data.recipes || []).map(function (a) {
         return _objectSpread(_objectSpread({}, a), {}, {
-          isAvailable: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(a.id) && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isCapped(a.id)
+          isAvailable: index.gameEntity.isEntityUnlocked(a.id) && !index.gameEntity.isCapped(a.id)
         });
       });
       var _this$getListEffects = this.getListEffects(id),
@@ -376,7 +376,7 @@ var CraftingListsSubmodule = /*#__PURE__*/function (_GameModule) {
       });
       var prevEffects = [];
       data.resourcesEffects = this.packEffects(resourcesEffects.map(function (effect) {
-        var prev = game_framework__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.assertResource(effect.id, false, ['runningCrafting']);
+        var prev = index.resourceCalculators.assertResource(effect.id, false, ['runningCrafting']);
         if (effect.scope !== 'income' && effect.scope !== 'consumption') return effect;
         var pScope = effect.scope === 'consumption' ? 'income' : effect.scope;
         var nPrv = _objectSpread(_objectSpread({}, effect), {}, {
@@ -411,12 +411,12 @@ var CraftingListsSubmodule = /*#__PURE__*/function (_GameModule) {
       var maxSlots = 0;
       var possibleEntities = [];
       if (list.category === 'crafting') {
-        maxSlots = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('crafting_slots').income;
-        possibleEntities = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.listEntitiesByTags(['crafting', 'material']);
+        maxSlots = index.gameResources.getResource('crafting_slots').income;
+        possibleEntities = index.gameEntity.listEntitiesByTags(['crafting', 'material']);
       }
       if (list.category === 'alchemy') {
-        maxSlots = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('alchemy_slots').income;
-        possibleEntities = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.listEntitiesByTags(['crafting', 'alchemy']);
+        maxSlots = index.gameResources.getResource('alchemy_slots').income;
+        possibleEntities = index.gameEntity.listEntitiesByTags(['crafting', 'alchemy']);
       }
       if (!maxSlots || !possibleEntities) return [];
       var distribution = list === null || list === void 0 ? void 0 : list.recipes;
@@ -541,13 +541,13 @@ var CraftingListsSubmodule = /*#__PURE__*/function (_GameModule) {
 
       // attempt to get effects for every item according to distributions
       assumedDistribution.forEach(function (distribution) {
-        var effects = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEffects(distribution.id, 0, distribution.level, true);
+        var effects = index.gameEntity.getEffects(distribution.id, 0, distribution.level, true);
         effects.forEach(function (effToAdd) {
           var foundId = totalEffects.findIndex(function (a) {
             return a.id === effToAdd.id && (a.scope === effToAdd.scope || ['income', 'consumption'].includes(a.scope) && ['income', 'consumption'].includes(effToAdd.scope));
           });
           if (effToAdd.scope === 'income' && effToAdd.type === 'resources') {
-            effToAdd.value *= game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource(effToAdd.id).multiplier;
+            effToAdd.value *= index.gameResources.getResource(effToAdd.id).multiplier;
           }
           if (effToAdd.scope === 'multiplier' && effToAdd.type === 'effects') {
             // we actually adding multiplier
@@ -602,6 +602,6 @@ var CraftingListsSubmodule = /*#__PURE__*/function (_GameModule) {
       this.eventHandler.sendData(label, data);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { CraftingListsSubmodule };

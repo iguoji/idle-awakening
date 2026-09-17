@@ -1,8 +1,8 @@
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_0__ from '../../shared/game-module.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_1__ from '../../../framework/index.js';
-import * as _shared_utils_rule_utils__WEBPACK_IMPORTED_MODULE_2__ from '../../shared/utils/rule-utils.js';
-import * as _shared_utils_objects__WEBPACK_IMPORTED_MODULE_3__ from '../../shared/utils/objects.js';
-import * as game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__ from '../../../framework/src/utils/consts.js';
+import * as game_module from '../../shared/game-module.js';
+import * as index from '../../../framework/index.js';
+import * as rule_utils from '../../shared/utils/rule-utils.js';
+import * as objects from '../../shared/utils/objects.js';
+import * as consts from '../../../framework/src/utils/consts.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
@@ -86,7 +86,7 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
       var resourcesEffects = _this.packEffects(data.filter(function (one) {
         return one.type === 'resources';
       }).map(function (effect) {
-        var prev = game_framework__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.assertResource(effect.id, false, ['runningActions']);
+        var prev = index.resourceCalculators.assertResource(effect.id, false, ['runningActions']);
         if (effect.scope !== 'income' && effect.scope !== 'consumption') return effect;
         var pScope = effect.scope === 'consumption' ? 'income' : effect.scope;
         var nPrv = _objectSpread(_objectSpread({}, effect), {}, {
@@ -144,7 +144,7 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
     key: "stopList",
     value: function stopList() {
       this.runningList = null;
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').stopRunningActions();
+      index.gameCore.getModule('actions').stopRunningActions();
     }
   }, {
     key: "saveActionList",
@@ -170,12 +170,12 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
         var listToRun = this.actionsLists[this.runningList.id];
         var newTotalTime = 0.;
         listToRun.actions.forEach(function (a) {
-          var isAvailable = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(a.id) && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isCapped(a.id);
+          var isAvailable = index.gameEntity.isEntityUnlocked(a.id) && !index.gameEntity.isCapped(a.id);
           if (isAvailable) {
             newTotalTime += a.time;
           }
         });
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').activeActions = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').activeActions.map(function (active) {
+        index.gameCore.getModule('actions').activeActions = index.gameCore.getModule('actions').activeActions.map(function (active) {
           var _listToRun$actions$fi;
           return _objectSpread(_objectSpread({}, active), {}, {
             effort: (((_listToRun$actions$fi = listToRun.actions.find(function (o) {
@@ -183,8 +183,8 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
             })) === null || _listToRun$actions$fi === void 0 ? void 0 : _listToRun$actions$fi.time) || 0) / Math.max(newTotalTime, 0.0001)
           });
         });
-        console.log('Reassert list onSave: ', newTotalTime, game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').activeActions);
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').reassertRunningEfforts(true);
+        console.log('Reassert list onSave: ', newTotalTime, index.gameCore.getModule('actions').activeActions);
+        index.gameCore.getModule('actions').reassertRunningEfforts(true);
       }
     }
   }, {
@@ -207,7 +207,7 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
       });
       var listsBeingAutotriggerAvailable = listsBeingAutotrigger.filter(function (lst) {
         if (lst.actions && lst.actions.find(function (one) {
-          return game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(one.id) && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isCapped(one.id);
+          return index.gameEntity.isEntityUnlocked(one.id) && !index.gameEntity.isCapped(one.id);
         })) return true;
         return false;
       });
@@ -266,7 +266,7 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
     key: "save",
     value: function save() {
       return {
-        list: (0,_shared_utils_objects__WEBPACK_IMPORTED_MODULE_3__.mapObject)(this.actionsLists, function (one) {
+        list: (0,objects.mapObject)(this.actionsLists, function (one) {
           return {
             id: one.id,
             name: one.name,
@@ -307,7 +307,7 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var _this$actionsLists$li, _this$actionsLists$li2;
           var list = _step.value;
-          if ((0,_shared_utils_rule_utils__WEBPACK_IMPORTED_MODULE_2__.checkMatchingRules)((_this$actionsLists$li = this.actionsLists[list.id]) === null || _this$actionsLists$li === void 0 || (_this$actionsLists$li = _this$actionsLists$li.autotrigger) === null || _this$actionsLists$li === void 0 ? void 0 : _this$actionsLists$li.rules, (_this$actionsLists$li2 = this.actionsLists[list.id]) === null || _this$actionsLists$li2 === void 0 || (_this$actionsLists$li2 = _this$actionsLists$li2.autotrigger) === null || _this$actionsLists$li2 === void 0 ? void 0 : _this$actionsLists$li2.pattern)) {
+          if ((0,rule_utils.checkMatchingRules)((_this$actionsLists$li = this.actionsLists[list.id]) === null || _this$actionsLists$li === void 0 || (_this$actionsLists$li = _this$actionsLists$li.autotrigger) === null || _this$actionsLists$li === void 0 ? void 0 : _this$actionsLists$li.rules, (_this$actionsLists$li2 = this.actionsLists[list.id]) === null || _this$actionsLists$li2 === void 0 || (_this$actionsLists$li2 = _this$actionsLists$li2.autotrigger) === null || _this$actionsLists$li2 === void 0 ? void 0 : _this$actionsLists$li2.pattern)) {
             return list.id;
           }
         }
@@ -341,7 +341,7 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
           throw new Error('Invalid list to run!!');
         }
         var action = listToRun.actions[this.runningList.actionIndex];
-        var isAvailable = ((_action = action) === null || _action === void 0 ? void 0 : _action.id) && game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(action.id) && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isCapped(action.id);
+        var isAvailable = ((_action = action) === null || _action === void 0 ? void 0 : _action.id) && index.gameEntity.isEntityUnlocked(action.id) && !index.gameEntity.isCapped(action.id);
 
         // Check if action timer exceeded or action is not available
         if (!action || this.runningList.actionTimer > action.time || !isAvailable) {
@@ -358,7 +358,7 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
               this.runningList.actionIndex = 0; // Reset to start if end is reached
             }
             action = listToRun.actions[this.runningList.actionIndex];
-            isAvailable = action && game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(action.id) && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isCapped(action.id);
+            isAvailable = action && index.gameEntity.isEntityUnlocked(action.id) && !index.gameEntity.isCapped(action.id);
             loops++;
           } while (!isAvailable && loops < maxLoops);
           if (!isAvailable) {
@@ -366,7 +366,7 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
             console.log('No available actions in the list.');
             // Handle this case as needed, e.g., stop the running list
             this.stopList();
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').setRunningAction(null);
+            index.gameCore.getModule('actions').setRunningAction(null);
             return; // Exit the function early
           } else {
             console.log('Toggled to:', this.runningList, action.id, delta);
@@ -374,8 +374,8 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
         }
 
         // Set the active action if it's not already active
-        if (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').activeAction !== action.id) {
-          game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').setRunningAction(action.id);
+        if (index.gameCore.getModule('actions').activeAction !== action.id) {
+          index.gameCore.getModule('actions').setRunningAction(action.id);
         }
 
         // Increment the action timer
@@ -394,30 +394,30 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
         var needReassert = false;
         var newTotalTime = 0.;
         _listToRun.actions.forEach(function (a) {
-          var isAvailable = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(a.id) && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isCapped(a.id);
+          var isAvailable = index.gameEntity.isEntityUnlocked(a.id) && !index.gameEntity.isCapped(a.id);
           if (isAvailable) {
             newTotalTime += a.time;
           }
-          if (!isAvailable && game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').isRunningAction(a.id)) {
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').dropRunningAction(a.id);
+          if (!isAvailable && index.gameCore.getModule('actions').isRunningAction(a.id)) {
+            index.gameCore.getModule('actions').dropRunningAction(a.id);
             needReassert = true;
           }
-          if (!game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').isRunningAction(a.id) && isAvailable) {
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').addRunningAction(a.id, a.time / totalTime);
+          if (!index.gameCore.getModule('actions').isRunningAction(a.id) && isAvailable) {
+            index.gameCore.getModule('actions').addRunningAction(a.id, a.time / totalTime);
             needReassert = true;
           }
         });
-        var activeActions = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').activeActions;
+        var activeActions = index.gameCore.getModule('actions').activeActions;
         activeActions.forEach(function (active) {
           if (!_listToRun.actions.find(function (o) {
             return o.id === active.originalId;
           })) {
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').dropRunningAction(active.originalId);
+            index.gameCore.getModule('actions').dropRunningAction(active.originalId);
             needReassert = true;
           }
         });
         if (needReassert) {
-          game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').activeActions = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').activeActions.map(function (active) {
+          index.gameCore.getModule('actions').activeActions = index.gameCore.getModule('actions').activeActions.map(function (active) {
             var _listToRun$actions$fi2;
             return _objectSpread(_objectSpread({}, active), {}, {
               effort: (((_listToRun$actions$fi2 = _listToRun.actions.find(function (o) {
@@ -425,8 +425,8 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
               })) === null || _listToRun$actions$fi2 === void 0 ? void 0 : _listToRun$actions$fi2.time) || 0) / newTotalTime
             });
           });
-          console.log('Reassert list: ', needReassert, newTotalTime, totalTime, game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').activeActions);
-          game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').reassertRunningEfforts();
+          console.log('Reassert list: ', needReassert, newTotalTime, totalTime, index.gameCore.getModule('actions').activeActions);
+          index.gameCore.getModule('actions').reassertRunningEfforts();
         }
       }
     }
@@ -448,11 +448,11 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
       var data = this.actionsLists[id];
       var actionsAvailable = (data.actions || []).map(function (a) {
         return _objectSpread(_objectSpread({}, a), {}, {
-          isAvailable: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(a.id) && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isCapped(a.id)
+          isAvailable: index.gameEntity.isEntityUnlocked(a.id) && !index.gameEntity.isCapped(a.id)
         });
       });
       var totalTime = actionsAvailable.filter(function (action) {
-        return game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(action.id) && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isCapped(action.id);
+        return index.gameEntity.isEntityUnlocked(action.id) && !index.gameEntity.isCapped(action.id);
       }).reduce(function (acc, item) {
         return acc += item.time;
       }, 0);
@@ -463,9 +463,9 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
       });
 
       // now registering entities for every action
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').stopRunningActions();
+      index.gameCore.getModule('actions').stopRunningActions();
       actionsFractions.forEach(function (actionToRun) {
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').addRunningAction(actionToRun.id, actionToRun.effortFraction);
+        index.gameCore.getModule('actions').addRunningAction(actionToRun.id, actionToRun.effortFraction);
       });
     }
   }, {
@@ -475,7 +475,7 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
       var data = this.actionsLists[id];
       data.actions = (data.actions || []).map(function (a) {
         return _objectSpread(_objectSpread({}, a), {}, {
-          isAvailable: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(a.id) && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isCapped(a.id)
+          isAvailable: index.gameEntity.isEntityUnlocked(a.id) && !index.gameEntity.isCapped(a.id)
         });
       });
       data.potentialEffects = this.getListEffects(id);
@@ -487,7 +487,7 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
       });
       var prevEffects = [];
       data.resourcesEffects = this.packEffects(resourcesEffects.map(function (effect) {
-        var prev = game_framework__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.assertResource(effect.id, false, ['runningActions']);
+        var prev = index.resourceCalculators.assertResource(effect.id, false, ['runningActions']);
         if (effect.scope !== 'income' && effect.scope !== 'consumption') return effect;
         var pScope = effect.scope === 'consumption' ? 'income' : effect.scope;
         var nPrv = _objectSpread(_objectSpread({}, effect), {}, {
@@ -527,7 +527,7 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
           time: Math.max(0, one.time)
         });
       });
-      if (total <= game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER) return [];
+      if (total <= consts.SMALL_NUMBER) return [];
       var generateColor = function generateColor(index, totalActions) {
         // Use HSL to generate deterministic colors based on the index
         var hue = index * 360 / totalActions % 360; // Spread hues evenly
@@ -566,25 +566,25 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
         list = listData;
       }
       var totalTime = list.actions.filter(function (action) {
-        return game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(action.id) && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isCapped(action.id);
+        return index.gameEntity.isEntityUnlocked(action.id) && !index.gameEntity.isCapped(action.id);
       }).reduce(function (acc, item) {
         return acc += item.time;
       }, 0);
       var totalEffects = [];
       list.actions.forEach(function (action) {
-        var isAvailable = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(action.id) && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isCapped(action.id);
+        var isAvailable = index.gameEntity.isEntityUnlocked(action.id) && !index.gameEntity.isCapped(action.id);
         if (!isAvailable) {
           return;
         }
-        var isEffectChanneling = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getAttribute(action.id, 'isEffectChanneling', false);
-        var effects = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEffects(action.id, game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getAttribute(action.id, 'isTraining') ? 1 : 0, game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getAttribute(action.id, 'isTraining') ? 1 : game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel(action.id), true, action.time / totalTime);
-        var learnRateFactor = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').getLearningRate(action.id) / game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').getActionXPMax(action.id);
+        var isEffectChanneling = index.gameEntity.getAttribute(action.id, 'isEffectChanneling', false);
+        var effects = index.gameEntity.getEffects(action.id, index.gameEntity.getAttribute(action.id, 'isTraining') ? 1 : 0, index.gameEntity.getAttribute(action.id, 'isTraining') ? 1 : index.gameEntity.getLevel(action.id), true, action.time / totalTime);
+        var learnRateFactor = index.gameCore.getModule('actions').getLearningRate(action.id) / index.gameCore.getModule('actions').getActionXPMax(action.id);
         effects.forEach(function (effToAdd) {
           var foundId = totalEffects.findIndex(function (a) {
             return a.id === effToAdd.id && (a.scope === effToAdd.scope || ['income', 'consumption'].includes(a.scope) && ['income', 'consumption'].includes(effToAdd.scope));
           });
           if (effToAdd.scope === 'income' && effToAdd.type === 'resources') {
-            effToAdd.value *= game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource(effToAdd.id).multiplier;
+            effToAdd.value *= index.gameResources.getResource(effToAdd.id).multiplier;
           }
           if (effToAdd.scope === 'multiplier' && effToAdd.type === 'effects' && !isEffectChanneling) {
             // we actually adding multiplier
@@ -616,6 +616,6 @@ var ActionListsSubmodule = /*#__PURE__*/function (_GameModule) {
       });
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { ActionListsSubmodule };

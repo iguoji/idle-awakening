@@ -1,9 +1,9 @@
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_0__ from '../../shared/game-module.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_1__ from '../../../framework/index.js';
-import * as _skills_db_v2__WEBPACK_IMPORTED_MODULE_2__ from './skills-db-v2.js';
-import * as _permanent_bonuses_db__WEBPACK_IMPORTED_MODULE_3__ from './permanent-bonuses-db.js';
-import * as lodash__WEBPACK_IMPORTED_MODULE_4__ from 'lodash';
-import * as game_framework_src_general_unlocks_api__WEBPACK_IMPORTED_MODULE_5__ from '../../../framework/src/general/unlocks-api.js';
+import * as game_module from '../../shared/game-module.js';
+import * as index from '../../../framework/index.js';
+import * as skills_db_v2 from './skills-db-v2.js';
+import * as permanent_bonuses_db from './permanent-bonuses-db.js';
+import * as lodash from 'lodash';
+import * as unlocks_api from '../../../framework/src/general/unlocks-api.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
@@ -163,7 +163,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
       _this.eventHandler.sendData('skills-data', data);
     });
     _this.eventHandler.registerHandler('query-total-unlocks', function () {
-      var data = game_framework_src_general_unlocks_api__WEBPACK_IMPORTED_MODULE_5__.unlocksApi.getGeneralUnlocksStats();
+      var data = unlocks_api.unlocksApi.getGeneralUnlocksStats();
       _this.eventHandler.sendData('total-unlocks', data);
     });
     return _this;
@@ -177,7 +177,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
         id: draftId,
         name: name,
         timestamp: Date.now(),
-        skills: (0,lodash__WEBPACK_IMPORTED_MODULE_4__.cloneDeep)(this.editModeSkills || this.skillUpgrades)
+        skills: (0,lodash.cloneDeep)(this.editModeSkills || this.skillUpgrades)
       };
       return this.skillDrafts[draftId];
     }
@@ -209,7 +209,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
           return false;
         }
       } else {
-        this.editModeSkills = (0,lodash__WEBPACK_IMPORTED_MODULE_4__.cloneDeep)(draft.skills);
+        this.editModeSkills = (0,lodash.cloneDeep)(draft.skills);
         this.currentEditEffects = this.getSkillTreeEffects(this.editModeSkills);
       }
       this.shouldSendSkills = true;
@@ -245,7 +245,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
           var draftLevel = draft.skills[skillId];
 
           // 🔹 Перевіряємо, чи скіл існує у грі
-          if (!game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.entityExists(skillId)) {
+          if (!index.gameEntity.entityExists(skillId)) {
             isValid = false;
             invalidSkills.push({
               skillId: skillId,
@@ -255,7 +255,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
           }
 
           // 🔹 Перевіряємо, чи рівень не перевищує максимальний
-          var maxLevel = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntityMaxLevel(skillId);
+          var maxLevel = index.gameEntity.getEntityMaxLevel(skillId);
           if (draftLevel > maxLevel) {
             isValid = false;
             invalidSkills.push({
@@ -265,7 +265,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
           }
 
           // 🔹 Перевіряємо, чи цей скіл має залежності (unlockBySkills)
-          var entity = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntity(skillId);
+          var entity = index.gameEntity.getEntity(skillId);
           if (draftLevel > 0 && (_entity$unlockBySkill = entity.unlockBySkills) !== null && _entity$unlockBySkill !== void 0 && _entity$unlockBySkill.length) {
             var isUnlocked = entity.unlockBySkills.some(function (_ref7) {
               var id = _ref7.id,
@@ -342,16 +342,16 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
           levelsByGroup[groupId].allSkills.push(skillId);
           continue;
         }
-        var entityEffects = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEffectsStructured(skillId, 0, skillTree[skillId]);
+        var entityEffects = index.gameEntity.getEffectsStructured(skillId, 0, skillTree[skillId]);
         //console.log('EffectsAsserted: ', entityEffects, totalEffects);
-        var total = game_framework__WEBPACK_IMPORTED_MODULE_1__.resourceApi.mergeEffects(totalEffects, entityEffects);
+        var total = index.resourceApi.mergeEffects(totalEffects, entityEffects);
         //console.log('Merged: ', total);
       }
       //console.log('levelsByGroup', levelsByGroup);
       for (var _groupId in levelsByGroup) {
-        var _entityEffects = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEffectsStructured(levelsByGroup[_groupId].protoSkillId, 0, levelsByGroup[_groupId].totalLevel);
+        var _entityEffects = index.gameEntity.getEffectsStructured(levelsByGroup[_groupId].protoSkillId, 0, levelsByGroup[_groupId].totalLevel);
         //console.log('GroupEffectsAsserted: ', entityEffects, totalEffects);
-        var _total = game_framework__WEBPACK_IMPORTED_MODULE_1__.resourceApi.mergeEffects(totalEffects, _entityEffects);
+        var _total = index.resourceApi.mergeEffects(totalEffects, _entityEffects);
         //console.log('Merged: ', total);
       }
       console.log('totalEffects', totalEffects);
@@ -360,13 +360,13 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getSkillTreeEffectsUnpacked",
     value: function getSkillTreeEffectsUnpacked(skillTree) {
-      return game_framework__WEBPACK_IMPORTED_MODULE_1__.resourceApi.unpackEffectsToObject(this.getSkillTreeEffects(skillTree));
+      return index.resourceApi.unpackEffectsToObject(this.getSkillTreeEffects(skillTree));
     }
   }, {
     key: "getFreeSPLeft",
     value: function getFreeSPLeft() {
       var _gameResources$getRes, _this$currentEditEffe;
-      var total = (_gameResources$getRes = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('skill-points')) === null || _gameResources$getRes === void 0 ? void 0 : _gameResources$getRes.income;
+      var total = (_gameResources$getRes = index.gameResources.getResource('skill-points')) === null || _gameResources$getRes === void 0 ? void 0 : _gameResources$getRes.income;
       var consume = ((_this$currentEditEffe = this.currentEditEffects) === null || _this$currentEditEffe === void 0 || (_this$currentEditEffe = _this$currentEditEffe.resources) === null || _this$currentEditEffe === void 0 || (_this$currentEditEffe = _this$currentEditEffe.consumption) === null || _this$currentEditEffe === void 0 || (_this$currentEditEffe = _this$currentEditEffe['skill-points']) === null || _this$currentEditEffe === void 0 ? void 0 : _this$currentEditEffe.value) || 0;
       return total - consume;
     }
@@ -375,7 +375,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
     value: function canApplySkills(draftSkills) {
       var _gameResources$getRes2;
       if (!draftSkills) return false;
-      var availablePoints = ((_gameResources$getRes2 = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('skill-points')) === null || _gameResources$getRes2 === void 0 ? void 0 : _gameResources$getRes2.balance) || 0;
+      var availablePoints = ((_gameResources$getRes2 = index.gameResources.getResource('skill-points')) === null || _gameResources$getRes2 === void 0 ? void 0 : _gameResources$getRes2.balance) || 0;
       var requiredPoints = 0;
       for (var skillId in draftSkills) {
         var draftLevel = draftSkills[skillId] || 0;
@@ -399,7 +399,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
       // Копіюємо рівні скілів із редагування в основне дерево
       this.skillUpgrades = _objectSpread({}, this.editModeSkills);
       for (var key in this.skillUpgrades) {
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.setEntityLevel(key, this.skillUpgrades[key], true);
+        index.gameEntity.setEntityLevel(key, this.skillUpgrades[key], true);
       }
 
       // Очищаємо режим редагування
@@ -429,22 +429,22 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
     value: function addSkillLevel(itemId) {
       var _ent$unlockBySkills,
         _this2 = this;
-      var free = this.editModeSkills ? this.getFreeSPLeft() : game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('skill-points').balance;
+      var free = this.editModeSkills ? this.getFreeSPLeft() : index.gameResources.getResource('skill-points').balance;
       console.log('Free: ', free, this.currentEditEffects);
       if (!free) {
         return;
       }
       if (!this.editModeSkills) {
-        this.editModeSkills = (0,lodash__WEBPACK_IMPORTED_MODULE_4__.cloneDeep)(this.skillUpgrades);
+        this.editModeSkills = (0,lodash.cloneDeep)(this.skillUpgrades);
         this.currentEditEffects = this.getSkillTreeEffects(this.editModeSkills);
       }
 
       // do check if unlocked and if requirements are met
-      if (!game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(itemId)) {
+      if (!index.gameEntity.isEntityUnlocked(itemId)) {
         return;
       }
       // check if any of requirements are met
-      var ent = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntity(itemId);
+      var ent = index.gameEntity.getEntity(itemId);
       if ((_ent$unlockBySkills = ent.unlockBySkills) !== null && _ent$unlockBySkills !== void 0 && _ent$unlockBySkills.length) {
         var isMatched = ent.unlockBySkills.some(function (unlock) {
           return unlock.level <= _this2.editModeSkills[unlock.id];
@@ -453,7 +453,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
           return;
         }
       }
-      if (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntityMaxLevel(itemId) <= this.editModeSkills[itemId]) {
+      if (index.gameEntity.getEntityMaxLevel(itemId) <= this.editModeSkills[itemId]) {
         return;
       }
       this.editModeSkills[itemId] = (this.editModeSkills[itemId] || 0) + 1;
@@ -480,7 +480,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
 
           // Якщо рівень залежного скіла більше 0, але він більше не відповідає вимогам
           if (currentDependentLevel > 0) {
-            var unlockBySkills = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntity(dependentId).unlockBySkills || [];
+            var unlockBySkills = index.gameEntity.getEntity(dependentId).unlockBySkills || [];
 
             // Перевіряємо, чи хоча б один із необхідних скілів більше не відповідає вимогам
             var isUnlocked = unlockBySkills.some(function (_ref8) {
@@ -514,7 +514,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
       }
 
       // do check if unlocked and if requirements are met
-      if (!game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(itemId)) {
+      if (!index.gameEntity.isEntityUnlocked(itemId)) {
         return;
       }
 
@@ -531,7 +531,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
     value: function purchaseItem(itemId) {
       var _ent$unlockBySkills2,
         _this4 = this;
-      var ent = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntity(itemId);
+      var ent = index.gameEntity.getEntity(itemId);
       if ((_ent$unlockBySkills2 = ent.unlockBySkills) !== null && _ent$unlockBySkills2 !== void 0 && _ent$unlockBySkills2.length) {
         var isMatched = ent.unlockBySkills.some(function (unlock) {
           return unlock.level <= _this4.skillUpgrades[unlock.id];
@@ -540,10 +540,10 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
           return;
         }
       }
-      var newEnt = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.levelUpEntity(itemId);
-      console.log('Modifier: ', JSON.stringify(game_framework__WEBPACK_IMPORTED_MODULE_1__.resourceModifiers.getModifier("entity_".concat(itemId))), game_framework__WEBPACK_IMPORTED_MODULE_1__.resourceModifiers.getDependenciesToRegenerate("entity_".concat(itemId)), game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('skill-points').balance);
+      var newEnt = index.gameEntity.levelUpEntity(itemId);
+      console.log('Modifier: ', JSON.stringify(index.resourceModifiers.getModifier("entity_".concat(itemId))), index.resourceModifiers.getDependenciesToRegenerate("entity_".concat(itemId)), index.gameResources.getResource('skill-points').balance);
       if (newEnt.success) {
-        this.skillUpgrades[itemId] = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel(itemId);
+        this.skillUpgrades[itemId] = index.gameEntity.getLevel(itemId);
         this.leveledId = itemId;
         /*const data = this.getSkillsData();
         this.eventHandler.sendData('skills-data', data);*/
@@ -555,28 +555,28 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
     key: "initialize",
     value: function initialize() {
       var _this5 = this;
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('skill-points', {
+      index.gameResources.registerResource('skill-points', {
         name: 'Skill Points',
         hasCap: true,
         tags: ['mage', 'skill'],
         defaultCap: 0,
         isService: true
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.registerEffect('mageLevel', {
+      index.gameEffects.registerEffect('mageLevel', {
         name: 'Mage Level',
         defaultValue: 0,
         hasCap: false
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.registerEffect('mage_levelup_requirement', {
+      index.gameEffects.registerEffect('mage_levelup_requirement', {
         name: 'Mage Levelup Requirement',
         defaultValue: 1
       });
-      (0,_skills_db_v2__WEBPACK_IMPORTED_MODULE_2__.registerSkillsStage1)();
-      (0,_permanent_bonuses_db__WEBPACK_IMPORTED_MODULE_3__.registerPermanentBonuses)();
+      (0,skills_db_v2.registerSkillsStage1)();
+      (0,permanent_bonuses_db.registerPermanentBonuses)();
 
       // this.mageRanks = initMageRanks()
 
-      var list = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.listEntitiesByTags(['skill'], false, [], {
+      var list = index.gameEntity.listEntitiesByTags(['skill'], false, [], {
         bRawData: true
       });
       list.forEach(function (item) {
@@ -598,7 +598,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
         acc[skill.id] = skill.modifierGroupId;
         return acc;
       });
-      var entity = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.registerGameEntity('mage', {
+      var entity = index.gameEntity.registerGameEntity('mage', {
         tags: ["mage", "general"],
         name: 'Mage',
         level: 1,
@@ -614,31 +614,31 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
                 },
                 'energy': {
                   A: 1,
-                  B: 9 + game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_strength'),
+                  B: 9 + index.gameEffects.getEffectValue('attribute_strength'),
                   type: 0,
                   label: 'Attribute: Strength'
                 },
                 'health': {
                   A: 1,
-                  B: 9 + game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_vitality'),
+                  B: 9 + index.gameEffects.getEffectValue('attribute_vitality'),
                   type: 1,
                   label: 'Attribute: Vitality'
                 },
                 'knowledge': {
                   A: 1,
-                  B: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_memory'),
+                  B: index.gameEffects.getEffectValue('attribute_memory'),
                   type: 0,
                   label: 'Attribute: Memory'
                 },
                 mana: {
                   A: 0,
-                  B: 0.5 * (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_magic_capability') - 1),
+                  B: 0.5 * (index.gameEffects.getEffectValue('attribute_magic_capability') - 1),
                   type: 0,
                   label: 'Attribute: Magic Capability'
                 },
                 mental_energy: {
                   A: 0,
-                  B: 0.5 * (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_willpower') - 1),
+                  B: 0.5 * (index.gameEffects.getEffectValue('attribute_willpower') - 1),
                   type: 0,
                   label: 'Attribute: Willpower'
                 }
@@ -650,25 +650,25 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
               resources: {
                 energy: {
                   A: 0,
-                  B: 0.01 + 0.01 * game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_stamina'),
+                  B: 0.01 + 0.01 * index.gameEffects.getEffectValue('attribute_stamina'),
                   type: 0,
                   label: 'Attribute: Stamina'
                 },
                 health: {
                   A: 0,
-                  B: 0.01 * (0.5 + game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_recovery')),
+                  B: 0.01 * (0.5 + index.gameEffects.getEffectValue('attribute_recovery')),
                   type: 0,
                   label: 'Attribute: Recovery'
                 },
                 mana: {
                   A: 0,
-                  B: 0.01 * (5 + game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_magic_ability')),
+                  B: 0.01 * (5 + index.gameEffects.getEffectValue('attribute_magic_ability')),
                   type: 0,
                   label: 'Attribute: Magic Ability'
                 },
                 mental_energy: {
                   A: 0,
-                  B: 0.01 * (5 + game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_clarity')),
+                  B: 0.01 * (5 + index.gameEffects.getEffectValue('attribute_clarity')),
                   type: 0,
                   label: 'Attribute: Clarity'
                 },
@@ -685,7 +685,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
               resources: {
                 coins: {
                   A: 0,
-                  B: 0.99 + 0.01 * Math.pow(game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_bargaining'), 0.75),
+                  B: 0.99 + 0.01 * Math.pow(index.gameEffects.getEffectValue('attribute_bargaining'), 0.75),
                   type: 0,
                   label: 'Attribute: Bargaining'
                 }
@@ -739,35 +739,35 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
     key: "getStatistics",
     value: function getStatistics() {
       var result = {};
-      result.totalTimePlayed = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.globalTime;
+      result.totalTimePlayed = index.gameCore.globalTime;
       result.mageLevel = this.mageLevel;
-      result.actionsUnlocked = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.listEntitiesByTags(['action']).filter(function (one) {
-        return game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked(one.id);
+      result.actionsUnlocked = index.gameEntity.listEntitiesByTags(['action']).filter(function (one) {
+        return index.gameEntity.isEntityUnlocked(one.id);
       }).length;
-      result.actionTimes = this.topValues(Object.entries(game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').actions).map(function (_ref9) {
+      result.actionTimes = this.topValues(Object.entries(index.gameCore.getModule('actions').actions).map(function (_ref9) {
         var _ref10 = _slicedToArray(_ref9, 2),
           id = _ref10[0],
           action = _ref10[1];
         return {
-          name: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntity(id).name,
+          name: index.gameEntity.getEntity(id).name,
           value: action.timeInvested
         };
       }));
-      result.actionXP = this.topValues(Object.entries(game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').actions).map(function (_ref11) {
+      result.actionXP = this.topValues(Object.entries(index.gameCore.getModule('actions').actions).map(function (_ref11) {
         var _ref12 = _slicedToArray(_ref11, 2),
           id = _ref12[0],
           action = _ref12[1];
         return {
-          name: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntity(id).name,
+          name: index.gameEntity.getEntity(id).name,
           value: action.xpEarned
         };
       }));
-      result.spellsCasted = this.topValues(Object.entries(game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('magic').spells).map(function (_ref13) {
+      result.spellsCasted = this.topValues(Object.entries(index.gameCore.getModule('magic').spells).map(function (_ref13) {
         var _ref14 = _slicedToArray(_ref13, 2),
           id = _ref14[0],
           spell = _ref14[1];
         return {
-          name: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntity(id).name,
+          name: index.gameEntity.getEntity(id).name,
           value: spell.numCasted
         };
       }));
@@ -780,9 +780,9 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
       var _this$bankedTime;
       this.leveledId = null;
       this.isLeveledUp = false;
-      var rs = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('mage-xp');
+      var rs = index.gameResources.getResource('mage-xp');
       if (rs.amount >= rs.cap) {
-        var rslt = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.levelUpEntity('mage');
+        var rslt = index.gameEntity.levelUpEntity('mage');
         // console.log('levelUp: ', rslt);
         // gameResources.addResource('skill-points', 1);
         this.isLeveledUp = true;
@@ -815,12 +815,12 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
     key: "save",
     value: function save() {
       return {
-        mageLevel: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('mage'),
+        mageLevel: index.gameEntity.getLevel('mage'),
         skillUpgrades: {
           skills: this.skillUpgrades,
           currentVersion: this.actualVersion
         },
-        permanentBonuses: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.listEntitiesByTags(['bonus', 'permanent']).map(function (one) {
+        permanentBonuses: index.gameEntity.listEntitiesByTags(['bonus', 'permanent']).map(function (one) {
           return {
             id: one.id,
             level: one.level
@@ -844,33 +844,33 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
     value: function load(obj) {
       var _obj$skillUpgrades;
       this.mageLevel = (obj === null || obj === void 0 ? void 0 : obj.mageLevel) || 1;
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.setEntityLevel('mage', this.mageLevel);
+      index.gameEntity.setEntityLevel('mage', this.mageLevel);
       for (var key in this.skillUpgrades) {
         this.setSkill(key, 0, true);
       }
       this.skillUpgrades = {};
       if (obj !== null && obj !== void 0 && obj.skillUpgrades && obj !== null && obj !== void 0 && (_obj$skillUpgrades = obj.skillUpgrades) !== null && _obj$skillUpgrades !== void 0 && _obj$skillUpgrades.skills && obj !== null && obj !== void 0 && obj.skillUpgrades.currentVersion && (obj === null || obj === void 0 ? void 0 : obj.skillUpgrades.currentVersion) >= this.actualVersion) {
         for (var id in obj.skillUpgrades.skills) {
-          if (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.entityExists(id)) {
+          if (index.gameEntity.entityExists(id)) {
             this.setSkill(id, obj.skillUpgrades.skills[id], true);
           }
         }
       }
-      var permanent = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.listEntitiesByTags(['bonus', 'permanent']).map(function (one) {
+      var permanent = index.gameEntity.listEntitiesByTags(['bonus', 'permanent']).map(function (one) {
         return {
           id: one.id,
           level: one.level
         };
       });
       permanent.forEach(function (one) {
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.setEntityLevel(one.id, 0, true);
+        index.gameEntity.setEntityLevel(one.id, 0, true);
       });
       if (obj !== null && obj !== void 0 && obj.permanentBonuses) {
         obj.permanentBonuses.forEach(function (_ref15) {
           var id = _ref15.id,
             level = _ref15.level;
-          if (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.entityExists(id)) {
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.setEntityLevel(id, level, true);
+          if (index.gameEntity.entityExists(id)) {
+            index.gameEntity.setEntityLevel(id, level, true);
           }
         });
       }
@@ -907,8 +907,8 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
     key: "setSkill",
     value: function setSkill(skillId, amount) {
       var bForce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.setEntityLevel(skillId, amount, bForce);
-      this.skillUpgrades[skillId] = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel(skillId);
+      index.gameEntity.setEntityLevel(skillId, amount, bForce);
+      this.skillUpgrades[skillId] = index.gameEntity.getLevel(skillId);
     }
   }, {
     key: "resetPerks",
@@ -921,24 +921,24 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getMageData",
     value: function getMageData() {
-      var rs = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('mage-xp');
-      var skills = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('skill-points');
+      var rs = index.gameResources.getResource('mage-xp');
+      var skills = index.gameResources.getResource('skill-points');
       // const rank = gameEntity.getLevel('mage_rank');
       // const rankData = this.getMageRank(gameEntity.getLevel('mage'));
 
       // console.log('rank: ', rankData);
 
       return {
-        mageLevel: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('mage'),
+        mageLevel: index.gameEntity.getLevel('mage'),
         mageXP: rs.amount,
         mageMaxXP: rs.cap,
         skillPoints: skills.balance,
-        timeSpent: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.globalTime,
+        timeSpent: index.gameCore.globalTime,
         isLeveledUp: this.isLeveledUp,
         bankedTime: this.bankedTime,
         settings: this.settings,
         xpBalance: {
-          actions: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').getTotalPlayerXPGains()
+          actions: index.gameCore.getModule('actions').getTotalPlayerXPGains()
         }
         // rankData,
       };
@@ -948,9 +948,9 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
     value: function getSkillsData() {
       var _this6 = this,
         _skillsRs$breakDown;
-      var skills = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.listEntitiesByTags(['skill']);
-      var skillsRs = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('skill-points');
-      console.log('rsData: ', (0,lodash__WEBPACK_IMPORTED_MODULE_4__.cloneDeep)(skillsRs));
+      var skills = index.gameEntity.listEntitiesByTags(['skill']);
+      var skillsRs = index.gameResources.getResource('skill-points');
+      console.log('rsData: ', (0,lodash.cloneDeep)(skillsRs));
       var currentEffects = this.getSkillTreeEffectsUnpacked(this.skillUpgrades);
       var potentialEffects = this.editModeSkills ? this.getSkillTreeEffectsUnpacked(this.editModeSkills) : null;
       return {
@@ -961,12 +961,12 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
             name: entity.name,
             position: entity.uiPosition,
             description: entity.description,
-            max: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntityMaxLevel(entity.id) || 0,
+            max: index.gameEntity.getEntityMaxLevel(entity.id) || 0,
             level: _this6.editModeSkills ? _this6.editModeSkills[entity.id] || 0 : _this6.skillUpgrades[entity.id] || 0,
             diff: _this6.editModeSkills ? (_this6.editModeSkills[entity.id] || 0) - (_this6.skillUpgrades[entity.id] || 0) : 0,
-            affordable: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getAffordable(entity.id),
-            effects: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEffects(entity.id, 1, _this6.editModeSkills ? _this6.editModeSkills[entity.id] || 0 : _this6.skillUpgrades[entity.id] || 0),
-            currentEffects: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEffects(entity.id, 0, _this6.editModeSkills ? _this6.editModeSkills[entity.id] || 0 : _this6.skillUpgrades[entity.id] || 0),
+            affordable: index.gameEntity.getAffordable(entity.id),
+            effects: index.gameEntity.getEffects(entity.id, 1, _this6.editModeSkills ? _this6.editModeSkills[entity.id] || 0 : _this6.skillUpgrades[entity.id] || 0),
+            currentEffects: index.gameEntity.getEffects(entity.id, 0, _this6.editModeSkills ? _this6.editModeSkills[entity.id] || 0 : _this6.skillUpgrades[entity.id] || 0),
             isLeveled: _this6.leveledId === entity.id,
             isCapped: entity.isCapped,
             icon: entity.icon,
@@ -1012,7 +1012,7 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getActiveEffectsData",
     value: function getActiveEffectsData() {
-      var items = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.listEntitiesByTags(['active_effect']);
+      var items = index.gameEntity.listEntitiesByTags(['active_effect']);
       // const presentSpells = items.filter(item => item.isUnlocked);
       // console.log('[debug-error] activeEvents: ', items);
 
@@ -1021,10 +1021,10 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
           var _item$originalId;
           return _objectSpread(_objectSpread({}, item), {}, {
             originalId: (_item$originalId = item.originalId) !== null && _item$originalId !== void 0 ? _item$originalId : item.copyFromId,
-            effects: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEffects(item.id, item.level, 0, false, 1, item.modifier.efficiency),
-            duration: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getAttribute(item.id, 'current_duration'),
+            effects: index.gameEntity.getEffects(item.id, item.level, 0, false, 1, item.modifier.efficiency),
+            duration: index.gameEntity.getAttribute(item.id, 'current_duration'),
             durationProg: 1,
-            className: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getAttribute(item.id, 'className')
+            className: index.gameEntity.getAttribute(item.id, 'className')
           });
         })
       };
@@ -1036,6 +1036,6 @@ var MageModule = /*#__PURE__*/function (_GameModule) {
       this.eventHandler.sendData('active-effects', activeEffectsData);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { MageModule };

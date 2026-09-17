@@ -1,7 +1,7 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 var registerGuilds = function registerGuilds() {
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('guild_merchants_permanent', {
+  index.gameEntity.registerGameEntity('guild_merchants_permanent', {
     tags: ["guild-bonus", "permanent"],
     name: 'Merchants Reputation',
     description: '',
@@ -33,7 +33,7 @@ var registerGuilds = function registerGuilds() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('guild_merchants', {
+  index.gameEntity.registerGameEntity('guild_merchants', {
     tags: ["guild", "purchaseable"],
     name: 'Merchants Guild',
     description: 'Enter merchants guild to become better in understanding how to earn and invest your coins.',
@@ -102,7 +102,7 @@ var registerGuilds = function registerGuilds() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('guild_scholars_permanent', {
+  index.gameEntity.registerGameEntity('guild_scholars_permanent', {
     tags: ["guild-bonus", "permanent"],
     name: 'Scholars Reputation',
     description: '',
@@ -134,7 +134,7 @@ var registerGuilds = function registerGuilds() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('guild_scholars', {
+  index.gameEntity.registerGameEntity('guild_scholars', {
     tags: ["guild", "purchaseable"],
     name: 'Scholars Guild',
     description: 'Become member of young scientists community.',
@@ -203,7 +203,7 @@ var registerGuilds = function registerGuilds() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('guild_mages_permanent', {
+  index.gameEntity.registerGameEntity('guild_mages_permanent', {
     tags: ["guild-bonus", "permanent"],
     name: 'Mages Reputation',
     description: '',
@@ -235,7 +235,7 @@ var registerGuilds = function registerGuilds() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('guild_mages', {
+  index.gameEntity.registerGameEntity('guild_mages', {
     tags: ["guild", "purchaseable"],
     name: 'Mages Guild',
     description: 'Become member of young scientists community.',
@@ -304,7 +304,7 @@ var registerGuilds = function registerGuilds() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('guild_herbalists_permanent', {
+  index.gameEntity.registerGameEntity('guild_herbalists_permanent', {
     tags: ["guild-bonus", "permanent"],
     name: 'Herbalists Reputation',
     description: '',
@@ -334,7 +334,7 @@ var registerGuilds = function registerGuilds() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('guild_herbalists', {
+  index.gameEntity.registerGameEntity('guild_herbalists', {
     tags: ["guild", "purchaseable"],
     name: 'Herbalists Guild',
     description: 'Reveal new alchemy opportunities by entering cauldron masters community.',
@@ -401,7 +401,7 @@ var registerGuilds = function registerGuilds() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('guild_artisans_permanent', {
+  index.gameEntity.registerGameEntity('guild_artisans_permanent', {
     tags: ["guild-bonus", "permanent"],
     name: 'Artisans Reputation',
     description: '',
@@ -431,7 +431,7 @@ var registerGuilds = function registerGuilds() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('guild_artisans', {
+  index.gameEntity.registerGameEntity('guild_artisans', {
     tags: ["guild", "purchaseable"],
     name: 'Artisans Guild',
     description: 'The Artisans Guild is a sanctuary of creativity and innovation, where members craft exquisite items and enhance their own bodies through artful modifications and enchanted designs. From intricate jewelry to empowered prosthetics, they blend beauty and functionality in everything they create. This guild embodies the pursuit of perfection in both craft and self-expression.',

@@ -1,7 +1,7 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 var randomEventScalingFactor = function randomEventScalingFactor(id) {
-  var level = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(id);
+  var level = index.gameEntity.getLevel(id);
   var result = Math.pow(1 + level, 1.5);
   if (level > 100) {
     result *= Math.pow(1.03, level);
@@ -33,7 +33,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_social_training_rate_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_social_training_rate_buff', 1);
           }
         }]
       },
@@ -51,7 +51,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 1);
           }
         }]
       },
@@ -69,7 +69,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 1);
           }
         }]
       }
@@ -98,7 +98,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_physical_training_rate_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_physical_training_rate_buff', 1);
           }
         }]
       },
@@ -116,7 +116,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 1);
           }
         }]
       },
@@ -134,7 +134,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 1);
           }
         }]
       }
@@ -163,7 +163,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 1);
           }
         }]
       },
@@ -181,7 +181,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_social_training_rate_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_social_training_rate_buff', 1);
           }
         }]
       },
@@ -199,7 +199,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 1);
           }
         }]
       }
@@ -228,7 +228,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 1.5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 1.5);
           }
         }, {
           id: 'mental_fatigue',
@@ -238,7 +238,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 0.7);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 0.7);
           }
         }]
       },
@@ -256,7 +256,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 0.5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 0.5);
           }
         }]
       },
@@ -301,7 +301,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_physical_training_rate_buff', 1.5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_physical_training_rate_buff', 1.5);
           }
         }, {
           id: 'energy_debuff_fatigue',
@@ -311,7 +311,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
           }
         }]
       },
@@ -329,7 +329,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_physical_training_rate_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_physical_training_rate_buff', 1);
           }
         }]
       },
@@ -347,7 +347,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 1);
           }
         }, {
           id: 'energy_drain_from_boredom',
@@ -357,7 +357,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 0.5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 0.5);
           }
         }]
       }
@@ -387,7 +387,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 3);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 3);
           }
         }]
       },
@@ -405,8 +405,8 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 4);
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_health_debuff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 4);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_health_debuff', 1);
           }
         }, {
           id: 'health_debuff',
@@ -416,7 +416,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_health_debuff', 2);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_health_debuff', 2);
           }
         }]
       },
@@ -462,7 +462,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 4);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 4);
           }
         }]
       },
@@ -480,8 +480,8 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 5);
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_health_debuff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_health_debuff', 1);
           }
         }, {
           id: 'overwhelming_exhaustion',
@@ -491,7 +491,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_health_debuff', 2);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_health_debuff', 2);
           }
         }]
       },
@@ -537,7 +537,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 4);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 4);
           }
         }]
       },
@@ -555,7 +555,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 5);
           }
         }, {
           id: 'mental_training_boost',
@@ -565,7 +565,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 3);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 3);
           }
         }, {
           id: 'energy_drain',
@@ -575,7 +575,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
           }
         }]
       },
@@ -593,7 +593,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 3);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_learn_rate_buff', 3);
           }
         }]
       }
@@ -623,7 +623,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_social_training_rate_buff', 5);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_social_training_rate_buff', 5);
           }
         }, {
           id: 'mental_training_boost',
@@ -633,7 +633,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 3);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 3);
           }
         }, {
           id: 'energy_drain',
@@ -643,7 +643,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_energy_debuff', 1);
           }
         }]
       },
@@ -661,7 +661,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_social_training_rate_buff', 4);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_social_training_rate_buff', 4);
           }
         }]
       },
@@ -679,7 +679,7 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
             return true;
           },
           onTrigger: function onTrigger() {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 3);
+            index.gameCore.getModule('temporary-effects').triggerEffect('temporary_mental_training_rate_buff', 3);
           }
         }]
       }

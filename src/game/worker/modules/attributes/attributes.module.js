@@ -1,9 +1,9 @@
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_0__ from '../../shared/game-module.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_1__ from '../../../framework/index.js';
-import * as _attributes_db__WEBPACK_IMPORTED_MODULE_2__ from './attributes-db.js';
-import * as game_framework_src_utils_unlocks__WEBPACK_IMPORTED_MODULE_3__ from '../../../framework/src/utils/unlocks.js';
-import * as _shared_utils_math__WEBPACK_IMPORTED_MODULE_4__ from '../../shared/utils/math.js';
-import * as _shared_utils_scopes__WEBPACK_IMPORTED_MODULE_5__ from '../../shared/utils/scopes.js';
+import * as game_module from '../../shared/game-module.js';
+import * as index from '../../../framework/index.js';
+import * as attributes_db from './attributes-db.js';
+import * as unlocks from '../../../framework/src/utils/unlocks.js';
+import * as math from '../../shared/utils/math.js';
+import * as scopes from '../../shared/utils/scopes.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -49,7 +49,7 @@ var AttributesModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(AttributesModule, [{
     key: "initialize",
     value: function initialize() {
-      (0,_attributes_db__WEBPACK_IMPORTED_MODULE_2__.registerAttributes)();
+      (0,attributes_db.registerAttributes)();
     }
   }, {
     key: "tick",
@@ -84,7 +84,7 @@ var AttributesModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getAttributesUnlocks",
     value: function getAttributesUnlocks(showUnlocked) {
-      var items = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.listEffectsByTags(['attribute'], false, [], {
+      var items = index.gameEffects.listEffectsByTags(['attribute'], false, [], {
         listPrevious: showUnlocked
       }).filter(function (one) {
         var _one$nextUnlocks, _one$prevUnlocks;
@@ -100,12 +100,12 @@ var AttributesModule = /*#__PURE__*/function (_GameModule) {
             level: one.nextUnlocks[0].level,
             progress: 100 * one.value / one.nextUnlocks[0].level,
             items: one.nextUnlocks.map(function (unlock) {
-              var ent = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntity(unlock.unlockId);
+              var ent = index.gameEntity.getEntity(unlock.unlockId);
               return _objectSpread(_objectSpread({}, unlock), {}, {
                 meta: {
                   name: ent.name,
                   description: ent.description,
-                  scope: (0,_shared_utils_scopes__WEBPACK_IMPORTED_MODULE_5__.getScope)(ent)
+                  scope: (0,scopes.getScope)(ent)
                 }
               });
             })
@@ -114,8 +114,8 @@ var AttributesModule = /*#__PURE__*/function (_GameModule) {
         return _objectSpread(_objectSpread({}, one), {}, {
           prevUnlocks: ((_one$prevUnlocks2 = one.prevUnlocks) !== null && _one$prevUnlocks2 !== void 0 ? _one$prevUnlocks2 : []).map(function (unlock) {
             var data = {};
-            if (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.entityExists(unlock.unlockId)) {
-              data = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntity(unlock.unlockId);
+            if (index.gameEntity.entityExists(unlock.unlockId)) {
+              data = index.gameEntity.getEntity(unlock.unlockId);
             }
             return _objectSpread(_objectSpread({}, unlock), {}, {
               data: data
@@ -131,7 +131,7 @@ var AttributesModule = /*#__PURE__*/function (_GameModule) {
     key: "getAttributesData",
     value: function getAttributesData() {
       var _this3 = this;
-      var effects = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.listEffectsByTags(['attribute']);
+      var effects = index.gameEffects.listEffectsByTags(['attribute']);
       var list = effects.filter(function (one) {
         return one.isUnlocked;
       }).map(function (effect) {
@@ -150,7 +150,7 @@ var AttributesModule = /*#__PURE__*/function (_GameModule) {
     key: "getAllAttributesData",
     value: function getAllAttributesData() {
       var _this4 = this;
-      var effects = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.listEffectsByTags(['attribute']);
+      var effects = index.gameEffects.listEffectsByTags(['attribute']);
       var list = effects.map(function (effect) {
         var _this4$monitoredData$;
         return _objectSpread(_objectSpread({}, effect), {}, {
@@ -183,6 +183,6 @@ var AttributesModule = /*#__PURE__*/function (_GameModule) {
       this.eventHandler.sendData(label, data);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { AttributesModule };

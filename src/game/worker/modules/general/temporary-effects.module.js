@@ -1,6 +1,6 @@
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_0__ from '../../shared/game-module.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_1__ from '../../../framework/index.js';
-import * as _temporary_effects_db__WEBPACK_IMPORTED_MODULE_2__ from './temporary-effects-db.js';
+import * as game_module from '../../shared/game-module.js';
+import * as index from '../../../framework/index.js';
+import * as temporary_effects_db from './temporary-effects-db.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
@@ -32,7 +32,7 @@ var TemporaryEffectsModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(TemporaryEffectsModule, [{
     key: "initialize",
     value: function initialize() {
-      (0,_temporary_effects_db__WEBPACK_IMPORTED_MODULE_2__.registerTemporaryEffectsDB)();
+      (0,temporary_effects_db.registerTemporaryEffectsDB)();
     }
   }, {
     key: "save",
@@ -46,9 +46,9 @@ var TemporaryEffectsModule = /*#__PURE__*/function (_GameModule) {
     key: "load",
     value: function load(saveObject) {
       for (var key in this.runningEffects) {
-        if (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.entityExists("active_".concat(key))) {
-          game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.setEntityLevel("active_".concat(key), 0, true);
-          game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.unsetEntity("active_".concat(key));
+        if (index.gameEntity.entityExists("active_".concat(key))) {
+          index.gameEntity.setEntityLevel("active_".concat(key), 0, true);
+          index.gameEntity.unsetEntity("active_".concat(key));
         }
       }
       this.runningEffects = {};
@@ -60,14 +60,14 @@ var TemporaryEffectsModule = /*#__PURE__*/function (_GameModule) {
           }
           if (this.runningEffects[id].duration && this.runningEffects[id].duration > 0) {
             this.runningEffects[id].isRunning = true;
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.registerGameEntity("active_".concat(id), {
+            index.gameEntity.registerGameEntity("active_".concat(id), {
               copyFromId: id,
               isAbstract: false,
               tags: ['active_temporary', 'active_effect'],
               scope: 'events',
               level: this.runningEffects[id].level
             });
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.setEntityLevel("active_".concat(id), this.runningEffects[id].level, true);
+            index.gameEntity.setEntityLevel("active_".concat(id), this.runningEffects[id].level, true);
             this.runningEffects[id].duration = saveObject.effects[id].duration;
             // console.log('LoadedEntity: ', `[debug-error] active_${id}`, gameEntity.getEntity(`active_${id}`), gameEntity.getEntity(id));
           }
@@ -82,15 +82,15 @@ var TemporaryEffectsModule = /*#__PURE__*/function (_GameModule) {
         this.runningEffects[itemId].isCasted = false;
         if (this.runningEffects[itemId].duration > 0) {
           this.runningEffects[itemId].duration -= delta;
-          if (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.entityExists("active_".concat(itemId))) {
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.setAttribute("active_".concat(itemId), 'current_duration', this.runningEffects[itemId].duration);
+          if (index.gameEntity.entityExists("active_".concat(itemId))) {
+            index.gameEntity.setAttribute("active_".concat(itemId), 'current_duration', this.runningEffects[itemId].duration);
           }
         }
         if (this.runningEffects[itemId].duration <= 0 && this.runningEffects[itemId].isRunning) {
           this.runningEffects[itemId].duration = 0;
           this.runningEffects[itemId].isRunning = false;
-          if (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.entityExists("active_".concat(itemId))) {
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.unsetEntity("active_".concat(itemId));
+          if (index.gameEntity.entityExists("active_".concat(itemId))) {
+            index.gameEntity.unsetEntity("active_".concat(itemId));
           }
         }
       }
@@ -100,10 +100,10 @@ var TemporaryEffectsModule = /*#__PURE__*/function (_GameModule) {
     value: function triggerEffect(id) {
       var level = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       try {
-        var effect = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntity(id);
+        var effect = index.gameEntity.getEntity(id);
       } catch (e) {
         console.error(e);
-        console.warn('Entities: ', game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.listEntitiesByTags(['temporary']));
+        console.warn('Entities: ', index.gameEntity.listEntitiesByTags(['temporary']));
       }
       if (!this.runningEffects[id]) {
         this.runningEffects[id] = {
@@ -116,20 +116,20 @@ var TemporaryEffectsModule = /*#__PURE__*/function (_GameModule) {
       this.runningEffects[id].isRunning = true;
       // this.runningEffects[id].duration = 0;
 
-      if (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getAttribute(id, 'duration') && !game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.entityExists("active_".concat(id))) {
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.registerGameEntity("active_".concat(id), {
+      if (index.gameEntity.getAttribute(id, 'duration') && !index.gameEntity.entityExists("active_".concat(id))) {
+        index.gameEntity.registerGameEntity("active_".concat(id), {
           copyFromId: id,
           isAbstract: false,
           level: level,
           tags: ['active_temporary', 'active_effect'],
           scope: 'events'
         });
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.setEntityLevel("active_".concat(id), level !== null && level !== void 0 ? level : 1, true);
+        index.gameEntity.setEntityLevel("active_".concat(id), level !== null && level !== void 0 ? level : 1, true);
       }
-      this.runningEffects[id].duration = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getAttribute(id, 'duration');
+      this.runningEffects[id].duration = index.gameEntity.getAttribute(id, 'duration');
       this.runningEffects[id].isRunning = true;
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { TemporaryEffectsModule };

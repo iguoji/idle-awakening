@@ -1,5 +1,5 @@
-import * as _game_entity__WEBPACK_IMPORTED_MODULE_0__ from './game-entity.js';
+import * as game_entity from './game-entity.js';
 
 
 
-export const gameEntity = _game_entity__WEBPACK_IMPORTED_MODULE_0__.gameEntity;
+export const gameEntity = game_entity.gameEntity;

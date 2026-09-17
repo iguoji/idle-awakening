@@ -1,7 +1,7 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 var registerAspects = function registerAspects() {
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('attribute_strength_aspect', {
+  index.gameEntity.registerGameEntity('attribute_strength_aspect', {
     name: 'Strength Intensity',
     description: 'Increase strength-based actions intensity (meaning speed up both consumption and income)',
     tags: ['aspect', 'physical'],
@@ -25,7 +25,7 @@ var registerAspects = function registerAspects() {
       return true;
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('attribute_charisma_aspect', {
+  index.gameEntity.registerGameEntity('attribute_charisma_aspect', {
     name: 'Charisma Intensity',
     description: 'Increase charisma-based actions intensity (meaning speed up both consumption and income)',
     tags: ['aspect', 'social'],
@@ -49,7 +49,7 @@ var registerAspects = function registerAspects() {
       return true;
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('attribute_patience_aspect', {
+  index.gameEntity.registerGameEntity('attribute_patience_aspect', {
     name: 'Patience Intensity',
     description: 'Increase patience-based actions intensity (meaning speed up both consumption and income)',
     tags: ['aspect', 'patience'],

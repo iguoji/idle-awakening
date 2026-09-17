@@ -1,12 +1,12 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 var registerPermanentBonuses = function registerPermanentBonuses() {
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_titanleaf_effect', {
+  index.gameEntity.registerGameEntity('rare_titanleaf_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Titan Leaf',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     attributes: {
       isCollectable: false
@@ -24,12 +24,12 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_heartroot_effect', {
+  index.gameEntity.registerGameEntity('rare_heartroot_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Heartroot',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     attributes: {
       isCollectable: false
@@ -47,12 +47,12 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_energloom_effect', {
+  index.gameEntity.registerGameEntity('rare_energloom_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Energloom',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     attributes: {
       isCollectable: false
@@ -70,12 +70,12 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_lifebloom_effect', {
+  index.gameEntity.registerGameEntity('rare_lifebloom_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Lifebloom',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     attributes: {
       isCollectable: false
@@ -93,12 +93,12 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_stillfern_effect', {
+  index.gameEntity.registerGameEntity('rare_stillfern_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Stillfern',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     attributes: {
       isCollectable: false
@@ -116,12 +116,12 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_mindroot_effect', {
+  index.gameEntity.registerGameEntity('rare_mindroot_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Mindroot',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     attributes: {
       isCollectable: false
@@ -139,12 +139,12 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_azureblossom_effect', {
+  index.gameEntity.registerGameEntity('rare_azureblossom_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Azureblossom',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     attributes: {
       isCollectable: false
@@ -162,12 +162,12 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_ironvine_effect', {
+  index.gameEntity.registerGameEntity('rare_ironvine_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Ironvine',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
     },
     attributes: {
       isCollectable: false
@@ -186,12 +186,12 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_mindspire_effect', {
+  index.gameEntity.registerGameEntity('rare_mindspire_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Mindspire',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
     },
     attributes: {
       isCollectable: false
@@ -210,12 +210,12 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_whisperleaf_effect', {
+  index.gameEntity.registerGameEntity('rare_whisperleaf_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Whisperleaf',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
     },
     attributes: {
       isCollectable: false
@@ -234,12 +234,12 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_sageroot_effect', {
+  index.gameEntity.registerGameEntity('rare_sageroot_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Sageroot',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
     },
     attributes: {
       isCollectable: false
@@ -257,12 +257,12 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('rare_verdant_coil_effect', {
+  index.gameEntity.registerGameEntity('rare_verdant_coil_effect', {
     tags: ["bonus", "permanent", "herbal"],
     name: 'Verdant Coil',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0;
+      return index.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0;
     },
     attributes: {
       isCollectable: false

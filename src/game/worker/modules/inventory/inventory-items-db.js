@@ -1,4 +1,4 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -8,7 +8,7 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var updateLevelBy = function updateLevelBy(id, amount) {
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(id, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(id) + amount, true);
+  index.gameEntity.setEntityLevel(id, index.gameEntity.getLevel(id) + amount, true);
 };
 var metabolismMod = function metabolismMod(attr) {
   return attr > 1 ? 1. / Math.pow(attr, 0.25) : 1.;
@@ -39,7 +39,7 @@ var getResourceModifierDataSearchable = function getResourceModifierDataSearchab
       var _searchables$type;
       (_searchables$type = searchables[type]).push.apply(_searchables$type, _toConsumableArray(Object.keys(rObj[type]).map(function (one) {
         var _gameEffects$getEffec;
-        return type === 'resources' ? game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(one).name.toLowerCase() : (_gameEffects$getEffec = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect(one)) === null || _gameEffects$getEffec === void 0 ? void 0 : _gameEffects$getEffec.name.toLowerCase();
+        return type === 'resources' ? index.gameResources.getResource(one).name.toLowerCase() : (_gameEffects$getEffec = index.gameEffects.getEffect(one)) === null || _gameEffects$getEffec === void 0 ? void 0 : _gameEffects$getEffec.name.toLowerCase();
       })));
     };
     for (var type in rObj) {
@@ -51,11 +51,11 @@ var getResourceModifierDataSearchable = function getResourceModifierDataSearchab
 var registerInventoryItem = function registerInventoryItem(id, options) {
   var searchableBuUsage = getResourceModifierDataSearchable(options.usageGain);
   options.searchableMeta = getResourceModifierDataSearchable(options.resourceModifier, searchableBuUsage);
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.registerResource(id, options);
+  index.gameResources.registerResource(id, options);
 };
 var registerInventoryItems = function registerInventoryItems() {
   var charismaMod = function charismaMod(attr) {
-    return attr > 0 ? 1. / (1. + 0.02 * Math.log2(attr * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('prices_discount'))) : 1.;
+    return attr > 0 ? 1. / (1. + 0.02 * Math.log2(attr * index.gameEffects.getEffectValue('prices_discount'))) : 1.;
   };
   registerInventoryItem('inventory_brightleaf', {
     name: 'Brightleaf',
@@ -75,7 +75,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           effects: {
             plain_learn_rate: {
-              A: 5 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 5 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -84,12 +84,12 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0;
     },
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 20 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 20 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     },
     purchaseRenewRate: 25,
@@ -124,12 +124,12 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0;
     },
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 800 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 800 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     },
     purchaseRenewRate: 10,
@@ -150,7 +150,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             health: {
-              A: 1 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 1 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -161,11 +161,11 @@ var registerInventoryItems = function registerInventoryItems() {
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 5 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 5 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0;
     },
     purchaseRenewRate: 100,
     sellPrice: 1,
@@ -186,7 +186,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             energy: {
-              A: 5 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 5 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -198,11 +198,11 @@ var registerInventoryItems = function registerInventoryItems() {
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 5 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 5 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0;
     },
     sellPrice: 2
   });
@@ -220,7 +220,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             knowledge: {
-              A: 3 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 3 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -231,7 +231,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             health: {
-              A: 5 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 5 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -240,7 +240,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0;
     },
     sellPrice: 40,
     rarity: 0,
@@ -260,7 +260,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             'mage-xp': {
-              A: 500 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 500 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -271,7 +271,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             energy: {
-              A: 1 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 1 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -280,7 +280,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0;
     },
     sellPrice: 80,
     rarity: 0.2
@@ -303,7 +303,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           effects: {
             learning_rate: {
-              A: 0.2 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 0.2 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 1,
               type: 0
             }
@@ -312,7 +312,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0;
     },
     sellPrice: 350,
     rarity: 0.2,
@@ -336,7 +336,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           effects: {
             physical_training_learn_speed: {
-              A: 0.25 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 0.25 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 1,
               type: 0
             }
@@ -345,7 +345,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0;
     },
     sellPrice: 350,
     rarity: 0.2,
@@ -365,7 +365,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             health: {
-              A: 20 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 20 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -374,7 +374,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
     },
     sellPrice: 120,
     rarity: 1,
@@ -398,7 +398,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             health: {
-              A: 5 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 5 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -411,7 +411,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             energy: {
-              A: 0.2 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 0.2 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 1,
               type: 0
             }
@@ -420,7 +420,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
     },
     sellPrice: 150,
     rarity: 1,
@@ -444,7 +444,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             health: {
-              A: 15 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 15 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -457,7 +457,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             mana: {
-              A: 0.1 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 0.1 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 1,
               type: 0
             }
@@ -466,7 +466,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0 && index.gameEntity.getLevel('shop_item_spellbook') > 0;
     },
     sellPrice: 200,
     rarity: 2,
@@ -490,7 +490,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           effects: {
             spell_xp_rate: {
-              A: 0.5 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 0.5 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 1,
               type: 0
             }
@@ -499,7 +499,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0 && index.gameEntity.getLevel('shop_item_spellbook') > 0;
     },
     sellPrice: 20000,
     rarity: 2,
@@ -524,7 +524,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           effects: {
             physical_training_learn_speed: {
-              A: 0.2 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 0.2 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 1,
               type: 0
             }
@@ -533,7 +533,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0;
     },
     sellPrice: 20000,
     rarity: 2,
@@ -558,7 +558,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           effects: {
             social_training_learning_rate: {
-              A: 0.2 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 0.2 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 1,
               type: 0
             }
@@ -567,7 +567,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0;
     },
     sellPrice: 20000,
     rarity: 2,
@@ -583,13 +583,13 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_woodcutter');
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.isEntityUnlocked('action_woodcutter');
     },
     sellPrice: 1200,
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 5000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 5000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     }
   });
@@ -602,7 +602,7 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('spell_conjure_water');
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.isEntityUnlocked('spell_conjure_water');
     },
     sellPrice: 16000
   });
@@ -615,7 +615,7 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('spell_conjure_air');
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.isEntityUnlocked('spell_conjure_air');
     },
     sellPrice: 16000
   });
@@ -628,7 +628,7 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('spell_conjure_earth');
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.isEntityUnlocked('spell_conjure_earth');
     },
     sellPrice: 16000
   });
@@ -641,7 +641,7 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('spell_conjure_spark');
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.isEntityUnlocked('spell_conjure_spark');
     },
     sellPrice: 25000
   });
@@ -654,13 +654,13 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     sellPrice: 5600,
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 50000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 50000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     }
   });
@@ -673,13 +673,13 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_paper_working') > 0;
+      return index.gameEntity.getLevel('shop_item_paper_working') > 0;
     },
     sellPrice: 14200,
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 125000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 125000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     }
   });
@@ -692,13 +692,13 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_paper_enhance') > 0;
+      return index.gameEntity.getLevel('shop_item_paper_enhance') > 0;
     },
     sellPrice: 320000,
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 6400000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 6400000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     },
     purchaseRenewRate: 0.1
@@ -712,13 +712,13 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     sellPrice: 10000,
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 75000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 75000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     }
   });
@@ -736,13 +736,13 @@ var registerInventoryItems = function registerInventoryItems() {
       level: 1
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_quarrying');
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.isEntityUnlocked('action_quarrying');
     },
     sellPrice: 1625,
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 12500 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 12500 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     }
   });
@@ -760,13 +760,13 @@ var registerInventoryItems = function registerInventoryItems() {
       level: 1
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_mining');
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.isEntityUnlocked('action_mining');
     },
     sellPrice: 15625,
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 125000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 125000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     }
   });
@@ -784,13 +784,13 @@ var registerInventoryItems = function registerInventoryItems() {
       level: 2
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_quarrying');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('action_quarrying');
     },
     sellPrice: 12000,
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 800000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 800000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     },
     purchaseRenewRate: 0.25
@@ -809,13 +809,13 @@ var registerInventoryItems = function registerInventoryItems() {
       level: 2
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_quarrying');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('action_quarrying');
     },
     sellPrice: 16000,
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 1000000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 1000000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     },
     purchaseRenewRate: 0.25
@@ -829,7 +829,7 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_quarrying') && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_strength') >= 5000;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('action_quarrying') && index.gameEffects.getEffectValue('attribute_strength') >= 5000;
     },
     sellPrice: 324000
     /*get_cost: (amount = 1) => ({
@@ -850,13 +850,13 @@ var registerInventoryItems = function registerInventoryItems() {
       level: 2
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_mining');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('action_mining');
     },
     sellPrice: 160000,
     get_cost: function get_cost() {
       var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return {
-        coins: amount * 10000000 * charismaMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+        coins: amount * 10000000 * charismaMod(index.gameEffects.getEffectValue('attribute_charisma'))
       };
     }
   });
@@ -874,7 +874,7 @@ var registerInventoryItems = function registerInventoryItems() {
       level: 7500
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('craft_forged_steel');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('craft_forged_steel');
     },
     sellPrice: 560000
   });
@@ -887,7 +887,7 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_ink_crafting') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.getLevel('shop_item_ink_crafting') > 0;
     },
     sellPrice: 160000
   });
@@ -900,7 +900,7 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_better_ink_crafting') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.getLevel('shop_item_better_ink_crafting') > 0;
     },
     sellPrice: 160000
   });
@@ -913,7 +913,7 @@ var registerInventoryItems = function registerInventoryItems() {
     onUse: function onUse(amount) {},
     attributes: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_cartography') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.getLevel('shop_item_cartography') > 0;
     },
     sellPrice: 160000
   });
@@ -936,7 +936,7 @@ var registerInventoryItems = function registerInventoryItems() {
           resources: {
             energy: {
               A: 0,
-              B: 5 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              B: 5 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               type: 0
             }
           }
@@ -944,7 +944,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     sellPrice: 225
   });
@@ -967,7 +967,7 @@ var registerInventoryItems = function registerInventoryItems() {
           resources: {
             health: {
               A: 0,
-              B: 5 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              B: 5 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               type: 0
             }
           }
@@ -975,7 +975,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     sellPrice: 425
   });
@@ -997,7 +997,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           effects: {
             learning_rate: {
-              A: 0.5 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 0.5 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 1,
               type: 0
             }
@@ -1008,12 +1008,12 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             health: {
-              A: 10 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 10 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             },
             mana: {
-              A: 5 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 5 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -1022,7 +1022,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     sellPrice: 1500
   });
@@ -1042,7 +1042,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             'mage-xp': {
-              A: 25000 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 25000 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -1051,7 +1051,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     sellPrice: 1500
   });
@@ -1062,7 +1062,7 @@ var registerInventoryItems = function registerInventoryItems() {
     defaultCap: 0,
     isAbstract: true,
     onUse: function onUse(amount) {
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('mage').resetPerks();
+      index.gameCore.getModule('mage').resetPerks();
     },
     getUsageCooldown: function getUsageCooldown() {
       return 3600 * 24;
@@ -1082,7 +1082,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     sellPrice: 15000
   });
@@ -1104,7 +1104,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           effects: {
             crafting_efficiency: {
-              A: 0.5 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 0.5 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 1,
               type: 0
             }
@@ -1115,7 +1115,7 @@ var registerInventoryItems = function registerInventoryItems() {
         return {
           resources: {
             health: {
-              A: 100 * metabolismIntensityMod(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('metabolism_rate')),
+              A: 100 * metabolismIntensityMod(index.gameEffects.getEffectValue('metabolism_rate')),
               B: 0,
               type: 0
             }
@@ -1124,7 +1124,7 @@ var registerInventoryItems = function registerInventoryItems() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     sellPrice: 15000
   });
@@ -1152,7 +1152,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
     },
     sellPrice: 10000,
     rarity: 4
@@ -1178,7 +1178,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
     },
     sellPrice: 10000,
     rarity: 4
@@ -1204,7 +1204,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
     },
     sellPrice: 10000,
     rarity: 4
@@ -1230,7 +1230,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_1') > 0;
     },
     sellPrice: 10000,
     rarity: 4
@@ -1256,7 +1256,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     sellPrice: 15000,
     rarity: 5
@@ -1282,7 +1282,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     sellPrice: 15000,
     rarity: 5
@@ -1308,7 +1308,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     sellPrice: 15000,
     rarity: 5
@@ -1334,7 +1334,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     sellPrice: 15000,
     rarity: 5
@@ -1360,7 +1360,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     sellPrice: 15000,
     rarity: 5
@@ -1386,7 +1386,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     sellPrice: 15000,
     rarity: 5
@@ -1412,7 +1412,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
     },
     sellPrice: 15000,
     rarity: 5
@@ -1438,7 +1438,7 @@ var registerInventoryItems = function registerInventoryItems() {
     usageGain: {},
     resourceModifier: {},
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0;
+      return index.gameEntity.getLevel('shop_item_backpack') > 0 && index.gameEntity.getLevel('shop_item_herbs_handbook_3') > 0;
     },
     sellPrice: 15000,
     rarity: 5

@@ -1,7 +1,7 @@
-import * as _game_resources__WEBPACK_IMPORTED_MODULE_0__ from './game-resources.js';
-import * as _game_effects__WEBPACK_IMPORTED_MODULE_1__ from './game-effects.js';
-import * as _utils_formulas__WEBPACK_IMPORTED_MODULE_2__ from '../utils/formulas.js';
-import * as _utils_consts__WEBPACK_IMPORTED_MODULE_3__ from '../utils/consts.js';
+import * as game_resources from './game-resources.js';
+import * as game_effects from './game-effects.js';
+import * as formulas from '../utils/formulas.js';
+import * as consts from '../utils/consts.js';
 
 class ResourceApi {
 
@@ -19,7 +19,7 @@ class ResourceApi {
             const results = [];
             for(const key in toUnpack) {
                 const formula = toUnpack[key];
-                const efft = type === 'resources' ? _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(key) : _game_effects__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffect(key);
+                const efft = type === 'resources' ? game_resources.gameResources.getResource(key) : game_effects.gameEffects.getEffect(key);
                 if(efft.unlockCondition) {
                     if(!efft.unlockCondition()) {
                         continue;
@@ -29,14 +29,14 @@ class ResourceApi {
                 const item = {
                     id: key,
                     name: basic_name,
-                    value: _utils_formulas__WEBPACK_IMPORTED_MODULE_2__.Formulas.calculateValue(formula, lvl)*customMultiplier,
+                    value: formulas.Formulas.calculateValue(formula, lvl)*customMultiplier,
                     scope,
                     type
                 };
-                if(item.value == null || Math.abs(item.value) < _utils_consts__WEBPACK_IMPORTED_MODULE_3__.SMALL_NUMBER) {
+                if(item.value == null || Math.abs(item.value) < consts.SMALL_NUMBER) {
                     continue;
                 }
-                if((key === 'multiplier' || key === 'capMult') && (Math.abs(item.value - 1) < _utils_consts__WEBPACK_IMPORTED_MODULE_3__.SMALL_NUMBER)) {
+                if((key === 'multiplier' || key === 'capMult') && (Math.abs(item.value - 1) < consts.SMALL_NUMBER)) {
                     continue;
                 }
                 results.push(item);

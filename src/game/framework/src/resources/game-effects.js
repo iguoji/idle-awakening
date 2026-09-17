@@ -1,4 +1,4 @@
-import * as _utils_unlocks__WEBPACK_IMPORTED_MODULE_0__ from '../utils/unlocks.js';
+import * as unlocks from '../utils/unlocks.js';
 
 class GameEffects {
 
@@ -108,9 +108,9 @@ class GameEffects {
     listPrevUnlocks(id) {
         const effect = this.getEffect(id);
 
-        if(!_utils_unlocks__WEBPACK_IMPORTED_MODULE_0__.gameUnlocks.unlockMapping['effect']?.[id]) return null;
+        if(!unlocks.gameUnlocks.unlockMapping['effect']?.[id]) return null;
 
-        return _utils_unlocks__WEBPACK_IMPORTED_MODULE_0__.gameUnlocks.getPreviousUnlocks(_utils_unlocks__WEBPACK_IMPORTED_MODULE_0__.gameUnlocks.unlockMapping['effect'][id], effect.value, id === 'attribute_magic_ability');
+        return unlocks.gameUnlocks.getPreviousUnlocks(unlocks.gameUnlocks.unlockMapping['effect'][id], effect.value, id === 'attribute_magic_ability');
     }
 
     listEffectsByTags(tags, isOr = false, excludeIds = [], options = {}) {
@@ -139,9 +139,9 @@ class GameEffects {
     getNextEffectUnlock(id) {
         const effect = this.getEffectValue(id);
 
-        if(!_utils_unlocks__WEBPACK_IMPORTED_MODULE_0__.gameUnlocks.unlockMapping['effect']?.[id]) return null;
+        if(!unlocks.gameUnlocks.unlockMapping['effect']?.[id]) return null;
 
-        return _utils_unlocks__WEBPACK_IMPORTED_MODULE_0__.gameUnlocks.findNextUnlocksArray(_utils_unlocks__WEBPACK_IMPORTED_MODULE_0__.gameUnlocks.unlockMapping['effect'][id], effect);
+        return unlocks.gameUnlocks.findNextUnlocksArray(unlocks.gameUnlocks.unlockMapping['effect'][id], effect);
     }
 
     isEffectUnlocked(id) {
@@ -150,7 +150,7 @@ class GameEffects {
 
     fetchAllUnlocks() {
         const result = [];
-        for (const unlockerId in _utils_unlocks__WEBPACK_IMPORTED_MODULE_0__.gameUnlocks.unlockMapping['effect']) {
+        for (const unlockerId in unlocks.gameUnlocks.unlockMapping['effect']) {
             if(this.isEffectUnlocked(unlockerId)) {
                 result.push({...this.getEffect(unlockerId), nextUnlock: this.getNextEffectUnlock(unlockerId)})
             }

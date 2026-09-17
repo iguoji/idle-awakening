@@ -1,12 +1,12 @@
-import * as _actions_db__WEBPACK_IMPORTED_MODULE_0__ from './actions-db.js';
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_1__ from '../../shared/game-module.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_2__ from '../../../framework/index.js';
-import * as _action_lists_submodule__WEBPACK_IMPORTED_MODULE_3__ from './action-lists.submodule.js';
-import * as _shared_utils_math__WEBPACK_IMPORTED_MODULE_4__ from '../../shared/utils/math.js';
-import * as game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_5__ from '../../../framework/src/utils/consts.js';
-import * as _aspect_db__WEBPACK_IMPORTED_MODULE_6__ from './aspect-db.js';
-import * as lodash__WEBPACK_IMPORTED_MODULE_7__ from 'lodash';
-import * as _shared_utils_scopes__WEBPACK_IMPORTED_MODULE_8__ from '../../shared/utils/scopes.js';
+import * as actions_db from './actions-db.js';
+import * as game_module from '../../shared/game-module.js';
+import * as index from '../../../framework/index.js';
+import * as action_lists_submodule from './action-lists.submodule.js';
+import * as math from '../../shared/utils/math.js';
+import * as consts from '../../../framework/src/utils/consts.js';
+import * as aspect_db from './aspect-db.js';
+import * as lodash from 'lodash';
+import * as scopes from '../../shared/utils/scopes.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
@@ -96,7 +96,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
     _this.activeActions = [];
     _this.actions = {};
     _this.selectedFilterId = 'all';
-    _this.lists = new _action_lists_submodule__WEBPACK_IMPORTED_MODULE_3__.ActionListsSubmodule();
+    _this.lists = new action_lists_submodule.ActionListsSubmodule();
     _this.focus = null;
     _this.showHidden = false;
     _this.aspectUpdateCd = 0;
@@ -105,7 +105,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       selectedScopes: ['name', 'tags']
     };
     _this.aspectsSettings = {};
-    _this.customFilters = (0,lodash__WEBPACK_IMPORTED_MODULE_7__.cloneDeep)(DEFAULT_FILTERS);
+    _this.customFilters = (0,lodash.cloneDeep)(DEFAULT_FILTERS);
     _this.customFiltersOrder = Object.keys(_this.customFilters);
     _this.eventHandler.registerHandler('query-actions-running', function (payload) {
       var rn = _this.getRunningActionsInfo();
@@ -184,7 +184,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       });
     });
     _this.eventHandler.registerHandler('set-action-aspect-level', function (payload) {
-      var keyAttr = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAttribute(payload.id, 'keyAttribute');
+      var keyAttr = index.gameEntity.getAttribute(payload.id, 'keyAttribute');
       _this.setAspectLevel(keyAttr, payload.level);
       _this.sendActionsData(_this.selectedFilterId, {
         searchData: _this.searchData
@@ -216,7 +216,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
     _this.eventHandler.registerHandler('query-action-xp-breakdown', function (payload) {
       var eff = undefined;
       if (_this.isRunningAction(payload.id)) {
-        eff = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntityEfficiency("runningAction_".concat(payload.id));
+        eff = index.gameEntity.getEntityEfficiency("runningAction_".concat(payload.id));
       }
       var breakdowns = _this.getLearningRate(payload.id, eff, true);
       breakdowns.nextEtas = _this.getEtasNext(payload.id);
@@ -230,14 +230,14 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(ActionsModule, [{
     key: "initialize",
     value: function initialize() {
-      game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.registerGameEntity('runningAction', {
+      index.gameEntity.registerGameEntity('runningAction', {
         name: 'Idling',
         level: 0
       });
-      (0,_actions_db__WEBPACK_IMPORTED_MODULE_0__.registerActionsStage1)();
-      (0,_aspect_db__WEBPACK_IMPORTED_MODULE_6__.registerAspects)();
+      (0,actions_db.registerActionsStage1)();
+      (0,aspect_db.registerAspects)();
       this.actions = {};
-      this.rankableCached = Object.values(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.entities).filter(function (one) {
+      this.rankableCached = Object.values(index.gameEntity.entities).filter(function (one) {
         var _one$attributes;
         return (_one$attributes = one.attributes) === null || _one$attributes === void 0 ? void 0 : _one$attributes.isRankAvailable;
       }).map(function (re) {
@@ -247,7 +247,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getActionRank",
     value: function getActionRank(id) {
-      return Math.floor(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getLevel(id) / 100);
+      return Math.floor(index.gameEntity.getLevel(id) / 100);
     }
   }, {
     key: "getRankBonus",
@@ -258,12 +258,12 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
     key: "regenerateRanks",
     value: function regenerateRanks() {
       var _this2 = this;
-      if (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.entityExists('system_action_ranks_multiplier')) {
-        game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.unsetEntity('system_action_ranks_multiplier');
+      if (index.gameEntity.entityExists('system_action_ranks_multiplier')) {
+        index.gameEntity.unsetEntity('system_action_ranks_multiplier');
       }
       var effectsRanks = this.rankableCached.reduce(function (acc, id) {
         var rank = _this2.getActionRank(id);
-        var effect_id = (0,_actions_db__WEBPACK_IMPORTED_MODULE_0__.getRankId)(id);
+        var effect_id = (0,actions_db.getRankId)(id);
         var formulaA = _this2.getRankBonus(rank);
         return _objectSpread(_objectSpread({}, acc), {}, _defineProperty({}, effect_id, {
           A: 0,
@@ -274,7 +274,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
 
       // console.log('effectsRanks', effectsRanks);
 
-      game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.registerGameEntity('system_action_ranks_multiplier', {
+      index.gameEntity.registerGameEntity('system_action_ranks_multiplier', {
         name: 'Action Rank',
         resourceModifier: {
           multiplier: {
@@ -282,24 +282,24 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
           }
         }
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.setEntityLevel('system_action_ranks_multiplier', 1, true);
+      index.gameEntity.setEntityLevel('system_action_ranks_multiplier', 1, true);
     }
   }, {
     key: "getAttributeAspectReq",
     value: function getAttributeAspectReq(attribute_id) {
-      return Math.max(1, 25 / game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue("aspect_".concat(attribute_id, "_reduction")));
+      return Math.max(1, 25 / index.gameEffects.getEffectValue("aspect_".concat(attribute_id, "_reduction")));
     }
   }, {
     key: "getAspectMaxLevel",
     value: function getAspectMaxLevel(attribute_id) {
-      return Math.floor(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue(attribute_id) / this.getAttributeAspectReq(attribute_id));
+      return Math.floor(index.gameEffects.getEffectValue(attribute_id) / this.getAttributeAspectReq(attribute_id));
     }
   }, {
     key: "setAspectLevel",
     value: function setAspectLevel(attribute_id, level) {
       var actLevel = Math.min(this.getAspectMaxLevel(attribute_id), Math.max(0, Math.floor(level !== null && level !== void 0 ? level : 0)));
-      if (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.entityExists("".concat(attribute_id, "_aspect"))) {
-        game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.setEntityLevel("".concat(attribute_id, "_aspect"), actLevel, true);
+      if (index.gameEntity.entityExists("".concat(attribute_id, "_aspect"))) {
+        index.gameEntity.setEntityLevel("".concat(attribute_id, "_aspect"), actLevel, true);
       }
     }
   }, {
@@ -326,7 +326,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         if (entity.attributes.primaryAttribute === this.monitorData.id) {
           return 'use';
         }
-        var increment = this.packEffects(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects(entity.id, 1, ((_this$actions$entity$ = this.actions[entity.id]) === null || _this$actions$entity$ === void 0 ? void 0 : _this$actions$entity$.level) || 1, true), function (item) {
+        var increment = this.packEffects(index.gameEntity.getEffects(entity.id, 1, ((_this$actions$entity$ = this.actions[entity.id]) === null || _this$actions$entity$ === void 0 ? void 0 : _this$actions$entity$.level) || 1, true), function (item) {
           return item.type === 'effects';
         });
         if ((_increment$this$monit = increment[this.monitorData.id]) !== null && _increment$this$monit !== void 0 && _increment$this$monit.value) {
@@ -347,7 +347,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       }
       if (this.monitorData.type === 'resource') {
         var _this$actions$entity$2, _rsEff$this$monitorDa;
-        var rsEff = this.packEffects(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects(entity.id, 0, ((_this$actions$entity$2 = this.actions[entity.id]) === null || _this$actions$entity$2 === void 0 ? void 0 : _this$actions$entity$2.level) || 1, true).filter(function (eff) {
+        var rsEff = this.packEffects(index.gameEntity.getEffects(entity.id, 0, ((_this$actions$entity$2 = this.actions[entity.id]) === null || _this$actions$entity$2 === void 0 ? void 0 : _this$actions$entity$2.level) || 1, true).filter(function (eff) {
           return eff.type === 'resources';
         }));
         if ((_rsEff$this$monitorDa = rsEff[this.monitorData.id]) !== null && _rsEff$this$monitorDa !== void 0 && _rsEff$this$monitorDa.value) {
@@ -360,9 +360,9 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
     value: function getDiscount(id) {
       var _gameEntity$getEntity;
       var discFactor = 1.;
-      if ((_gameEntity$getEntity = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).discountEffects) !== null && _gameEntity$getEntity !== void 0 && _gameEntity$getEntity.length) {
-        game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).discountEffects.forEach(function (effectId) {
-          discFactor /= game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue(effectId);
+      if ((_gameEntity$getEntity = index.gameEntity.getEntity(id).discountEffects) !== null && _gameEntity$getEntity !== void 0 && _gameEntity$getEntity.length) {
+        index.gameEntity.getEntity(id).discountEffects.forEach(function (effectId) {
+          discFactor /= index.gameEffects.getEffectValue(effectId);
         });
       }
       return discFactor;
@@ -373,7 +373,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       var _this$actions$id$leve, _this$actions$id;
       var lvl = (_this$actions$id$leve = (_this$actions$id = this.actions[id]) === null || _this$actions$id === void 0 ? void 0 : _this$actions$id.level) !== null && _this$actions$id$leve !== void 0 ? _this$actions$id$leve : 1;
       var discFactor = this.getDiscount(id);
-      return Math.max(1, discFactor * game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAttribute(id, 'baseXPCost', 50) * Math.pow(1.01, lvl - 1) * (0.8 + 0.2 * lvl));
+      return Math.max(1, discFactor * index.gameEntity.getAttribute(id, 'baseXPCost', 50) * Math.pow(1.01, lvl - 1) * (0.8 + 0.2 * lvl));
     }
   }, {
     key: "reassertRunningEfforts",
@@ -386,8 +386,8 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         var mult = 1. / totalEffort;
         this.activeActions.forEach(function (act, index) {
           _this3.activeActions[index].effort *= mult;
-          game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(act.id).modifier.effectFactor = _this3.activeActions[index].effort;
-          game_framework__WEBPACK_IMPORTED_MODULE_2__.resourceCalculators.regenerateModifier(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(act.id).modifier.id);
+          index.gameEntity.getEntity(act.id).modifier.effectFactor = _this3.activeActions[index].effort;
+          index.resourceCalculators.regenerateModifier(index.gameEntity.getEntity(act.id).modifier.id);
         });
       }
     }
@@ -419,7 +419,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         };
         return;
       }
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['action']);
+      var entities = index.gameEntity.listEntitiesByTags(['action']);
       this.filtersCache[id] = {};
       entities.forEach(function (entity) {
         var ruleResults = _this4.customFilters[id].rules.map(function (rule) {
@@ -529,12 +529,12 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         oreDrops: {}
       };
       this.aspectUpdateCd -= delta;
-      if (this.aspectUpdateCd <= 0 && game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getLevel('shop_item_aspects_focus') > 0) {
+      if (this.aspectUpdateCd <= 0 && index.gameEntity.getLevel('shop_item_aspects_focus') > 0) {
         this.aspectUpdateCd = 2;
         for (var _key in this.aspectsSettings) {
           if (this.aspectsSettings[_key].maxed) {
-            var attribute_id = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAttribute(_key, 'keyAttribute');
-            if (Math.floor(this.getAspectMaxLevel(attribute_id)) > game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getLevel("".concat(attribute_id, "_aspect"))) {
+            var attribute_id = index.gameEntity.getAttribute(_key, 'keyAttribute');
+            if (Math.floor(this.getAspectMaxLevel(attribute_id)) > index.gameEntity.getLevel("".concat(attribute_id, "_aspect"))) {
               this.setAspectLevel(attribute_id, this.getAspectMaxLevel(attribute_id));
             }
           }
@@ -570,7 +570,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
           // console.log('------------: ', act.id, dxp, delta, this.getLearningRate(act.id, undefined, true));
           _this5.actions[act.originalId].xp += dxp;
           _this5.actions[act.originalId].xpEarned = (_this5.actions[act.originalId].xpEarned || 0) + dxp;
-          var herbDrops = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAttribute(act.originalId, 'possibleRareHerbs', null);
+          var herbDrops = index.gameEntity.getAttribute(act.originalId, 'possibleRareHerbs', null);
           if (herbDrops) {
             if (!rareEvents['herbDrops']) {
               rareEvents['herbDrops'] = {};
@@ -580,20 +580,20 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
             }
           }
           // console.log('Attempt to level up: ', act.originalId, this.actions, this.getActionXPMax(act.originalId))
-          game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.addResource('mage-xp', delta * _this5.getPlayerXPFromAction(act.originalId));
+          index.gameResources.addResource('mage-xp', delta * _this5.getPlayerXPFromAction(act.originalId));
           if (_this5.actions[act.originalId].xp >= _this5.getActionXPMax(act.originalId)) {
             _this5.actions[act.originalId].level++;
             _this5.actions[act.originalId].xp = 0;
-            game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.setEntityLevel(act.originalId, _this5.actions[act.originalId].level, true);
-            game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.setEntityLevel(act.id, _this5.actions[act.originalId].level, true);
+            index.gameEntity.setEntityLevel(act.originalId, _this5.actions[act.originalId].level, true);
+            index.gameEntity.setEntityLevel(act.id, _this5.actions[act.originalId].level, true);
             // console.log('Leveled up: ', gameEntity.getLevel(act.id), gameEntity.getLevel(act.originalId));
             _this5.regenerateRanks();
             _this5.actions[act.originalId].isLeveled = true;
-            if (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.isCapped(act.originalId)) {
+            if (index.gameEntity.isCapped(act.originalId)) {
               _this5.dropRunningAction(act.originalId);
               _this5.reassertRunningEfforts();
             }
-            game_framework__WEBPACK_IMPORTED_MODULE_2__.gameCore.getModule('unlock-notifications').generateNotifications();
+            index.gameCore.getModule('unlock-notifications').generateNotifications();
             // console.log('[SAD]Ticked!')
             _this5.sendActionsData(_this5.selectedFilterId, {
               searchData: _this5.searchData
@@ -602,14 +602,14 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         });
       }
       // check for rare loot
-      if (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('rare_herbs_loot').balance > 0) {
-        var chanceMult = delta * game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('rare_herbs_loot').balance;
+      if (index.gameResources.getResource('rare_herbs_loot').balance > 0) {
+        var chanceMult = delta * index.gameResources.getResource('rare_herbs_loot').balance;
         // console.log('Handling chances for rare loots: ', gameResources.getResource('rare_herbs_loot'), chanceMult);
         if (Math.random() < chanceMult) {
-          var id = (0,_shared_utils_math__WEBPACK_IMPORTED_MODULE_4__.weightedRandomChoice)(rareEvents['herbDrops']);
+          var id = (0,math.weightedRandomChoice)(rareEvents['herbDrops']);
           // console.log('Add: ', id, rareEvents['herbDrops']);
 
-          game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.addResource(id, 1);
+          index.gameResources.addResource(id, 1);
         }
       }
       this.lists.tick(game, delta);
@@ -624,10 +624,10 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         selectedFilterId: this.selectedFilterId,
         searchData: this.searchData,
         focus: this.focus,
-        aspects: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['aspect']).filter(function (one) {
+        aspects: index.gameEntity.listEntitiesByTags(['aspect']).filter(function (one) {
           return one.level > 0;
         }).reduce(function (acc, ent) {
-          return _objectSpread(_objectSpread({}, acc), {}, _defineProperty({}, ent.id, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getLevel(ent.id)));
+          return _objectSpread(_objectSpread({}, acc), {}, _defineProperty({}, ent.id, index.gameEntity.getLevel(ent.id)));
         }, {}),
         aspectsSettings: this.aspectsSettings,
         customFilters: this.customFilters,
@@ -641,10 +641,10 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       for (var key in this.actions) {
         this.setAction(key, 0, true);
       }
-      game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['aspect']).filter(function (one) {
+      index.gameEntity.listEntitiesByTags(['aspect']).filter(function (one) {
         return one.level > 0;
       }).map(function (one) {
-        return game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.setEntityLevel(one.id, 0, true);
+        return index.gameEntity.setEntityLevel(one.id, 0, true);
       });
       this.actions = {};
       this.aspectsSettings = {};
@@ -679,13 +679,13 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       };
       if (saveObject !== null && saveObject !== void 0 && saveObject.aspects) {
         for (var _key3 in saveObject.aspects) {
-          game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.setEntityLevel(_key3, saveObject.aspects[_key3], true);
+          index.gameEntity.setEntityLevel(_key3, saveObject.aspects[_key3], true);
         }
       }
       if (saveObject !== null && saveObject !== void 0 && saveObject.aspectsSettings) {
         this.aspectsSettings = saveObject.aspectsSettings;
       }
-      this.customFilters = (0,lodash__WEBPACK_IMPORTED_MODULE_7__.cloneDeep)(DEFAULT_FILTERS);
+      this.customFilters = (0,lodash.cloneDeep)(DEFAULT_FILTERS);
       if (saveObject !== null && saveObject !== void 0 && saveObject.customFilters) {
         this.customFilters = saveObject === null || saveObject === void 0 ? void 0 : saveObject.customFilters;
         // check if all required are prestnt
@@ -697,7 +697,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
           }
         }
         if (!isValid) {
-          this.customFilters = (0,lodash__WEBPACK_IMPORTED_MODULE_7__.cloneDeep)(DEFAULT_FILTERS);
+          this.customFilters = (0,lodash.cloneDeep)(DEFAULT_FILTERS);
           this.selectedFilterId = 'all';
         }
       }
@@ -716,7 +716,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
     key: "setAction",
     value: function setAction(actionId, amount) {
       var bForce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.setEntityLevel(actionId, amount, bForce);
+      index.gameEntity.setEntityLevel(actionId, amount, bForce);
       if (!this.actions[actionId]) {
         this.actions[actionId] = {
           level: amount,
@@ -731,25 +731,25 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       var _this$isRunningAction;
       var currActs = this.activeActions.length;
       var penalty = currActs < 4 ? 1 : Math.pow((_this$isRunningAction = this.isRunningAction(id)) === null || _this$isRunningAction === void 0 ? void 0 : _this$isRunningAction.effort, 0.25);
-      return 15 + (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('max_focus_time') - 15) * (penalty !== null && penalty !== void 0 ? penalty : 0);
+      return 15 + (index.gameEffects.getEffectValue('max_focus_time') - 15) * (penalty !== null && penalty !== void 0 ? penalty : 0);
     }
   }, {
     key: "getFocusBonus",
     value: function getFocusBonus(time) {
-      return 1 + Math.min(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('max_focus_time'), Math.max(0, time - 15)) * 0.1 * 5 / 285;
+      return 1 + Math.min(index.gameEffects.getEffectValue('max_focus_time'), Math.max(0, time - 15)) * 0.1 * 5 / 285;
     }
   }, {
     key: "getLearningRate",
     value: function getLearningRate(id, eff) {
       var bGetBreakdowns = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var entEff = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntityEfficiency(id);
+      var entEff = index.gameEntity.getEntityEfficiency(id);
       var focusBonus = 1.;
       var effortMult = 1.;
       var breakDowns = {};
-      if (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('plain_learn_rate')) {
+      if (index.gameEffects.getEffectValue('plain_learn_rate')) {
         breakDowns['raw'] = {
           title: 'Plain Learn Bonus',
-          value: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('plain_learn_rate'),
+          value: index.gameEffects.getEffectValue('plain_learn_rate'),
           isPlain: true
         };
       }
@@ -757,14 +757,14 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       if (isRunning) {
         var _this$actions$gameEnt, _this$actions$id2;
         // console.log('EffMult: ', id, eff, entEff, eff == null);
-        focusBonus = ((_this$actions$gameEnt = this.actions[game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).copyFromId]) === null || _this$actions$gameEnt === void 0 || (_this$actions$gameEnt = _this$actions$gameEnt.focus) === null || _this$actions$gameEnt === void 0 ? void 0 : _this$actions$gameEnt.bonus) || ((_this$actions$id2 = this.actions[id]) === null || _this$actions$id2 === void 0 || (_this$actions$id2 = _this$actions$id2.focus) === null || _this$actions$id2 === void 0 ? void 0 : _this$actions$id2.bonus) || 1.;
-        if (Math.abs(1 - focusBonus) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER) {
+        focusBonus = ((_this$actions$gameEnt = this.actions[index.gameEntity.getEntity(id).copyFromId]) === null || _this$actions$gameEnt === void 0 || (_this$actions$gameEnt = _this$actions$gameEnt.focus) === null || _this$actions$gameEnt === void 0 ? void 0 : _this$actions$gameEnt.bonus) || ((_this$actions$id2 = this.actions[id]) === null || _this$actions$id2 === void 0 || (_this$actions$id2 = _this$actions$id2.focus) === null || _this$actions$id2 === void 0 ? void 0 : _this$actions$id2.bonus) || 1.;
+        if (Math.abs(1 - focusBonus) > consts.SMALL_NUMBER) {
           breakDowns['focus'] = {
             title: 'Focus',
             value: focusBonus
           };
         }
-        if (Math.abs(1 - isRunning.effort) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER) {
+        if (Math.abs(1 - isRunning.effort) > consts.SMALL_NUMBER) {
           breakDowns['effort'] = {
             title: 'Effort',
             value: isRunning.effort
@@ -776,26 +776,26 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         eff = entEff;
       }
       var baseXPRate = 1.;
-      if (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).getLearnRate) {
+      if (index.gameEntity.getEntity(id).getLearnRate) {
         var _gameEntity$getEntity2;
-        baseXPRate = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).getLearnRate();
+        baseXPRate = index.gameEntity.getEntity(id).getLearnRate();
         breakDowns['base'] = {
           title: 'Base',
           value: baseXPRate
         };
         // we should list breakdowns here
-        if ((_gameEntity$getEntity2 = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).learningEffects) !== null && _gameEntity$getEntity2 !== void 0 && _gameEntity$getEntity2.length) {
-          var _iterator = _createForOfIteratorHelper(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).learningEffects),
+        if ((_gameEntity$getEntity2 = index.gameEntity.getEntity(id).learningEffects) !== null && _gameEntity$getEntity2 !== void 0 && _gameEntity$getEntity2.length) {
+          var _iterator = _createForOfIteratorHelper(index.gameEntity.getEntity(id).learningEffects),
             _step;
           try {
             for (_iterator.s(); !(_step = _iterator.n()).done;) {
               var effect = _step.value;
-              baseXPRate *= game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue(effect);
-              if (Math.abs(1 - game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue(effect)) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER) {
+              baseXPRate *= index.gameEffects.getEffectValue(effect);
+              if (Math.abs(1 - index.gameEffects.getEffectValue(effect)) > consts.SMALL_NUMBER) {
                 breakDowns[effect] = {
-                  title: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect(effect).name,
-                  value: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue(effect),
-                  breakDown: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect(effect).breakDown
+                  title: index.gameEffects.getEffect(effect).name,
+                  value: index.gameEffects.getEffectValue(effect),
+                  breakDown: index.gameEffects.getEffect(effect).breakDown
                 };
               }
             }
@@ -808,42 +808,42 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       }
       var primaryEffect = 1.;
       var intensityEffect = 1.;
-      if (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).getPrimaryEffect) {
+      if (index.gameEntity.getEntity(id).getPrimaryEffect) {
         var _gameEntity$getEntity3;
-        primaryEffect = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).getPrimaryEffect();
+        primaryEffect = index.gameEntity.getEntity(id).getPrimaryEffect();
         // baseXPRate *= gameEntity.getEntity(id).getPrimaryEffect();
-        var pAtt = (_gameEntity$getEntity3 = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).attributes) === null || _gameEntity$getEntity3 === void 0 ? void 0 : _gameEntity$getEntity3.primaryAttribute;
+        var pAtt = (_gameEntity$getEntity3 = index.gameEntity.getEntity(id).attributes) === null || _gameEntity$getEntity3 === void 0 ? void 0 : _gameEntity$getEntity3.primaryAttribute;
         breakDowns['primaryAttribute'] = {
-          title: "Primary Attribute: ".concat(pAtt ? game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect(pAtt).name : ''),
+          title: "Primary Attribute: ".concat(pAtt ? index.gameEffects.getEffect(pAtt).name : ''),
           value: primaryEffect
         };
-        intensityEffect = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).getIntensityAspect();
-        if (Math.abs(intensityEffect - 1) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER) {
+        intensityEffect = index.gameEntity.getEntity(id).getIntensityAspect();
+        if (Math.abs(intensityEffect - 1) > consts.SMALL_NUMBER) {
           var _gameEntity$getEntity4;
-          var pAtt2 = (_gameEntity$getEntity4 = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).attributes) === null || _gameEntity$getEntity4 === void 0 ? void 0 : _gameEntity$getEntity4.primaryAttribute;
-          var iAsp = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect("aspect_".concat(pAtt2));
+          var pAtt2 = (_gameEntity$getEntity4 = index.gameEntity.getEntity(id).attributes) === null || _gameEntity$getEntity4 === void 0 ? void 0 : _gameEntity$getEntity4.primaryAttribute;
+          var iAsp = index.gameEffects.getEffect("aspect_".concat(pAtt2));
           breakDowns['intensity'] = {
             title: "Intensity: ".concat(iAsp ? iAsp.name : ''),
             value: intensityEffect
           };
         }
       }
-      if (Math.abs(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('learning_rate') - 1.0) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER) {
+      if (Math.abs(index.gameEffects.getEffectValue('learning_rate') - 1.0) > consts.SMALL_NUMBER) {
         breakDowns['learning_rate'] = {
-          title: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('learning_rate').name,
-          value: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('learning_rate'),
-          breakDown: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('learning_rate').breakDown
+          title: index.gameEffects.getEffect('learning_rate').name,
+          value: index.gameEffects.getEffectValue('learning_rate'),
+          breakDown: index.gameEffects.getEffect('learning_rate').breakDown
         };
       }
-      if (Math.abs(1 - eff) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER) {
+      if (Math.abs(1 - eff) > consts.SMALL_NUMBER) {
         breakDowns['efficiency'] = {
           title: 'Action Efficiency',
           value: eff
         };
       }
-      var total = (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('plain_learn_rate') + baseXPRate * primaryEffect * game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('learning_rate') * focusBonus) * eff * effortMult * intensityEffect;
+      var total = (index.gameEffects.getEffectValue('plain_learn_rate') + baseXPRate * primaryEffect * index.gameEffects.getEffectValue('learning_rate') * focusBonus) * eff * effortMult * intensityEffect;
       if (bGetBreakdowns) {
-        console.log('EffMult: ', id, baseXPRate, primaryEffect, eff, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('learning_rate'), focusBonus, effortMult, total);
+        console.log('EffMult: ', id, baseXPRate, primaryEffect, eff, index.gameEffects.getEffectValue('learning_rate'), focusBonus, effortMult, total);
       }
       if (bGetBreakdowns) {
         return {
@@ -856,14 +856,14 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getPlayerXPFromAction",
     value: function getPlayerXPFromAction(id) {
-      var entEff = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntityEfficiency(id);
+      var entEff = index.gameEntity.getEntityEfficiency(id);
       var focusBonus = 1.;
       var effortMult = 1.;
       var breakDowns = {};
-      if (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('plain_learn_rate')) {
+      if (index.gameEffects.getEffectValue('plain_learn_rate')) {
         breakDowns['raw'] = {
           title: 'Plain Learn Bonus',
-          value: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('plain_learn_rate'),
+          value: index.gameEffects.getEffectValue('plain_learn_rate'),
           isPlain: true
         };
       }
@@ -871,14 +871,14 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       if (!isRunning) return 0;
       var eff = entEff;
       var baseXPRate = 1.;
-      var total = baseXPRate * game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('learning_rate') * eff * isRunning.effort;
+      var total = baseXPRate * index.gameEffects.getEffectValue('learning_rate') * eff * isRunning.effort;
       return total;
     }
   }, {
     key: "getTotalPlayerXPGains",
     value: function getTotalPlayerXPGains() {
       var _this7 = this;
-      return game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['runningActions']).map(function (ent) {
+      return index.gameEntity.listEntitiesByTags(['runningActions']).map(function (ent) {
         return {
           id: ent.id,
           name: ent.name,
@@ -902,7 +902,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       try {
         var _loop = function _loop() {
             var running = _step2.value;
-            var ent = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(running.originalId);
+            var ent = index.gameEntity.getEntity(running.originalId);
             if (Array.isArray(id)) {
               if (id.every(function (one) {
                 return ent.tags.includes(one);
@@ -945,9 +945,9 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         _iterator3.f();
       }
       this.activeActions = [];
-      var runningEntities = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['runningActions']);
+      var runningEntities = index.gameEntity.listEntitiesByTags(['runningActions']);
       runningEntities.forEach(function (e) {
-        game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.unsetEntity(e.id);
+        index.gameEntity.unsetEntity(e.id);
       });
     }
   }, {
@@ -957,12 +957,12 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       if (!id) {
         return;
       }
-      var isCapped = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.isCapped(id);
+      var isCapped = index.gameEntity.isCapped(id);
       if (isCapped) {
         return;
       }
-      var isEffectChannel = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAttribute(id, 'isEffectChanneling', false);
-      var rn = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.registerGameEntity("runningAction_".concat(id), {
+      var isEffectChannel = index.gameEntity.getAttribute(id, 'isEffectChanneling', false);
+      var rn = index.gameEntity.registerGameEntity("runningAction_".concat(id), {
         copyFromId: id,
         level: (_this$actions$id$leve2 = (_this$actions$id3 = this.actions[id]) === null || _this$actions$id3 === void 0 ? void 0 : _this$actions$id3.level) !== null && _this$actions$id$leve2 !== void 0 ? _this$actions$id$leve2 : 1,
         allowedImpacts: isEffectChannel ? ['effects', 'resources'] : ['resources'],
@@ -971,7 +971,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         effectFactor: effort,
         unlockedBy: undefined
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.setEntityLevel("runningAction_".concat(id), (_this$actions$id$leve3 = (_this$actions$id4 = this.actions[id]) === null || _this$actions$id4 === void 0 ? void 0 : _this$actions$id4.level) !== null && _this$actions$id$leve3 !== void 0 ? _this$actions$id$leve3 : 1);
+      index.gameEntity.setEntityLevel("runningAction_".concat(id), (_this$actions$id$leve3 = (_this$actions$id4 = this.actions[id]) === null || _this$actions$id4 === void 0 ? void 0 : _this$actions$id4.level) !== null && _this$actions$id$leve3 !== void 0 ? _this$actions$id$leve3 : 1);
       this.activeActions.push({
         id: "runningAction_".concat(id),
         originalId: id,
@@ -994,7 +994,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         this.actions[id].focus = null;
       }
       this.activeActions.splice(index, 1);
-      game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.unsetEntity("runningAction_".concat(id));
+      index.gameEntity.unsetEntity("runningAction_".concat(id));
     }
   }, {
     key: "setRunningAction",
@@ -1014,14 +1014,14 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       }
       return {
         title: this.activeActions.map(function (one) {
-          return game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(one.id).name;
+          return index.gameEntity.getEntity(one.id).name;
         }).join(';')
       };
     }
   }, {
     key: "getActionsUnlocks",
     value: function getActionsUnlocks(showUnlocked) {
-      var items = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['action'], false, [], {
+      var items = index.gameEntity.listEntitiesByTags(['action'], false, [], {
         listPrevious: showUnlocked
       }).filter(function (one) {
         var _one$nextUnlocks, _one$prevUnlocks;
@@ -1034,14 +1034,14 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
           one.unlocks = {
             level: one.nextUnlocks[0].level,
             progress: 100 * one.level / one.nextUnlocks[0].level,
-            eta: one.nextUnlocks[0] ? (0,_shared_utils_math__WEBPACK_IMPORTED_MODULE_4__.calculateTimeToLevelUp)(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAttribute(one.id, 'baseXPCost'), 0.2, one.level, one.nextUnlocks[0].level) : 0,
+            eta: one.nextUnlocks[0] ? (0,math.calculateTimeToLevelUp)(index.gameEntity.getAttribute(one.id, 'baseXPCost'), 0.2, one.level, one.nextUnlocks[0].level) : 0,
             items: one.nextUnlocks.map(function (unlock) {
-              var ent = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(unlock.unlockId);
+              var ent = index.gameEntity.getEntity(unlock.unlockId);
               return _objectSpread(_objectSpread({}, unlock), {}, {
                 meta: {
                   name: ent.name,
                   description: ent.description,
-                  scope: (0,_shared_utils_scopes__WEBPACK_IMPORTED_MODULE_8__.getScope)(ent)
+                  scope: (0,scopes.getScope)(ent)
                 }
               });
             })
@@ -1050,8 +1050,8 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         return _objectSpread(_objectSpread({}, one), {}, {
           prevUnlocks: ((_one$prevUnlocks2 = one.prevUnlocks) !== null && _one$prevUnlocks2 !== void 0 ? _one$prevUnlocks2 : []).map(function (unlock) {
             var data = {};
-            if (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.entityExists(unlock.unlockId)) {
-              data = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(unlock.unlockId);
+            if (index.gameEntity.entityExists(unlock.unlockId)) {
+              data = index.gameEntity.getEntity(unlock.unlockId);
             }
             return _objectSpread(_objectSpread({}, unlock), {}, {
               data: data
@@ -1121,9 +1121,9 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
     key: "getEtas",
     value: function getEtas(id) {
       var _this8 = this;
-      var entity = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id);
+      var entity = index.gameEntity.getEntity(id);
       var xpRate = this.isRunningAction(entity.id) ? this.getLearningRate("runningAction_".concat(entity.id)) : this.getLearningRate(entity.id, 1);
-      var keypoints = this.findNextKeypoints(entity.level, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntityMaxLevel(id));
+      var keypoints = this.findNextKeypoints(entity.level, index.gameEntity.getEntityMaxLevel(id));
       var etaResults = {};
       keypoints.forEach(function (keypoint) {
         var _this8$actions$id;
@@ -1136,9 +1136,9 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
     key: "getEtasNext",
     value: function getEtasNext(id) {
       var _this9 = this;
-      var entity = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id);
+      var entity = index.gameEntity.getEntity(id);
       var xpRate = this.isRunningAction(entity.id) ? this.getLearningRate("runningAction_".concat(entity.id)) : this.getLearningRate(entity.id, 1);
-      var keypoints = this.findNextRankAndLvl(entity.level, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntityMaxLevel(id));
+      var keypoints = this.findNextRankAndLvl(entity.level, index.gameEntity.getEntityMaxLevel(id));
       var etaResults = {};
       keypoints.forEach(function (keypoint) {
         var _this9$actions$id;
@@ -1174,11 +1174,11 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       var _this10 = this;
       // NOW - check for actions if they have any new notifications
       Object.values(this.customFilters).forEach(function (filter) {
-        var actions = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['action']).filter(function (one) {
+        var actions = index.gameEntity.listEntitiesByTags(['action']).filter(function (one) {
           return _this10.filtersCache[filter.id][one.id];
         });
         actions.forEach(function (action) {
-          game_framework__WEBPACK_IMPORTED_MODULE_2__.gameCore.getModule('unlock-notifications').registerNewNotification('actions', 'all', filter.id, action.id, action.isUnlocked && !action.isCapped);
+          index.gameCore.getModule('unlock-notifications').registerNewNotification('actions', 'all', filter.id, action.id, action.isUnlocked && !action.isCapped);
         });
       });
     }
@@ -1199,7 +1199,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
           sortIndex: _this11.customFiltersOrder.findIndex(function (s) {
             return s === filter.id;
           }),
-          items: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['action']).filter(function (one) {
+          items: index.gameEntity.listEntitiesByTags(['action']).filter(function (one) {
             var _this11$actions;
             return _this11.filtersCache[filter.id][one.id] && one.isUnlocked && !one.isCapped && ((options === null || options === void 0 ? void 0 : options.showHidden) || _this11.showHidden || !((_this11$actions = _this11.actions) !== null && _this11$actions !== void 0 && (_this11$actions = _this11$actions[one.id]) !== null && _this11$actions !== void 0 && _this11$actions.isHidden)) && _this11.matchActionSearch(one, options.searchData);
           }),
@@ -1220,8 +1220,8 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
           description: entity.description,
           max: entity.getMaxLevel ? entity.getMaxLevel() : entity.maxLevel || 0,
           level: ((_this11$actions$entit = _this11.actions[entity.id]) === null || _this11$actions$entit === void 0 ? void 0 : _this11$actions$entit.level) || 1,
-          affordable: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAffordable(entity.id),
-          entityEfficiency: _this11.isRunningAction(entity.id) ? game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntityEfficiency("runningAction_".concat(entity.id)) : 1,
+          affordable: index.gameEntity.getAffordable(entity.id),
+          entityEfficiency: _this11.isRunningAction(entity.id) ? index.gameEntity.getEntityEfficiency("runningAction_".concat(entity.id)) : 1,
           // potentialEffects: gameEntity.getEffects(entity.id, gameEntity.getAttribute(entity.id, 'isTraining') ? 1 : 0, this.actions[entity.id]?.level || 1, true),
           xp: ((_this11$actions$entit2 = _this11.actions[entity.id]) === null || _this11$actions$entit2 === void 0 ? void 0 : _this11$actions$entit2.xp) || 0,
           maxXP: _this11.getActionXPMax(entity.id),
@@ -1236,19 +1236,19 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
             isCapped: _this11.actions[entity.id].focus.time >= _this11.getFocusCapTime(entity.id),
             cap: _this11.getFocusCapTime(entity.id)
           } : null,
-          actionEffect: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects(entity.id, 0, ((_this11$actions$entit5 = _this11.actions[entity.id]) === null || _this11$actions$entit5 === void 0 ? void 0 : _this11$actions$entit5.level) || 1, true).filter(function (eff) {
+          actionEffect: index.gameEntity.getEffects(entity.id, 0, ((_this11$actions$entit5 = _this11.actions[entity.id]) === null || _this11$actions$entit5 === void 0 ? void 0 : _this11$actions$entit5.level) || 1, true).filter(function (eff) {
             return eff.type === 'resources';
           }),
-          potentialEffects: _this11.packEffects(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects(entity.id, 1, ((_this11$actions$entit6 = _this11.actions[entity.id]) === null || _this11$actions$entit6 === void 0 ? void 0 : _this11$actions$entit6.level) || 1, true), function (item) {
+          potentialEffects: _this11.packEffects(index.gameEntity.getEffects(entity.id, 1, ((_this11$actions$entit6 = _this11.actions[entity.id]) === null || _this11$actions$entit6 === void 0 ? void 0 : _this11$actions$entit6.level) || 1, true), function (item) {
             return item.type === 'effects';
           }),
-          currentEffects: _this11.packEffects(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects(entity.id, 0, ((_this11$actions$entit7 = _this11.actions[entity.id]) === null || _this11$actions$entit7 === void 0 ? void 0 : _this11$actions$entit7.level) || 1, true), function (item) {
+          currentEffects: _this11.packEffects(index.gameEntity.getEffects(entity.id, 0, ((_this11$actions$entit7 = _this11.actions[entity.id]) === null || _this11$actions$entit7 === void 0 ? void 0 : _this11$actions$entit7.level) || 1, true), function (item) {
             return item.type === 'effects';
           }),
-          isTraining: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAttribute(entity.id, 'isTraining'),
+          isTraining: index.gameEntity.getAttribute(entity.id, 'isTraining'),
           isHidden: (_this11$actions2 = _this11.actions) === null || _this11$actions2 === void 0 || (_this11$actions2 = _this11$actions2[entity.id]) === null || _this11$actions2 === void 0 ? void 0 : _this11$actions2.isHidden,
           monitored: _this11.getMonitoredData(entity),
-          missingResourceId: _this11.isRunningAction(entity.id) && game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntityEfficiency("runningAction_".concat(entity.id)) < 1 ? (_gameEntity$getEntity5 = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity("runningAction_".concat(entity.id))) === null || _gameEntity$getEntity5 === void 0 || (_gameEntity$getEntity5 = _gameEntity$getEntity5.modifier) === null || _gameEntity$getEntity5 === void 0 ? void 0 : _gameEntity$getEntity5.bottleNeck : null
+          missingResourceId: _this11.isRunningAction(entity.id) && index.gameEntity.getEntityEfficiency("runningAction_".concat(entity.id)) < 1 ? (_gameEntity$getEntity5 = index.gameEntity.getEntity("runningAction_".concat(entity.id))) === null || _gameEntity$getEntity5 === void 0 || (_gameEntity$getEntity5 = _gameEntity$getEntity5.modifier) === null || _gameEntity$getEntity5 === void 0 ? void 0 : _gameEntity$getEntity5.bottleNeck : null
           // nextEtas: this.getEtasNext(entity.id)
         };
       });
@@ -1263,14 +1263,14 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         showHidden: this.showHidden,
         actionLists: this.lists.getLists(),
         runningList: this.lists.runningList,
-        actionListsUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getLevel('shop_item_notebook') > 0,
+        actionListsUnlocked: index.gameEntity.getLevel('shop_item_notebook') > 0,
         actionCategories: Object.values(perCats).filter(function (cat) {
           return cat.items.length > 0;
         }).sort(function (a, b) {
           return a.sortIndex - b.sortIndex;
         }),
         automationEnabled: this.lists.automationEnabled,
-        automationUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getLevel('shop_item_planner') > 0,
+        automationUnlocked: index.gameEntity.getLevel('shop_item_planner') > 0,
         autotriggerIntervalSetting: this.lists.autotriggerIntervalSetting,
         searchData: this.searchData,
         selectedCategory: filterId,
@@ -1278,37 +1278,37 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         customFiltersOrder: this.customFiltersOrder,
         stats: {
           learnMults: {
-            learningRate: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('learning_rate'),
-            physicalLearningRate: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('physical_training_learn_speed'),
-            mentalLearningRate: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('mental_training_learning_rate'),
-            socialLearningRate: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('social_training_learning_rate'),
-            routineLearningRate: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('routine_learning_speed'),
-            spiritualLearningRate: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('spiritual_learning_rate'),
-            booksLearningRate: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('books_learning_rate'),
-            mentalActivitiesLearningRate: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('mental_activities_learn_rate')
+            learningRate: index.gameEffects.getEffect('learning_rate'),
+            physicalLearningRate: index.gameEffects.getEffect('physical_training_learn_speed'),
+            mentalLearningRate: index.gameEffects.getEffect('mental_training_learning_rate'),
+            socialLearningRate: index.gameEffects.getEffect('social_training_learning_rate'),
+            routineLearningRate: index.gameEffects.getEffect('routine_learning_speed'),
+            spiritualLearningRate: index.gameEffects.getEffect('spiritual_learning_rate'),
+            booksLearningRate: index.gameEffects.getEffect('books_learning_rate'),
+            mentalActivitiesLearningRate: index.gameEffects.getEffect('mental_activities_learn_rate')
           },
           xpDiscounts: {
-            physical_actions_discount: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('physical_actions_discount'),
-            social_actions_discount: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('social_actions_discount'),
-            mental_actions_discount: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('mental_actions_discount'),
-            magical_actions_discount: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('magical_actions_discount'),
-            routine_actions_discount: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('routine_actions_discount')
+            physical_actions_discount: index.gameEffects.getEffect('physical_actions_discount'),
+            social_actions_discount: index.gameEffects.getEffect('social_actions_discount'),
+            mental_actions_discount: index.gameEffects.getEffect('mental_actions_discount'),
+            magical_actions_discount: index.gameEffects.getEffect('magical_actions_discount'),
+            routine_actions_discount: index.gameEffects.getEffect('routine_actions_discount')
           }
         },
         aspects: {
-          isUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getLevel('shop_item_aspects_focus') > 0,
+          isUnlocked: index.gameEntity.getLevel('shop_item_aspects_focus') > 0,
           // temporary
-          list: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['aspect']).map(function (one) {
+          list: index.gameEntity.listEntitiesByTags(['aspect']).map(function (one) {
             var _this11$aspectsSettin, _this11$aspectsSettin2;
             return {
               id: one.id,
               name: one.name,
               level: one.level,
-              effects: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects(one.id),
+              effects: index.gameEntity.getEffects(one.id),
               maxLevel: _this11.getAspectMaxLevel(one.attributes.keyAttribute),
-              attributeData: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect(one.attributes.keyAttribute),
-              nextPoint: Math.ceil((game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue(one.attributes.keyAttribute) + game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER) / _this11.getAttributeAspectReq(one.attributes.keyAttribute)) * _this11.getAttributeAspectReq(one.attributes.keyAttribute),
-              progress: (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue(one.attributes.keyAttribute) - _this11.getAttributeAspectReq(one.attributes.keyAttribute) * Math.floor(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue(one.attributes.keyAttribute) / _this11.getAttributeAspectReq(one.attributes.keyAttribute))) / _this11.getAttributeAspectReq(one.attributes.keyAttribute),
+              attributeData: index.gameEffects.getEffect(one.attributes.keyAttribute),
+              nextPoint: Math.ceil((index.gameEffects.getEffectValue(one.attributes.keyAttribute) + consts.SMALL_NUMBER) / _this11.getAttributeAspectReq(one.attributes.keyAttribute)) * _this11.getAttributeAspectReq(one.attributes.keyAttribute),
+              progress: (index.gameEffects.getEffectValue(one.attributes.keyAttribute) - _this11.getAttributeAspectReq(one.attributes.keyAttribute) * Math.floor(index.gameEffects.getEffectValue(one.attributes.keyAttribute) / _this11.getAttributeAspectReq(one.attributes.keyAttribute))) / _this11.getAttributeAspectReq(one.attributes.keyAttribute),
               color: one.attributes.color,
               keepMaxed: (_this11$aspectsSettin = (_this11$aspectsSettin2 = _this11.aspectsSettings[one.id]) === null || _this11$aspectsSettin2 === void 0 ? void 0 : _this11$aspectsSettin2.maxed) !== null && _this11$aspectsSettin !== void 0 ? _this11$aspectsSettin : false
             };
@@ -1335,7 +1335,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       if (!id) {
         return null;
       }
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['action']);
+      var entities = index.gameEntity.listEntitiesByTags(['action']);
       var entity = entities.find(function (one) {
         return one.id === id;
       });
@@ -1345,14 +1345,14 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         description: entity.description,
         max: entity.getMaxLevel ? entity.getMaxLevel() : entity.maxLevel || 0,
         level: ((_this$actions$entity$3 = this.actions[entity.id]) === null || _this$actions$entity$3 === void 0 ? void 0 : _this$actions$entity$3.level) || 1,
-        affordable: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAffordable(entity.id),
-        actionEffect: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects(entity.id, 0, ((_this$actions$entity$4 = this.actions[entity.id]) === null || _this$actions$entity$4 === void 0 ? void 0 : _this$actions$entity$4.level) || 1, true).filter(function (eff) {
+        affordable: index.gameEntity.getAffordable(entity.id),
+        actionEffect: index.gameEntity.getEffects(entity.id, 0, ((_this$actions$entity$4 = this.actions[entity.id]) === null || _this$actions$entity$4 === void 0 ? void 0 : _this$actions$entity$4.level) || 1, true).filter(function (eff) {
           return eff.type === 'resources' || entity.attributes.isEffectChanneling;
         }),
-        potentialEffects: this.packEffects(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects(entity.id, 1, ((_this$actions$entity$5 = this.actions[entity.id]) === null || _this$actions$entity$5 === void 0 ? void 0 : _this$actions$entity$5.level) || 1, true), function (item) {
+        potentialEffects: this.packEffects(index.gameEntity.getEffects(entity.id, 1, ((_this$actions$entity$5 = this.actions[entity.id]) === null || _this$actions$entity$5 === void 0 ? void 0 : _this$actions$entity$5.level) || 1, true), function (item) {
           return item.type === 'effects';
         }),
-        currentEffects: this.packEffects(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects(entity.id, 0, ((_this$actions$entity$6 = this.actions[entity.id]) === null || _this$actions$entity$6 === void 0 ? void 0 : _this$actions$entity$6.level) || 1, true), function (item) {
+        currentEffects: this.packEffects(index.gameEntity.getEffects(entity.id, 0, ((_this$actions$entity$6 = this.actions[entity.id]) === null || _this$actions$entity$6 === void 0 ? void 0 : _this$actions$entity$6.level) || 1, true), function (item) {
           return item.type === 'effects';
         }),
         xp: ((_this$actions$entity$7 = this.actions[entity.id]) === null || _this$actions$entity$7 === void 0 ? void 0 : _this$actions$entity$7.xp) || 0,
@@ -1361,20 +1361,20 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
         xpRate: this.isRunningAction(entity.id) ? this.getLearningRate("runningAction_".concat(entity.id)) * this.isRunningAction(entity.id).effort : this.getLearningRate(entity.id, 1),
         isLeveled: (_this$actions$entity$8 = this.actions[entity.id]) === null || _this$actions$entity$8 === void 0 ? void 0 : _this$actions$entity$8.isLeveled,
         tags: entity.tags,
-        primaryAttribute: (_entity$attributes = entity.attributes) !== null && _entity$attributes !== void 0 && _entity$attributes.primaryAttribute ? game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect(entity.attributes.primaryAttribute) : null,
+        primaryAttribute: (_entity$attributes = entity.attributes) !== null && _entity$attributes !== void 0 && _entity$attributes.primaryAttribute ? index.gameEffects.getEffect(entity.attributes.primaryAttribute) : null,
         primaryAttributeEffect: (_entity$attributes2 = entity.attributes) !== null && _entity$attributes2 !== void 0 && _entity$attributes2.primaryAttribute ? entity.getPrimaryEffect() : 1,
-        isTraining: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAttribute(entity.id, 'isTraining'),
+        isTraining: index.gameEntity.getAttribute(entity.id, 'isTraining'),
         nextUnlock: entity.nextUnlock,
         timeInvested: ((_this$actions$entity$9 = this.actions[entity.id]) === null || _this$actions$entity$9 === void 0 ? void 0 : _this$actions$entity$9.timeInvested) || 0,
         xpEarned: ((_this$actions$entity$10 = this.actions[entity.id]) === null || _this$actions$entity$10 === void 0 ? void 0 : _this$actions$entity$10.xpEarned) || 0,
         etas: this.getEtas(entity.id),
-        aspect: (_entity$attributes3 = entity.attributes) !== null && _entity$attributes3 !== void 0 && _entity$attributes3.primaryAttribute && game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getLevel('shop_item_aspects_focus') > 0 ? {
+        aspect: (_entity$attributes3 = entity.attributes) !== null && _entity$attributes3 !== void 0 && _entity$attributes3.primaryAttribute && index.gameEntity.getLevel('shop_item_aspects_focus') > 0 ? {
           intensity: entity.getIntensityAspect(),
-          aspect: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity("".concat((_entity$attributes4 = entity.attributes) === null || _entity$attributes4 === void 0 ? void 0 : _entity$attributes4.primaryAttribute, "_aspect"))
+          aspect: index.gameEntity.getEntity("".concat((_entity$attributes4 = entity.attributes) === null || _entity$attributes4 === void 0 ? void 0 : _entity$attributes4.primaryAttribute, "_aspect"))
         } : null,
-        entityEfficiency: this.isRunningAction(entity.id) ? game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntityEfficiency("runningAction_".concat(entity.id)) : 1
+        entityEfficiency: this.isRunningAction(entity.id) ? index.gameEntity.getEntityEfficiency("runningAction_".concat(entity.id)) : 1
       };
-      if (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAttribute(entity.id, 'isRankAvailable')) {
+      if (index.gameEntity.getAttribute(entity.id, 'isRankAvailable')) {
         var _this$actions$entity$11, _this$actions$entity$12, _this$actions$entity$13;
         var rankData = {
           rank: this.getActionRank(entity.id),
@@ -1387,17 +1387,17 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       }
       if (entityData.entityEfficiency < 1) {
         var _gameEntity$getEntity6;
-        entityData.missingResource = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource((_gameEntity$getEntity6 = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity("runningAction_".concat(entity.id))) === null || _gameEntity$getEntity6 === void 0 || (_gameEntity$getEntity6 = _gameEntity$getEntity6.modifier) === null || _gameEntity$getEntity6 === void 0 ? void 0 : _gameEntity$getEntity6.bottleNeck);
+        entityData.missingResource = index.gameResources.getResource((_gameEntity$getEntity6 = index.gameEntity.getEntity("runningAction_".concat(entity.id))) === null || _gameEntity$getEntity6 === void 0 || (_gameEntity$getEntity6 = _gameEntity$getEntity6.modifier) === null || _gameEntity$getEntity6 === void 0 ? void 0 : _gameEntity$getEntity6.bottleNeck);
       }
       return entityData;
     }
   }, {
     key: "getEffectFromRunningAction",
     value: function getEffectFromRunningAction(id) {
-      var runningActions = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['runningActions']);
+      var runningActions = index.gameEntity.listEntitiesByTags(['runningActions']);
       var results = [];
       runningActions.forEach(function (entity) {
-        var effts = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects(entity.id);
+        var effts = index.gameEntity.getEffects(entity.id);
         console.log('Queried effects: ', effts);
         var suitable = effts.filter(function (u) {
           return u.type === 'effects' && u.id === id;
@@ -1411,7 +1411,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getAllActions",
     value: function getAllActions() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['action']).map(function (one) {
+      return index.gameEntity.listEntitiesByTags(['action']).map(function (one) {
         return _objectSpread(_objectSpread({}, one), {}, {
           isUnlocked: one.isUnlocked && !one.isCapped
         });
@@ -1430,7 +1430,7 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getAllActionTags",
     value: function getAllActionTags() {
-      var allActions = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['action']);
+      var allActions = index.gameEntity.listEntitiesByTags(['action']);
       var tagsByUnlocks = {};
       allActions.forEach(function (a) {
         a.tags.forEach(function (tag) {
@@ -1474,6 +1474,6 @@ var ActionsModule = /*#__PURE__*/function (_GameModule) {
       this.eventHandler.sendData('actions-unlocks', data);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_1__.GameModule);
+}(game_module.GameModule);
 
 export { ActionsModule };

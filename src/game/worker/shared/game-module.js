@@ -1,4 +1,4 @@
-import * as _event_handler__WEBPACK_IMPORTED_MODULE_0__ from './event-handler.js';
+import * as event_handler from './event-handler.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
@@ -9,7 +9,7 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
 
 var GameModule = /*#__PURE__*/_createClass(function GameModule() {
   _classCallCheck(this, GameModule);
-  this.eventHandler = new _event_handler__WEBPACK_IMPORTED_MODULE_0__.EventHandler();
+  this.eventHandler = new event_handler.EventHandler();
 });
 
 export { GameModule };

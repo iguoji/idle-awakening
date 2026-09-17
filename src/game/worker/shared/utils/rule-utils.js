@@ -1,7 +1,7 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 var checkMatchingResourceRule = function checkMatchingResourceRule(rule, key) {
-  var resource = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(rule.resource_id);
+  var resource = index.gameResources.getResource(rule.resource_id);
   if (!resource) return false;
   var compare = resource[key];
   if (rule.value_type === 'percentage') {
@@ -23,7 +23,7 @@ var checkMatchingResourceRule = function checkMatchingResourceRule(rule, key) {
   return false;
 };
 var checkMatchingActionRule = function checkMatchingActionRule(rule) {
-  var actionRunning = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('actions').isRunningAction(rule.action_id);
+  var actionRunning = index.gameCore.getModule('actions').isRunningAction(rule.action_id);
   switch (rule.condition) {
     case 'true':
       return !!actionRunning;
@@ -34,7 +34,7 @@ var checkMatchingActionRule = function checkMatchingActionRule(rule) {
 };
 var checkMatchingActionListRule = function checkMatchingActionListRule(rule) {
   var _gameCore$getModule$l;
-  var actionListRunning = ((_gameCore$getModule$l = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('actions').lists.runningList) === null || _gameCore$getModule$l === void 0 ? void 0 : _gameCore$getModule$l.id) === rule.action_list_id;
+  var actionListRunning = ((_gameCore$getModule$l = index.gameCore.getModule('actions').lists.runningList) === null || _gameCore$getModule$l === void 0 ? void 0 : _gameCore$getModule$l.id) === rule.action_list_id;
   switch (rule.condition) {
     case 'true':
       return !!actionListRunning;
@@ -45,7 +45,7 @@ var checkMatchingActionListRule = function checkMatchingActionListRule(rule) {
 };
 var checkMatchingSpellRunningRule = function checkMatchingSpellRunningRule(rule) {
   var _gameCore$getModule$s;
-  var spellIsRunning = (_gameCore$getModule$s = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('magic').spells[rule.spell_id]) === null || _gameCore$getModule$s === void 0 ? void 0 : _gameCore$getModule$s.isRunning;
+  var spellIsRunning = (_gameCore$getModule$s = index.gameCore.getModule('magic').spells[rule.spell_id]) === null || _gameCore$getModule$s === void 0 ? void 0 : _gameCore$getModule$s.isRunning;
   switch (rule.condition) {
     case 'true':
       return !!spellIsRunning;
@@ -55,7 +55,7 @@ var checkMatchingSpellRunningRule = function checkMatchingSpellRunningRule(rule)
   return false;
 };
 var checkMatchingActionTagRule = function checkMatchingActionTagRule(rule) {
-  var actionRunning = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('actions').isRunningActionWithTag(rule.tag);
+  var actionRunning = index.gameCore.getModule('actions').isRunningActionWithTag(rule.tag);
   switch (rule.condition) {
     case 'true':
       return !!actionRunning;
@@ -66,7 +66,7 @@ var checkMatchingActionTagRule = function checkMatchingActionTagRule(rule) {
 };
 var checkMatchingCraftingListRule = function checkMatchingCraftingListRule(rule) {
   var _gameCore$getModule$l2;
-  var listRunning = ((_gameCore$getModule$l2 = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('crafting').lists.runningList) === null || _gameCore$getModule$l2 === void 0 || (_gameCore$getModule$l2 = _gameCore$getModule$l2.crafting) === null || _gameCore$getModule$l2 === void 0 ? void 0 : _gameCore$getModule$l2.id) == rule.crafting_list_id;
+  var listRunning = ((_gameCore$getModule$l2 = index.gameCore.getModule('crafting').lists.runningList) === null || _gameCore$getModule$l2 === void 0 || (_gameCore$getModule$l2 = _gameCore$getModule$l2.crafting) === null || _gameCore$getModule$l2 === void 0 ? void 0 : _gameCore$getModule$l2.id) == rule.crafting_list_id;
 
   // console.log('CraftingList: ', gameCore.getModule('crafting').lists.runningList?.crafting, rule);
 
@@ -79,7 +79,7 @@ var checkMatchingCraftingListRule = function checkMatchingCraftingListRule(rule)
   return false;
 };
 var checkMatchingActionLevelRule = function checkMatchingActionLevelRule(rule, key) {
-  var action = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(rule.action_id);
+  var action = index.gameEntity.getEntity(rule.action_id);
   if (!action) return false;
   var compare = action.level;
   switch (rule.condition) {
@@ -97,7 +97,7 @@ var checkMatchingActionLevelRule = function checkMatchingActionLevelRule(rule, k
   return false;
 };
 var checkMatchingAttributeValueRule = function checkMatchingAttributeValueRule(rule) {
-  var attr = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect(rule.attribute_id);
+  var attr = index.gameEffects.getEffect(rule.attribute_id);
   if (!attr) return false;
   var compare = attr.value;
   switch (rule.condition) {

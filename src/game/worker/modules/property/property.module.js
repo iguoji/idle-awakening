@@ -1,11 +1,11 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_1__ from '../../shared/game-module.js';
-import * as _furniture_db__WEBPACK_IMPORTED_MODULE_2__ from './furniture-db.js';
-import * as _accessories_db__WEBPACK_IMPORTED_MODULE_3__ from './accessories-db.js';
-import * as game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__ from '../../../framework/src/utils/consts.js';
-import * as lodash__WEBPACK_IMPORTED_MODULE_5__ from 'lodash';
-import * as _amplifiers_db__WEBPACK_IMPORTED_MODULE_6__ from './amplifiers-db.js';
-import * as _items_shop_db__WEBPACK_IMPORTED_MODULE_7__ from '../items/shop-db.js';
+import * as index from '../../../framework/index.js';
+import * as game_module from '../../shared/game-module.js';
+import * as furniture_db from './furniture-db.js';
+import * as accessories_db from './accessories-db.js';
+import * as consts from '../../../framework/src/utils/consts.js';
+import * as lodash from 'lodash';
+import * as amplifiers_db from './amplifiers-db.js';
+import * as shop_db from '../items/shop-db.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -188,9 +188,9 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
     _this.autoPurchase = {};
     _this.autoPurchaseCd = 0;
     _this.customFilters = {
-      furniture: (0,lodash__WEBPACK_IMPORTED_MODULE_5__.cloneDeep)(DEFAULT_PROPERTY_FILTERS),
-      accessory: (0,lodash__WEBPACK_IMPORTED_MODULE_5__.cloneDeep)(DEFAULT_ACCESSORY_FILTERS),
-      amplifier: (0,lodash__WEBPACK_IMPORTED_MODULE_5__.cloneDeep)(DEFAULT_AMPLIFIERS_FILTERS)
+      furniture: (0,lodash.cloneDeep)(DEFAULT_PROPERTY_FILTERS),
+      accessory: (0,lodash.cloneDeep)(DEFAULT_ACCESSORY_FILTERS),
+      amplifier: (0,lodash.cloneDeep)(DEFAULT_AMPLIFIERS_FILTERS)
     };
     _this.customFiltersOrder = {
       furniture: Object.keys(_this.customFilters.furniture),
@@ -251,7 +251,7 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
       var id = _ref.id,
         flag = _ref.flag,
         filterId = _ref.filterId;
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags([filterId]).filter(function (one) {
+      var entities = index.gameEntity.listEntitiesByTags([filterId]).filter(function (one) {
         return one.isUnlocked && !one.isCapped;
       });
       entities.forEach(function (e) {
@@ -349,15 +349,15 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(PropertyModule, [{
     key: "initialize",
     value: function initialize() {
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.registerResource('living_space', {
+      index.gameResources.registerResource('living_space', {
         tags: ['living', 'secondary'],
         name: 'Living Space',
         isService: true,
         saveBalanceTree: true
       });
-      (0,_furniture_db__WEBPACK_IMPORTED_MODULE_2__.registerFurnitureStage1)();
-      (0,_accessories_db__WEBPACK_IMPORTED_MODULE_3__.registerAccessoriesStage1)();
-      (0,_amplifiers_db__WEBPACK_IMPORTED_MODULE_6__.registerAmplifiersStage1)();
+      (0,furniture_db.registerFurnitureStage1)();
+      (0,accessories_db.registerAccessoriesStage1)();
+      (0,amplifiers_db.registerAmplifiersStage1)();
     }
 
     /* Filters */
@@ -376,7 +376,7 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
         };
         return;
       }
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags([filterId]);
+      var entities = index.gameEntity.listEntitiesByTags([filterId]);
       this.filtersCache[filterId][id] = {};
       entities.forEach(function (entity) {
         var ruleResults = _this2.customFilters[filterId][id].rules.map(function (rule) {
@@ -512,7 +512,7 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
     key: "tick",
     value: function tick(game, delta) {
       this.leveledId = null;
-      if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_purchase_manager') > 0) {
+      if (index.gameEntity.getLevel('shop_item_purchase_manager') > 0) {
         if (!this.autoPurchaseCd) {
           this.autoPurchaseCd = 10;
         }
@@ -522,17 +522,17 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
           for (var key in this.autoPurchase) {
             if (this.autoPurchase[key]) {
               var _gameEntity$getEntity, _gameEntity$getEntity2, _gameEntity$getEntity3;
-              if (!game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked(key)) {
+              if (!index.gameEntity.isEntityUnlocked(key)) {
                 this.autoPurchase[key] = false;
                 console.log('Furniture ' + key + ' is locked. Toggling autopurchase');
                 continue;
               }
-              if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isCapped(key)) {
+              if (index.gameEntity.isCapped(key)) {
                 this.autoPurchase[key] = false;
                 console.log('Furniture ' + key + ' is capped. Toggling autopurchase');
                 continue;
               }
-              var cat = (_gameEntity$getEntity = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(key).tags) !== null && _gameEntity$getEntity !== void 0 && _gameEntity$getEntity.includes('accessory') ? 'accessory' : (_gameEntity$getEntity2 = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(key).tags) !== null && _gameEntity$getEntity2 !== void 0 && _gameEntity$getEntity2.includes('furniture') ? 'furniture' : (_gameEntity$getEntity3 = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(key).tags) !== null && _gameEntity$getEntity3 !== void 0 && _gameEntity$getEntity3.includes('amplifier') ? 'amplifier' : null;
+              var cat = (_gameEntity$getEntity = index.gameEntity.getEntity(key).tags) !== null && _gameEntity$getEntity !== void 0 && _gameEntity$getEntity.includes('accessory') ? 'accessory' : (_gameEntity$getEntity2 = index.gameEntity.getEntity(key).tags) !== null && _gameEntity$getEntity2 !== void 0 && _gameEntity$getEntity2.includes('furniture') ? 'furniture' : (_gameEntity$getEntity3 = index.gameEntity.getEntity(key).tags) !== null && _gameEntity$getEntity3 !== void 0 && _gameEntity$getEntity3.includes('amplifier') ? 'amplifier' : null;
               var newEnt = this.purchaseFurniture(key, cat, {
                 isSilent: true
               });
@@ -591,9 +591,9 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
         this.autoPurchase = saveObject === null || saveObject === void 0 ? void 0 : saveObject.autoPurchase;
       }
       this.customFilters = {
-        furniture: (0,lodash__WEBPACK_IMPORTED_MODULE_5__.cloneDeep)(DEFAULT_PROPERTY_FILTERS),
-        accessory: (0,lodash__WEBPACK_IMPORTED_MODULE_5__.cloneDeep)(DEFAULT_ACCESSORY_FILTERS),
-        amplifier: (0,lodash__WEBPACK_IMPORTED_MODULE_5__.cloneDeep)(DEFAULT_AMPLIFIERS_FILTERS)
+        furniture: (0,lodash.cloneDeep)(DEFAULT_PROPERTY_FILTERS),
+        accessory: (0,lodash.cloneDeep)(DEFAULT_ACCESSORY_FILTERS),
+        amplifier: (0,lodash.cloneDeep)(DEFAULT_AMPLIFIERS_FILTERS)
       };
       this.customFiltersOrder = {
         furniture: Object.keys(this.customFilters.furniture),
@@ -629,7 +629,7 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
             }
           }
           if (!isValid) {
-            this.customFilters = (0,lodash__WEBPACK_IMPORTED_MODULE_5__.cloneDeep)(defFlt);
+            this.customFilters = (0,lodash.cloneDeep)(defFlt);
             this.selectedFilterId[_key3] = 'all';
           } else {
             var _saveObject$selectedF, _saveObject$selectedF2;
@@ -668,20 +668,20 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
     key: "setFurniture",
     value: function setFurniture(furnitureId, amount) {
       var bForce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(furnitureId, amount, bForce);
-      this.purchasedFurnitures[furnitureId] = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(furnitureId);
+      index.gameEntity.setEntityLevel(furnitureId, amount, bForce);
+      this.purchasedFurnitures[furnitureId] = index.gameEntity.getLevel(furnitureId);
     }
   }, {
     key: "purchaseFurniture",
     value: function purchaseFurniture(furnitureId, filterId, options) {
-      var newEnt = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.levelUpEntity(furnitureId);
+      var newEnt = index.gameEntity.levelUpEntity(furnitureId);
       // console.log('newEntFurn: ', newEnt);
       if (newEnt.success) {
-        this.purchasedFurnitures[furnitureId] = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(furnitureId);
+        this.purchasedFurnitures[furnitureId] = index.gameEntity.getLevel(furnitureId);
         this.leveledId = furnitureId;
         if (!(options !== null && options !== void 0 && options.isSilent)) {
           // console.log('newEntFurnNEW: ', this.purchasedFurnitures)
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').generateNotifications();
+          index.gameCore.getModule('unlock-notifications').generateNotifications();
           this.sendFurnituresData({
             filterId: filterId
           }, options);
@@ -694,8 +694,8 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
     value: function deleteFurniture(furnitureId, filterId, options) {
       if (!this.purchasedFurnitures[furnitureId]) return;
       this.purchasedFurnitures[furnitureId]--;
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(furnitureId, this.purchasedFurnitures[furnitureId]);
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').generateNotifications();
+      index.gameEntity.setEntityLevel(furnitureId, this.purchasedFurnitures[furnitureId]);
+      index.gameCore.getModule('unlock-notifications').generateNotifications();
       this.sendFurnituresData({
         filterId: filterId
       }, options);
@@ -707,11 +707,11 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
       ['furniture', 'accessory', 'amplifier'].forEach(function (filter) {
         // const items = gameEntity.listEntitiesByTags([filter]);
         Object.values(_this3.customFilters[filter]).forEach(function (filterData) {
-          var items = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags([filter]).filter(function (one) {
+          var items = index.gameEntity.listEntitiesByTags([filter]).filter(function (one) {
             return _this3.filtersCache[filter][filterData.id][one.id];
           });
           items.forEach(function (item) {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').registerNewNotification('property', filter, filterData.id, item.id, item.isUnlocked && !item.isCapped);
+            index.gameCore.getModule('unlock-notifications').registerNewNotification('property', filter, filterData.id, item.id, item.isUnlocked && !item.isCapped);
           });
         });
       });
@@ -760,7 +760,7 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
           sortIndex: _this4.customFiltersOrder[payload.filterId].findIndex(function (s) {
             return s === filter.id;
           }),
-          items: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags([payload.filterId]).filter(function (one) {
+          items: index.gameEntity.listEntitiesByTags([payload.filterId]).filter(function (one) {
             return _this4.filtersCache[payload.filterId][filter.id][one.id] && one.isUnlocked && (!(options !== null && options !== void 0 && options.hideMaxed) || !one.isCapped) && !one.isUnpurchaseable && _this4.matchSearch(one, options.searchData);
           }),
           isSelected: _this4.selectedFilterId[payload.filterId] === filter.id
@@ -768,7 +768,7 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
         return acc;
       }, {});
       var entities = perCats[this.selectedFilterId[payload.filterId]].items;
-      var spaceRes = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('living_space');
+      var spaceRes = index.gameResources.getResource('living_space');
       return {
         available: entities.filter(function (one) {
           return one.isUnlocked && (!(options !== null && options !== void 0 && options.hideMaxed) || !one.isCapped) && _this4.matchSearch(one, options === null || options === void 0 ? void 0 : options.searchData);
@@ -778,14 +778,14 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
             id: entity.id,
             name: entity.name,
             description: entity.description,
-            max: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntityMaxLevel(entity.id),
+            max: index.gameEntity.getEntityMaxLevel(entity.id),
             level: _this4.purchasedFurnitures[entity.id] || 0,
-            affordable: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAffordable(entity.id),
-            potentialEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id, 1),
+            affordable: index.gameEntity.getAffordable(entity.id),
+            potentialEffects: index.gameEntity.getEffects(entity.id, 1),
             isLeveled: _this4.leveledId === entity.id,
             isCapped: entity.isCapped,
             isAutoPurchase: (_this4$autoPurchase$e = _this4.autoPurchase[entity.id]) !== null && _this4$autoPurchase$e !== void 0 ? _this4$autoPurchase$e : false,
-            spaceUsage: ((_gameEntity$getEffect = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id, 0).find(function (one) {
+            spaceUsage: ((_gameEntity$getEffect = index.gameEntity.getEffects(entity.id, 0).find(function (one) {
               return one.id === 'living_space';
             })) === null || _gameEntity$getEffect === void 0 ? void 0 : _gameEntity$getEffect.value) / Math.max(1, spaceRes.consumption)
           };
@@ -804,7 +804,7 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
         selectedCategory: this.selectedFilterId[payload.filterId],
         searchData: options === null || options === void 0 ? void 0 : options.searchData,
         hideMaxed: options === null || options === void 0 ? void 0 : options.hideMaxed,
-        isAutomationUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_purchase_manager') > 0,
+        isAutomationUnlocked: index.gameEntity.getLevel('shop_item_purchase_manager') > 0,
         customFilters: this.customFilters[payload.filterId],
         customFiltersOrder: this.customFiltersOrder[payload.filterId]
       };
@@ -819,16 +819,16 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
     key: "getFurnitureDetails",
     value: function getFurnitureDetails(id) {
       if (!id) return null;
-      var entity = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(id);
+      var entity = index.gameEntity.getEntity(id);
       return {
         id: entity.id,
         name: entity.name,
         description: entity.description,
-        max: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntityMaxLevel(entity.id),
+        max: index.gameEntity.getEntityMaxLevel(entity.id),
         level: this.purchasedFurnitures[entity.id] || 0,
-        affordable: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAffordable(entity.id),
-        potentialEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id, 1),
-        currentEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id),
+        affordable: index.gameEntity.getAffordable(entity.id),
+        potentialEffects: index.gameEntity.getEffects(entity.id, 1),
+        currentEffects: index.gameEntity.getEffects(entity.id),
         tags: entity.tags
       };
     }
@@ -841,7 +841,7 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getAllItemsTags",
     value: function getAllItemsTags(filterId) {
-      var allActions = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags([filterId]);
+      var allActions = index.gameEntity.listEntitiesByTags([filterId]);
       var tagsByUnlocks = {};
       allActions.forEach(function (a) {
         a.tags.forEach(function (tag) {
@@ -878,7 +878,7 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getAllFurnitureEffects",
     value: function getAllFurnitureEffects(filterId) {
-      var propertyEntities = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags([filterId]);
+      var propertyEntities = index.gameEntity.listEntitiesByTags([filterId]);
       var effectIdsUnique = propertyEntities.reduce(function (acc, entity) {
         var _entity$modifier5, _entity$modifier6;
         var incomes = Object.keys(((_entity$modifier5 = entity.modifier) === null || _entity$modifier5 === void 0 || (_entity$modifier5 = _entity$modifier5.income) === null || _entity$modifier5 === void 0 ? void 0 : _entity$modifier5.effects) || {});
@@ -891,8 +891,8 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
       }, {});
       var list = [];
       for (var key in effectIdsUnique) {
-        list.push(_objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect(key)), {}, {
-          isUnlocked: effectIdsUnique[key] && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.isEffectUnlocked(key)
+        list.push(_objectSpread(_objectSpread({}, index.gameEffects.getEffect(key)), {}, {
+          isUnlocked: effectIdsUnique[key] && index.gameEffects.isEffectUnlocked(key)
         }));
       }
       return list;
@@ -911,21 +911,21 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
     key: "getGeneraPropertyStatsData",
     value: function getGeneraPropertyStatsData() {
       var shopStats = [];
-      if (Math.abs(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('prices_discount') - 1) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER) {
-        shopStats.push(_objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('prices_discount')), {}, {
+      if (Math.abs(index.gameEffects.getEffectValue('prices_discount') - 1) > consts.SMALL_NUMBER) {
+        shopStats.push(_objectSpread(_objectSpread({}, index.gameEffects.getEffect('prices_discount')), {}, {
           isMultiplier: true
         }));
       }
-      if (Math.abs((0,_items_shop_db__WEBPACK_IMPORTED_MODULE_7__.charismaMod)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')) - 1) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER) {
+      if (Math.abs((0,shop_db.charismaMod)(index.gameEffects.getEffectValue('attribute_charisma')) - 1) > consts.SMALL_NUMBER) {
         shopStats.push({
           name: 'Charisma Price Discount',
           description: 'Upgrades and items purchase discount based on your charisma attribute (1./(1 + 0.02*log2(charisma)^2))',
-          value: (0,_items_shop_db__WEBPACK_IMPORTED_MODULE_7__.charismaMod)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+          value: (0,shop_db.charismaMod)(index.gameEffects.getEffectValue('attribute_charisma'))
         });
       }
       var stats = {
         'property': [].concat(shopStats).filter(function (one) {
-          return !one.isMultiplier || Math.abs(one.value - 1) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER;
+          return !one.isMultiplier || Math.abs(one.value - 1) > consts.SMALL_NUMBER;
         }),
         'accessories': [],
         'amplifiers': [
@@ -935,7 +935,7 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
           {...gameEffects.getEffect('conjuration_spells_efficiency'), isMultiplier: true},
           {...gameEffects.getEffect('elemental_spells_efficiency'), isMultiplier: true},*/
         ].filter(function (one) {
-          return !one.isMultiplier || Math.abs(one.value - 1) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER;
+          return !one.isMultiplier || Math.abs(one.value - 1) > consts.SMALL_NUMBER;
         })
       };
       return stats;
@@ -951,6 +951,6 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
       this.eventHandler.sendData(label, data);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_1__.GameModule);
+}(game_module.GameModule);
 
 export { PropertyModule };

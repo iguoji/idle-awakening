@@ -1,8 +1,8 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
-import * as _magic_spells_db__WEBPACK_IMPORTED_MODULE_1__ from '../magic/spells-db.js';
+import * as index from '../../../framework/index.js';
+import * as spells_db from '../magic/spells-db.js';
 
 var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_energy_buff', {
+  index.gameEntity.registerGameEntity('temporary_energy_buff', {
     name: 'Energized',
     description: 'Your energy income is boosted',
     hasCap: false,
@@ -28,7 +28,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_energy_debuff', {
+  index.gameEntity.registerGameEntity('temporary_energy_debuff', {
     name: 'Energy Debuff',
     description: 'You feel weakened. Your energy regeneration is decreased',
     hasCap: false,
@@ -54,7 +54,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_health_buff', {
+  index.gameEntity.registerGameEntity('temporary_health_buff', {
     name: 'Health Regeneration',
     description: 'Your health regeneration was increased',
     hasCap: false,
@@ -80,7 +80,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_health_debuff', {
+  index.gameEntity.registerGameEntity('temporary_health_debuff', {
     name: 'Injury',
     description: 'You are injured. Your health regeneration is decreased',
     hasCap: false,
@@ -106,7 +106,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_mana_buff', {
+  index.gameEntity.registerGameEntity('temporary_mana_buff', {
     name: 'Mana Regeneration',
     description: 'Your mana regeneration was increased',
     hasCap: false,
@@ -132,7 +132,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_mana_debuff', {
+  index.gameEntity.registerGameEntity('temporary_mana_debuff', {
     name: 'Mana Instability',
     description: 'Your mana regeneration is decreased',
     hasCap: false,
@@ -158,7 +158,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_knowledge_buff', {
+  index.gameEntity.registerGameEntity('temporary_knowledge_buff', {
     name: 'Knowledge Gain',
     description: 'Your knowledge gain was increased',
     hasCap: false,
@@ -184,7 +184,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_knowledge_debuff', {
+  index.gameEntity.registerGameEntity('temporary_knowledge_debuff', {
     name: 'Knowledge Debuff',
     description: 'You feel yourself dummy. Your knowledge gain is decreased',
     hasCap: false,
@@ -210,7 +210,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_coins_buff', {
+  index.gameEntity.registerGameEntity('temporary_coins_buff', {
     name: 'Coins Earned Bonus',
     description: 'Your coins income is boosted',
     hasCap: false,
@@ -236,7 +236,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_learn_rate_buff', {
+  index.gameEntity.registerGameEntity('temporary_learn_rate_buff', {
     name: 'Learning Rate Bonus',
     description: 'Your learning speed is increased',
     hasCap: false,
@@ -262,7 +262,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_physical_training_rate_buff', {
+  index.gameEntity.registerGameEntity('temporary_physical_training_rate_buff', {
     name: 'Physical Training Bonus',
     description: 'Your learning speed for physical training is increased',
     hasCap: false,
@@ -288,7 +288,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_mental_training_rate_buff', {
+  index.gameEntity.registerGameEntity('temporary_mental_training_rate_buff', {
     name: 'Mental Training Bonus',
     description: 'Your learning speed for mental training is increased',
     hasCap: false,
@@ -314,7 +314,7 @@ var registerTemporaryEffectsDB = function registerTemporaryEffectsDB() {
     },
     unlockCondition: function unlockCondition() {}
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('temporary_social_training_rate_buff', {
+  index.gameEntity.registerGameEntity('temporary_social_training_rate_buff', {
     name: 'Social Training Bonus',
     description: 'Your learning speed for social training is increased',
     hasCap: false,

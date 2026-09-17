@@ -1,9 +1,9 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_1__ from '../../shared/game-module.js';
-import * as _spells_db__WEBPACK_IMPORTED_MODULE_2__ from './spells-db.js';
-import * as _shared_utils_rule_utils__WEBPACK_IMPORTED_MODULE_3__ from '../../shared/utils/rule-utils.js';
-import * as game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__ from '../../../framework/src/utils/consts.js';
-import * as _items_shop_db__WEBPACK_IMPORTED_MODULE_5__ from '../items/shop-db.js';
+import * as index from '../../../framework/index.js';
+import * as game_module from '../../shared/game-module.js';
+import * as spells_db from './spells-db.js';
+import * as rule_utils from '../../shared/utils/rule-utils.js';
+import * as consts from '../../../framework/src/utils/consts.js';
+import * as shop_db from '../items/shop-db.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -63,7 +63,7 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(SpellModule, [{
     key: "initialize",
     value: function initialize() {
-      (0,_spells_db__WEBPACK_IMPORTED_MODULE_2__.initSpellsDB1)();
+      (0,spells_db.initSpellsDB1)();
     }
   }, {
     key: "setMonitored",
@@ -94,7 +94,7 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "isSpellLevelingAvailable",
     value: function isSpellLevelingAvailable() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellcraft') > 0;
+      return index.gameEntity.getLevel('shop_item_spellcraft') > 0;
     }
   }, {
     key: "getMaxXP",
@@ -103,7 +103,7 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
         var _this$spells$id;
         level = ((_this$spells$id = this.spells[id]) === null || _this$spells$id === void 0 ? void 0 : _this$spells$id.level) || 1;
       }
-      var mx = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAttribute(id, 'baseXPCost', 100);
+      var mx = index.gameEntity.getAttribute(id, 'baseXPCost', 100);
       return mx * Math.pow(3, level);
     }
   }, {
@@ -113,8 +113,8 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
         var _this$spells$id2;
         level = ((_this$spells$id2 = this.spells[id]) === null || _this$spells$id2 === void 0 ? void 0 : _this$spells$id2.actualLevel) || 1;
       }
-      var sp = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAttribute(id, 'xpOnCast', 0);
-      return sp * Math.pow(1.4, level) * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('spell_xp_rate') * Math.pow(1 + 0.25 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_spell_reading'), 2);
+      var sp = index.gameEntity.getAttribute(id, 'xpOnCast', 0);
+      return sp * Math.pow(1.4, level) * index.gameEffects.getEffectValue('spell_xp_rate') * Math.pow(1 + 0.25 * index.gameEffects.getEffectValue('attribute_spell_reading'), 2);
     }
   }, {
     key: "tick",
@@ -129,18 +129,18 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
         if (this.spells[itemId].duration > 0) {
           // console.log('SPELL: ', itemId, this.spells[itemId].duration);
           this.spells[itemId].duration -= delta;
-          if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.entityExists("active_".concat(itemId))) {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setAttribute("active_".concat(itemId), 'current_duration', this.spells[itemId].duration);
+          if (index.gameEntity.entityExists("active_".concat(itemId))) {
+            index.gameEntity.setAttribute("active_".concat(itemId), 'current_duration', this.spells[itemId].duration);
           }
         }
         if (this.spells[itemId].duration <= 0 && this.spells[itemId].isRunning) {
           var _gameEntity$getEntity;
           this.spells[itemId].duration = 0;
           this.spells[itemId].isRunning = false;
-          this.spells[itemId].cooldown = (_gameEntity$getEntity = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(itemId).getUsageCooldown()) !== null && _gameEntity$getEntity !== void 0 ? _gameEntity$getEntity : 0;
+          this.spells[itemId].cooldown = (_gameEntity$getEntity = index.gameEntity.getEntity(itemId).getUsageCooldown()) !== null && _gameEntity$getEntity !== void 0 ? _gameEntity$getEntity : 0;
           // console.log('Set cooldown of '+itemId, this.spells[itemId].cooldown);
-          if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.entityExists("active_".concat(itemId))) {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.unsetEntity("active_".concat(itemId));
+          if (index.gameEntity.entityExists("active_".concat(itemId))) {
+            index.gameEntity.unsetEntity("active_".concat(itemId));
           }
           // Check automation right away
           checkAutoThisTick = !this.spells[itemId].cooldown;
@@ -156,7 +156,7 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
         }
 
         // check if matching rules
-        var isMatching = (0,_shared_utils_rule_utils__WEBPACK_IMPORTED_MODULE_3__.checkMatchingRules)((_this$spells$itemId2 = this.spells[itemId]) === null || _this$spells$itemId2 === void 0 || (_this$spells$itemId2 = _this$spells$itemId2.autocast) === null || _this$spells$itemId2 === void 0 ? void 0 : _this$spells$itemId2.rules, (_this$spells$itemId3 = this.spells[itemId]) === null || _this$spells$itemId3 === void 0 || (_this$spells$itemId3 = _this$spells$itemId3.autocast) === null || _this$spells$itemId3 === void 0 ? void 0 : _this$spells$itemId3.pattern);
+        var isMatching = (0,rule_utils.checkMatchingRules)((_this$spells$itemId2 = this.spells[itemId]) === null || _this$spells$itemId2 === void 0 || (_this$spells$itemId2 = _this$spells$itemId2.autocast) === null || _this$spells$itemId2 === void 0 ? void 0 : _this$spells$itemId2.rules, (_this$spells$itemId3 = this.spells[itemId]) === null || _this$spells$itemId3 === void 0 || (_this$spells$itemId3 = _this$spells$itemId3.autocast) === null || _this$spells$itemId3 === void 0 ? void 0 : _this$spells$itemId3.pattern);
 
         // console.log('RULES MATCHED: ', isMatching);
         if (isMatching && (((_this$spells$itemId4 = this.spells[itemId]) === null || _this$spells$itemId4 === void 0 ? void 0 : _this$spells$itemId4.cooldown) || 0) <= 0) {
@@ -179,9 +179,9 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
     value: function load(saveObject) {
       for (var key in this.spells) {
         this.setSpell(key, 0, true);
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel((0,_spells_db__WEBPACK_IMPORTED_MODULE_2__.getMaxId)(key), 0, true);
-        if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.entityExists("active_".concat(key))) {
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.unsetEntity("active_".concat(key));
+        index.gameEntity.setEntityLevel((0,spells_db.getMaxId)(key), 0, true);
+        if (index.gameEntity.entityExists("active_".concat(key))) {
+          index.gameEntity.unsetEntity("active_".concat(key));
         }
       }
       this.spells = {};
@@ -195,12 +195,12 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
             this.spells[id].actualLevel = 1;
             this.spells[id].xp = 0;
           }
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel((0,_spells_db__WEBPACK_IMPORTED_MODULE_2__.getMaxId)(id), this.spells[id].level - 1, true);
+          index.gameEntity.setEntityLevel((0,spells_db.getMaxId)(id), this.spells[id].level - 1, true);
           this.setSpell(id, saveObject.spells[id].actualLevel || 1, true);
           this.spells[id].duration = saveObject.spells[id].duration;
           if (this.spells[id].duration && this.spells[id].duration > 0) {
             this.spells[id].isRunning = true;
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity("active_".concat(id), {
+            index.gameEntity.registerGameEntity("active_".concat(id), {
               copyFromId: id,
               isAbstract: false,
               tags: ['active_spell', 'active_effect'],
@@ -227,8 +227,8 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
       if (amount > this.spells[spellId].level) {
         amount = this.spells[spellId].level;
       }
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(spellId, amount, bForce);
-      this.spells[spellId].actualLevel = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(spellId);
+      index.gameEntity.setEntityLevel(spellId, amount, bForce);
+      this.spells[spellId].actualLevel = index.gameEntity.getLevel(spellId);
     }
   }, {
     key: "getConsumeAffordable",
@@ -241,14 +241,14 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
         level = entity.level;
       }
       if (entity.usageGain) {
-        var effects = game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceApi.unpackEffects(entity.usageGain, level);
+        var effects = index.resourceApi.unpackEffects(entity.usageGain, level);
         if (effects.length) {
           var rsToRemove = effects.filter(function (eff) {
             return eff.scope === 'consumption' && eff.type === 'resources';
           });
           rsToRemove.forEach(function (rs) {
             result.consume[rs.id] = rs.value; // *this.getSpellMaxLvlDiscount(entity.id);
-            if (result.consume[rs.id] > game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(rs.id).amount) {
+            if (result.consume[rs.id] > index.gameResources.getResource(rs.id).amount) {
               result.isAffordable = false;
             }
           });
@@ -266,7 +266,7 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
     key: "useSpell",
     value: function useSpell(id) {
       var _this$spells$id4, _this$spells$id5;
-      var spell = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(id);
+      var spell = index.gameEntity.getEntity(id);
       if (!this.spells[id]) {
         this.spells[id] = {
           duration: 0,
@@ -298,7 +298,7 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
           this.spells[id].xp = 0;
           // level-up spell
           this.spells[id].level++;
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel((0,_spells_db__WEBPACK_IMPORTED_MODULE_2__.getMaxId)(id), this.spells[id].level - 1, true);
+          index.gameEntity.setEntityLevel((0,spells_db.getMaxId)(id), this.spells[id].level - 1, true);
         }
       }
       if (spell.usageGain) {
@@ -306,21 +306,21 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
         if (!_aff.isAffordable) {
           return;
         }
-        var effects = game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceApi.unpackEffects(spell.usageGain, spell.level);
+        var effects = index.resourceApi.unpackEffects(spell.usageGain, spell.level);
         if (effects.length) {
           var rsToAdd = effects.filter(function (eff) {
             return eff.scope === 'income' && eff.type === 'resources';
           });
           rsToAdd.forEach(function (rs) {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource(rs.id, rs.value);
+            index.gameResources.addResource(rs.id, rs.value);
           });
         }
         for (var key in _aff.consume) {
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource(key, -_aff.consume[key]);
+          index.gameResources.addResource(key, -_aff.consume[key]);
         }
-        if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAttribute(spell.id, 'duration')) {
+        if (index.gameEntity.getAttribute(spell.id, 'duration')) {
           var _spell$level;
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity("active_".concat(id), {
+          index.gameEntity.registerGameEntity("active_".concat(id), {
             copyFromId: id,
             isAbstract: false,
             level: spell.level,
@@ -328,8 +328,8 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
             scope: 'spells',
             unlockedBy: undefined
           });
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel("active_".concat(id), (_spell$level = spell === null || spell === void 0 ? void 0 : spell.level) !== null && _spell$level !== void 0 ? _spell$level : 1);
-          this.spells[id].duration = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAttribute(spell.id, 'duration');
+          index.gameEntity.setEntityLevel("active_".concat(id), (_spell$level = spell === null || spell === void 0 ? void 0 : spell.level) !== null && _spell$level !== void 0 ? _spell$level : 1);
+          this.spells[id].duration = index.gameEntity.getAttribute(spell.id, 'duration');
         }
         if (!this.spells[id]) {
           this.spells[id] = {};
@@ -364,16 +364,16 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "regenerateNotifications",
     value: function regenerateNotifications() {
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['spell']);
+      var entities = index.gameEntity.listEntitiesByTags(['spell']);
       entities.forEach(function (item) {
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').registerNewNotification('spellbook', 'spellbook', 'all', "spell_".concat(item.id), item.isUnlocked);
+        index.gameCore.getModule('unlock-notifications').registerNewNotification('spellbook', 'spellbook', 'all', "spell_".concat(item.id), item.isUnlocked);
       });
     }
   }, {
     key: "getSpellsData",
     value: function getSpellsData(payload) {
       var _this2 = this;
-      var items = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['spell']);
+      var items = index.gameEntity.listEntitiesByTags(['spell']);
       var presentSpells = items.filter(function (item) {
         return item.isUnlocked;
       });
@@ -399,12 +399,12 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
             isActive: ((_this2$spells$spell$i3 = _this2.spells[spell.id]) === null || _this2$spells$spell$i3 === void 0 ? void 0 : _this2$spells$spell$i3.duration) > 0,
             isCasted: (_this2$spells$spell$i4 = _this2.spells[spell.id]) === null || _this2$spells$spell$i4 === void 0 ? void 0 : _this2$spells$spell$i4.isCasted,
             cooldown: (_this2$spells$spell$i5 = (_this2$spells$spell$i6 = _this2.spells[spell.id]) === null || _this2$spells$spell$i6 === void 0 ? void 0 : _this2$spells$spell$i6.cooldown) !== null && _this2$spells$spell$i5 !== void 0 ? _this2$spells$spell$i5 : 0,
-            cooldownProg: spell.getUsageCooldown ? (spell.getUsageCooldown() + game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER - ((_this2$spells$spell$i7 = (_this2$spells$spell$i8 = _this2.spells[spell.id]) === null || _this2$spells$spell$i8 === void 0 ? void 0 : _this2$spells$spell$i8.cooldown) !== null && _this2$spells$spell$i7 !== void 0 ? _this2$spells$spell$i7 : 0)) / (spell.getUsageCooldown() + game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER) : 1,
+            cooldownProg: spell.getUsageCooldown ? (spell.getUsageCooldown() + consts.SMALL_NUMBER - ((_this2$spells$spell$i7 = (_this2$spells$spell$i8 = _this2.spells[spell.id]) === null || _this2$spells$spell$i8 === void 0 ? void 0 : _this2$spells$spell$i8.cooldown) !== null && _this2$spells$spell$i7 !== void 0 ? _this2$spells$spell$i7 : 0)) / (spell.getUsageCooldown() + consts.SMALL_NUMBER) : 1,
             monitored: _this2.getMonitoredData(spell)
           });
         }),
         isSpellLevelingAvailable: this.isSpellLevelingAvailable(),
-        automationUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_planner') > 0
+        automationUnlocked: index.gameEntity.getLevel('shop_item_planner') > 0
       };
     }
   }, {
@@ -420,15 +420,15 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "querySpellEffects",
     value: function querySpellEffects(id, level) {
-      var spell = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(id);
+      var spell = index.gameEntity.getEntity(id);
       var effects = [];
       if (spell.usageGain) {
-        effects = game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceApi.unpackEffects(spell.usageGain, level);
+        effects = index.resourceApi.unpackEffects(spell.usageGain, level);
       }
       return {
         effects: effects,
-        potentialEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(id, 0, level, true),
-        affordable: game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceCalculators.isAffordable(this.getConsumeAffordable(spell, level).consume),
+        potentialEffects: index.gameEntity.getEffects(id, 0, level, true),
+        affordable: index.resourceCalculators.isAffordable(this.getConsumeAffordable(spell, level).consume),
         xpRate: this.getXPPerCast(id, level)
       };
     }
@@ -437,10 +437,10 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
     value: function getSpellDetails(id) {
       var _this$spells$id6, _this$spells$id$autoc, _this$spells$id7, _this$spells$id8, _this$spells$id9, _this$spells$id10, _this$spells$id11;
       if (!id) return null;
-      var spell = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(id);
+      var spell = index.gameEntity.getEntity(id);
       var effects = [];
       if (spell.usageGain) {
-        effects = game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceApi.unpackEffects(spell.usageGain, spell.level);
+        effects = index.resourceApi.unpackEffects(spell.usageGain, spell.level);
       }
       return {
         id: spell.id,
@@ -449,17 +449,17 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
         breakdown: spell.breakdown,
         amount: spell.amount,
         effects: effects,
-        duration: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAttribute(id, 'duration'),
+        duration: index.gameEntity.getAttribute(id, 'duration'),
         currentDuration: (_this$spells$id6 = this.spells[id]) === null || _this$spells$id6 === void 0 ? void 0 : _this$spells$id6.duration,
-        potentialEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(id, 0, spell.level, true),
-        affordable: game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceCalculators.isAffordable(this.getConsumeAffordable(spell).consume),
+        potentialEffects: index.gameEntity.getEffects(id, 0, spell.level, true),
+        affordable: index.resourceCalculators.isAffordable(this.getConsumeAffordable(spell).consume),
         tags: spell.tags || [],
         autocast: (_this$spells$id$autoc = (_this$spells$id7 = this.spells[id]) === null || _this$spells$id7 === void 0 ? void 0 : _this$spells$id7.autocast) !== null && _this$spells$id$autoc !== void 0 ? _this$spells$id$autoc : {
           rules: []
         },
         isCasted: (_this$spells$id8 = this.spells[id]) === null || _this$spells$id8 === void 0 ? void 0 : _this$spells$id8.isCasted,
         maxLevel: ((_this$spells$id9 = this.spells[id]) === null || _this$spells$id9 === void 0 ? void 0 : _this$spells$id9.level) || 1,
-        maxLevelCostReduction: (0,_spells_db__WEBPACK_IMPORTED_MODULE_2__.getCostReduction)(id),
+        maxLevelCostReduction: (0,spells_db.getCostReduction)(id),
         maxXP: this.getMaxXP(id),
         xp: ((_this$spells$id10 = this.spells[id]) === null || _this$spells$id10 === void 0 ? void 0 : _this$spells$id10.xp) || 0,
         xpRate: this.getXPPerCast(id),
@@ -482,7 +482,7 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getAllSpellsData",
     value: function getAllSpellsData() {
-      var items = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['spell']);
+      var items = index.gameEntity.listEntitiesByTags(['spell']);
       return items.map(function (spell) {
         return _objectSpread(_objectSpread({}, spell), {}, {
           // monitor: this.monitoredData[effect.id] ?? null, // Will need it in nearest future
@@ -504,23 +504,23 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
     key: "getGeneralMagicStatsData",
     value: function getGeneralMagicStatsData() {
       var stats = {
-        'general': [_objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('spell_xp_rate')), {}, {
+        'general': [_objectSpread(_objectSpread({}, index.gameEffects.getEffect('spell_xp_rate')), {}, {
           isMultiplier: true
         })].filter(function (one) {
-          return !one.isMultiplier || Math.abs(one.value - 1) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER;
+          return !one.isMultiplier || Math.abs(one.value - 1) > consts.SMALL_NUMBER;
         }),
-        'magic_schools': [_objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('restoration_spells_efficiency')), {}, {
+        'magic_schools': [_objectSpread(_objectSpread({}, index.gameEffects.getEffect('restoration_spells_efficiency')), {}, {
           isMultiplier: true
-        }), _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('recovery_spells_efficiency')), {}, {
+        }), _objectSpread(_objectSpread({}, index.gameEffects.getEffect('recovery_spells_efficiency')), {}, {
           isMultiplier: true
-        }), _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('illusion_spells_efficiency')), {}, {
+        }), _objectSpread(_objectSpread({}, index.gameEffects.getEffect('illusion_spells_efficiency')), {}, {
           isMultiplier: true
-        }), _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('conjuration_spells_efficiency')), {}, {
+        }), _objectSpread(_objectSpread({}, index.gameEffects.getEffect('conjuration_spells_efficiency')), {}, {
           isMultiplier: true
-        }), _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('elemental_spells_efficiency')), {}, {
+        }), _objectSpread(_objectSpread({}, index.gameEffects.getEffect('elemental_spells_efficiency')), {}, {
           isMultiplier: true
         })].filter(function (one) {
-          return !one.isMultiplier || Math.abs(one.value - 1) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER;
+          return !one.isMultiplier || Math.abs(one.value - 1) > consts.SMALL_NUMBER;
         })
       };
       return stats;
@@ -536,6 +536,6 @@ var SpellModule = /*#__PURE__*/function (_GameModule) {
       this.eventHandler.sendData(label, data);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_1__.GameModule);
+}(game_module.GameModule);
 
 export { SpellModule };

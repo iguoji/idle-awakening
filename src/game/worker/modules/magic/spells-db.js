@@ -1,4 +1,4 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -27,7 +27,7 @@ var getCostReduction = function getCostReduction(id) {
           defaultValue: 1,
       })
   }*/
-  var effect = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(effId);
+  var effect = index.gameEffects.getEffectValue(effId);
   return effect;
 };
 var registerSpell = function registerSpell(id, options) {
@@ -36,8 +36,8 @@ var registerSpell = function registerSpell(id, options) {
   var max_level_id = getMaxId(id);
 
   // register effect
-  if (!game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.effects[id]) {
-    game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.registerEffect(cost_reduction_effect_id, {
+  if (!index.gameEffects.effects[id]) {
+    index.gameEffects.registerEffect(cost_reduction_effect_id, {
       name: "".concat(options.name, " cost"),
       defaultValue: 1.,
       minValue: 0
@@ -45,7 +45,7 @@ var registerSpell = function registerSpell(id, options) {
   }
 
   //register cap
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity(max_level_id, {
+  index.gameEntity.registerGameEntity(max_level_id, {
     name: "".concat(options.name, " cap"),
     tags: ['spell_cap'],
     isUnlocked: options.isUnlocked,
@@ -70,7 +70,7 @@ var registerSpell = function registerSpell(id, options) {
   if ((_options$attributes = options.attributes) !== null && _options$attributes !== void 0 && _options$attributes.duration) {
     options.attributes.className = 'spell';
   }
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity(id, _objectSpread({}, options));
+  index.gameEntity.registerGameEntity(id, _objectSpread({}, options));
 };
 var initSpellsDB1 = function initSpellsDB1() {
   registerSpell('spell_magic_insight', {
@@ -110,7 +110,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') > 0;
+      return index.gameEntity.getLevel('shop_item_spellbook') > 0;
     },
     attributes: {
       xpOnCast: 20
@@ -168,7 +168,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       xpOnCast: 20
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') > 0;
+      return index.gameEntity.getLevel('shop_item_spellbook') > 0;
     }
   });
   registerSpell('spell_harvest_vision', {
@@ -223,7 +223,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       xpOnCast: 20
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_map') > 0;
+      return index.gameEntity.getLevel('shop_item_spellbook') > 0 && index.gameEntity.getLevel('shop_item_map') > 0;
     }
   });
   registerSpell('spell_magic_recovery', {
@@ -255,7 +255,7 @@ var initSpellsDB1 = function initSpellsDB1() {
           resources: {
             health: {
               A: 1.2,
-              B: 10 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('restoration_spells_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('recovery_spells_efficiency'),
+              B: 10 * index.gameEffects.getEffectValue('restoration_spells_efficiency') * index.gameEffects.getEffectValue('recovery_spells_efficiency'),
               type: 1
             }
           }
@@ -267,7 +267,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       xpOnCast: 20
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_less_restoration') > 0;
+      return index.gameEntity.getLevel('shop_item_less_restoration') > 0;
     }
   });
   registerSpell('spell_small_regeneration', {
@@ -288,12 +288,12 @@ var initSpellsDB1 = function initSpellsDB1() {
           resources: {
             health: {
               A: 1.2,
-              B: 0.5 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('restoration_spells_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('recovery_spells_efficiency'),
+              B: 0.5 * index.gameEffects.getEffectValue('restoration_spells_efficiency') * index.gameEffects.getEffectValue('recovery_spells_efficiency'),
               type: 1
             },
             energy: {
               A: 1.2,
-              B: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('restoration_spells_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('recovery_spells_efficiency'),
+              B: 1 * index.gameEffects.getEffectValue('restoration_spells_efficiency') * index.gameEffects.getEffectValue('recovery_spells_efficiency'),
               type: 1
             }
           }
@@ -330,7 +330,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       xpOnCast: 20
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_less_restoration') > 0;
+      return index.gameEntity.getLevel('shop_item_less_restoration') > 0;
     }
   });
   registerSpell('spell_body_catalyst', {
@@ -350,8 +350,8 @@ var initSpellsDB1 = function initSpellsDB1() {
         return {
           effects: {
             physical_training_learn_speed: {
-              A: 0.05 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('restoration_spells_efficiency'),
-              B: 1.0 + 0.1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('restoration_spells_efficiency'),
+              A: 0.05 * index.gameEffects.getEffectValue('restoration_spells_efficiency'),
+              B: 1.0 + 0.1 * index.gameEffects.getEffectValue('restoration_spells_efficiency'),
               type: 0
             }
           }
@@ -389,7 +389,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       baseXPCost: 1.e+5
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_minor_restoration') > 0;
+      return index.gameEntity.getLevel('shop_item_minor_restoration') > 0;
     }
   });
   registerSpell('spell_perfection_illusion', {
@@ -409,8 +409,8 @@ var initSpellsDB1 = function initSpellsDB1() {
         return {
           effects: {
             coins_earned_bonus: {
-              A: 0.1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('illusion_spells_efficiency'),
-              B: 1.0 + 0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('illusion_spells_efficiency'),
+              A: 0.1 * index.gameEffects.getEffectValue('illusion_spells_efficiency'),
+              B: 1.0 + 0.2 * index.gameEffects.getEffectValue('illusion_spells_efficiency'),
               type: 0
             }
           }
@@ -447,7 +447,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       xpOnCast: 50
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_less_illusion') > 0;
+      return index.gameEntity.getLevel('shop_item_less_illusion') > 0;
     }
   });
   registerSpell('spell_dancing_fairy', {
@@ -467,8 +467,8 @@ var initSpellsDB1 = function initSpellsDB1() {
         return {
           effects: {
             routine_learning_speed: {
-              A: 0.1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('illusion_spells_efficiency'),
-              B: 1.0 + 0.4 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('illusion_spells_efficiency'),
+              A: 0.1 * index.gameEffects.getEffectValue('illusion_spells_efficiency'),
+              B: 1.0 + 0.4 * index.gameEffects.getEffectValue('illusion_spells_efficiency'),
               type: 0
             }
           }
@@ -505,7 +505,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       xpOnCast: 50
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_less_illusion') > 0;
+      return index.gameEntity.getLevel('shop_item_less_illusion') > 0;
     }
   });
   registerSpell('spell_friendliness_mask', {
@@ -525,8 +525,8 @@ var initSpellsDB1 = function initSpellsDB1() {
         return {
           effects: {
             social_training_learning_rate: {
-              A: 0.1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('illusion_spells_efficiency'),
-              B: 1.0 + 0.4 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('illusion_spells_efficiency'),
+              A: 0.1 * index.gameEffects.getEffectValue('illusion_spells_efficiency'),
+              B: 1.0 + 0.4 * index.gameEffects.getEffectValue('illusion_spells_efficiency'),
               type: 0
             }
           }
@@ -563,7 +563,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       xpOnCast: 50
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_minor_illusion') > 0;
+      return index.gameEntity.getLevel('shop_item_minor_illusion') > 0;
     }
   });
   registerSpell('spell_illusory_hammer', {
@@ -583,8 +583,8 @@ var initSpellsDB1 = function initSpellsDB1() {
         return {
           effects: {
             crafting_efficiency: {
-              A: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('illusion_spells_efficiency'),
-              B: 1.0 + 0.1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('illusion_spells_efficiency'),
+              A: 0.02 * index.gameEffects.getEffectValue('illusion_spells_efficiency'),
+              B: 1.0 + 0.1 * index.gameEffects.getEffectValue('illusion_spells_efficiency'),
               type: 0
             }
           }
@@ -621,7 +621,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       xpOnCast: 50
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_minor_illusion') > 0;
+      return index.gameEntity.getLevel('shop_item_minor_illusion') > 0;
     }
   });
   registerSpell('spell_conjure_water', {
@@ -647,7 +647,7 @@ var initSpellsDB1 = function initSpellsDB1() {
           resources: {
             inventory_water: {
               A: 1.2,
-              B: 0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('conjuration_spells_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('elemental_spells_efficiency'),
+              B: 0.2 * index.gameEffects.getEffectValue('conjuration_spells_efficiency') * index.gameEffects.getEffectValue('elemental_spells_efficiency'),
               type: 1
             }
           }
@@ -685,7 +685,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       baseXPCost: 1.e+8
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_minor_illusion') > 0;
+      return index.gameEntity.getLevel('shop_item_minor_illusion') > 0;
     }
   });
   registerSpell('spell_conjure_wood', {
@@ -711,7 +711,7 @@ var initSpellsDB1 = function initSpellsDB1() {
           resources: {
             inventory_wood: {
               A: 1.2,
-              B: 2000 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('conjuration_spells_efficiency'),
+              B: 2000 * index.gameEffects.getEffectValue('conjuration_spells_efficiency'),
               type: 1
             }
           }
@@ -749,7 +749,7 @@ var initSpellsDB1 = function initSpellsDB1() {
       baseXPCost: 1.e+8
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_minor_illusion') > 0;
+      return index.gameEntity.getLevel('shop_item_minor_illusion') > 0;
     }
   });
   registerSpell('spell_conjure_earth', {
@@ -775,7 +775,7 @@ var initSpellsDB1 = function initSpellsDB1() {
           resources: {
             inventory_earth: {
               A: 1.2,
-              B: 0.025 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('conjuration_spells_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('elemental_spells_efficiency'),
+              B: 0.025 * index.gameEffects.getEffectValue('conjuration_spells_efficiency') * index.gameEffects.getEffectValue('elemental_spells_efficiency'),
               type: 1
             }
           }
@@ -839,7 +839,7 @@ var initSpellsDB1 = function initSpellsDB1() {
           resources: {
             inventory_air: {
               A: 1.2,
-              B: 0.025 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('conjuration_spells_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('elemental_spells_efficiency'),
+              B: 0.025 * index.gameEffects.getEffectValue('conjuration_spells_efficiency') * index.gameEffects.getEffectValue('elemental_spells_efficiency'),
               type: 1
             }
           }
@@ -903,7 +903,7 @@ var initSpellsDB1 = function initSpellsDB1() {
           resources: {
             inventory_spark: {
               A: 1.2,
-              B: 0.005 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('conjuration_spells_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('elemental_spells_efficiency'),
+              B: 0.005 * index.gameEffects.getEffectValue('conjuration_spells_efficiency') * index.gameEffects.getEffectValue('elemental_spells_efficiency'),
               type: 1
             }
           }

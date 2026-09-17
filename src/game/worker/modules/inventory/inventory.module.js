@@ -1,9 +1,9 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_1__ from '../../shared/game-module.js';
-import * as _inventory_items_db__WEBPACK_IMPORTED_MODULE_2__ from './inventory-items-db.js';
-import * as _shared_utils_rule_utils__WEBPACK_IMPORTED_MODULE_3__ from '../../shared/utils/rule-utils.js';
-import * as game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__ from '../../../framework/src/utils/consts.js';
-import * as _shared_utils_objects__WEBPACK_IMPORTED_MODULE_5__ from '../../shared/utils/objects.js';
+import * as index from '../../../framework/index.js';
+import * as game_module from '../../shared/game-module.js';
+import * as inventory_items_db from './inventory-items-db.js';
+import * as rule_utils from '../../shared/utils/rule-utils.js';
+import * as consts from '../../../framework/src/utils/consts.js';
+import * as objects from '../../shared/utils/objects.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
@@ -117,24 +117,24 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
         this.inventoryItems[itemId].isConsumed = false;
         if (this.inventoryItems[itemId].duration > 0) {
           this.inventoryItems[itemId].duration -= delta;
-          if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.entityExists("active_".concat(itemId))) {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setAttribute("active_".concat(itemId), 'current_duration', this.inventoryItems[itemId].duration);
+          if (index.gameEntity.entityExists("active_".concat(itemId))) {
+            index.gameEntity.setAttribute("active_".concat(itemId), 'current_duration', this.inventoryItems[itemId].duration);
           }
         }
         if (this.inventoryItems[itemId].duration <= 0) {
           this.inventoryItems[itemId].duration = 0;
-          if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.entityExists("active_".concat(itemId))) {
+          if (index.gameEntity.entityExists("active_".concat(itemId))) {
             var _gameResources$getRes;
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.unsetEntity("active_".concat(itemId));
-            this.inventoryItems[itemId].cooldown = (_gameResources$getRes = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(itemId).getUsageCooldown()) !== null && _gameResources$getRes !== void 0 ? _gameResources$getRes : 0;
+            index.gameEntity.unsetEntity("active_".concat(itemId));
+            this.inventoryItems[itemId].cooldown = (_gameResources$getRes = index.gameResources.getResource(itemId).getUsageCooldown()) !== null && _gameResources$getRes !== void 0 ? _gameResources$getRes : 0;
           }
           checkAutoThisTick = !this.inventoryItems[itemId].cooldown;
         }
         if (this.inventoryItems[itemId].cooldown > 0) {
           this.inventoryItems[itemId].cooldown -= delta;
         }
-        if (this.inventoryItems[itemId].stockCapacity < game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('shop_max_stock')) {
-          this.inventoryItems[itemId].stockCapacity += delta * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('shop_stock_renew_rate');
+        if (this.inventoryItems[itemId].stockCapacity < index.gameEffects.getEffectValue('shop_max_stock')) {
+          this.inventoryItems[itemId].stockCapacity += delta * index.gameEffects.getEffectValue('shop_stock_renew_rate');
         }
         if (this.autoConsumeCD > 0 && !checkAutoThisTick) {
           continue;
@@ -142,15 +142,15 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
         if ((_this$inventoryItems$ = this.inventoryItems[itemId]) !== null && _this$inventoryItems$ !== void 0 && (_this$inventoryItems$ = _this$inventoryItems$.autoconsume) !== null && _this$inventoryItems$ !== void 0 && _this$inventoryItems$.isEnabled) {
           var _this$inventoryItems$2, _this$inventoryItems$3;
           // check if matching rules
-          var isMatching = (0,_shared_utils_rule_utils__WEBPACK_IMPORTED_MODULE_3__.checkMatchingRules)((_this$inventoryItems$2 = this.inventoryItems[itemId]) === null || _this$inventoryItems$2 === void 0 || (_this$inventoryItems$2 = _this$inventoryItems$2.autoconsume) === null || _this$inventoryItems$2 === void 0 ? void 0 : _this$inventoryItems$2.rules, (_this$inventoryItems$3 = this.inventoryItems[itemId]) === null || _this$inventoryItems$3 === void 0 || (_this$inventoryItems$3 = _this$inventoryItems$3.autoconsume) === null || _this$inventoryItems$3 === void 0 ? void 0 : _this$inventoryItems$3.pattern);
+          var isMatching = (0,rule_utils.checkMatchingRules)((_this$inventoryItems$2 = this.inventoryItems[itemId]) === null || _this$inventoryItems$2 === void 0 || (_this$inventoryItems$2 = _this$inventoryItems$2.autoconsume) === null || _this$inventoryItems$2 === void 0 ? void 0 : _this$inventoryItems$2.rules, (_this$inventoryItems$3 = this.inventoryItems[itemId]) === null || _this$inventoryItems$3 === void 0 || (_this$inventoryItems$3 = _this$inventoryItems$3.autoconsume) === null || _this$inventoryItems$3 === void 0 ? void 0 : _this$inventoryItems$3.pattern);
 
           // console.log('RULES MATCHED: ', isMatching);
           if (isMatching) {
             var _this$inventoryItems$4, _gameResources$getRes2;
             var amount = 1;
             var reserved = ((_this$inventoryItems$4 = this.inventoryItems[itemId]) === null || _this$inventoryItems$4 === void 0 || (_this$inventoryItems$4 = _this$inventoryItems$4.autosell) === null || _this$inventoryItems$4 === void 0 ? void 0 : _this$inventoryItems$4.reserved) || 0;
-            var reserveLimit = Math.floor(Math.max(0, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(itemId).amount - reserved));
-            if ((_gameResources$getRes2 = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(itemId).attributes) !== null && _gameResources$getRes2 !== void 0 && _gameResources$getRes2.allowMultiConsume) {
+            var reserveLimit = Math.floor(Math.max(0, index.gameResources.getResource(itemId).amount - reserved));
+            if ((_gameResources$getRes2 = index.gameResources.getResource(itemId).attributes) !== null && _gameResources$getRes2 !== void 0 && _gameResources$getRes2.allowMultiConsume) {
               amount = reserveLimit;
             }
             if (amount > 0) {
@@ -160,19 +160,19 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
         }
         if ((_this$inventoryItems$5 = this.inventoryItems[itemId]) !== null && _this$inventoryItems$5 !== void 0 && (_this$inventoryItems$5 = _this$inventoryItems$5.autosell) !== null && _this$inventoryItems$5 !== void 0 && _this$inventoryItems$5.isEnabled) {
           var _this$inventoryItems$6, _this$inventoryItems$7, _this$inventoryItems$8;
-          var coinsRs = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('coins');
-          if (coinsRs.cap - coinsRs.amount <= game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER) {
+          var coinsRs = index.gameResources.getResource('coins');
+          if (coinsRs.cap - coinsRs.amount <= consts.SMALL_NUMBER) {
             continue;
           }
           ; // don't waste items since coins are capped
-          var _isMatching = (0,_shared_utils_rule_utils__WEBPACK_IMPORTED_MODULE_3__.checkMatchingRules)((_this$inventoryItems$6 = this.inventoryItems[itemId]) === null || _this$inventoryItems$6 === void 0 || (_this$inventoryItems$6 = _this$inventoryItems$6.autosell) === null || _this$inventoryItems$6 === void 0 ? void 0 : _this$inventoryItems$6.rules, (_this$inventoryItems$7 = this.inventoryItems[itemId]) === null || _this$inventoryItems$7 === void 0 || (_this$inventoryItems$7 = _this$inventoryItems$7.autosell) === null || _this$inventoryItems$7 === void 0 ? void 0 : _this$inventoryItems$7.pattern);
+          var _isMatching = (0,rule_utils.checkMatchingRules)((_this$inventoryItems$6 = this.inventoryItems[itemId]) === null || _this$inventoryItems$6 === void 0 || (_this$inventoryItems$6 = _this$inventoryItems$6.autosell) === null || _this$inventoryItems$6 === void 0 ? void 0 : _this$inventoryItems$6.rules, (_this$inventoryItems$7 = this.inventoryItems[itemId]) === null || _this$inventoryItems$7 === void 0 || (_this$inventoryItems$7 = _this$inventoryItems$7.autosell) === null || _this$inventoryItems$7 === void 0 ? void 0 : _this$inventoryItems$7.pattern);
           if (!('stockCapacity' in this.inventoryItems[itemId])) {
-            this.inventoryItems[itemId].stockCapacity = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('shop_max_stock');
+            this.inventoryItems[itemId].stockCapacity = index.gameEffects.getEffectValue('shop_max_stock');
           }
           var sellAmount = this.inventoryItems[itemId].stockCapacity;
           // now we should understand that we do not violate resource rule
           var _reserved = ((_this$inventoryItems$8 = this.inventoryItems[itemId]) === null || _this$inventoryItems$8 === void 0 || (_this$inventoryItems$8 = _this$inventoryItems$8.autosell) === null || _this$inventoryItems$8 === void 0 ? void 0 : _this$inventoryItems$8.reserved) || 0;
-          var _reserveLimit = Math.floor(Math.max(0, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(itemId).amount - _reserved));
+          var _reserveLimit = Math.floor(Math.max(0, index.gameResources.getResource(itemId).amount - _reserved));
           var realSell = Math.min(sellAmount, _reserveLimit);
           // console.log('INVDEBUG Reserved: ', itemId, reserved, reserveLimit, sellAmount, realSell, gameResources.getResource(itemId).amount, this.inventoryItems[itemId]);
 
@@ -201,8 +201,8 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
       for (var key in this.inventoryItems) {
         if (this.inventoryItems[key].duration && this.inventoryItems[key].duration > 0) {
           // we should unset existing
-          if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.entityExists("active_".concat(key))) {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.unsetEntity("active_".concat(key));
+          if (index.gameEntity.entityExists("active_".concat(key))) {
+            index.gameEntity.unsetEntity("active_".concat(key));
           }
         }
       }
@@ -214,21 +214,21 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
       };
       for (var _key in this.inventoryItems) {
         if (!('stockCapacity' in this.inventoryItems[_key])) {
-          this.inventoryItems[_key].stockCapacity = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('shop_max_stock');
+          this.inventoryItems[_key].stockCapacity = index.gameEffects.getEffectValue('shop_max_stock');
         }
         if (this.inventoryItems[_key].duration && this.inventoryItems[_key].duration > 0) {
           var _gameResources$getRes3;
           // console.log('INVDEBUG REGISTER ITEM '+key+':', this.inventoryItems[key]);
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity("active_".concat(_key), {
+          index.gameEntity.registerGameEntity("active_".concat(_key), {
             originalId: _key,
-            name: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(_key).name,
+            name: index.gameResources.getResource(_key).name,
             isAbstract: false,
             tags: ['active_consumable', 'active_effect'],
             scope: 'resources',
             level: 1,
-            resourceModifier: (_gameResources$getRes3 = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(_key).resourceModifier) !== null && _gameResources$getRes3 !== void 0 ? _gameResources$getRes3 : undefined
+            resourceModifier: (_gameResources$getRes3 = index.gameResources.getResource(_key).resourceModifier) !== null && _gameResources$getRes3 !== void 0 ? _gameResources$getRes3 : undefined
           });
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel("active_".concat(_key), 1);
+          index.gameEntity.setEntityLevel("active_".concat(_key), 1);
         }
       }
       this.sendInventoryData(this.selectedFilterId, {
@@ -248,7 +248,7 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
         consume: {}
       };
       if (resource.usageGain) {
-        var effects = game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceApi.unpackEffects(resource.usageGain, realCons);
+        var effects = index.resourceApi.unpackEffects(resource.usageGain, realCons);
         if (effects.length) {
           var rsToRemove = effects.filter(function (eff) {
             return eff.scope === 'consumption' && eff.type === 'resources';
@@ -258,7 +258,7 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
 
           rsToRemove.forEach(function (rs) {
             result.consume[rs.id] = rs.value;
-            if (result.consume[rs.id] > game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(rs.id).amount) {
+            if (result.consume[rs.id] > index.gameResources.getResource(rs.id).amount) {
               result.isAffordable = false;
             }
           });
@@ -269,7 +269,7 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "consumeItem",
     value: function consumeItem(id, amount) {
-      var resource = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(id);
+      var resource = index.gameResources.getResource(id);
       var realCons = Math.min(amount, resource.amount);
       if (this.inventoryItems[id] && (this.inventoryItems[id].cooldown > 0 || this.inventoryItems[id].duration > 0)) return;
       if (realCons < 1) return;
@@ -279,7 +279,7 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
         if (!aff.isAffordable) {
           return;
         }
-        var effects = game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceApi.unpackEffects(resource.usageGain || {}, realCons);
+        var effects = index.resourceApi.unpackEffects(resource.usageGain || {}, realCons);
         if (effects.length) {
           var rsToAdd = effects.filter(function (eff) {
             return eff.scope === 'income' && eff.type === 'resources';
@@ -288,15 +288,15 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
           // console.log('consAddR: ', effects, rsToAdd, realCons);
 
           rsToAdd.forEach(function (rs) {
-            game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource(rs.id, rs.value);
+            index.gameResources.addResource(rs.id, rs.value);
           });
         }
         for (var key in aff.consume) {
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource(key, -aff.consume[key]);
+          index.gameResources.addResource(key, -aff.consume[key]);
         }
         if (!this.inventoryItems[id]) {
           this.inventoryItems[id] = {
-            stockCapacity: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('shop_max_stock')
+            stockCapacity: index.gameEffects.getEffectValue('shop_max_stock')
           };
         }
         this.inventoryItems[id].isConsumed = true;
@@ -304,7 +304,7 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
           var _resource$resourceMod;
           // has active effect
 
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity("active_".concat(id), {
+          index.gameEntity.registerGameEntity("active_".concat(id), {
             originalId: id,
             name: resource.name,
             isAbstract: false,
@@ -313,7 +313,7 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
             scope: 'resources',
             resourceModifier: (_resource$resourceMod = resource.resourceModifier) !== null && _resource$resourceMod !== void 0 ? _resource$resourceMod : undefined
           });
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel("active_".concat(id), 1);
+          index.gameEntity.setEntityLevel("active_".concat(id), 1);
           this.inventoryItems[id].duration = resource.attributes.duration;
         } else {
           var _resource$getUsageCoo;
@@ -324,7 +324,7 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
         resource.onUse(realCons);
       }
       this.inventoryItems[id].numConsumed = (this.inventoryItems[id].numConsumed || 0) + realCons;
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource(id, -realCons);
+      index.gameResources.addResource(id, -realCons);
       this.sendInventoryData(this.selectedFilterId, {
         searchData: this.searchData
       });
@@ -333,14 +333,14 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
     key: "sellItem",
     value: function sellItem(id, amount) {
       var _this$inventoryItems$9;
-      var resource = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(id);
+      var resource = index.gameResources.getResource(id);
       var realCons = Math.min(amount, resource.amount, ((_this$inventoryItems$9 = this.inventoryItems[id]) === null || _this$inventoryItems$9 === void 0 ? void 0 : _this$inventoryItems$9.stockCapacity) || 10);
       if (this.inventoryItems[id] && this.inventoryItems[id].stockCapacity <= 0) return;
       if (realCons < 1) return;
       if (resource.sellPrice) {
         if (!this.inventoryItems[id]) {
           this.inventoryItems[id] = {
-            stockCapacity: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('shop_max_stock')
+            stockCapacity: index.gameEffects.getEffectValue('shop_max_stock')
           };
         }
         this.inventoryItems[id].stockCapacity -= realCons;
@@ -350,9 +350,9 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
         if (!this.inventoryItems[id].coinsEarned) {
           this.inventoryItems[id].coinsEarned = 0;
         }
-        var earnings = realCons * resource.sellPrice * (0,_inventory_items_db__WEBPACK_IMPORTED_MODULE_2__.sellPriceMod)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_bargaining'));
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource(id, -realCons);
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource('coins', earnings);
+        var earnings = realCons * resource.sellPrice * (0,inventory_items_db.sellPriceMod)(index.gameEffects.getEffectValue('attribute_bargaining'));
+        index.gameResources.addResource(id, -realCons);
+        index.gameResources.addResource('coins', earnings);
         this.inventoryItems[id].soldAmount += realCons;
         this.inventoryItems[id].coinsEarned += earnings;
       }
@@ -376,9 +376,9 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
       // NOW - check for actions if they have any new notifications
 
       this.filters.forEach(function (filter) {
-        var items = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.listResourcesByTags(['inventory'].concat(_toConsumableArray(filter.tags)));
+        var items = index.gameResources.listResourcesByTags(['inventory'].concat(_toConsumableArray(filter.tags)));
         items.forEach(function (item) {
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').registerNewNotification('inventory', 'all', filter.id, "inventory_".concat(item.id), item.isUnlocked && (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(item.id).amount >= game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER || Math.abs(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(item.id).income) >= game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER));
+          index.gameCore.getModule('unlock-notifications').registerNewNotification('inventory', 'all', filter.id, "inventory_".concat(item.id), item.isUnlocked && (index.gameResources.getResource(item.id).amount >= consts.SMALL_NUMBER || Math.abs(index.gameResources.getResource(item.id).income) >= consts.SMALL_NUMBER));
         });
       });
     }
@@ -412,9 +412,9 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
           id: filter.id,
           name: filter.name,
           tags: filter.tags,
-          items: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.listResourcesByTags(['inventory'].concat(_toConsumableArray(filter.tags))).filter(function (one) {
+          items: index.gameResources.listResourcesByTags(['inventory'].concat(_toConsumableArray(filter.tags))).filter(function (one) {
             var _this2$inventoryItems, _this2$inventoryItems2, _this2$inventoryItems3, _this2$inventoryItems4;
-            return one.isUnlocked && !one.isCapped && (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(one.id).amount >= game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER || Math.abs(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(one.id).income) >= game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER || ((_this2$inventoryItems = _this2.inventoryItems[one.id]) === null || _this2$inventoryItems === void 0 || (_this2$inventoryItems = _this2$inventoryItems.autoconsume) === null || _this2$inventoryItems === void 0 || (_this2$inventoryItems = _this2$inventoryItems.rules) === null || _this2$inventoryItems === void 0 ? void 0 : _this2$inventoryItems.length) || ((_this2$inventoryItems2 = _this2.inventoryItems[one.id]) === null || _this2$inventoryItems2 === void 0 || (_this2$inventoryItems2 = _this2$inventoryItems2.autoconsume) === null || _this2$inventoryItems2 === void 0 ? void 0 : _this2$inventoryItems2.isEnabled) || ((_this2$inventoryItems3 = _this2.inventoryItems[one.id]) === null || _this2$inventoryItems3 === void 0 || (_this2$inventoryItems3 = _this2$inventoryItems3.autosell) === null || _this2$inventoryItems3 === void 0 || (_this2$inventoryItems3 = _this2$inventoryItems3.rules) === null || _this2$inventoryItems3 === void 0 ? void 0 : _this2$inventoryItems3.length) || ((_this2$inventoryItems4 = _this2.inventoryItems[one.id]) === null || _this2$inventoryItems4 === void 0 || (_this2$inventoryItems4 = _this2$inventoryItems4.autosell) === null || _this2$inventoryItems4 === void 0 ? void 0 : _this2$inventoryItems4.isEnabled)) && _this2.matchInventorySearch(one, pl.searchData);
+            return one.isUnlocked && !one.isCapped && (index.gameResources.getResource(one.id).amount >= consts.SMALL_NUMBER || Math.abs(index.gameResources.getResource(one.id).income) >= consts.SMALL_NUMBER || ((_this2$inventoryItems = _this2.inventoryItems[one.id]) === null || _this2$inventoryItems === void 0 || (_this2$inventoryItems = _this2$inventoryItems.autoconsume) === null || _this2$inventoryItems === void 0 || (_this2$inventoryItems = _this2$inventoryItems.rules) === null || _this2$inventoryItems === void 0 ? void 0 : _this2$inventoryItems.length) || ((_this2$inventoryItems2 = _this2.inventoryItems[one.id]) === null || _this2$inventoryItems2 === void 0 || (_this2$inventoryItems2 = _this2$inventoryItems2.autoconsume) === null || _this2$inventoryItems2 === void 0 ? void 0 : _this2$inventoryItems2.isEnabled) || ((_this2$inventoryItems3 = _this2.inventoryItems[one.id]) === null || _this2$inventoryItems3 === void 0 || (_this2$inventoryItems3 = _this2$inventoryItems3.autosell) === null || _this2$inventoryItems3 === void 0 || (_this2$inventoryItems3 = _this2$inventoryItems3.rules) === null || _this2$inventoryItems3 === void 0 ? void 0 : _this2$inventoryItems3.length) || ((_this2$inventoryItems4 = _this2.inventoryItems[one.id]) === null || _this2$inventoryItems4 === void 0 || (_this2$inventoryItems4 = _this2$inventoryItems4.autosell) === null || _this2$inventoryItems4 === void 0 ? void 0 : _this2$inventoryItems4.isEnabled)) && _this2.matchInventorySearch(one, pl.searchData);
           }),
           isSelected: filterId === filter.id
         };
@@ -458,9 +458,9 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
             isConsumable: resource.tags.includes('consumable'),
             isConsumed: (_this2$inventoryItems13 = _this2.inventoryItems[resource.id]) === null || _this2$inventoryItems13 === void 0 ? void 0 : _this2$inventoryItems13.isConsumed,
             cooldown: (_this2$inventoryItems14 = (_this2$inventoryItems15 = _this2.inventoryItems[resource.id]) === null || _this2$inventoryItems15 === void 0 ? void 0 : _this2$inventoryItems15.cooldown) !== null && _this2$inventoryItems14 !== void 0 ? _this2$inventoryItems14 : 0,
-            cooldownProg: resource.getUsageCooldown ? (resource.getUsageCooldown() + game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER - ((_this2$inventoryItems16 = (_this2$inventoryItems17 = _this2.inventoryItems[resource.id]) === null || _this2$inventoryItems17 === void 0 ? void 0 : _this2$inventoryItems17.cooldown) !== null && _this2$inventoryItems16 !== void 0 ? _this2$inventoryItems16 : 0)) / (resource.getUsageCooldown() + game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER) : 1,
+            cooldownProg: resource.getUsageCooldown ? (resource.getUsageCooldown() + consts.SMALL_NUMBER - ((_this2$inventoryItems16 = (_this2$inventoryItems17 = _this2.inventoryItems[resource.id]) === null || _this2$inventoryItems17 === void 0 ? void 0 : _this2$inventoryItems17.cooldown) !== null && _this2$inventoryItems16 !== void 0 ? _this2$inventoryItems16 : 0)) / (resource.getUsageCooldown() + consts.SMALL_NUMBER) : 1,
             allowMultiConsume: (_resource$attributes3 = resource.attributes) === null || _resource$attributes3 === void 0 ? void 0 : _resource$attributes3.allowMultiConsume,
-            isPinned: !!((_gameCore$getModule$p = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('resource-pool').pinnedResources) !== null && _gameCore$getModule$p !== void 0 && _gameCore$getModule$p[resource.id])
+            isPinned: !!((_gameCore$getModule$p = index.gameCore.getModule('resource-pool').pinnedResources) !== null && _gameCore$getModule$p !== void 0 && _gameCore$getModule$p[resource.id])
           });
         }),
         itemCategories: Object.values(perCats).filter(function (cat) {
@@ -472,7 +472,7 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
           search: '',
           selectedScopes: ['name']
         },
-        automationUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_planner') > 0,
+        automationUnlocked: index.gameEntity.getLevel('shop_item_planner') > 0,
         details: {
           /*metabolism_rate: {...gameEffects.getEffect('metabolism_rate'), isMultiplier: false},
           cooldown_bonus: {
@@ -483,20 +483,20 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
               value: metabolismIntensityMod(gameEffects.getEffectValue('metabolism_rate')),
               isMultiplier: true,
           },*/
-          bargaining: _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('attribute_bargaining')), {}, {
+          bargaining: _objectSpread(_objectSpread({}, index.gameEffects.getEffect('attribute_bargaining')), {}, {
             isMultiplier: false
           }),
-          bargaining_mod: _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('attribute_bargaining')), {}, {
+          bargaining_mod: _objectSpread(_objectSpread({}, index.gameEffects.getEffect('attribute_bargaining')), {}, {
             id: 'bargaining_mod',
             description: 'Sell price multiplier from bargaining (1 + 0.02*log2(bargaining)^2)',
             name: 'Bargaining Sell Price Mult',
-            value: (0,_inventory_items_db__WEBPACK_IMPORTED_MODULE_2__.sellPriceMod)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_bargaining')),
+            value: (0,inventory_items_db.sellPriceMod)(index.gameEffects.getEffectValue('attribute_bargaining')),
             isMultiplier: true
           }),
-          shop_max_stock: _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('shop_max_stock')), {}, {
+          shop_max_stock: _objectSpread(_objectSpread({}, index.gameEffects.getEffect('shop_max_stock')), {}, {
             isMultiplier: false
           }),
-          shop_stock_renew_rate: _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('shop_stock_renew_rate')), {}, {
+          shop_stock_renew_rate: _objectSpread(_objectSpread({}, index.gameEffects.getEffect('shop_stock_renew_rate')), {}, {
             id: 'shop_stock_renew_rate',
             isMultiplier: false
           })
@@ -518,10 +518,10 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
     value: function getItemDetails(id) {
       var _resource$attributes4, _this$inventoryItems$10, _this$inventoryItems$11, _this$inventoryItems$12, _this$inventoryItems$13, _this$inventoryItems$14, _this$inventoryItems$15, _this$inventoryItems$16, _resource$attributes7, _this$inventoryItems$17, _this$inventoryItems$18, _this$inventoryItems$19, _this$inventoryItems$20, _this$inventoryItems$21, _this$inventoryItems$22, _this$inventoryItems$23, _gameCore$getModule$p2;
       if (!id) return null;
-      var resource = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(id);
+      var resource = index.gameResources.getResource(id);
       var effects = [];
       if (resource.usageGain) {
-        effects = game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceApi.unpackEffects(resource.usageGain, 1);
+        effects = index.resourceApi.unpackEffects(resource.usageGain, 1);
       }
 
       // const currentEffects = resource.attributes?.entityEffect ? gameEntity.getEffects(resource.attributes?.entityEffect) : null;
@@ -531,8 +531,8 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
       var potentialPermanentEffects;
       if ((_resource$attributes4 = resource.attributes) !== null && _resource$attributes4 !== void 0 && _resource$attributes4.entityEffect) {
         var _resource$attributes5, _resource$attributes6;
-        permanentEffects = (0,_shared_utils_objects__WEBPACK_IMPORTED_MODULE_5__.packEffects)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects((_resource$attributes5 = resource.attributes) === null || _resource$attributes5 === void 0 ? void 0 : _resource$attributes5.entityEffect));
-        potentialPermanentEffects = (0,_shared_utils_objects__WEBPACK_IMPORTED_MODULE_5__.packEffects)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects((_resource$attributes6 = resource.attributes) === null || _resource$attributes6 === void 0 ? void 0 : _resource$attributes6.entityEffect, 1));
+        permanentEffects = (0,objects.packEffects)(index.gameEntity.getEffects((_resource$attributes5 = resource.attributes) === null || _resource$attributes5 === void 0 ? void 0 : _resource$attributes5.entityEffect));
+        potentialPermanentEffects = (0,objects.packEffects)(index.gameEntity.getEffects((_resource$attributes6 = resource.attributes) === null || _resource$attributes6 === void 0 ? void 0 : _resource$attributes6.entityEffect, 1));
       }
 
       // console.log('EEFF: ', resource.attributes?.entityEffect, permanentEffects, potentialPermanentEffects);
@@ -553,10 +553,10 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
         },
         isConsumed: (_this$inventoryItems$14 = this.inventoryItems[resource.id]) === null || _this$inventoryItems$14 === void 0 ? void 0 : _this$inventoryItems$14.isConsumed,
         isSellable: !!resource.sellPrice,
-        sellPrice: resource.sellPrice * (0,_inventory_items_db__WEBPACK_IMPORTED_MODULE_2__.sellPriceMod)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_bargaining')),
-        maxSell: Math.min((_this$inventoryItems$15 = (_this$inventoryItems$16 = this.inventoryItems[resource.id]) === null || _this$inventoryItems$16 === void 0 ? void 0 : _this$inventoryItems$16.stockCapacity) !== null && _this$inventoryItems$15 !== void 0 ? _this$inventoryItems$15 : game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('shop_max_stock'), Math.floor(resource.amount)),
+        sellPrice: resource.sellPrice * (0,inventory_items_db.sellPriceMod)(index.gameEffects.getEffectValue('attribute_bargaining')),
+        maxSell: Math.min((_this$inventoryItems$15 = (_this$inventoryItems$16 = this.inventoryItems[resource.id]) === null || _this$inventoryItems$16 === void 0 ? void 0 : _this$inventoryItems$16.stockCapacity) !== null && _this$inventoryItems$15 !== void 0 ? _this$inventoryItems$15 : index.gameEffects.getEffectValue('shop_max_stock'), Math.floor(resource.amount)),
         duration: ((_resource$attributes7 = resource.attributes) === null || _resource$attributes7 === void 0 ? void 0 : _resource$attributes7.duration) || 0,
-        potentialEffects: resource.resourceModifier ? game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceApi.unpackEffects(resource.resourceModifier, 1) : [],
+        potentialEffects: resource.resourceModifier ? index.resourceApi.unpackEffects(resource.resourceModifier, 1) : [],
         consumptionCooldown: resource.getUsageCooldown ? resource.getUsageCooldown() : 0,
         cooldownProg: resource.getUsageCooldown ? (resource.getUsageCooldown() - ((_this$inventoryItems$17 = (_this$inventoryItems$18 = this.inventoryItems[resource.id]) === null || _this$inventoryItems$18 === void 0 ? void 0 : _this$inventoryItems$18.cooldown) !== null && _this$inventoryItems$17 !== void 0 ? _this$inventoryItems$17 : 0)) / resource.getUsageCooldown() : 1,
         permanentEffects: permanentEffects,
@@ -566,7 +566,7 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
         coinsEarned: ((_this$inventoryItems$21 = this.inventoryItems[resource.id]) === null || _this$inventoryItems$21 === void 0 ? void 0 : _this$inventoryItems$21.coinsEarned) || 0,
         currentCooldown: ((_this$inventoryItems$22 = this.inventoryItems[id]) === null || _this$inventoryItems$22 === void 0 ? void 0 : _this$inventoryItems$22.cooldown) || 0,
         currentDuration: ((_this$inventoryItems$23 = this.inventoryItems[id]) === null || _this$inventoryItems$23 === void 0 ? void 0 : _this$inventoryItems$23.duration) || 0,
-        isPinned: !!((_gameCore$getModule$p2 = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('resource-pool').pinnedResources) !== null && _gameCore$getModule$p2 !== void 0 && _gameCore$getModule$p2[resource.id])
+        isPinned: !!((_gameCore$getModule$p2 = index.gameCore.getModule('resource-pool').pinnedResources) !== null && _gameCore$getModule$p2 !== void 0 && _gameCore$getModule$p2[resource.id])
       };
     }
   }, {
@@ -584,16 +584,16 @@ var InventoryModule = /*#__PURE__*/function (_GameModule) {
     value: function sendSellDetails(id) {
       var _this$inventoryItems$24, _this$inventoryItems$25;
       if (!id) return null;
-      var resource = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(id);
+      var resource = index.gameResources.getResource(id);
       var data = {
         id: id,
         isSellable: !!resource.sellPrice,
         sellPrice: resource.sellPrice,
-        maxSell: Math.min((_this$inventoryItems$24 = (_this$inventoryItems$25 = this.inventoryItems[resource.id]) === null || _this$inventoryItems$25 === void 0 ? void 0 : _this$inventoryItems$25.stockCapacity) !== null && _this$inventoryItems$24 !== void 0 ? _this$inventoryItems$24 : game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('shop_max_stock'), Math.floor(resource.amount))
+        maxSell: Math.min((_this$inventoryItems$24 = (_this$inventoryItems$25 = this.inventoryItems[resource.id]) === null || _this$inventoryItems$25 === void 0 ? void 0 : _this$inventoryItems$25.stockCapacity) !== null && _this$inventoryItems$24 !== void 0 ? _this$inventoryItems$24 : index.gameEffects.getEffectValue('shop_max_stock'), Math.floor(resource.amount))
       };
       this.eventHandler.sendData('sell-details', data);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_1__.GameModule);
+}(game_module.GameModule);
 
 export { InventoryModule };

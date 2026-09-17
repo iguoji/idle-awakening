@@ -1,8 +1,8 @@
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_0__ from '../../shared/game-module.js';
-import * as _recipes_db__WEBPACK_IMPORTED_MODULE_1__ from './recipes-db.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_2__ from '../../../framework/index.js';
-import * as _crafting_lists_submodule__WEBPACK_IMPORTED_MODULE_3__ from './crafting-lists.submodule.js';
-import * as game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__ from '../../../framework/src/utils/consts.js';
+import * as game_module from '../../shared/game-module.js';
+import * as recipes_db from './recipes-db.js';
+import * as index from '../../../framework/index.js';
+import * as crafting_lists_submodule from './crafting-lists.submodule.js';
+import * as consts from '../../../framework/src/utils/consts.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -36,7 +36,7 @@ var CraftingModule = /*#__PURE__*/function (_GameModule) {
     var _this;
     _classCallCheck(this, CraftingModule);
     _this = _callSuper(this, CraftingModule, [props]);
-    _this.lists = new _crafting_lists_submodule__WEBPACK_IMPORTED_MODULE_3__.CraftingListsSubmodule();
+    _this.lists = new crafting_lists_submodule.CraftingListsSubmodule();
     _this.craftingSlots = {};
     _this.filters = [{
       id: 'crafting',
@@ -68,7 +68,7 @@ var CraftingModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(CraftingModule, [{
     key: "initialize",
     value: function initialize() {
-      (0,_recipes_db__WEBPACK_IMPORTED_MODULE_1__.registerCraftingRecipes)();
+      (0,recipes_db.registerCraftingRecipes)();
     }
   }, {
     key: "tick",
@@ -125,7 +125,7 @@ var CraftingModule = /*#__PURE__*/function (_GameModule) {
       };
       if (this.craftingSlots) {
         for (var id in this.craftingSlots) {
-          var isIgnore = category && !game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id).tags.includes(tagToCat[category]);
+          var isIgnore = category && !index.gameEntity.getEntity(id).tags.includes(tagToCat[category]);
           // console.log('Stop Craft: ', category, id, isIgnore, gameEntity.getEntity(id).tags)
           if (!isIgnore) {
             this.setCraftingLevel({
@@ -154,37 +154,37 @@ var CraftingModule = /*#__PURE__*/function (_GameModule) {
         level = 0;
       }
       if (!isForce) {
-        var rrs = filterId === 'crafting' ? game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('crafting_slots') : game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('alchemy_slots');
+        var rrs = filterId === 'crafting' ? index.gameResources.getResource('crafting_slots') : index.gameResources.getResource('alchemy_slots');
         var max = this.craftingSlots[id].level + rrs.amount;
         if (level > max) {
           level = Math.floor(max);
         }
       }
-      if (level === 0 && game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.entityExists("activeCrafting_".concat(id))) {
-        game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.unsetEntity("activeCrafting_".concat(id));
+      if (level === 0 && index.gameEntity.entityExists("activeCrafting_".concat(id))) {
+        index.gameEntity.unsetEntity("activeCrafting_".concat(id));
         this.craftingSlots[id].level = 0;
       }
       if (level > 0) {
-        if (!game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.entityExists("activeCrafting_".concat(id))) {
-          game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.registerGameEntity("activeCrafting_".concat(id), {
+        if (!index.gameEntity.entityExists("activeCrafting_".concat(id))) {
+          index.gameEntity.registerGameEntity("activeCrafting_".concat(id), {
             copyFromId: id,
             level: level,
             allowedImpacts: ['resources'],
             tags: ['running', 'runningCrafting']
           });
         }
-        var rs = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.setEntityLevel("activeCrafting_".concat(id), level, isForce);
+        var rs = index.gameEntity.setEntityLevel("activeCrafting_".concat(id), level, isForce);
         // console.log('Update result: ', rs);
-        this.craftingSlots[id].level = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getLevel("activeCrafting_".concat(id));
+        this.craftingSlots[id].level = index.gameEntity.getLevel("activeCrafting_".concat(id));
       }
     }
   }, {
     key: "regenerateNotifications",
     value: function regenerateNotifications() {
       this.filters.forEach(function (filter) {
-        var entities = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['recipe'].concat(_toConsumableArray(filter.tags)));
+        var entities = index.gameEntity.listEntitiesByTags(['recipe'].concat(_toConsumableArray(filter.tags)));
         entities.forEach(function (item) {
-          game_framework__WEBPACK_IMPORTED_MODULE_2__.gameCore.getModule('unlock-notifications').registerNewNotification('workshop', filter.id, 'all', "crafting_".concat(item.id), item.isUnlocked && !item.isCapped);
+          index.gameCore.getModule('unlock-notifications').registerNewNotification('workshop', filter.id, 'all', "crafting_".concat(item.id), item.isUnlocked && !item.isCapped);
         });
       });
     }
@@ -203,11 +203,11 @@ var CraftingModule = /*#__PURE__*/function (_GameModule) {
       if (!filter) {
         throw new Error("".concat(filterId, " not found"));
       }
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['recipe'].concat(_toConsumableArray(filter.tags))).filter(function (one) {
+      var entities = index.gameEntity.listEntitiesByTags(['recipe'].concat(_toConsumableArray(filter.tags))).filter(function (one) {
         return one.isUnlocked;
       });
-      var rrs = filterId === 'crafting' ? game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('crafting_slots') : game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('alchemy_slots');
-      var efrs = filterId === 'crafting' ? game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('crafting_ability') : game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('alchemy_ability');
+      var rrs = filterId === 'crafting' ? index.gameResources.getResource('crafting_slots') : index.gameResources.getResource('alchemy_slots');
+      var efrs = filterId === 'crafting' ? index.gameResources.getResource('crafting_ability') : index.gameResources.getResource('alchemy_ability');
       var eff_key = filterId === 'crafting' ? 'crafting_ability' : 'alchemy_ability';
       var available = entities.map(function (recipe) {
         var _this2$craftingSlots$, _this2$craftingSlots$2, _gameResources$getRes, _gameResources$getRes2, _gameResources$getRes3, _gameEntity$getEntity;
@@ -215,11 +215,11 @@ var CraftingModule = /*#__PURE__*/function (_GameModule) {
           icon_id: recipe.resourceId,
           level: ((_this2$craftingSlots$ = _this2.craftingSlots[recipe.id]) === null || _this2$craftingSlots$ === void 0 ? void 0 : _this2$craftingSlots$.level) || 0,
           maxLevel: rrs.amount + (((_this2$craftingSlots$2 = _this2.craftingSlots[recipe.id]) === null || _this2$craftingSlots$2 === void 0 ? void 0 : _this2$craftingSlots$2.level) || 0),
-          resourceAmount: (_gameResources$getRes = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource(recipe.resourceId)) === null || _gameResources$getRes === void 0 ? void 0 : _gameResources$getRes.amount,
-          resourceBalance: (_gameResources$getRes2 = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource(recipe.resourceId)) === null || _gameResources$getRes2 === void 0 ? void 0 : _gameResources$getRes2.balance,
-          breakDown: (_gameResources$getRes3 = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource(recipe.resourceId)) === null || _gameResources$getRes3 === void 0 ? void 0 : _gameResources$getRes3.breakDown,
-          isRunning: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.entityExists("activeCrafting_".concat(recipe.id)),
-          isLowerEfficiency: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.entityExists("activeCrafting_".concat(recipe.id)) && ((_gameEntity$getEntity = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity("activeCrafting_".concat(recipe.id)).modifier) === null || _gameEntity$getEntity === void 0 ? void 0 : _gameEntity$getEntity.efficiency) < 1 - game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER
+          resourceAmount: (_gameResources$getRes = index.gameResources.getResource(recipe.resourceId)) === null || _gameResources$getRes === void 0 ? void 0 : _gameResources$getRes.amount,
+          resourceBalance: (_gameResources$getRes2 = index.gameResources.getResource(recipe.resourceId)) === null || _gameResources$getRes2 === void 0 ? void 0 : _gameResources$getRes2.balance,
+          breakDown: (_gameResources$getRes3 = index.gameResources.getResource(recipe.resourceId)) === null || _gameResources$getRes3 === void 0 ? void 0 : _gameResources$getRes3.breakDown,
+          isRunning: index.gameEntity.entityExists("activeCrafting_".concat(recipe.id)),
+          isLowerEfficiency: index.gameEntity.entityExists("activeCrafting_".concat(recipe.id)) && ((_gameEntity$getEntity = index.gameEntity.getEntity("activeCrafting_".concat(recipe.id)).modifier) === null || _gameEntity$getEntity === void 0 ? void 0 : _gameEntity$getEntity.efficiency) < 1 - consts.SMALL_NUMBER
         });
       });
       var slots = {
@@ -230,7 +230,7 @@ var CraftingModule = /*#__PURE__*/function (_GameModule) {
         available: available,
         slots: slots,
         efforts: _objectSpread(_objectSpread({}, efrs), {}, {
-          isPinned: !!((_gameCore$getModule$p = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameCore.getModule('resource-pool').pinnedResources) !== null && _gameCore$getModule$p !== void 0 && _gameCore$getModule$p[eff_key])
+          isPinned: !!((_gameCore$getModule$p = index.gameCore.getModule('resource-pool').pinnedResources) !== null && _gameCore$getModule$p !== void 0 && _gameCore$getModule$p[eff_key])
         }),
         craftingLists: this.lists.getLists({
           category: filterId
@@ -241,24 +241,24 @@ var CraftingModule = /*#__PURE__*/function (_GameModule) {
     key: "getCraftingDetails",
     value: function getCraftingDetails(id) {
       var _this$craftingSlots$e, _this$craftingSlots$e2, _this$craftingSlots$e3, _this$craftingSlots$e4;
-      var entity = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity(id);
-      var isRunning = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.entityExists("activeCrafting_".concat(id));
+      var entity = index.gameEntity.getEntity(id);
+      var isRunning = index.gameEntity.entityExists("activeCrafting_".concat(id));
       var actualEntity = entity;
       var efficiency = 1;
       var bottleNeck = null;
       if (isRunning) {
         var _actualEntity$modifie, _actualEntity$modifie2, _actualEntity$modifie3, _actualEntity$modifie4;
-        actualEntity = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntity("activeCrafting_".concat(id));
+        actualEntity = index.gameEntity.getEntity("activeCrafting_".concat(id));
         efficiency = (_actualEntity$modifie = (_actualEntity$modifie2 = actualEntity.modifier) === null || _actualEntity$modifie2 === void 0 ? void 0 : _actualEntity$modifie2.efficiency) !== null && _actualEntity$modifie !== void 0 ? _actualEntity$modifie : 1;
-        bottleNeck = (_actualEntity$modifie3 = actualEntity.modifier) !== null && _actualEntity$modifie3 !== void 0 && _actualEntity$modifie3.bottleNeck ? game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource((_actualEntity$modifie4 = actualEntity.modifier) === null || _actualEntity$modifie4 === void 0 ? void 0 : _actualEntity$modifie4.bottleNeck) : null;
+        bottleNeck = (_actualEntity$modifie3 = actualEntity.modifier) !== null && _actualEntity$modifie3 !== void 0 && _actualEntity$modifie3.bottleNeck ? index.gameResources.getResource((_actualEntity$modifie4 = actualEntity.modifier) === null || _actualEntity$modifie4 === void 0 ? void 0 : _actualEntity$modifie4.bottleNeck) : null;
       }
       return _objectSpread(_objectSpread({}, entity), {}, {
         efficiency: efficiency,
         bottleNeck: bottleNeck,
-        effects: isRunning ? game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects("activeCrafting_".concat(id), 0, ((_this$craftingSlots$e = this.craftingSlots[entity.id]) === null || _this$craftingSlots$e === void 0 ? void 0 : _this$craftingSlots$e.level) || 1, false, 1) : game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEffects(entity.id, 0, ((_this$craftingSlots$e2 = this.craftingSlots[entity.id]) === null || _this$craftingSlots$e2 === void 0 ? void 0 : _this$craftingSlots$e2.level) || 1, true, 1, 1),
-        affordable: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getAffordable(entity.id),
+        effects: isRunning ? index.gameEntity.getEffects("activeCrafting_".concat(id), 0, ((_this$craftingSlots$e = this.craftingSlots[entity.id]) === null || _this$craftingSlots$e === void 0 ? void 0 : _this$craftingSlots$e.level) || 1, false, 1) : index.gameEntity.getEffects(entity.id, 0, ((_this$craftingSlots$e2 = this.craftingSlots[entity.id]) === null || _this$craftingSlots$e2 === void 0 ? void 0 : _this$craftingSlots$e2.level) || 1, true, 1, 1),
+        affordable: index.gameEntity.getAffordable(entity.id),
         level: ((_this$craftingSlots$e3 = this.craftingSlots[entity.id]) === null || _this$craftingSlots$e3 === void 0 ? void 0 : _this$craftingSlots$e3.level) || 0,
-        maxLevel: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('crafting_slots').amount + (((_this$craftingSlots$e4 = this.craftingSlots[entity.id]) === null || _this$craftingSlots$e4 === void 0 ? void 0 : _this$craftingSlots$e4.level) || 0)
+        maxLevel: index.gameResources.getResource('crafting_slots').amount + (((_this$craftingSlots$e4 = this.craftingSlots[entity.id]) === null || _this$craftingSlots$e4 === void 0 ? void 0 : _this$craftingSlots$e4.level) || 0)
       });
     }
   }, {
@@ -282,32 +282,32 @@ var CraftingModule = /*#__PURE__*/function (_GameModule) {
       var stats = {};
       if (category_id === 'crafting') {
         stats = {
-          crafting_efficiency: _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('crafting_efficiency')), {}, {
+          crafting_efficiency: _objectSpread(_objectSpread({}, index.gameEffects.getEffect('crafting_efficiency')), {}, {
             isMultiplier: true
           }),
-          crafting_materials_discount: _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('crafting_materials_discount')), {}, {
+          crafting_materials_discount: _objectSpread(_objectSpread({}, index.gameEffects.getEffect('crafting_materials_discount')), {}, {
             isMultiplier: true
           })
         };
       }
       if (category_id === 'alchemy') {
         stats = {
-          alchemy_efficiency: _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('alchemy_efficiency')), {}, {
+          alchemy_efficiency: _objectSpread(_objectSpread({}, index.gameEffects.getEffect('alchemy_efficiency')), {}, {
             isMultiplier: true
           }),
-          alchemy_materials_discount: _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('alchemy_materials_discount')), {}, {
+          alchemy_materials_discount: _objectSpread(_objectSpread({}, index.gameEffects.getEffect('alchemy_materials_discount')), {}, {
             isMultiplier: true
           })
         };
       }
       var data = {
-        isProducingEffort: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource(rs).income > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER,
-        hasSlots: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource(sl).income > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER,
+        isProducingEffort: index.gameResources.getResource(rs).income > consts.SMALL_NUMBER,
+        hasSlots: index.gameResources.getResource(sl).income > consts.SMALL_NUMBER,
         stats: stats
       };
       this.eventHandler.sendData('crafting-general-data', data);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { CraftingModule };

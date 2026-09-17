@@ -1,4 +1,4 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -11,12 +11,12 @@ var getWateringEffectId = function getWateringEffectId(id) {
   return "watering_".concat(id);
 };
 var registerPlant = function registerPlant(id, inventoryResource, incomeBase, costBase, options) {
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.registerEffect(getWateringEffectId(id), {
+  index.gameEffects.registerEffect(getWateringEffectId(id), {
     name: "".concat(options.name, " Watering"),
     defaultValue: 1,
     minValue: 1
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity(id, {
+  index.gameEntity.registerGameEntity(id, {
     tags: ["plantation"],
     name: options.name,
     isAbstract: false,
@@ -27,7 +27,7 @@ var registerPlant = function registerPlant(id, inventoryResource, incomeBase, co
       get_income: function get_income() {
         return {
           resources: _defineProperty({}, inventoryResource, {
-            A: incomeBase * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('plantations_efficiency') * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(getWateringEffectId(id)),
+            A: incomeBase * index.gameEffects.getEffectValue('plantations_efficiency') * index.gameEffects.getEffectValue(getWateringEffectId(id)),
             B: 0,
             C: 1.02,
             type: 3
@@ -46,7 +46,7 @@ var registerPlant = function registerPlant(id, inventoryResource, incomeBase, co
       effectDeps: ['plantations_efficiency', getWateringEffectId(id)]
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked(inventoryResource) && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('plantation_slots').income > 0;
+      return index.gameResources.isResourceUnlocked(inventoryResource) && index.gameResources.getResource('plantation_slots').income > 0;
     },
     attributes: {
       baseXPCost: 10,
@@ -58,7 +58,7 @@ var registerPlant = function registerPlant(id, inventoryResource, incomeBase, co
         B: costBase,
         type: 1
       });
-      var places = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(id) <= 0 ? {
+      var places = index.gameEntity.getLevel(id) <= 0 ? {
         'plantation_slots': {
           A: 0,
           B: 1,
@@ -68,7 +68,7 @@ var registerPlant = function registerPlant(id, inventoryResource, incomeBase, co
       return _objectSpread(_objectSpread({}, seeds), places);
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity("".concat(id, "_watering_bonus"), {
+  index.gameEntity.registerGameEntity("".concat(id, "_watering_bonus"), {
     tags: ["plantation-watering"],
     name: options.name,
     isAbstract: false,
@@ -98,7 +98,7 @@ var registerPlant = function registerPlant(id, inventoryResource, incomeBase, co
       }
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked(inventoryResource) && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_water');
+      return index.gameResources.isResourceUnlocked(inventoryResource) && index.gameResources.isResourceUnlocked('inventory_water');
     },
     attributes: {}
   });

@@ -1,5 +1,5 @@
-import * as _game_module__WEBPACK_IMPORTED_MODULE_0__ from '../game-module.js';
-import * as _utils_rule_utils__WEBPACK_IMPORTED_MODULE_1__ from '../utils/rule-utils.js';
+import * as game_module from '../game-module.js';
+import * as rule_utils from '../utils/rule-utils.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
@@ -25,7 +25,7 @@ var RulesModule = /*#__PURE__*/function (_GameModule) {
       var prefix = _ref.prefix,
         rules = _ref.rules,
         pattern = _ref.pattern;
-      var results = (0,_utils_rule_utils__WEBPACK_IMPORTED_MODULE_1__.checkMatchingRules)(rules, pattern, true);
+      var results = (0,rule_utils.checkMatchingRules)(rules, pattern, true);
       _this.eventHandler.sendData("rule-conditions-matched-".concat(prefix), results);
     });
     return _this;
@@ -44,6 +44,6 @@ var RulesModule = /*#__PURE__*/function (_GameModule) {
     key: "tick",
     value: function tick() {}
   }]);
-}(_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { RulesModule };

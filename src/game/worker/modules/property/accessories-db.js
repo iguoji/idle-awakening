@@ -1,4 +1,4 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -25,7 +25,7 @@ var getResourceModifierDataSearchable = function getResourceModifierDataSearchab
       var _searchables$type;
       (_searchables$type = searchables[type]).push.apply(_searchables$type, _toConsumableArray(Object.keys(rObj[type]).map(function (one) {
         var _gameEffects$getEffec;
-        return type === 'resources' ? game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(one).name.toLowerCase() : (_gameEffects$getEffec = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect(one)) === null || _gameEffects$getEffec === void 0 ? void 0 : _gameEffects$getEffec.name.toLowerCase();
+        return type === 'resources' ? index.gameResources.getResource(one).name.toLowerCase() : (_gameEffects$getEffec = index.gameEffects.getEffect(one)) === null || _gameEffects$getEffec === void 0 ? void 0 : _gameEffects$getEffec.name.toLowerCase();
       })));
     };
     for (var type in rObj) {
@@ -36,7 +36,7 @@ var getResourceModifierDataSearchable = function getResourceModifierDataSearchab
 };
 var registerAccessory = function registerAccessory(id, options) {
   options.searchableMeta = getResourceModifierDataSearchable(options.resourceModifier);
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity(id, options);
+  index.gameEntity.registerGameEntity(id, options);
 };
 var registerAccessoriesStage1 = function registerAccessoriesStage1() {
   registerAccessory('accessory_wooden_casket', {
@@ -45,7 +45,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Create compact and easy to handle wooden caskets to improve your coins storage',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     resourceModifier: {
       capMult: {
@@ -75,7 +75,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Create wooden talisman that holds information about your bio-rhythms and improve your health regeneration',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -110,7 +110,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Minimalistic and very convenient bookcase can significantly increase amount of books you can store, and therefore increase your knowledge cap',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     resourceModifier: {
       capMult: {
@@ -140,7 +140,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Craft aromatic carpet that inspires you and boosts your energy recovery',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -175,7 +175,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'A scroll inscribed with glowing runes that impart knowledge to the reader. It continuously generates insight, aiding the bearer in gradually increasing their understanding and intelligence over time.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_paper_working') > 0;
+      return index.gameEntity.getLevel('shop_item_paper_working') > 0;
     },
     resourceModifier: {
       income: {
@@ -210,7 +210,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'A delicately folded paper charm shaped like a bird, imbued with recovery magic (NOTE. Not every restoration spell is recovery one)',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_paper_working') > 0;
+      return index.gameEntity.getLevel('shop_item_paper_working') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -250,7 +250,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'This enchanted parchment enhances your ability to connect with others, significantly boosting the efficiency of social training.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_paper_working') > 0;
+      return index.gameEntity.getLevel('shop_item_paper_working') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -295,7 +295,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
       level: 2500
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_paper_working') > 0;
+      return index.gameEntity.getLevel('shop_item_paper_working') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -335,7 +335,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Magic book containing a lot of mental power',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_paper_enhance') > 0;
+      return index.gameEntity.getLevel('shop_item_paper_enhance') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -375,7 +375,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Small glowing tome. You feel inspiration every time you touch it',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_paper_enhance') > 0;
+      return index.gameEntity.getLevel('shop_item_paper_enhance') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -415,7 +415,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Create ruby pendant that empowers your physical learning rate',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_quarrying');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('action_quarrying');
     },
     resourceModifier: {
       multiplier: {
@@ -445,7 +445,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Increase your HP and energy caps',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_quarrying');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('action_quarrying');
     },
     resourceModifier: {
       capMult: {
@@ -481,7 +481,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Increase your spell XP gain',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_quarrying');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('action_quarrying');
     },
     resourceModifier: {
       multiplier: {
@@ -511,7 +511,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Increase your mana cap',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_quarrying');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('action_quarrying');
     },
     resourceModifier: {
       capMult: {
@@ -541,7 +541,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Craft better and more reliable iron containers for storing coins',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_mining');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('action_mining');
     },
     resourceModifier: {
       capMult: {
@@ -571,7 +571,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Build a machine that helps you to process wood',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_mining');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('action_mining');
     },
     resourceModifier: {
       multiplier: {
@@ -610,7 +610,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Increase your knowledge generation',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('craft_green_ink');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('craft_green_ink');
     },
     resourceModifier: {
       multiplier: {
@@ -650,7 +650,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Increase your mana generation',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('craft_green_ink');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('craft_green_ink');
     },
     resourceModifier: {
       multiplier: {
@@ -689,7 +689,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'A meticulously crafted scroll, inscribed with red ink, that reduces the time required for studying and mastering courses.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('craft_red_ink');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('craft_red_ink');
     },
     resourceModifier: {
       multiplier: {
@@ -728,7 +728,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Detailed notes that enhance course efficiency, reducing XP requirements for mastering actions.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('craft_red_ink') && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('mental_energy');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('craft_red_ink') && index.gameResources.isResourceUnlocked('mental_energy');
     },
     resourceModifier: {
       multiplier: {
@@ -811,7 +811,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'A magically sealed scroll that boosts mental energy income, encouraging heightened focus and clarity.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('craft_red_ink') && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('mental_energy');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameEntity.isEntityUnlocked('craft_red_ink') && index.gameResources.isResourceUnlocked('mental_energy');
     },
     resourceModifier: {
       multiplier: {
@@ -851,7 +851,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'A sleek pendant forged from obsidian shards, it channels the stone\'s raw power to amplify your vitality, increasing your energy income.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_obsidian_shard') && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_green_ink');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameResources.isResourceUnlocked('inventory_obsidian_shard') && index.gameResources.isResourceUnlocked('inventory_green_ink');
     },
     resourceModifier: {
       multiplier: {
@@ -891,7 +891,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'An intricately crafted amulet of polished obsidian, its dark surface seems to absorb distraction, sharpening your focus and accelerating the mastery of routine tasks.',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_obsidian_shard');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameResources.isResourceUnlocked('inventory_obsidian_shard');
     },
     resourceModifier: {
       multiplier: {
@@ -931,7 +931,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'A steel amulet increasing your health regeneration',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_forged_steel') && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_red_ink');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameResources.isResourceUnlocked('inventory_forged_steel') && index.gameResources.isResourceUnlocked('inventory_red_ink');
     },
     resourceModifier: {
       multiplier: {
@@ -971,7 +971,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     description: 'Increase stone refinement efficiency',
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_forged_steel');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameResources.isResourceUnlocked('inventory_forged_steel');
     },
     resourceModifier: {
       multiplier: {
@@ -1023,7 +1023,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
       level: 15000
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_forged_steel');
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0 && index.gameResources.isResourceUnlocked('inventory_forged_steel');
     },
     resourceModifier: {
       income: {
@@ -1062,7 +1062,7 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
       level: 60000
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_paper_working') > 0;
+      return index.gameEntity.getLevel('shop_item_paper_working') > 0;
     },
     resourceModifier: {
       multiplier: {

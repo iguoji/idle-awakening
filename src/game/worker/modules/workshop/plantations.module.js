@@ -1,6 +1,6 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_1__ from '../../shared/game-module.js';
-import * as _plantation_db__WEBPACK_IMPORTED_MODULE_2__ from './plantation-db.js';
+import * as index from '../../../framework/index.js';
+import * as game_module from '../../shared/game-module.js';
+import * as plantation_db from './plantation-db.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
@@ -31,7 +31,7 @@ var PlantationsModule = /*#__PURE__*/function (_GameModule) {
     _this.eventHandler.registerHandler('set-plantation-autopurchase', function (_ref) {
       var id = _ref.id,
         flag = _ref.flag;
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['plantation']).filter(function (one) {
+      var entities = index.gameEntity.listEntitiesByTags(['plantation']).filter(function (one) {
         return one.isUnlocked && !one.isCapped;
       });
       entities.forEach(function (e) {
@@ -62,13 +62,13 @@ var PlantationsModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(PlantationsModule, [{
     key: "initialize",
     value: function initialize() {
-      (0,_plantation_db__WEBPACK_IMPORTED_MODULE_2__.registerPlantations)();
+      (0,plantation_db.registerPlantations)();
     }
   }, {
     key: "tick",
     value: function tick(game, delta) {
       this.leveledId = null;
-      if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_purchase_manager') > 0) {
+      if (index.gameEntity.getLevel('shop_item_purchase_manager') > 0) {
         if (!this.autoPurchaseCd) {
           this.autoPurchaseCd = 10;
         }
@@ -77,7 +77,7 @@ var PlantationsModule = /*#__PURE__*/function (_GameModule) {
           this.autoPurchaseCd = 10;
           for (var key in this.autoPurchase) {
             if (this.autoPurchase[key]) {
-              if (!game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked(key)) {
+              if (!index.gameEntity.isEntityUnlocked(key)) {
                 this.autoPurchase[key] = false;
                 console.log('Planter ' + key + ' is locked. Toggling autopurchase');
                 continue;
@@ -139,33 +139,33 @@ var PlantationsModule = /*#__PURE__*/function (_GameModule) {
     key: "setItem",
     value: function setItem(itemId, amount) {
       var bForce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(itemId, amount, bForce);
+      index.gameEntity.setEntityLevel(itemId, amount, bForce);
       if (!this.purchasedItems[itemId]) {
         this.purchasedItems[itemId] = {
           level: 0,
           wateringLevel: 0
         };
       }
-      this.purchasedItems[itemId].level = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(itemId);
+      this.purchasedItems[itemId].level = index.gameEntity.getLevel(itemId);
     }
   }, {
     key: "setWateringLevel",
     value: function setWateringLevel(id, level) {
-      var rLevel = Math.max(0, Math.min(Math.floor(level), game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('plantations_max_watering')));
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel("".concat(id, "_watering_bonus"), rLevel, true);
-      this.purchasedItems[id].wateringLevel = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel("".concat(id, "_watering_bonus"));
+      var rLevel = Math.max(0, Math.min(Math.floor(level), index.gameEffects.getEffectValue('plantations_max_watering')));
+      index.gameEntity.setEntityLevel("".concat(id, "_watering_bonus"), rLevel, true);
+      this.purchasedItems[id].wateringLevel = index.gameEntity.getLevel("".concat(id, "_watering_bonus"));
     }
   }, {
     key: "purchaseItem",
     value: function purchaseItem(itemId) {
-      var newEnt = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.levelUpEntity(itemId);
+      var newEnt = index.gameEntity.levelUpEntity(itemId);
       if (newEnt.success) {
         if (!this.purchasedItems[itemId]) {
           this.purchasedItems[itemId] = {
             level: 0
           };
         }
-        this.purchasedItems[itemId].level = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(itemId);
+        this.purchasedItems[itemId].level = index.gameEntity.getLevel(itemId);
         this.leveledId = itemId;
         this.sendItemsData();
       }
@@ -180,17 +180,17 @@ var PlantationsModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "regenerateNotifications",
     value: function regenerateNotifications() {
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['plantation']);
+      var entities = index.gameEntity.listEntitiesByTags(['plantation']);
       entities.forEach(function (item) {
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').registerNewNotification('workshop', 'plantations', 'all', "plantation_".concat(item.id), item.isUnlocked && !item.isCapped);
+        index.gameCore.getModule('unlock-notifications').registerNewNotification('workshop', 'plantations', 'all', "plantation_".concat(item.id), item.isUnlocked && !item.isCapped);
       });
     }
   }, {
     key: "getItemsData",
     value: function getItemsData() {
       var _this2 = this;
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['plantation']);
-      var rrs = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('plantation_slots');
+      var entities = index.gameEntity.listEntitiesByTags(['plantation']);
+      var rrs = index.gameResources.getResource('plantation_slots');
       var slots = {
         max: rrs.income,
         total: rrs.amount
@@ -205,24 +205,24 @@ var PlantationsModule = /*#__PURE__*/function (_GameModule) {
             icon_id: entity.icon_id,
             name: entity.name,
             description: entity.description,
-            max: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntityMaxLevel(entity.id),
+            max: index.gameEntity.getEntityMaxLevel(entity.id),
             level: ((_this2$purchasedItems = _this2.purchasedItems[entity.id]) === null || _this2$purchasedItems === void 0 ? void 0 : _this2$purchasedItems.level) || 0,
             wateringLevel: ((_this2$purchasedItems2 = _this2.purchasedItems[entity.id]) === null || _this2$purchasedItems2 === void 0 ? void 0 : _this2$purchasedItems2.wateringLevel) || 0,
-            affordable: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAffordable(entity.id),
-            potentialEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id, 1),
+            affordable: index.gameEntity.getAffordable(entity.id),
+            potentialEffects: index.gameEntity.getEffects(entity.id, 1),
             isLeveled: _this2.leveledId === entity.id,
-            wateringMult: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue((0,_plantation_db__WEBPACK_IMPORTED_MODULE_2__.getWateringEffectId)(entity.id)),
-            resourceAmount: (_gameResources$getRes = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAttribute(entity.id, 'inventoryResource'))) === null || _gameResources$getRes === void 0 ? void 0 : _gameResources$getRes.amount,
-            resourceBalance: (_gameResources$getRes2 = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAttribute(entity.id, 'inventoryResource'))) === null || _gameResources$getRes2 === void 0 ? void 0 : _gameResources$getRes2.balance,
-            breakDown: (_gameResources$getRes3 = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAttribute(entity.id, 'inventoryResource'))) === null || _gameResources$getRes3 === void 0 ? void 0 : _gameResources$getRes3.breakDown,
+            wateringMult: index.gameEffects.getEffectValue((0,plantation_db.getWateringEffectId)(entity.id)),
+            resourceAmount: (_gameResources$getRes = index.gameResources.getResource(index.gameEntity.getAttribute(entity.id, 'inventoryResource'))) === null || _gameResources$getRes === void 0 ? void 0 : _gameResources$getRes.amount,
+            resourceBalance: (_gameResources$getRes2 = index.gameResources.getResource(index.gameEntity.getAttribute(entity.id, 'inventoryResource'))) === null || _gameResources$getRes2 === void 0 ? void 0 : _gameResources$getRes2.balance,
+            breakDown: (_gameResources$getRes3 = index.gameResources.getResource(index.gameEntity.getAttribute(entity.id, 'inventoryResource'))) === null || _gameResources$getRes3 === void 0 ? void 0 : _gameResources$getRes3.breakDown,
             isAutoPurchase: (_this2$autoPurchase$e = _this2.autoPurchase[entity.id]) !== null && _this2$autoPurchase$e !== void 0 ? _this2$autoPurchase$e : false
           };
         }),
         slots: slots,
-        isWateringUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_water'),
-        maxWatering: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('plantations_max_watering'),
-        waterResource: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('inventory_water'),
-        isAutomationUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_purchase_manager') > 0
+        isWateringUnlocked: index.gameResources.isResourceUnlocked('inventory_water'),
+        maxWatering: index.gameEffects.getEffect('plantations_max_watering'),
+        waterResource: index.gameResources.getResource('inventory_water'),
+        isAutomationUnlocked: index.gameEntity.getLevel('shop_item_purchase_manager') > 0
       };
     }
   }, {
@@ -236,25 +236,25 @@ var PlantationsModule = /*#__PURE__*/function (_GameModule) {
     value: function getItemDetails(id) {
       var _this$purchasedItems$, _this$purchasedItems$2;
       if (!id) return null;
-      var entity = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(id);
+      var entity = index.gameEntity.getEntity(id);
       return {
         id: entity.id,
         name: entity.name,
         description: entity.description,
-        max: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntityMaxLevel(entity.id),
+        max: index.gameEntity.getEntityMaxLevel(entity.id),
         level: ((_this$purchasedItems$ = this.purchasedItems[entity.id]) === null || _this$purchasedItems$ === void 0 ? void 0 : _this$purchasedItems$.level) || 0,
         wateringLevel: ((_this$purchasedItems$2 = this.purchasedItems[entity.id]) === null || _this$purchasedItems$2 === void 0 ? void 0 : _this$purchasedItems$2.wateringLevel) || 0,
-        affordable: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAffordable(entity.id),
-        potentialEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id, 1),
-        currentEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id),
+        affordable: index.gameEntity.getAffordable(entity.id),
+        potentialEffects: index.gameEntity.getEffects(entity.id, 1),
+        currentEffects: index.gameEntity.getEffects(entity.id),
         tags: entity.tags,
         purchaseMultiplier: 1,
-        wateringMult: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue((0,_plantation_db__WEBPACK_IMPORTED_MODULE_2__.getWateringEffectId)(entity.id)),
-        isWateringUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_water'),
-        maxWatering: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('plantations_max_watering'),
-        waterResource: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('inventory_water'),
-        wateringEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects("".concat(id, "_watering_bonus")),
-        nextWateringEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects("".concat(id, "_watering_bonus"), 1)
+        wateringMult: index.gameEffects.getEffectValue((0,plantation_db.getWateringEffectId)(entity.id)),
+        isWateringUnlocked: index.gameResources.isResourceUnlocked('inventory_water'),
+        maxWatering: index.gameEffects.getEffect('plantations_max_watering'),
+        waterResource: index.gameResources.getResource('inventory_water'),
+        wateringEffects: index.gameEntity.getEffects("".concat(id, "_watering_bonus")),
+        nextWateringEffects: index.gameEntity.getEffects("".concat(id, "_watering_bonus"), 1)
       };
     }
   }, {
@@ -264,6 +264,6 @@ var PlantationsModule = /*#__PURE__*/function (_GameModule) {
       this.eventHandler.sendData('plantation-details', data);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_1__.GameModule);
+}(game_module.GameModule);
 
 export { PlantationsModule };

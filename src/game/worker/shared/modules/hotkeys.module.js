@@ -1,4 +1,4 @@
-import * as _game_module__WEBPACK_IMPORTED_MODULE_0__ from '../game-module.js';
+import * as game_module from '../game-module.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
@@ -57,6 +57,6 @@ var HotkeysModule = /*#__PURE__*/function (_GameModule) {
     key: "tick",
     value: function tick() {}
   }]);
-}(_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { HotkeysModule };

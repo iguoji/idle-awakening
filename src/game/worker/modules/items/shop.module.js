@@ -1,8 +1,8 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_1__ from '../../shared/game-module.js';
-import * as _shop_db__WEBPACK_IMPORTED_MODULE_2__ from './shop-db.js';
-import * as _inventory_inventory_items_db__WEBPACK_IMPORTED_MODULE_3__ from '../inventory/inventory-items-db.js';
-import * as game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__ from '../../../framework/src/utils/consts.js';
+import * as index from '../../../framework/index.js';
+import * as game_module from '../../shared/game-module.js';
+import * as shop_db from './shop-db.js';
+import * as inventory_items_db from '../inventory/inventory-items-db.js';
+import * as consts from '../../../framework/src/utils/consts.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -42,7 +42,7 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
     _this.eventHandler.registerHandler('set-shop-autopurchase', function (_ref) {
       var id = _ref.id,
         flag = _ref.flag;
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['shop']).filter(function (one) {
+      var entities = index.gameEntity.listEntitiesByTags(['shop']).filter(function (one) {
         return one.isUnlocked && !one.isCapped;
       });
       entities.forEach(function (e) {
@@ -87,19 +87,19 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(ShopModule, [{
     key: "initialize",
     value: function initialize() {
-      (0,_shop_db__WEBPACK_IMPORTED_MODULE_2__.registerShopItemsStage1)();
+      (0,shop_db.registerShopItemsStage1)();
     }
   }, {
     key: "tick",
     value: function tick(game, delta) {
       var _this2 = this;
-      if (!this.isUnlocked && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('coins').amount >= 2) {
+      if (!this.isUnlocked && index.gameResources.getResource('coins').amount >= 2) {
         this.isUnlocked = true;
       }
       this.stockRenewTimer += delta;
       if (this.stockRenewTimer >= 1) {
         this.stockRenewTimer = 0;
-        var items = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.listResourcesByTags(['inventory']);
+        var items = index.gameResources.listResourcesByTags(['inventory']);
         // console.log('items: ', items);
         var presentItems = items.filter(function (item) {
           return item.isUnlocked && item.get_cost;
@@ -116,7 +116,7 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
         });
       }
       this.leveledId = null;
-      if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_purchase_manager') > 0) {
+      if (index.gameEntity.getLevel('shop_item_purchase_manager') > 0) {
         if (!this.autoPurchaseCd) {
           this.autoPurchaseCd = 10;
         }
@@ -125,11 +125,11 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
           this.autoPurchaseCd = 10;
           for (var key in this.autoPurchase) {
             if (this.autoPurchase[key]) {
-              if (!game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked(key)) {
+              if (!index.gameEntity.isEntityUnlocked(key)) {
                 this.autoPurchase[key] = false;
                 continue;
               }
-              if (game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isCapped(key)) {
+              if (index.gameEntity.isCapped(key)) {
                 this.autoPurchase[key] = false;
                 continue;
               }
@@ -181,8 +181,8 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
     key: "setItem",
     value: function setItem(itemId, amount) {
       var bForce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.setEntityLevel(itemId, amount, bForce);
-      this.purchasedItems[itemId] = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(itemId);
+      index.gameEntity.setEntityLevel(itemId, amount, bForce);
+      this.purchasedItems[itemId] = index.gameEntity.getLevel(itemId);
     }
   }, {
     key: "setPurchaseMultiplier",
@@ -194,12 +194,12 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "purchaseItem",
     value: function purchaseItem(itemId) {
-      var newEnt = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.levelUpEntity(itemId);
+      var newEnt = index.gameEntity.levelUpEntity(itemId);
       // console.log('Purchase: ', itemId, newEnt)
       if (newEnt.success) {
-        this.purchasedItems[itemId] = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel(itemId);
+        this.purchasedItems[itemId] = index.gameEntity.getLevel(itemId);
         this.leveledId = itemId;
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').generateNotifications();
+        index.gameCore.getModule('unlock-notifications').generateNotifications();
         this.sendItemsData();
       }
       return newEnt.success;
@@ -209,17 +209,17 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
     value: function purchaseResource(itemId) {
       var _this$sellStocks$item;
       var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      var res = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(itemId);
+      var res = index.gameResources.getResource(itemId);
       var cost = res.get_cost();
-      var aff = game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceCalculators.isAffordable(cost);
+      var aff = index.resourceCalculators.isAffordable(cost);
 
       // console.log('Affb: ', aff);
       amount = Math.min(amount, aff.max, (_this$sellStocks$item = this.sellStocks[itemId]) !== null && _this$sellStocks$item !== void 0 ? _this$sellStocks$item : 0);
       if (aff.isAffordable) {
         for (var key in cost) {
-          game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource(key, -cost[key] * amount);
+          index.gameResources.addResource(key, -cost[key] * amount);
         }
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource(itemId, amount);
+        index.gameResources.addResource(itemId, amount);
         this.sellStocks[itemId] -= amount;
         this.leveledId = itemId;
         this.sendPurchaseableItemsData();
@@ -229,30 +229,30 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
     key: "regenerateNotifications",
     value: function regenerateNotifications() {
       // NOW - check for actions if they have any new notifications
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['shop']);
+      var entities = index.gameEntity.listEntitiesByTags(['shop']);
       entities.forEach(function (entity) {
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').registerNewNotification('shop', 'upgrades', 'all', "shop_".concat(entity.id), entity.isUnlocked && !entity.isCapped);
+        index.gameCore.getModule('unlock-notifications').registerNewNotification('shop', 'upgrades', 'all', "shop_".concat(entity.id), entity.isUnlocked && !entity.isCapped);
       });
-      var items = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.listResourcesByTags(['inventory']);
+      var items = index.gameResources.listResourcesByTags(['inventory']);
       var presentItems = items.filter(function (item) {
         return item.isUnlocked && item.get_cost;
       });
       presentItems.forEach(function (entity) {
-        game_framework__WEBPACK_IMPORTED_MODULE_0__.gameCore.getModule('unlock-notifications').registerNewNotification('shop', 'inventory', 'all', "shop_".concat(entity.id), entity.isUnlocked);
+        index.gameCore.getModule('unlock-notifications').registerNewNotification('shop', 'inventory', 'all', "shop_".concat(entity.id), entity.isUnlocked);
       });
     }
   }, {
     key: "sendGeneralShopStats",
     value: function sendGeneralShopStats(payload) {
       var stats = [];
-      if (Math.abs(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('prices_discount') - 1) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER) {
-        stats.push(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffect('prices_discount'));
+      if (Math.abs(index.gameEffects.getEffectValue('prices_discount') - 1) > consts.SMALL_NUMBER) {
+        stats.push(index.gameEffects.getEffect('prices_discount'));
       }
-      if (Math.abs((0,_shop_db__WEBPACK_IMPORTED_MODULE_2__.charismaMod)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma')) - 1) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER) {
+      if (Math.abs((0,shop_db.charismaMod)(index.gameEffects.getEffectValue('attribute_charisma')) - 1) > consts.SMALL_NUMBER) {
         stats.push({
           name: 'Charisma Price Discount',
           description: 'Upgrades and items purchase discount based on your charisma attribute (1./(1 + 0.02*log2(charisma)^2))',
-          value: (0,_shop_db__WEBPACK_IMPORTED_MODULE_2__.charismaMod)(game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('attribute_charisma'))
+          value: (0,shop_db.charismaMod)(index.gameEffects.getEffectValue('attribute_charisma'))
         });
       }
       this.eventHandler.sendData('general-shop-stats', {
@@ -263,7 +263,7 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
     key: "getItemsData",
     value: function getItemsData() {
       var _this3 = this;
-      var entities = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.listEntitiesByTags(['shop']);
+      var entities = index.gameEntity.listEntitiesByTags(['shop']);
       var total = entities.length;
       var totalComplete = entities.filter(function (e) {
         return e.isCapped;
@@ -277,10 +277,10 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
             id: entity.id,
             name: entity.name,
             description: entity.description,
-            max: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntityMaxLevel(entity.id),
+            max: index.gameEntity.getEntityMaxLevel(entity.id),
             level: _this3.purchasedItems[entity.id] || 0,
-            affordable: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAffordable(entity.id),
-            potentialEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id, 1),
+            affordable: index.gameEntity.getAffordable(entity.id),
+            potentialEffects: index.gameEntity.getEffects(entity.id, 1),
             isLeveled: _this3.leveledId === entity.id,
             isAutoPurchase: (_this3$autoPurchase$e = _this3.autoPurchase[entity.id]) !== null && _this3$autoPurchase$e !== void 0 ? _this3$autoPurchase$e : false,
             isCapped: entity.isCapped
@@ -291,7 +291,7 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
           totalComplete: totalComplete
         },
         purchaseMultiplier: this.purchaseMultiplier,
-        isAutomationUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_purchase_manager') > 0,
+        isAutomationUnlocked: index.gameEntity.getLevel('shop_item_purchase_manager') > 0,
         showMaxed: this.showMaxed
       };
     }
@@ -305,16 +305,16 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
     key: "getItemDetails",
     value: function getItemDetails(id) {
       if (!id) return null;
-      var entity = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntity(id);
+      var entity = index.gameEntity.getEntity(id);
       return {
         id: entity.id,
         name: entity.name,
         description: entity.description,
-        max: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEntityMaxLevel(entity.id),
+        max: index.gameEntity.getEntityMaxLevel(entity.id),
         level: this.purchasedItems[entity.id] || 0,
-        affordable: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getAffordable(entity.id),
-        potentialEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id, 1),
-        currentEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getEffects(entity.id),
+        affordable: index.gameEntity.getAffordable(entity.id),
+        potentialEffects: index.gameEntity.getEffects(entity.id, 1),
+        currentEffects: index.gameEntity.getEffects(entity.id),
         tags: entity.tags,
         purchaseMultiplier: 1
       };
@@ -329,7 +329,7 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
     key: "getPurchaseableItemsData",
     value: function getPurchaseableItemsData() {
       var _this4 = this;
-      var items = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.listResourcesByTags(['inventory']);
+      var items = index.gameResources.listResourcesByTags(['inventory']);
       // console.log('items: ', items);
       var presentItems = items.filter(function (item) {
         return item.isUnlocked && item.get_cost;
@@ -343,7 +343,7 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
       return {
         available: presentItems.map(function (resource) {
           var _this4$sellStocks$res;
-          var affordable = game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceCalculators.isAffordable(resource.get_cost());
+          var affordable = index.resourceCalculators.isAffordable(resource.get_cost());
           return _objectSpread(_objectSpread({}, resource), {}, {
             stock: _this4.sellStocks[resource.id],
             affordable: affordable,
@@ -365,8 +365,8 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
     value: function getPurchaseableItemDetails(id) {
       var _this$sellStocks$id, _entity$purchaseRenew, _this$sellStocks$enti;
       if (!id) return null;
-      var entity = game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource(id);
-      var affordable = game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceCalculators.isAffordable(entity.get_cost());
+      var entity = index.gameResources.getResource(id);
+      var affordable = index.resourceCalculators.isAffordable(entity.get_cost());
       var potPurchase = Math.max(1, Math.min(this.purchaseMultiplier, affordable.max, (_this$sellStocks$id = this.sellStocks[id]) !== null && _this$sellStocks$id !== void 0 ? _this$sellStocks$id : Math.pow(1000, (_entity$purchaseRenew = entity.purchaseRenewRate) !== null && _entity$purchaseRenew !== void 0 ? _entity$purchaseRenew : 1)));
       return {
         id: entity.id,
@@ -374,8 +374,8 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
         description: entity.description,
         max: entity.max,
         level: this.purchasedItems[entity.id] || 0,
-        affordable: game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceCalculators.isAffordable(entity.get_cost(potPurchase)),
-        potentialEffects: game_framework__WEBPACK_IMPORTED_MODULE_0__.resourceApi.unpackEffects(entity.usageGain || {}, 1),
+        affordable: index.resourceCalculators.isAffordable(entity.get_cost(potPurchase)),
+        potentialEffects: index.resourceApi.unpackEffects(entity.usageGain || {}, 1),
         tags: entity.tags,
         purchaseMultiplier: Math.max(1, Math.min(this.purchaseMultiplier, affordable.max, (_this$sellStocks$enti = this.sellStocks[entity.id]) !== null && _this$sellStocks$enti !== void 0 ? _this$sellStocks$enti : 0))
       };
@@ -387,6 +387,6 @@ var ShopModule = /*#__PURE__*/function (_GameModule) {
       this.eventHandler.sendData('item-details', data);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_1__.GameModule);
+}(game_module.GameModule);
 
 export { ShopModule };

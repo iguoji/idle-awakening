@@ -1,8 +1,8 @@
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_0__ from '../../shared/game-module.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_1__ from '../../../framework/index.js';
-import * as _inventory_inventory_items_db__WEBPACK_IMPORTED_MODULE_2__ from '../inventory/inventory-items-db.js';
-import * as _common_effects_db__WEBPACK_IMPORTED_MODULE_3__ from './common-effects-db.js';
-import * as game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__ from '../../../framework/src/utils/consts.js';
+import * as game_module from '../../shared/game-module.js';
+import * as index from '../../../framework/index.js';
+import * as inventory_items_db from '../inventory/inventory-items-db.js';
+import * as common_effects_db from './common-effects-db.js';
+import * as consts from '../../../framework/src/utils/consts.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
@@ -53,7 +53,7 @@ var ResourcePoolModule = /*#__PURE__*/function (_GameModule) {
       _this.eventHandler.sendData('resources-data', data);
     });
     _this.eventHandler.registerHandler('query-all-resources', function (payload) {
-      var data = Object.values(game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.resources);
+      var data = Object.values(index.gameResources.resources);
       var label = 'all-resources';
       if (payload !== null && payload !== void 0 && payload.prefix) {
         label = "".concat(label, "-").concat(payload === null || payload === void 0 ? void 0 : payload.prefix);
@@ -73,126 +73,126 @@ var ResourcePoolModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(ResourcePoolModule, [{
     key: "initialize",
     value: function initialize() {
-      (0,_common_effects_db__WEBPACK_IMPORTED_MODULE_3__.registerCommomEffects)();
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('mage-xp', {
+      (0,common_effects_db.registerCommomEffects)();
+      index.gameResources.registerResource('mage-xp', {
         name: 'XP',
         hasCap: true,
         tags: ['mage', 'xp'],
         defaultCap: 0
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.registerEffect('coins_cap_bonus', {
+      index.gameEffects.registerEffect('coins_cap_bonus', {
         name: 'Coins cap multiplier',
         defaultValue: 1,
         minValue: 1
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('energy', {
+      index.gameResources.registerResource('energy', {
         name: 'Energy',
         hasCap: true,
         tags: ['resource', 'energy', 'basic', 'vital'],
         defaultCap: 0
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('health', {
+      index.gameResources.registerResource('health', {
         name: 'Health',
         hasCap: true,
         tags: ['resource', 'health', 'basic', 'vital'],
         defaultCap: 0,
         unlockCondition: function unlockCondition() {
           // console.log('ACTLVL: ', )
-          return game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('action_pushup') > 1;
+          return index.gameEntity.getLevel('action_pushup') > 1;
         }
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('coins', {
+      index.gameResources.registerResource('coins', {
         name: 'Coins',
         hasCap: true,
         tags: ['resource', 'coins', 'basic'],
         defaultCap: 2
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('knowledge', {
+      index.gameResources.registerResource('knowledge', {
         name: 'Knowledge',
         hasCap: true,
         tags: ['resource', 'basic', 'mental'],
         defaultCap: 10,
         unlockCondition: function unlockCondition() {
-          return game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_library_entrance') > 0;
+          return index.gameEntity.getLevel('shop_item_library_entrance') > 0;
         }
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('mana', {
+      index.gameResources.registerResource('mana', {
         name: 'Mana',
         hasCap: true,
         tags: ['resource', 'magical', 'mental'],
         defaultCap: 10,
         unlockCondition: function unlockCondition() {
-          return game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_spellbook') > 0;
+          return index.gameEntity.getLevel('shop_item_spellbook') > 0;
         }
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('crafting_ability', {
+      index.gameResources.registerResource('crafting_ability', {
         tags: ['crafting', 'secondary'],
         name: 'Crafting Effort',
         isService: true
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('crafting_slots', {
+      index.gameResources.registerResource('crafting_slots', {
         tags: ['crafting', 'secondary'],
         name: 'Crafting Slots',
         isService: true
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('alchemy_ability', {
+      index.gameResources.registerResource('alchemy_ability', {
         tags: ['alchemy', 'secondary'],
         name: 'Alchemy Effort',
         isService: true
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('alchemy_slots', {
+      index.gameResources.registerResource('alchemy_slots', {
         tags: ['alchemy', 'secondary'],
         name: 'Alchemy Slots',
         isService: true
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('plantation_slots', {
+      index.gameResources.registerResource('plantation_slots', {
         tags: ['alchemy', 'secondary'],
         name: 'Plantation Slots',
         isService: true
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('gathering_effort', {
+      index.gameResources.registerResource('gathering_effort', {
         tags: ['exploration', 'secondary'],
         name: 'Gathering Effort',
         isService: true
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('gathering_perception', {
+      index.gameResources.registerResource('gathering_perception', {
         tags: ['exploration', 'secondary'],
         name: 'Gathering Perception',
         isService: true,
         description: 'Determines how much efficient you are at gathering, boosting probability to find any loot'
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('mental_energy', {
+      index.gameResources.registerResource('mental_energy', {
         tags: ['resource', 'mental'],
         name: 'Mental Energy',
         hasCap: true,
         defaultCap: 100,
         unlockCondition: function unlockCondition() {
-          return game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.isEntityUnlocked('action_mind_cleansing');
+          return index.gameEntity.isEntityUnlocked('action_mind_cleansing');
         }
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('rare_herbs_loot', {
+      index.gameResources.registerResource('rare_herbs_loot', {
         tags: ['gathering', 'secondary'],
         name: 'Rare Herbs',
         isService: true,
         isPercentage: true,
         unlockCondition: function unlockCondition() {
-          return game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
+          return index.gameEntity.getLevel('shop_item_herbs_handbook_2') > 0;
         }
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.registerEffect('metabolism_rate', {
+      index.gameEffects.registerEffect('metabolism_rate', {
         name: 'Metabolism Rate',
         defaultValue: 1,
         minValue: 1,
         description: 'Increase effect from herbs, food and potions consumption (Affect both positive and negative effects)'
       });
-      (0,_inventory_inventory_items_db__WEBPACK_IMPORTED_MODULE_2__.registerInventoryItems)();
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('guild_reputation', {
+      (0,inventory_items_db.registerInventoryItems)();
+      index.gameResources.registerResource('guild_reputation', {
         name: 'Guild Reputation',
         hasCap: true,
         tags: ['guild', 'reputation'],
         defaultCap: 0
       });
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.registerResource('guild-points', {
+      index.gameResources.registerResource('guild-points', {
         name: 'Guild Points',
         hasCap: true,
         tags: ['guild', 'points'],
@@ -240,19 +240,19 @@ var ResourcePoolModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "reset",
     value: function reset() {
-      var rs = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.listResourcesByTags(['resource', 'population'], true);
+      var rs = index.gameResources.listResourcesByTags(['resource', 'population'], true);
       rs.forEach(function (r) {
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.setResource(r.id, 0);
+        index.gameResources.setResource(r.id, 0);
       });
     }
   }, {
     key: "getResourcesData",
     value: function getResourcesData(pl) {
       var _this3 = this;
-      var rs = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.listResourcesByTags(['resource', 'population'], true);
+      var rs = index.gameResources.listResourcesByTags(['resource', 'population'], true);
       // console.log('RS: ', JSON.stringify(gameResources.getResource('coins')));
       if (pl.includePinned) {
-        var inventory = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.listAllResources(['resource']);
+        var inventory = index.gameResources.listAllResources(['resource']);
         var pinned = inventory.filter(function (one) {
           var _this3$pinnedResource;
           return (_this3$pinnedResource = _this3.pinnedResources) === null || _this3$pinnedResource === void 0 ? void 0 : _this3$pinnedResource[one.id];
@@ -265,15 +265,15 @@ var ResourcePoolModule = /*#__PURE__*/function (_GameModule) {
         var _this3$monitoredData$;
         return _objectSpread(_objectSpread({}, resource), {}, {
           isNegative: resource.balance < 0,
-          isPositive: resource.balance > 0 && resource.amount < resource.cap - game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER,
-          isCapped: resource.amount >= resource.cap - game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER,
-          eta: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.assertToCapOrEmpty(resource.id),
+          isPositive: resource.balance > 0 && resource.amount < resource.cap - consts.SMALL_NUMBER,
+          isCapped: resource.amount >= resource.cap - consts.SMALL_NUMBER,
+          eta: index.gameResources.assertToCapOrEmpty(resource.id),
           monitor: (_this3$monitoredData$ = _this3.monitoredData[resource.id]) !== null && _this3$monitoredData$ !== void 0 ? _this3$monitoredData$ : null
           // affData: monitoredResources[resource.id] || undefined
         });
       });
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { ResourcePoolModule };

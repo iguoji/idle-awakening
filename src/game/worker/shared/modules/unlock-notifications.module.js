@@ -1,5 +1,5 @@
-import * as _game_module__WEBPACK_IMPORTED_MODULE_0__ from '../game-module.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_1__ from '../../../framework/index.js';
+import * as game_module from '../game-module.js';
+import * as index from '../../../framework/index.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
@@ -209,15 +209,15 @@ var UnlockNotificationsModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "generateNotifications",
     value: function generateNotifications() {
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').regenerateNotifications();
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('shop').regenerateNotifications();
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('courses').regenerateNotifications();
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('inventory').regenerateNotifications();
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('property').regenerateNotifications();
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('crafting').regenerateNotifications();
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('plantations').regenerateNotifications();
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('magic').regenerateNotifications();
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('guilds').regenerateNotifications();
+      index.gameCore.getModule('actions').regenerateNotifications();
+      index.gameCore.getModule('shop').regenerateNotifications();
+      index.gameCore.getModule('courses').regenerateNotifications();
+      index.gameCore.getModule('inventory').regenerateNotifications();
+      index.gameCore.getModule('property').regenerateNotifications();
+      index.gameCore.getModule('crafting').regenerateNotifications();
+      index.gameCore.getModule('plantations').regenerateNotifications();
+      index.gameCore.getModule('magic').regenerateNotifications();
+      index.gameCore.getModule('guilds').regenerateNotifications();
     }
 
     /**
@@ -347,6 +347,6 @@ var UnlockNotificationsModule = /*#__PURE__*/function (_GameModule) {
       this.eventHandler.sendData(label, result);
     }
   }]);
-}(_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { UnlockNotificationsModule };

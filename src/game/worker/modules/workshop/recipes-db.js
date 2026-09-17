@@ -1,12 +1,12 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 var getPrimaryBonus = function getPrimaryBonus(attributeId) {
-  return 0.98 + 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue(attributeId);
+  return 0.98 + 0.02 * index.gameEffects.getEffectValue(attributeId);
 };
 var registerCraftingRecipe = function registerCraftingRecipe(id, options) {
   var primaryAttribute = options.attributes.primaryAttribute;
   if (!primaryAttribute || !options.resourceModifier) {
-    return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity(id, options);
+    return index.gameEntity.registerGameEntity(id, options);
   }
   if (!options.resourceModifier.effectDeps) {
     options.resourceModifier.effectDeps = [];
@@ -25,7 +25,7 @@ var registerCraftingRecipe = function registerCraftingRecipe(id, options) {
   options.resourceModifier.getCustomAmplifier = function () {
     return options.getPrimaryEffect();
   };
-  return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity(id, options);
+  return index.gameEntity.registerGameEntity(id, options);
 };
 var registerCraftingRecipes = function registerCraftingRecipes() {
   registerCraftingRecipe('craft_refined_wood', {
@@ -42,7 +42,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_refined_wood': {
               A: 1.3,
-              B: 0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.2 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -53,7 +53,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_wood': {
               A: 1.5,
-              B: 1 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 1 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -102,7 +102,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_paper': {
               A: 1.3,
-              B: 0.05 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.05 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -113,7 +113,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_wood': {
               A: 1.5,
-              B: 1 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 1 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -133,7 +133,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['crafting_efficiency', 'crafting_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_paper');
+      return index.gameResources.isResourceUnlocked('inventory_paper');
     },
     attributes: {
       baseXPCost: 10
@@ -162,7 +162,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_enchanted_paper': {
               A: 1.3,
-              B: 0.1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.1 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -173,12 +173,12 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_paper': {
               A: 1.5,
-              B: 1 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 1 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             mana: {
               A: 1.5,
-              B: 40 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 40 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -198,7 +198,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['crafting_efficiency', 'crafting_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_enchanted_paper');
+      return index.gameResources.isResourceUnlocked('inventory_enchanted_paper');
     },
     attributes: {
       baseXPCost: 10
@@ -227,7 +227,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_herbal_fibers': {
               A: 1.3,
-              B: 0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.2 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -238,12 +238,12 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_ginseng': {
               A: 1.5,
-              B: 0.5 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 0.5 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'inventory_aloe_vera': {
               A: 1.5,
-              B: 0.5 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 0.5 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -292,7 +292,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_ruby': {
               A: 1.3,
-              B: 0.05 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.05 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -303,7 +303,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_stone': {
               A: 1.5,
-              B: 1 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 1 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -323,7 +323,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['crafting_efficiency', 'crafting_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_stone');
+      return index.gameResources.isResourceUnlocked('inventory_stone');
     },
     attributes: {
       baseXPCost: 10
@@ -352,7 +352,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_sapphire': {
               A: 1.3,
-              B: 0.05 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.05 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -363,7 +363,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_stone': {
               A: 1.5,
-              B: 1 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 1 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -383,7 +383,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['crafting_efficiency', 'crafting_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_stone');
+      return index.gameResources.isResourceUnlocked('inventory_stone');
     },
     attributes: {
       baseXPCost: 10
@@ -417,7 +417,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_obsidian_shard': {
               A: 1.3,
-              B: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.02 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -428,7 +428,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_stone': {
               A: 1.5,
-              B: 100 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 100 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -448,7 +448,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['crafting_efficiency', 'crafting_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_obsidian_shard');
+      return index.gameResources.isResourceUnlocked('inventory_obsidian_shard');
     },
     attributes: {
       baseXPCost: 10
@@ -477,7 +477,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_iron_plate': {
               A: 1.3,
-              B: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.02 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -488,7 +488,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_iron_ore': {
               A: 1.5,
-              B: 1 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 1 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -508,7 +508,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['crafting_efficiency', 'crafting_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_iron_ore');
+      return index.gameResources.isResourceUnlocked('inventory_iron_ore');
     },
     attributes: {
       baseXPCost: 10
@@ -542,7 +542,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_forged_steel': {
               A: 1.3,
-              B: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.02 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -553,7 +553,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_iron_plate': {
               A: 1.5,
-              B: 0.25 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 0.25 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -573,7 +573,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['crafting_efficiency', 'crafting_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_iron_ore');
+      return index.gameResources.isResourceUnlocked('inventory_iron_ore');
     },
     attributes: {
       baseXPCost: 10
@@ -602,7 +602,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_green_ink': {
               A: 1.3,
-              B: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.02 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -613,12 +613,12 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_knowledge_moss': {
               A: 1.5,
-              B: 6 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 6 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'inventory_golden_algae': {
               A: 1.5,
-              B: 6 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 6 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -638,7 +638,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['crafting_efficiency', 'crafting_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_green_ink');
+      return index.gameResources.isResourceUnlocked('inventory_green_ink');
     },
     attributes: {
       baseXPCost: 10
@@ -667,7 +667,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_red_ink': {
               A: 1.3,
-              B: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.02 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -678,12 +678,12 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_ember_leaf': {
               A: 1.5,
-              B: 2 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 2 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'inventory_harmony_blossom': {
               A: 1.5,
-              B: 2 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 2 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -703,7 +703,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['crafting_efficiency', 'crafting_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_red_ink');
+      return index.gameResources.isResourceUnlocked('inventory_red_ink');
     },
     attributes: {
       baseXPCost: 10
@@ -732,7 +732,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_map_fragment': {
               A: 1.3,
-              B: 0.02 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_efficiency'),
+              B: 0.02 * index.gameEffects.getEffectValue('crafting_efficiency'),
               type: 1
             }
           }
@@ -743,12 +743,12 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_paper': {
               A: 1.5,
-              B: 6 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 6 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'inventory_green_ink': {
               A: 1.5,
-              B: 1 / 1.5 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('crafting_materials_discount'),
+              B: 1 / 1.5 / index.gameEffects.getEffectValue('crafting_materials_discount'),
               type: 1
             },
             'crafting_ability': {
@@ -768,7 +768,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['crafting_efficiency', 'crafting_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_map_fragment');
+      return index.gameResources.isResourceUnlocked('inventory_map_fragment');
     },
     attributes: {
       baseXPCost: 10
@@ -800,7 +800,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_small_endurance_flask': {
               A: 1.3,
-              B: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_efficiency'),
+              B: 1 * index.gameEffects.getEffectValue('alchemy_efficiency'),
               type: 1
             }
           }
@@ -811,12 +811,12 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_ginseng': {
               A: 1.5,
-              B: 5 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 5 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'inventory_berry': {
               A: 1.5,
-              B: 25 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 25 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'alchemy_ability': {
@@ -836,7 +836,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['alchemy_efficiency', 'alchemy_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     attributes: {
       baseXPCost: 10
@@ -865,7 +865,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_healing_potion': {
               A: 1.3,
-              B: 1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_efficiency'),
+              B: 1 * index.gameEffects.getEffectValue('alchemy_efficiency'),
               type: 1
             }
           }
@@ -876,12 +876,12 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_aloe_vera': {
               A: 1.5,
-              B: 5 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 5 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'inventory_berry': {
               A: 1.5,
-              B: 25 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 25 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'alchemy_ability': {
@@ -901,7 +901,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['alchemy_efficiency', 'alchemy_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     attributes: {
       baseXPCost: 10
@@ -930,7 +930,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_experience_potion': {
               A: 1.3,
-              B: 0.1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_efficiency'),
+              B: 0.1 * index.gameEffects.getEffectValue('alchemy_efficiency'),
               type: 1
             }
           }
@@ -941,12 +941,12 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_nightshade': {
               A: 1.5,
-              B: 2.5 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 2.5 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'inventory_fly_mushroom': {
               A: 1.5,
-              B: 10 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 10 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'alchemy_ability': {
@@ -966,7 +966,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['alchemy_efficiency', 'alchemy_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     attributes: {
       baseXPCost: 10
@@ -995,7 +995,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_insight_potion': {
               A: 1.3,
-              B: 0.1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_efficiency'),
+              B: 0.1 * index.gameEffects.getEffectValue('alchemy_efficiency'),
               type: 1
             }
           }
@@ -1006,12 +1006,12 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_knowledge_moss': {
               A: 1.5,
-              B: 75 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 75 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'inventory_golden_algae': {
               A: 1.5,
-              B: 250 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 250 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'alchemy_ability': {
@@ -1031,7 +1031,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['alchemy_efficiency', 'alchemy_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     attributes: {
       baseXPCost: 10
@@ -1060,7 +1060,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_amnesia_potion': {
               A: 1.3,
-              B: 0.1 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_efficiency'),
+              B: 0.1 * index.gameEffects.getEffectValue('alchemy_efficiency'),
               type: 1
             }
           }
@@ -1071,12 +1071,12 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_nightshade': {
               A: 1.5,
-              B: 100 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 100 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'inventory_fly_mushroom': {
               A: 1.5,
-              B: 1000 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 1000 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'alchemy_ability': {
@@ -1096,7 +1096,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['alchemy_efficiency', 'alchemy_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_alchemy_courses') > 0;
     },
     attributes: {
       baseXPCost: 10
@@ -1125,7 +1125,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_crafting_potion': {
               A: 1.3,
-              B: 0.05 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_efficiency'),
+              B: 0.05 * index.gameEffects.getEffectValue('alchemy_efficiency'),
               type: 1
             }
           }
@@ -1136,12 +1136,12 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
           resources: {
             'inventory_ember_leaf': {
               A: 1.5,
-              B: 5 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 5 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'inventory_fly_mushroom': {
               A: 1.5,
-              B: 500 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('alchemy_materials_discount'),
+              B: 500 / index.gameEffects.getEffectValue('alchemy_materials_discount'),
               type: 1
             },
             'alchemy_ability': {
@@ -1161,7 +1161,7 @@ var registerCraftingRecipes = function registerCraftingRecipes() {
       effectDeps: ['alchemy_efficiency', 'alchemy_materials_discount']
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_alchemy_courses') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.isResourceUnlocked('inventory_ember_leaf');
+      return index.gameEntity.getLevel('shop_item_alchemy_courses') > 0 && index.gameResources.isResourceUnlocked('inventory_ember_leaf');
     },
     attributes: {
       baseXPCost: 10

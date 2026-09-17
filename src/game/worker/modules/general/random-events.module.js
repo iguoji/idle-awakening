@@ -1,7 +1,7 @@
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_0__ from '../../shared/game-module.js';
-import * as _random_events_db__WEBPACK_IMPORTED_MODULE_1__ from './random-events-db.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_2__ from '../../../framework/index.js';
-import * as _random_events_db_learn_rates__WEBPACK_IMPORTED_MODULE_3__ from './random-events-db-learn-rates.js';
+import * as game_module from '../../shared/game-module.js';
+import * as random_events_db from './random-events-db.js';
+import * as index from '../../../framework/index.js';
+import * as random_events_db_learn_rates from './random-events-db-learn-rates.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -72,7 +72,7 @@ var RandomEventsModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(RandomEventsModule, [{
     key: "initialize",
     value: function initialize() {
-      this.eventsDB = [].concat(_toConsumableArray((0,_random_events_db__WEBPACK_IMPORTED_MODULE_1__.registerRandomEventsDb)()), _toConsumableArray((0,_random_events_db_learn_rates__WEBPACK_IMPORTED_MODULE_3__.registerRandomEventsLearnDb)())).reduce(function (acc, item) {
+      this.eventsDB = [].concat(_toConsumableArray((0,random_events_db.registerRandomEventsDb)()), _toConsumableArray((0,random_events_db_learn_rates.registerRandomEventsLearnDb)())).reduce(function (acc, item) {
         acc[item.id] = item;
         return acc;
       }, {});
@@ -95,7 +95,7 @@ var RandomEventsModule = /*#__PURE__*/function (_GameModule) {
       }
 
       // Генеруємо нові події, якщо кількість активних подій менша за 5
-      if (Object.keys(this.activeEvents).length < 5 && Math.random() < delta * 0.003 && game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getLevel('action_visit_city') > 1) {
+      if (Object.keys(this.activeEvents).length < 5 && Math.random() < delta * 0.003 && index.gameEntity.getLevel('action_visit_city') > 1) {
         this.triggerRandomEvent();
       }
     }
@@ -291,14 +291,14 @@ var RandomEventsModule = /*#__PURE__*/function (_GameModule) {
         consume: {}
       };
       if (option.usageGain) {
-        var effects = game_framework__WEBPACK_IMPORTED_MODULE_2__.resourceApi.unpackEffects(option.usageGain, 1);
+        var effects = index.resourceApi.unpackEffects(option.usageGain, 1);
         if (effects.length) {
           var resourcesToRemove = effects.filter(function (eff) {
             return eff.scope === 'consumption' && eff.type === 'resources';
           });
           resourcesToRemove.forEach(function (resource) {
             result.consume[resource.id] = resource.value;
-            if (result.consume[resource.id] > game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource(resource.id).amount) {
+            if (result.consume[resource.id] > index.gameResources.getResource(resource.id).amount) {
               result.isAffordable = false;
             }
           });
@@ -338,7 +338,7 @@ var RandomEventsModule = /*#__PURE__*/function (_GameModule) {
               id: option.id,
               name: option.name,
               description: option.description,
-              affordable: game_framework__WEBPACK_IMPORTED_MODULE_2__.resourceCalculators.isAffordable(_this4.getOptionAffordable(option).consume),
+              affordable: index.resourceCalculators.isAffordable(_this4.getOptionAffordable(option).consume),
               revealedEffects: _this4.getRevealedEffects(_this4.openedEventId, option.id)
             };
           }),
@@ -401,6 +401,6 @@ var RandomEventsModule = /*#__PURE__*/function (_GameModule) {
       this.sendData();
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { RandomEventsModule };

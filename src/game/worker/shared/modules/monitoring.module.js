@@ -1,5 +1,5 @@
-import * as _game_module__WEBPACK_IMPORTED_MODULE_0__ from '../game-module.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_1__ from '../../../framework/index.js';
+import * as game_module from '../game-module.js';
+import * as index from '../../../framework/index.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
@@ -33,13 +33,13 @@ var MonitoringModule = /*#__PURE__*/function (_GameModule) {
         id = _ref.id;
       // console.log('set-monitored: ', scope, type, id);
       if (scope === 'actions') {
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').setMonitored({
+        index.gameCore.getModule('actions').setMonitored({
           type: type,
           id: id
         });
       }
       if (scope === 'spells') {
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('magic').setMonitored({
+        index.gameCore.getModule('magic').setMonitored({
           type: type,
           id: id
         });
@@ -51,28 +51,28 @@ var MonitoringModule = /*#__PURE__*/function (_GameModule) {
           // if id null - clear monitors, else - replace em
           if (id) {
             var _gameCore$getModule$a;
-            var data = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEffects(id, 1, ((_gameCore$getModule$a = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('actions').actions[id]) === null || _gameCore$getModule$a === void 0 ? void 0 : _gameCore$getModule$a.level) || 1, true);
+            var data = index.gameEntity.getEffects(id, 1, ((_gameCore$getModule$a = index.gameCore.getModule('actions').actions[id]) === null || _gameCore$getModule$a === void 0 ? void 0 : _gameCore$getModule$a.level) || 1, true);
             var effects = data.filter(function (one) {
               return one.type === 'effects';
             });
             var resources = data.filter(function (one) {
               return one.type === 'resources';
             });
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('attributes').setMonitored(effects);
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('resource-pool').setMonitored(resources);
+            index.gameCore.getModule('attributes').setMonitored(effects);
+            index.gameCore.getModule('resource-pool').setMonitored(resources);
           } else {
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('attributes').setMonitored([]);
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('resource-pool').setMonitored([]);
+            index.gameCore.getModule('attributes').setMonitored([]);
+            index.gameCore.getModule('resource-pool').setMonitored([]);
           }
         }
         if (type === 'spell') {
           // if id null - clear monitors, else - replace em
           if (id) {
-            var spell = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEntity(id);
-            var effDurable = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEffects(id, 0, spell.level, true);
+            var spell = index.gameEntity.getEntity(id);
+            var effDurable = index.gameEntity.getEffects(id, 0, spell.level, true);
             var _effects = [];
             if (spell.usageGain) {
-              _effects = game_framework__WEBPACK_IMPORTED_MODULE_1__.resourceApi.unpackEffects(spell.usageGain, spell.level);
+              _effects = index.resourceApi.unpackEffects(spell.usageGain, spell.level);
             }
             console.log('Effs: ', effDurable, _effects);
             var _data = [].concat(_toConsumableArray(effDurable), _toConsumableArray(_effects));
@@ -82,28 +82,28 @@ var MonitoringModule = /*#__PURE__*/function (_GameModule) {
             var _resources = _data.filter(function (one) {
               return one.type === 'resources';
             });
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('attributes').setMonitored(attrs);
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('resource-pool').setMonitored(_resources);
+            index.gameCore.getModule('attributes').setMonitored(attrs);
+            index.gameCore.getModule('resource-pool').setMonitored(_resources);
           } else {
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('attributes').setMonitored([]);
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('resource-pool').setMonitored([]);
+            index.gameCore.getModule('attributes').setMonitored([]);
+            index.gameCore.getModule('resource-pool').setMonitored([]);
           }
         }
         if (['furniture', 'accessory', 'amplifier'].includes(type)) {
           // if id null - clear monitors, else - replace em
           if (id) {
-            var _data2 = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getEffects(id, 1, 1, true);
+            var _data2 = index.gameEntity.getEffects(id, 1, 1, true);
             var _effects2 = _data2.filter(function (one) {
               return one.type === 'effects';
             });
             var _resources2 = _data2.filter(function (one) {
               return one.type === 'resources';
             });
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('attributes').setMonitored(_effects2);
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('resource-pool').setMonitored(_resources2);
+            index.gameCore.getModule('attributes').setMonitored(_effects2);
+            index.gameCore.getModule('resource-pool').setMonitored(_resources2);
           } else {
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('attributes').setMonitored([]);
-            game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('resource-pool').setMonitored([]);
+            index.gameCore.getModule('attributes').setMonitored([]);
+            index.gameCore.getModule('resource-pool').setMonitored([]);
           }
         }
       }
@@ -124,6 +124,6 @@ var MonitoringModule = /*#__PURE__*/function (_GameModule) {
     key: "load",
     value: function load() {}
   }]);
-}(_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { MonitoringModule };

@@ -1,4 +1,4 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -26,7 +26,7 @@ var registerCourse = function registerCourse(id, options, learningModifier) {
       learningEntityId: id
     }
   };
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity(id, _objectSpread(_objectSpread({}, options), {}, {
+  index.gameEntity.registerGameEntity(id, _objectSpread(_objectSpread({}, options), {}, {
     learningEntity: learningOptions
   }));
 };
@@ -39,7 +39,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
     },
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       capMult: {
@@ -68,7 +68,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
           },*/
           'knowledge': {
             A: 1.1,
-            B: 15 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('courses_knowledge_discount'),
+            B: 15 / index.gameEffects.getEffectValue('courses_knowledge_discount'),
             type: 1
           }
         }
@@ -84,7 +84,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
     },
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -108,7 +108,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
           },*/
           'knowledge': {
             A: 1.1,
-            B: 30 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('courses_knowledge_discount'),
+            B: 30 / index.gameEffects.getEffectValue('courses_knowledge_discount'),
             type: 1
           }
         }
@@ -124,7 +124,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
     },
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -148,7 +148,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
           },*/
           'knowledge': {
             A: 1.1,
-            B: 30 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('courses_knowledge_discount'),
+            B: 30 / index.gameEffects.getEffectValue('courses_knowledge_discount'),
             type: 1
           }
         }
@@ -164,7 +164,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
     },
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -188,7 +188,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
           },*/
           'knowledge': {
             A: 1.1,
-            B: 50 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('courses_knowledge_discount'),
+            B: 50 / index.gameEffects.getEffectValue('courses_knowledge_discount'),
             type: 1
           }
         }
@@ -204,7 +204,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
     },
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_breaking_limits') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_breaking_limits') > 0 && index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -228,7 +228,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
           },*/
           'knowledge': {
             A: 1.1,
-            B: 30 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('courses_knowledge_discount'),
+            B: 30 / index.gameEffects.getEffectValue('courses_knowledge_discount'),
             type: 1
           }
         }
@@ -244,7 +244,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
     },
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_breaking_limits') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_breaking_limits') > 0 && index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -268,7 +268,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
           },*/
           'knowledge': {
             A: 1.1,
-            B: 40 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('courses_knowledge_discount'),
+            B: 40 / index.gameEffects.getEffectValue('courses_knowledge_discount'),
             type: 1
           }
         }
@@ -284,7 +284,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
     },
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_breaking_limits') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_breaking_limits') > 0 && index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -308,7 +308,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
           },*/
           'knowledge': {
             A: 1.1,
-            B: 40 / game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('courses_knowledge_discount'),
+            B: 40 / index.gameEffects.getEffectValue('courses_knowledge_discount'),
             type: 1
           }
         }
@@ -329,7 +329,7 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
       level: 25
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       multiplier: {
@@ -374,14 +374,14 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
       level: 25
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
         return {
           effects: {
             'social_actions_discount': {
-              A: 0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('reductive_courses_power'),
+              A: 0.2 * index.gameEffects.getEffectValue('reductive_courses_power'),
               B: 1,
               C: 1.01,
               type: 3
@@ -422,14 +422,14 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
       level: 25
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
         return {
           effects: {
             'physical_actions_discount': {
-              A: 0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('reductive_courses_power'),
+              A: 0.2 * index.gameEffects.getEffectValue('reductive_courses_power'),
               B: 1,
               C: 1.01,
               type: 3
@@ -470,14 +470,14 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
       level: 25
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
         return {
           effects: {
             'mental_actions_discount': {
-              A: 0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('reductive_courses_power'),
+              A: 0.2 * index.gameEffects.getEffectValue('reductive_courses_power'),
               B: 1,
               C: 1.01,
               type: 3
@@ -522,14 +522,14 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
       level: 20000
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
         return {
           effects: {
             'magical_actions_discount': {
-              A: 0.2 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('reductive_courses_power'),
+              A: 0.2 * index.gameEffects.getEffectValue('reductive_courses_power'),
               B: 1,
               C: 1.01,
               type: 3
@@ -566,14 +566,14 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
     },
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_advanced_training') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_advanced_training') > 0 && index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
         return {
           effects: {
             'crafting_materials_discount': {
-              A: 0.025 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('reductive_courses_power'),
+              A: 0.025 * index.gameEffects.getEffectValue('reductive_courses_power'),
               B: 1,
               C: 1.01,
               type: 3
@@ -610,14 +610,14 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
     },
     level: 0,
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_advanced_training') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_advanced_training') > 0 && index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     resourceModifier: {
       get_multiplier: function get_multiplier() {
         return {
           effects: {
             'alchemy_materials_discount': {
-              A: 0.025 * game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEffects.getEffectValue('reductive_courses_power'),
+              A: 0.025 * index.gameEffects.getEffectValue('reductive_courses_power'),
               B: 1,
               C: 1.01,
               type: 3

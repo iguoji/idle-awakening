@@ -1,8 +1,8 @@
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_0__ from '../../shared/game-module.js';
-import * as _tile_db__WEBPACK_IMPORTED_MODULE_1__ from './tile-db.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_2__ from '../../../framework/index.js';
-import * as _map_tile_lists_submodule__WEBPACK_IMPORTED_MODULE_3__ from './map-tile-lists.submodule.js';
-import * as game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__ from '../../../framework/src/utils/consts.js';
+import * as game_module from '../../shared/game-module.js';
+import * as tile_db from './tile-db.js';
+import * as index from '../../../framework/index.js';
+import * as map_tile_lists_submodule from './map-tile-lists.submodule.js';
+import * as consts from '../../../framework/src/utils/consts.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -48,7 +48,7 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
     _this.mapTier = 0;
     _this.relevantMapVersion = 2;
     _this.currentMapVersion = null;
-    _this.lists = new _map_tile_lists_submodule__WEBPACK_IMPORTED_MODULE_3__.MapTileListsSubmodule();
+    _this.lists = new map_tile_lists_submodule.MapTileListsSubmodule();
     _this.eventHandler.registerHandler('query-map-data', function () {
       _this.sendData();
     });
@@ -81,7 +81,7 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
     });
     _this.eventHandler.registerHandler('map-set-generated-level', function (payload) {
       // console.log('setGeneratedLevel: ', payload);
-      _this.mapCreationSettings.level = Math.max(0, Math.min(Math.floor(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('max_map_level')), payload.level));
+      _this.mapCreationSettings.level = Math.max(0, Math.min(Math.floor(index.gameEffects.getEffectValue('max_map_level')), payload.level));
       _this.sendData();
       _this.sendGeneralData();
     });
@@ -115,7 +115,7 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
   return _createClass(MapModule, [{
     key: "initialize",
     value: function initialize() {
-      this.tileTypes = (0,_tile_db__WEBPACK_IMPORTED_MODULE_1__.registerTileTypesDB)();
+      this.tileTypes = (0,tile_db.registerTileTypesDB)();
       this.generateMap();
     }
   }, {
@@ -154,7 +154,7 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
       var expectType = Math.floor(Math.pow(Math.random(), 1.5) * this.tileTypes.length);
       var distance = Math.sqrt(Math.pow(i - 7, 2) + Math.pow(j - 7, 2));
       var metaData = this.tileTypes[expectType];
-      var resources = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.listResourcesByTags(['gatherable']);
+      var resources = index.gameResources.listResourcesByTags(['gatherable']);
       var complexity = Math.max(1, distance - 2 + (Math.random() + 0.75 * Math.pow(tier, 0.5)) * (distance - 2 + 3 * Math.pow(tier, 0.5))) * Math.pow(1.3, tier);
       return {
         distance: distance,
@@ -169,7 +169,7 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
     key: "stopRunningTiles",
     value: function stopRunningTiles() {
       var _this2 = this;
-      var activeEntities = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['exploration']);
+      var activeEntities = index.gameEntity.listEntitiesByTags(['exploration']);
       activeEntities.forEach(function (ent) {
         _this2.setTileRunning(ent.attributes.i, ent.attributes.j, false, 1);
       });
@@ -180,17 +180,17 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
       var effort = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
       var runningEntityId = "tile_".concat(i, "_").concat(j, "_exploration");
       var tileData = this.mapTilesProcessed[i][j];
-      var isRunning = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.entityExists(runningEntityId);
+      var isRunning = index.gameEntity.entityExists(runningEntityId);
       this.mapTiles[i][j].isRunning = flag;
       this.mapTiles[i][j].effort = effort;
       if (!flag) {
         if (isRunning) {
-          game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.unsetEntity(runningEntityId);
+          index.gameEntity.unsetEntity(runningEntityId);
         }
       }
       if (flag) {
         if (!isRunning) {
-          game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.registerGameEntity(runningEntityId, {
+          index.gameEntity.registerGameEntity(runningEntityId, {
             name: "Map Exploration: ".concat(i, ":").concat(j),
             tags: ["map", "tile", "exploration"],
             unlockCondition: function unlockCondition() {
@@ -216,7 +216,7 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
               effectDeps: ['gathering_efficiency']
             }
           });
-          game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.setEntityLevel(runningEntityId, 1, true);
+          index.gameEntity.setEntityLevel(runningEntityId, 1, true);
         }
       }
       this.processTiles();
@@ -307,7 +307,7 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "getGatheringPerceptionEffect",
     value: function getGatheringPerceptionEffect() {
-      return Math.pow(1 + game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('gathering_perception').amount, 0.25);
+      return Math.pow(1 + index.gameResources.getResource('gathering_perception').amount, 0.25);
     }
   }, {
     key: "processTiles",
@@ -320,8 +320,8 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
         var _loop2 = function _loop2(j) {
           var _this3$mapTiles$i$j$r;
           var efficiency = 1;
-          if (game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.entityExists("tile_".concat(i, "_").concat(j, "_exploration"))) {
-            efficiency = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.getEntityEfficiency("tile_".concat(i, "_").concat(j, "_exploration"));
+          if (index.gameEntity.entityExists("tile_".concat(i, "_").concat(j, "_exploration"))) {
+            efficiency = index.gameEntity.getEntityEfficiency("tile_".concat(i, "_").concat(j, "_exploration"));
           }
           var effEff = Math.pow(efficiency, 0.5);
           var r = (_this3$mapTiles$i$j$r = _this3.mapTiles[i][j].r) !== null && _this3$mapTiles$i$j$r !== void 0 ? _this3$mapTiles$i$j$r : [];
@@ -335,19 +335,19 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
             drops: _this3.mapTiles[i][j].drops.map(function (d, index) {
               var _this3$mapTiles$i$j$r2;
               var isRevealed = (_this3$mapTiles$i$j$r2 = _this3.mapTiles[i][j].r) === null || _this3$mapTiles$i$j$r2 === void 0 ? void 0 : _this3$mapTiles$i$j$r2.includes(index);
-              var rs = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource(d.id);
+              var rs = index.gameResources.getResource(d.id);
               var isHerb = rs.tags.includes('herb');
               var isRare = rs.tags.includes('rare');
               var amtHerbsMult = 1.;
               if (isHerb) {
-                amtHerbsMult = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('gathering_herbs_amount');
+                amtHerbsMult = index.gameEffects.getEffectValue('gathering_herbs_amount');
                 if (isRare) {
                   amtHerbsMult = 0.25 * Math.pow(amtHerbsMult, 0.5);
                 }
               }
               var rarityProbMult = 1.;
               if (rs.rarity <= 2) {
-                rarityProbMult *= Math.pow(game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('gathering_low_chance'), 1 / (1 + 0.25 * rs.rarity));
+                rarityProbMult *= Math.pow(index.gameEffects.getEffectValue('gathering_low_chance'), 1 / (1 + 0.25 * rs.rarity));
               }
               if (isRevealed) {
                 if (!_this3.filterableLoots[d.id]) {
@@ -378,7 +378,7 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
               });
             }),
             cost: _defineProperty({}, 'gathering_effort', {
-              name: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('gathering_effort').name,
+              name: index.gameResources.getResource('gathering_effort').name,
               value: _this3.mapTiles[i][j].costMult * (isNoviceArea ? 0.25 : 1)
             })
           });
@@ -441,8 +441,8 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
         isAffordable: true,
         consume: {}
       };
-      result.consume['inventory_map_fragment'] = 10 * Math.pow(4, level) / game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('map_generation_discount');
-      if (result.consume['inventory_map_fragment'] > game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('inventory_map_fragment').amount) {
+      result.consume['inventory_map_fragment'] = 10 * Math.pow(4, level) / index.gameEffects.getEffectValue('map_generation_discount');
+      if (result.consume['inventory_map_fragment'] > index.gameResources.getResource('inventory_map_fragment').amount) {
         result.isAffordable = false;
       }
       return result;
@@ -467,7 +467,7 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
       var cost = this.mapGenerationCost();
       if (!cost.isAffordable) return;
       for (var rId in cost.consume) {
-        game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.addResource(rId, -cost.consume[rId]);
+        index.gameResources.addResource(rId, -cost.consume[rId]);
       }
       this.lists.stopList();
       for (var lId in this.lists.mapLists) {
@@ -497,7 +497,7 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
       }
       if (highlightUnexplored) {
         var hasUnexplored = col.drops.some(function (drop) {
-          return game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.isResourceUnlocked(drop.id) && !drop.isRevealed;
+          return index.gameResources.isResourceUnlocked(drop.id) && !drop.isRevealed;
         });
         if (!hasUnexplored) return false;
       }
@@ -531,7 +531,7 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
       var _this5 = this,
         _gameCore$getModule$p;
       var filterableLoot = Object.keys(this.filterableLoots).map(function (one) {
-        return _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource(one)), {}, {
+        return _objectSpread(_objectSpread({}, index.gameResources.getResource(one)), {}, {
           isSelected: _this5.highlightResources[one]
         });
       });
@@ -542,15 +542,15 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
             return _objectSpread(_objectSpread({}, col), {}, {
               drops: col.drops.map(function (drop, index) {
                 return _objectSpread(_objectSpread({}, drop), {}, {
-                  resource: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource(drop.id)
+                  resource: index.gameResources.getResource(drop.id)
                 });
               }),
               isHighlight: isHighlighted
             });
           });
         }),
-        explorationPoints: _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('gathering_effort')), {}, {
-          isPinned: !!((_gameCore$getModule$p = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameCore.getModule('resource-pool').pinnedResources) !== null && _gameCore$getModule$p !== void 0 && _gameCore$getModule$p['gathering_effort'])
+        explorationPoints: _objectSpread(_objectSpread({}, index.gameResources.getResource('gathering_effort')), {}, {
+          isPinned: !!((_gameCore$getModule$p = index.gameCore.getModule('resource-pool').pinnedResources) !== null && _gameCore$getModule$p !== void 0 && _gameCore$getModule$p['gathering_effort'])
         }),
         mapLists: this.lists.getLists(),
         highlightFilters: this.highlightFilters,
@@ -562,35 +562,35 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
     value: function sendGeneralData() {
       var data = {
         mapGeneration: {
-          isUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.isResourceUnlocked('inventory_map_fragment'),
+          isUnlocked: index.gameResources.isResourceUnlocked('inventory_map_fragment'),
           level: this.mapCreationSettings.level,
-          affordable: game_framework__WEBPACK_IMPORTED_MODULE_2__.resourceCalculators.isAffordable(this.mapGenerationCost().consume),
-          maxLevel: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffectValue('max_map_level'),
+          affordable: index.resourceCalculators.isAffordable(this.mapGenerationCost().consume),
+          maxLevel: index.gameEffects.getEffectValue('max_map_level'),
           explorationBoundaries: this.mapGenerationEffortBounds()
         },
-        isProducingGathering: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('gathering_effort').income > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER,
+        isProducingGathering: index.gameResources.getResource('gathering_effort').income > consts.SMALL_NUMBER,
         stats: {
           effects: [{
             id: 'map_level',
             name: 'Map Level',
             value: this.mapTier
-          }, _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('gathering_low_chance')), {}, {
+          }, _objectSpread(_objectSpread({}, index.gameEffects.getEffect('gathering_low_chance')), {}, {
             isMultiplier: true
-          }), _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('gathering_herbs_amount')), {}, {
+          }), _objectSpread(_objectSpread({}, index.gameEffects.getEffect('gathering_herbs_amount')), {}, {
             isMultiplier: true
-          }), _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('gathering_perception')), {}, {
+          }), _objectSpread(_objectSpread({}, index.gameResources.getResource('gathering_perception')), {}, {
             isMultiplier: false,
-            value: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource('gathering_perception').amount
+            value: index.gameResources.getResource('gathering_perception').amount
           }), {
             id: 'perception_effect',
             name: 'Gathering Perception Effect',
             value: this.getGatheringPerceptionEffect(),
             description: 'Multiplier to find probabilities provided by Gathering Perception',
             isMultiplier: true
-          }, _objectSpread(_objectSpread({}, game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEffects.getEffect('map_generation_discount')), {}, {
+          }, _objectSpread(_objectSpread({}, index.gameEffects.getEffect('map_generation_discount')), {}, {
             isMultiplier: true
           })].filter(function (one) {
-            return !one.isMultiplier && one.value > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER || one.isMultiplier && Math.abs(one.value - 1) > game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER;
+            return !one.isMultiplier && one.value > consts.SMALL_NUMBER || one.isMultiplier && Math.abs(one.value - 1) > consts.SMALL_NUMBER;
           })
         }
       };
@@ -614,13 +614,13 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
         name: tile.metaData.name,
         unlockedUnrevealedAmount: tile.drops.filter(function (drop, index) {
           var _tile$r;
-          return !((_tile$r = tile.r) !== null && _tile$r !== void 0 && _tile$r.includes(index)) && game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.isResourceUnlocked(drop.id);
+          return !((_tile$r = tile.r) !== null && _tile$r !== void 0 && _tile$r.includes(index)) && index.gameResources.isResourceUnlocked(drop.id);
         }).length,
         drops: tile.drops.map(function (drop, index) {
           var _tile$r2;
           return _objectSpread(_objectSpread({}, drop), {}, {
-            resource: game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.getResource(drop.id),
-            isRevealed: ((_tile$r2 = tile.r) === null || _tile$r2 === void 0 ? void 0 : _tile$r2.includes(index)) && game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.isResourceUnlocked(drop.id)
+            resource: index.gameResources.getResource(drop.id),
+            isRevealed: ((_tile$r2 = tile.r) === null || _tile$r2 === void 0 ? void 0 : _tile$r2.includes(index)) && index.gameResources.isResourceUnlocked(drop.id)
           });
         }).filter(function (one) {
           return one.isRevealed;
@@ -645,17 +645,17 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
         this.refreshTimeout = 2;
 
         // attempt to drop something
-        var activeEntities = game_framework__WEBPACK_IMPORTED_MODULE_2__.gameEntity.listEntitiesByTags(['exploration']);
+        var activeEntities = index.gameEntity.listEntitiesByTags(['exploration']);
         activeEntities.forEach(function (ent) {
           var tile = _this6.mapTilesProcessed[ent.attributes.i][ent.attributes.j];
           tile.drops.forEach(function (drop, index) {
-            if (!game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.isResourceUnlocked(drop.id)) {
+            if (!index.gameResources.isResourceUnlocked(drop.id)) {
               return;
             }
             var roll = Math.random();
             if (roll < 2 * drop.probability * ent.effectFactor) {
               var amt = Math.round(drop.amountMin + Math.random() * (drop.amountMax - drop.amountMin));
-              game_framework__WEBPACK_IMPORTED_MODULE_2__.gameResources.addResource(drop.id, amt);
+              index.gameResources.addResource(drop.id, amt);
               if (!_this6.mapTiles[ent.attributes.i][ent.attributes.j].r) {
                 _this6.mapTiles[ent.attributes.i][ent.attributes.j].r = [];
               }
@@ -670,6 +670,6 @@ var MapModule = /*#__PURE__*/function (_GameModule) {
       this.lists.tick(game, delta);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { MapModule };

@@ -1,24 +1,24 @@
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_0__ from './shared/game-module.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_1__ from '../framework/index.js';
-import * as _modules_mage_mage_module__WEBPACK_IMPORTED_MODULE_2__ from './modules/mage/mage.module.js';
-import * as _modules_resources_resource_pool_module__WEBPACK_IMPORTED_MODULE_3__ from './modules/resources/resource-pool.module.js';
-import * as _modules_actions_actions_module__WEBPACK_IMPORTED_MODULE_4__ from './modules/actions/actions.module.js';
-import * as _modules_attributes_attributes_module__WEBPACK_IMPORTED_MODULE_5__ from './modules/attributes/attributes.module.js';
-import * as _modules_items_shop_module__WEBPACK_IMPORTED_MODULE_6__ from './modules/items/shop.module.js';
-import * as _modules_inventory_inventory_module__WEBPACK_IMPORTED_MODULE_7__ from './modules/inventory/inventory.module.js';
-import * as _modules_property_property_module__WEBPACK_IMPORTED_MODULE_8__ from './modules/property/property.module.js';
-import * as _modules_magic_spells_module__WEBPACK_IMPORTED_MODULE_9__ from './modules/magic/spells.module.js';
-import * as _modules_workshop_crafting_module__WEBPACK_IMPORTED_MODULE_10__ from './modules/workshop/crafting.module.js';
-import * as _modules_workshop_plantations_module__WEBPACK_IMPORTED_MODULE_11__ from './modules/workshop/plantations.module.js';
-import * as _modules_social_guilds_module__WEBPACK_IMPORTED_MODULE_12__ from './modules/social/guilds.module.js';
-import * as _shared_modules_unlock_notifications_module__WEBPACK_IMPORTED_MODULE_13__ from './shared/modules/unlock-notifications.module.js';
-import * as _modules_general_random_events_module__WEBPACK_IMPORTED_MODULE_14__ from './modules/general/random-events.module.js';
-import * as _modules_general_temporary_effects_module__WEBPACK_IMPORTED_MODULE_15__ from './modules/general/temporary-effects.module.js';
-import * as _modules_map_map_module__WEBPACK_IMPORTED_MODULE_16__ from './modules/map/map.module.js';
-import * as _shared_modules_hotkeys_module__WEBPACK_IMPORTED_MODULE_17__ from './shared/modules/hotkeys.module.js';
-import * as _shared_modules_monitoring_module__WEBPACK_IMPORTED_MODULE_18__ from './shared/modules/monitoring.module.js';
-import * as _shared_modules_rules_module__WEBPACK_IMPORTED_MODULE_19__ from './shared/modules/rules.module.js';
-import * as _modules_items_courses_module__WEBPACK_IMPORTED_MODULE_20__ from './modules/items/courses.module.js';
+import * as game_module from './shared/game-module.js';
+import * as index from '../framework/index.js';
+import * as mage_module from './modules/mage/mage.module.js';
+import * as resource_pool_module from './modules/resources/resource-pool.module.js';
+import * as actions_module from './modules/actions/actions.module.js';
+import * as attributes_module from './modules/attributes/attributes.module.js';
+import * as shop_module from './modules/items/shop.module.js';
+import * as inventory_module from './modules/inventory/inventory.module.js';
+import * as property_module from './modules/property/property.module.js';
+import * as spells_module from './modules/magic/spells.module.js';
+import * as crafting_module from './modules/workshop/crafting.module.js';
+import * as plantations_module from './modules/workshop/plantations.module.js';
+import * as guilds_module from './modules/social/guilds.module.js';
+import * as unlock_notifications_module from './shared/modules/unlock-notifications.module.js';
+import * as random_events_module from './modules/general/random-events.module.js';
+import * as temporary_effects_module from './modules/general/temporary-effects.module.js';
+import * as map_module from './modules/map/map.module.js';
+import * as hotkeys_module from './shared/modules/hotkeys.module.js';
+import * as monitoring_module from './shared/modules/monitoring.module.js';
+import * as rules_module from './shared/modules/rules.module.js';
+import * as courses_module from './modules/items/courses.module.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -62,28 +62,28 @@ var MainModule = /*#__PURE__*/function (_GameModule) {
     var _this;
     _classCallCheck(this, MainModule);
     _this = _callSuper(this, MainModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('attributes', _modules_attributes_attributes_module__WEBPACK_IMPORTED_MODULE_5__.AttributesModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('temporary-effects', _modules_general_temporary_effects_module__WEBPACK_IMPORTED_MODULE_15__.TemporaryEffectsModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('resource-pool', _modules_resources_resource_pool_module__WEBPACK_IMPORTED_MODULE_3__.ResourcePoolModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('mage', _modules_mage_mage_module__WEBPACK_IMPORTED_MODULE_2__.MageModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('actions', _modules_actions_actions_module__WEBPACK_IMPORTED_MODULE_4__.ActionsModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('property', _modules_property_property_module__WEBPACK_IMPORTED_MODULE_8__.PropertyModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('shop', _modules_items_shop_module__WEBPACK_IMPORTED_MODULE_6__.ShopModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('courses', _modules_items_courses_module__WEBPACK_IMPORTED_MODULE_20__.CoursesModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('inventory', _modules_inventory_inventory_module__WEBPACK_IMPORTED_MODULE_7__.InventoryModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('magic', _modules_magic_spells_module__WEBPACK_IMPORTED_MODULE_9__.SpellModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('crafting', _modules_workshop_crafting_module__WEBPACK_IMPORTED_MODULE_10__.CraftingModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('plantations', _modules_workshop_plantations_module__WEBPACK_IMPORTED_MODULE_11__.PlantationsModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('guilds', _modules_social_guilds_module__WEBPACK_IMPORTED_MODULE_12__.GuildsModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('unlock-notifications', _shared_modules_unlock_notifications_module__WEBPACK_IMPORTED_MODULE_13__.UnlockNotificationsModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('random-events', _modules_general_random_events_module__WEBPACK_IMPORTED_MODULE_14__.RandomEventsModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('map', _modules_map_map_module__WEBPACK_IMPORTED_MODULE_16__.MapModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('hotkeys', _shared_modules_hotkeys_module__WEBPACK_IMPORTED_MODULE_17__.HotkeysModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('monitoring', _shared_modules_monitoring_module__WEBPACK_IMPORTED_MODULE_18__.MonitoringModule);
-    game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.registerModule('rules', _shared_modules_rules_module__WEBPACK_IMPORTED_MODULE_19__.RulesModule);
+    index.gameCore.registerModule('attributes', attributes_module.AttributesModule);
+    index.gameCore.registerModule('temporary-effects', temporary_effects_module.TemporaryEffectsModule);
+    index.gameCore.registerModule('resource-pool', resource_pool_module.ResourcePoolModule);
+    index.gameCore.registerModule('mage', mage_module.MageModule);
+    index.gameCore.registerModule('actions', actions_module.ActionsModule);
+    index.gameCore.registerModule('property', property_module.PropertyModule);
+    index.gameCore.registerModule('shop', shop_module.ShopModule);
+    index.gameCore.registerModule('courses', courses_module.CoursesModule);
+    index.gameCore.registerModule('inventory', inventory_module.InventoryModule);
+    index.gameCore.registerModule('magic', spells_module.SpellModule);
+    index.gameCore.registerModule('crafting', crafting_module.CraftingModule);
+    index.gameCore.registerModule('plantations', plantations_module.PlantationsModule);
+    index.gameCore.registerModule('guilds', guilds_module.GuildsModule);
+    index.gameCore.registerModule('unlock-notifications', unlock_notifications_module.UnlockNotificationsModule);
+    index.gameCore.registerModule('random-events', random_events_module.RandomEventsModule);
+    index.gameCore.registerModule('map', map_module.MapModule);
+    index.gameCore.registerModule('hotkeys', hotkeys_module.HotkeysModule);
+    index.gameCore.registerModule('monitoring', monitoring_module.MonitoringModule);
+    index.gameCore.registerModule('rules', rules_module.RulesModule);
     _this.eventHandler.registerHandler('initialize-game', function (data) {
       // console.log('gameCoreBeforeInited', GameCore.instance);
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.initialize();
+      index.gameCore.initialize();
       // console.log('gameCoreInited', GameCore.instance);
       _this.eventHandler.sendData('initialized', _objectSpread(_objectSpread({}, data), {}, {
         received: true
@@ -102,11 +102,11 @@ var MainModule = /*#__PURE__*/function (_GameModule) {
       var cheat = 1;
       // const speedUpMode = gameCore.getModule('mage').bankedTime?.speedUpFactor ?? 1;
       // console.log('gameCore', GameCore.instance, speedUpMode);
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.startTicking(100, function () {
+      index.gameCore.startTicking(100, function () {
         var _gameCore$getModule$b, _gameCore$getModule$b2;
-        return 0.1 * cheat * ((_gameCore$getModule$b = (_gameCore$getModule$b2 = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('mage').bankedTime) === null || _gameCore$getModule$b2 === void 0 ? void 0 : _gameCore$getModule$b2.speedUpFactor) !== null && _gameCore$getModule$b !== void 0 ? _gameCore$getModule$b : 1);
+        return 0.1 * cheat * ((_gameCore$getModule$b = (_gameCore$getModule$b2 = index.gameCore.getModule('mage').bankedTime) === null || _gameCore$getModule$b2 === void 0 ? void 0 : _gameCore$getModule$b2.speedUpFactor) !== null && _gameCore$getModule$b !== void 0 ? _gameCore$getModule$b : 1);
       }, function () {
-        if (game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.numTicks % 100 === 0) {
+        if (index.gameCore.numTicks % 100 === 0) {
           _this.save();
         }
       }, false);
@@ -114,22 +114,22 @@ var MainModule = /*#__PURE__*/function (_GameModule) {
     _this.eventHandler.registerHandler('query-unlocks', function (payload) {
       var unlocks = {
         'actions': true,
-        'actionLists': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_notebook') > 0,
-        'shop': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('shop').isUnlocked,
-        'inventory': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_backpack') > 0,
-        'property': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_tent') > 0,
-        'spellbook': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_spellbook') > 0,
-        'crafting': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_crafting_courses') > 0,
-        'alchemy': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_alchemy_courses') > 0,
-        'workshop': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_crafting_courses') > 0 || game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_alchemy_courses') > 0 || game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('plantation_slots').income > 0,
-        'plantation': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource('plantation_slots').income > 0,
-        'guilds': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_charisma') >= 500,
-        'social': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_charisma') >= 500,
-        'map': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_map') > 0,
-        'world': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_map') > 0,
-        'automations': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_planner') > 0,
-        'courses': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_training_room') > 0,
-        'amplifiers': game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEffects.getEffectValue('attribute_magic_ability') >= 12000
+        'actionLists': index.gameEntity.getLevel('shop_item_notebook') > 0,
+        'shop': index.gameCore.getModule('shop').isUnlocked,
+        'inventory': index.gameEntity.getLevel('shop_item_backpack') > 0,
+        'property': index.gameEntity.getLevel('shop_item_tent') > 0,
+        'spellbook': index.gameEntity.getLevel('shop_item_spellbook') > 0,
+        'crafting': index.gameEntity.getLevel('shop_item_crafting_courses') > 0,
+        'alchemy': index.gameEntity.getLevel('shop_item_alchemy_courses') > 0,
+        'workshop': index.gameEntity.getLevel('shop_item_crafting_courses') > 0 || index.gameEntity.getLevel('shop_item_alchemy_courses') > 0 || index.gameResources.getResource('plantation_slots').income > 0,
+        'plantation': index.gameResources.getResource('plantation_slots').income > 0,
+        'guilds': index.gameEffects.getEffectValue('attribute_charisma') >= 500,
+        'social': index.gameEffects.getEffectValue('attribute_charisma') >= 500,
+        'map': index.gameEntity.getLevel('shop_item_map') > 0,
+        'world': index.gameEntity.getLevel('shop_item_map') > 0,
+        'automations': index.gameEntity.getLevel('shop_item_planner') > 0,
+        'courses': index.gameEntity.getLevel('shop_item_training_room') > 0,
+        'amplifiers': index.gameEffects.getEffectValue('attribute_magic_ability') >= 12000
       };
       var label = 'unlocks';
       if (payload !== null && payload !== void 0 && payload.prefix) {
@@ -142,7 +142,7 @@ var MainModule = /*#__PURE__*/function (_GameModule) {
       function toBase64Unicode(str) {
         return btoa(unescape(encodeURIComponent(str)));
       }
-      var saveObj = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.save();
+      var saveObj = index.gameCore.save();
       _this.eventHandler.sendData('saved-string', {
         string: toBase64Unicode(JSON.stringify(saveObj)),
         type: type
@@ -161,7 +161,7 @@ var MainModule = /*#__PURE__*/function (_GameModule) {
   }, {
     key: "save",
     value: function save() {
-      var saveStr = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.save();
+      var saveStr = index.gameCore.save();
       this.eventHandler.sendData('save-game', saveStr);
     }
   }, {
@@ -173,8 +173,8 @@ var MainModule = /*#__PURE__*/function (_GameModule) {
       this.eventHandler.sendData('loading', _objectSpread(_objectSpread({}, data), {}, {
         received: true
       }));
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.stopTicking();
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.load(data);
+      index.gameCore.stopTicking();
+      index.gameCore.load(data);
       // console.log('loaded game -/|');
       this.eventHandler.sendData('loaded', _objectSpread(_objectSpread({}, data), {}, {
         received: true,
@@ -182,7 +182,7 @@ var MainModule = /*#__PURE__*/function (_GameModule) {
       }));
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 var mainModule = function mainModule() {
   return MainModule.instance || new MainModule();
 };

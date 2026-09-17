@@ -1,10 +1,10 @@
-import * as _resources_resource_modifiers__WEBPACK_IMPORTED_MODULE_0__ from '../resources/resource-modifiers.js';
-import * as _resources_resource_calculators__WEBPACK_IMPORTED_MODULE_1__ from '../resources/resource-calculators.js';
-import * as _utils_formulas__WEBPACK_IMPORTED_MODULE_2__ from '../utils/formulas.js';
-import * as _resources_game_effects__WEBPACK_IMPORTED_MODULE_3__ from '../resources/game-effects.js';
-import * as _resources_game_resources__WEBPACK_IMPORTED_MODULE_4__ from '../resources/game-resources.js';
-import * as _utils_consts__WEBPACK_IMPORTED_MODULE_5__ from '../utils/consts.js';
-import * as _utils_unlocks__WEBPACK_IMPORTED_MODULE_6__ from '../utils/unlocks.js';
+import * as resource_modifiers from '../resources/resource-modifiers.js';
+import * as resource_calculators from '../resources/resource-calculators.js';
+import * as formulas from '../utils/formulas.js';
+import * as game_effects from '../resources/game-effects.js';
+import * as game_resources from '../resources/game-resources.js';
+import * as consts from '../utils/consts.js';
+import * as unlocks from '../utils/unlocks.js';
 
 class GameEntity {
 
@@ -46,10 +46,10 @@ class GameEntity {
             for (const unlockInfo of entity.unlockedBy) {
                 const unlockerId = unlockInfo.id;
                 const unlockerScope = unlockInfo.type;
-                if (!_utils_unlocks__WEBPACK_IMPORTED_MODULE_6__.gameUnlocks.unlockMapping[unlockerScope][unlockerId]) {
-                    _utils_unlocks__WEBPACK_IMPORTED_MODULE_6__.gameUnlocks.unlockMapping[unlockerScope][unlockerId] = [];
+                if (!unlocks.gameUnlocks.unlockMapping[unlockerScope][unlockerId]) {
+                    unlocks.gameUnlocks.unlockMapping[unlockerScope][unlockerId] = [];
                 }
-                _utils_unlocks__WEBPACK_IMPORTED_MODULE_6__.gameUnlocks.unlockMapping[unlockerScope][unlockerId].push({
+                unlocks.gameUnlocks.unlockMapping[unlockerScope][unlockerId].push({
                     unlockId: id,
                     level: unlockInfo.level
                 });
@@ -88,7 +88,7 @@ class GameEntity {
                 entity.modifierGroupId = modif.groupId;
                 modif.id = modif.groupId;
             }
-            entity.modifier = _resources_resource_modifiers__WEBPACK_IMPORTED_MODULE_0__.resourceModifiers.registerModifier(modif, id);
+            entity.modifier = resource_modifiers.resourceModifiers.registerModifier(modif, id);
         }
         this.entities[id] = entity;
         if(entity.tags && entity.tags.length) {
@@ -112,11 +112,11 @@ class GameEntity {
                 this.entities[id].modifier.entityRefs = this.entities[id].modifier.entityRefs.filter(eId => eId !== id);
                 // reassertModifierLevel
                 const lvl = this.reassertModifierLevel(this.entities[id].modifier);
-                _resources_resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.updateModifierLevel(this.entities[id].modifier.id, lvl);
+                resource_calculators.resourceCalculators.updateModifierLevel(this.entities[id].modifier.id, lvl);
                 console.warn('NEWLV: ', this.entities[id].modifier.id, lvl, this.entities[id].modifier.entityRefs);
             }
             if(!this.entities[id].modifier.entityRefs?.length) {
-                _resources_resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.unsetModifier(this.entities[id].modifier.id);
+                resource_calculators.resourceCalculators.unsetModifier(this.entities[id].modifier.id);
             }
 
         }
@@ -168,7 +168,7 @@ class GameEntity {
                 }
             }
             if(unlockInfo.type === 'effect') {
-                if(_resources_game_effects__WEBPACK_IMPORTED_MODULE_3__.gameEffects.getEffectValue(unlockInfo.id) < unlockInfo.level) {
+                if(game_effects.gameEffects.getEffectValue(unlockInfo.id) < unlockInfo.level) {
                     return false;
                 }
             }
@@ -189,22 +189,22 @@ class GameEntity {
     getNextEntityUnlock(id) {
         const entity = this.getEntity(id);
 
-        if(!_utils_unlocks__WEBPACK_IMPORTED_MODULE_6__.gameUnlocks.unlockMapping['entity']?.[id]) return null;
+        if(!unlocks.gameUnlocks.unlockMapping['entity']?.[id]) return null;
 
-        return _utils_unlocks__WEBPACK_IMPORTED_MODULE_6__.gameUnlocks.findNextUnlocksArray(_utils_unlocks__WEBPACK_IMPORTED_MODULE_6__.gameUnlocks.unlockMapping['entity'][id], entity.level);
+        return unlocks.gameUnlocks.findNextUnlocksArray(unlocks.gameUnlocks.unlockMapping['entity'][id], entity.level);
     }
 
     listPrevUnlocks(id) {
         const entity = this.getEntity(id);
 
-        if(!_utils_unlocks__WEBPACK_IMPORTED_MODULE_6__.gameUnlocks.unlockMapping['entity']?.[id]) return null;
+        if(!unlocks.gameUnlocks.unlockMapping['entity']?.[id]) return null;
 
-        return _utils_unlocks__WEBPACK_IMPORTED_MODULE_6__.gameUnlocks.getPreviousUnlocks(_utils_unlocks__WEBPACK_IMPORTED_MODULE_6__.gameUnlocks.unlockMapping['entity'][id], entity.level);
+        return unlocks.gameUnlocks.getPreviousUnlocks(unlocks.gameUnlocks.unlockMapping['entity'][id], entity.level);
     }
 
     fetchAllUnlocks() {
         const result = [];
-        for (const unlockerId in _utils_unlocks__WEBPACK_IMPORTED_MODULE_6__.gameUnlocks.unlockMapping['entity']) {
+        for (const unlockerId in unlocks.gameUnlocks.unlockMapping['entity']) {
             if(this.isEntityUnlocked(unlockerId)) {
                 result.push({...this.getEntity(unlockerId), nextUnlock: this.getNextEntityUnlock(unlockerId)})
             }
@@ -253,7 +253,7 @@ class GameEntity {
         if(current.cost) {
             const totalCost = {};
             for(const rsId in current.cost) {
-                const costs = _utils_formulas__WEBPACK_IMPORTED_MODULE_2__.Formulas.calculateValue(current.cost[rsId], current.level + addLvl);
+                const costs = formulas.Formulas.calculateValue(current.cost[rsId], current.level + addLvl);
                 totalCost[rsId] = costs;
             }
             return totalCost;
@@ -331,7 +331,7 @@ class GameEntity {
         }
         const costs = this.getLevelupCost(id);
         if(costs) {
-            const affordable = _resources_resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.isAffordable(costs);
+            const affordable = resource_calculators.resourceCalculators.isAffordable(costs);
             if(!affordable.isAffordable) {
                 return {
                     success: false,
@@ -339,7 +339,7 @@ class GameEntity {
                 }
             }
             for(const rsId in costs) {
-                _resources_game_resources__WEBPACK_IMPORTED_MODULE_4__.gameResources.addResource(rsId, -costs[rsId]);
+                game_resources.gameResources.addResource(rsId, -costs[rsId]);
             }
         }
         this.setEntityLevel(id, current.level + 1);
@@ -376,7 +376,7 @@ class GameEntity {
             if(current.modifier.entityRefs) {
                 levelToSet = this.reassertModifierLevel(current.modifier) + level - current.level;
             }
-            _resources_resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.updateModifierLevel(current.modifier.id, levelToSet);
+            resource_calculators.resourceCalculators.updateModifierLevel(current.modifier.id, levelToSet);
         }
         const pLev = current.level;
         current.level = level;
@@ -394,14 +394,14 @@ class GameEntity {
     }
 
     getGroupLevel(id) {
-        const modiff = _resources_resource_modifiers__WEBPACK_IMPORTED_MODULE_0__.resourceModifiers.getModifier(id);
+        const modiff = resource_modifiers.resourceModifiers.getModifier(id);
         return this.reassertModifierLevel(modiff);
     }
 
     getAffordable(id, addLvl = 0) {
         const costs = this.getLevelupCost(id, addLvl);
         if(costs) {
-            const affordable = _resources_resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.isAffordable(costs);
+            const affordable = resource_calculators.resourceCalculators.isAffordable(costs);
             return affordable;
         }
         return {
@@ -424,8 +424,8 @@ class GameEntity {
         return depsToAssert.map(dep => {
 
             return {
-                effect: _resources_game_effects__WEBPACK_IMPORTED_MODULE_3__.gameEffects.getEffect(dep),
-                breakDown: _resources_resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.getEffectBreakdowns(dep)
+                effect: game_effects.gameEffects.getEffect(dep),
+                breakDown: resource_calculators.resourceCalculators.getEffectBreakdowns(dep)
             }
         })
     }
@@ -445,7 +445,7 @@ class GameEntity {
             const results = [];
             for(const key in toUnpack) {
                 const formula = toUnpack[key];
-                const efft = type === 'resources' ? _resources_game_resources__WEBPACK_IMPORTED_MODULE_4__.gameResources.getResource(key) : _resources_game_effects__WEBPACK_IMPORTED_MODULE_3__.gameEffects.getEffect(key);
+                const efft = type === 'resources' ? game_resources.gameResources.getResource(key) : game_effects.gameEffects.getEffect(key);
                 const balance = efft?.balance != null ? efft?.balance : undefined;
                 if(efft.unlockCondition) {
                     if(!efft.unlockCondition()) {
@@ -464,7 +464,7 @@ class GameEntity {
                 const basic_name = efft.name;
                 let lvlToCalc = lvl + addLvl;
                 let customMultiplierLocal = customMultiplier;
-                let val = customMultiplierLocal*_utils_formulas__WEBPACK_IMPORTED_MODULE_2__.Formulas.calculateValue(formula, lvlToCalc);
+                let val = customMultiplierLocal*formulas.Formulas.calculateValue(formula, lvlToCalc);
                 if(scope === 'multiplier' || scope === 'capMult') {
                     val = 1 + (val - 1) * customEfficiency*intensityMultiplier;
                 } else {
@@ -479,10 +479,10 @@ class GameEntity {
                     isPercentage: efft.isPercentage,
                     balance
                 };
-                if(item.value == null || Math.abs(item.value) < _utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER) {
+                if(item.value == null || Math.abs(item.value) < consts.SMALL_NUMBER) {
                     continue;
                 }
-                if((scope === 'multiplier' || scope === 'capMult') && (Math.abs(item.value - 1) < _utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER)) {
+                if((scope === 'multiplier' || scope === 'capMult') && (Math.abs(item.value - 1) < consts.SMALL_NUMBER)) {
                     continue;
                 }
                 results.push(item);
@@ -581,7 +581,7 @@ class GameEntity {
 
             for (const key in toUnpack) {
                 const formula = toUnpack[key];
-                const efft = type === 'resources' ? _resources_game_resources__WEBPACK_IMPORTED_MODULE_4__.gameResources.getResource(key) : _resources_game_effects__WEBPACK_IMPORTED_MODULE_3__.gameEffects.getEffect(key);
+                const efft = type === 'resources' ? game_resources.gameResources.getResource(key) : game_effects.gameEffects.getEffect(key);
                 const balance = efft?.balance != null ? efft?.balance : undefined;
 
                 if (efft.unlockCondition && !efft.unlockCondition()) {
@@ -590,7 +590,7 @@ class GameEntity {
 
                 let lvlToCalc = lvl + addLvl;
                 let customMultiplierLocal = customMultiplier;
-                let val = customMultiplierLocal * _utils_formulas__WEBPACK_IMPORTED_MODULE_2__.Formulas.calculateValue(formula, lvlToCalc);
+                let val = customMultiplierLocal * formulas.Formulas.calculateValue(formula, lvlToCalc);
 
                 if (scope === 'multiplier' || scope === 'capMult') {
                     val = 1 + (val - 1) * customEfficiency * intensityMultiplier;
@@ -598,8 +598,8 @@ class GameEntity {
                     val = val * customEfficiency * intensityMultiplier;
                 }
 
-                if (val == null || Math.abs(val) < _utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER) continue;
-                if ((scope === 'multiplier' || scope === 'capMult') && (Math.abs(val - 1) < _utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER)) continue;
+                if (val == null || Math.abs(val) < consts.SMALL_NUMBER) continue;
+                if ((scope === 'multiplier' || scope === 'capMult') && (Math.abs(val - 1) < consts.SMALL_NUMBER)) continue;
 
                 results[key] = {
                     id: key,

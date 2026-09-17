@@ -1,9 +1,9 @@
-import * as _game_resources__WEBPACK_IMPORTED_MODULE_0__ from './game-resources.js';
-import * as _resource_modifiers__WEBPACK_IMPORTED_MODULE_1__ from './resource-modifiers.js';
-import * as _resource_calculators__WEBPACK_IMPORTED_MODULE_2__ from './resource-calculators.js';
-import * as _game_effects__WEBPACK_IMPORTED_MODULE_3__ from './game-effects.js';
-import * as _resource_api__WEBPACK_IMPORTED_MODULE_4__ from './resource-api.js';
-import * as _utils_consts__WEBPACK_IMPORTED_MODULE_5__ from '../utils/consts.js';
+import * as game_resources from './game-resources.js';
+import * as resource_modifiers from './resource-modifiers.js';
+import * as resource_calculators from './resource-calculators.js';
+import * as game_effects from './game-effects.js';
+import * as resource_api from './resource-api.js';
+import * as consts from '../utils/consts.js';
 
 class ResourcesManager {
 
@@ -12,8 +12,8 @@ class ResourcesManager {
     }
 
     initialize() {
-        for(const resourceId in _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources) {
-            _resource_calculators__WEBPACK_IMPORTED_MODULE_2__.resourceCalculators.assertResource(resourceId);
+        for(const resourceId in game_resources.gameResources.resources) {
+            resource_calculators.resourceCalculators.assertResource(resourceId);
         }
     }
 
@@ -21,13 +21,13 @@ class ResourcesManager {
         let isAssertsFinished = false;
         const start = performance.now();
         // console.log('iter started: ', JSON.parse(JSON.stringify(gameResources.resources['crafting_ability'])));
-        _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.handleDelayed();
+        game_resources.gameResources.handleDelayed();
         let maxIter = 10;
         let iter = 0;
         // console.log('START_ITER: EntEEF', resourceModifiers.getModifier('entity_runningAction').efficiency);
         // console.log('asserting: ', JSON.parse(JSON.stringify(gameResources.resources['crafting_ability'])));
         let resourcesToUpdate = [];
-        for (const resourceId in _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources) {
+        for (const resourceId in game_resources.gameResources.resources) {
             resourcesToUpdate.push(resourceId);
         }
 
@@ -36,31 +36,31 @@ class ResourcesManager {
             iter++;
             let newResourcesToUpdate = [];
             for(const resourceId of resourcesToUpdate) {
-                if(_game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].balance) {
-                    if(_game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].isService && _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].balance < -_utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER) {
+                if(game_resources.gameResources.resources[resourceId].balance) {
+                    if(game_resources.gameResources.resources[resourceId].isService && game_resources.gameResources.resources[resourceId].balance < -consts.SMALL_NUMBER) {
                         // we are missing service resource
-                        const effPercentage = _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].multiplier * _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].income / _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].consumption;
-                        const togg = _resource_calculators__WEBPACK_IMPORTED_MODULE_2__.resourceCalculators.toggleConsumingEfficiency(resourceId, effPercentage, true);
+                        const effPercentage = game_resources.gameResources.resources[resourceId].multiplier * game_resources.gameResources.resources[resourceId].income / game_resources.gameResources.resources[resourceId].consumption;
+                        const togg = resource_calculators.resourceCalculators.toggleConsumingEfficiency(resourceId, effPercentage, true);
                         newResourcesToUpdate.push(...togg.affectedResourceIds)
-                        _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].isMissing = true;
-                        _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].amount = 0;
-                        _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].targetEfficiency = effPercentage * _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].targetEfficiency;
-                        console.log(`Iter${iter}: ${resourceId} is missing: `, effPercentage, _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].targetEfficiency, _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.listMissing(), JSON.parse(JSON.stringify(_game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId])))
+                        game_resources.gameResources.resources[resourceId].isMissing = true;
+                        game_resources.gameResources.resources[resourceId].amount = 0;
+                        game_resources.gameResources.resources[resourceId].targetEfficiency = effPercentage * game_resources.gameResources.resources[resourceId].targetEfficiency;
+                        console.log(`Iter${iter}: ${resourceId} is missing: `, effPercentage, game_resources.gameResources.resources[resourceId].targetEfficiency, game_resources.gameResources.listMissing(), JSON.parse(JSON.stringify(game_resources.gameResources.resources[resourceId])))
                         isAssertsFinished = false;
                     } else
-                    if(-1*_game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].balance*dT - _utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER > _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].amount) {
+                    if(-1*game_resources.gameResources.resources[resourceId].balance*dT - consts.SMALL_NUMBER > game_resources.gameResources.resources[resourceId].amount) {
                         // now we should retain list of stuff consuming
-                        const effPercentage = _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].multiplier * _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].income / _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].consumption;
+                        const effPercentage = game_resources.gameResources.resources[resourceId].multiplier * game_resources.gameResources.resources[resourceId].income / game_resources.gameResources.resources[resourceId].consumption;
                         // console.log('resource is finishing: ', resourceId, gameResources.resources[resourceId].balance, effPercentage);
-                        const togg = _resource_calculators__WEBPACK_IMPORTED_MODULE_2__.resourceCalculators.toggleConsumingEfficiency(resourceId, effPercentage, true);
+                        const togg = resource_calculators.resourceCalculators.toggleConsumingEfficiency(resourceId, effPercentage, true);
                         newResourcesToUpdate.push(...togg.affectedResourceIds)
-                        _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].isMissing = true;
-                        _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].amount = 0;
-                        _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].targetEfficiency = effPercentage * _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].targetEfficiency;
-                        console.log(`Iter${iter}: ${resourceId} is missing: `, effPercentage, _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].targetEfficiency, _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.listMissing(), JSON.parse(JSON.stringify(_game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId])))
+                        game_resources.gameResources.resources[resourceId].isMissing = true;
+                        game_resources.gameResources.resources[resourceId].amount = 0;
+                        game_resources.gameResources.resources[resourceId].targetEfficiency = effPercentage * game_resources.gameResources.resources[resourceId].targetEfficiency;
+                        console.log(`Iter${iter}: ${resourceId} is missing: `, effPercentage, game_resources.gameResources.resources[resourceId].targetEfficiency, game_resources.gameResources.listMissing(), JSON.parse(JSON.stringify(game_resources.gameResources.resources[resourceId])))
                         isAssertsFinished = false;
                     } else {
-                        if (_game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].isMissing && _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].balance > 0) {
+                        if (game_resources.gameResources.resources[resourceId].isMissing && game_resources.gameResources.resources[resourceId].balance > 0) {
                             // console.log('Toggling '+resourceId);
                             // ми тугланули на 100% ресурс котрий ми начебто міссили. (crafting_ability)
                             // але цей тугл тягне за собою необхідність апдейту тих resourceModifiers, у яких ботлнек - цей ресурс
@@ -74,19 +74,19 @@ class ResourcesManager {
                             // котрій ми шомно ресетнули
                             // Тобто, якщо ми ресетнули ефективність по ресурсу crafting_ability - перевіряємо усе що генерилося
                             // тим що консюмить resourceId, і докидуємо ссууудааа
-                            const prEff = _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].targetEfficiency;
-                            const exceedFactor = _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].consumption
-                                ? _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].multiplier * _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].income / _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].consumption
-                                : 1./Math.max(_utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER, prEff);
-                            const affected = _resource_calculators__WEBPACK_IMPORTED_MODULE_2__.resourceCalculators.toggleConsumingEfficiency(resourceId, exceedFactor, true);
-                            _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].targetEfficiency = prEff * exceedFactor;
-                            _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].isMissing = _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].targetEfficiency < 1;
+                            const prEff = game_resources.gameResources.resources[resourceId].targetEfficiency;
+                            const exceedFactor = game_resources.gameResources.resources[resourceId].consumption
+                                ? game_resources.gameResources.resources[resourceId].multiplier * game_resources.gameResources.resources[resourceId].income / game_resources.gameResources.resources[resourceId].consumption
+                                : 1./Math.max(consts.SMALL_NUMBER, prEff);
+                            const affected = resource_calculators.resourceCalculators.toggleConsumingEfficiency(resourceId, exceedFactor, true);
+                            game_resources.gameResources.resources[resourceId].targetEfficiency = prEff * exceedFactor;
+                            game_resources.gameResources.resources[resourceId].isMissing = game_resources.gameResources.resources[resourceId].targetEfficiency < 1;
                             const prUp = [...newResourcesToUpdate];
                             newResourcesToUpdate.push(resourceId);
                             if(affected.affectedResources) {
                                 newResourcesToUpdate.push(...affected.affectedResources);
                             }
-                            console.log(`Iter${iter}: Toggling `+resourceId, prEff, 1./(_utils_consts__WEBPACK_IMPORTED_MODULE_5__.SMALL_NUMBER + prEff), exceedFactor, JSON.parse(JSON.stringify(newResourcesToUpdate)), _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.listMissing(), JSON.parse(JSON.stringify(_game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId])));
+                            console.log(`Iter${iter}: Toggling `+resourceId, prEff, 1./(consts.SMALL_NUMBER + prEff), exceedFactor, JSON.parse(JSON.stringify(newResourcesToUpdate)), game_resources.gameResources.listMissing(), JSON.parse(JSON.stringify(game_resources.gameResources.resources[resourceId])));
                             isAssertsFinished = false;
                         }
                     }
@@ -95,18 +95,18 @@ class ResourcesManager {
             }
             // console.log(`Iter: ${iter}`, resourcesToUpdate.length, newResourcesToUpdate, JSON.parse(JSON.stringify(gameResources.resources)));
             if(iter > maxIter) {
-                console.error('CRITICAL ERROR: not able to find resources divergence.', JSON.parse(JSON.stringify(_game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources)), _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.listMissing());
+                console.error('CRITICAL ERROR: not able to find resources divergence.', JSON.parse(JSON.stringify(game_resources.gameResources.resources)), game_resources.gameResources.listMissing());
                 isAssertsFinished = true;
             }
         }
         const end = performance.now();
         // console.log('FINISH_ITER: EntEEF', end - start, resourceModifiers.getModifier('entity_runningAction').efficiency);
 
-        for(const resourceId in _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources) {
-            if(_game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].isService) {
-                _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.setResource(resourceId, _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].balance, false, true);
+        for(const resourceId in game_resources.gameResources.resources) {
+            if(game_resources.gameResources.resources[resourceId].isService) {
+                game_resources.gameResources.setResource(resourceId, game_resources.gameResources.resources[resourceId].balance, false, true);
             } else {
-                _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.addResource(resourceId, _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources.resources[resourceId].balance*dT, true);
+                game_resources.gameResources.addResource(resourceId, game_resources.gameResources.resources[resourceId].balance*dT, true);
             }
 
         }
@@ -119,9 +119,9 @@ class ResourcesManager {
     }
 
     reassertAll() {
-        for(const modifierId in _resource_modifiers__WEBPACK_IMPORTED_MODULE_1__.resourceModifiers.modifiers) {
-            _resource_modifiers__WEBPACK_IMPORTED_MODULE_1__.resourceModifiers.cacheModifier(modifierId);
-            _resource_calculators__WEBPACK_IMPORTED_MODULE_2__.resourceCalculators.regenerateModifier(modifierId)
+        for(const modifierId in resource_modifiers.resourceModifiers.modifiers) {
+            resource_modifiers.resourceModifiers.cacheModifier(modifierId);
+            resource_calculators.resourceCalculators.regenerateModifier(modifierId)
         }
 
     }
@@ -130,9 +130,9 @@ class ResourcesManager {
 
 const resourcesManager = ResourcesManager.instance || new ResourcesManager();
 
-export const gameEffects = _game_effects__WEBPACK_IMPORTED_MODULE_3__.gameEffects;
-export const gameResources = _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources;
-export const resourceApi = _resource_api__WEBPACK_IMPORTED_MODULE_4__.resourceApi;
-export const resourceCalculators = _resource_calculators__WEBPACK_IMPORTED_MODULE_2__.resourceCalculators;
-export const resourceModifiers = _resource_modifiers__WEBPACK_IMPORTED_MODULE_1__.resourceModifiers;
+export const gameEffects = game_effects.gameEffects;
+export const gameResources = game_resources.gameResources;
+export const resourceApi = resource_api.resourceApi;
+export const resourceCalculators = resource_calculators.resourceCalculators;
+export const resourceModifiers = resource_modifiers.resourceModifiers;
 export { resourcesManager };

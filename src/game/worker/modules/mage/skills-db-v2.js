@@ -1,7 +1,7 @@
-import * as game_framework__WEBPACK_IMPORTED_MODULE_0__ from '../../../framework/index.js';
+import * as index from '../../../framework/index.js';
 
 var registerSkillsStage1 = function registerSkillsStage1() {
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_scholar', {
+  index.gameEntity.registerGameEntity('skill_scholar', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Scholar',
     description: 'Increase your learning ability',
@@ -47,7 +47,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_mental_scholar', {
+  index.gameEntity.registerGameEntity('skill_mental_scholar', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Mindful Scholar',
     description: 'Increase your mental learning ability',
@@ -97,7 +97,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_routine_scholar', {
+  index.gameEntity.registerGameEntity('skill_routine_scholar', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Diligent Scholar',
     description: 'Increase your routine learning ability',
@@ -108,7 +108,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       top: 0
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_home_errands');
+      return index.gameEntity.isEntityUnlocked('action_home_errands');
     },
     unlockBySkills: [{
       id: "skill_scholar",
@@ -147,7 +147,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_physical_scholar', {
+  index.gameEntity.registerGameEntity('skill_physical_scholar', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Resilient Scholar',
     description: 'Increase your physical learning ability',
@@ -197,7 +197,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_mental_discount', {
+  index.gameEntity.registerGameEntity('skill_mental_discount', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Cognitive Efficiency',
     description: 'Reduce experience required for leveling mental actions',
@@ -247,7 +247,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_routine_discount', {
+  index.gameEntity.registerGameEntity('skill_routine_discount', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Methodical Mastery',
     description: 'Reduce experience required for leveling routine actions',
@@ -258,7 +258,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       top: 0
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.isEntityUnlocked('action_home_errands');
+      return index.gameEntity.isEntityUnlocked('action_home_errands');
     },
     unlockBySkills: [{
       id: "skill_routine_scholar",
@@ -297,7 +297,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_physical_discount', {
+  index.gameEntity.registerGameEntity('skill_physical_discount', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Adaptive Conditioning',
     description: 'Reduce experience required for leveling physical actions',
@@ -347,7 +347,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_intense_training', {
+  index.gameEntity.registerGameEntity('skill_intense_training', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Intense Training',
     description: 'Increase overall learning speed',
@@ -409,7 +409,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_courses_speed', {
+  index.gameEntity.registerGameEntity('skill_courses_speed', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Accelerated Courses Learning',
     description: 'Increase courses learning speed',
@@ -420,7 +420,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       top: 0
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0;
     },
     unlockBySkills: [{
       id: "skill_intense_training",
@@ -459,7 +459,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_reductive_courses_power', {
+  index.gameEntity.registerGameEntity('skill_reductive_courses_power', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Efficient Study',
     description: 'Increase reductive courses power',
@@ -470,7 +470,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       top: 0
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_advanced_training') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0 && index.gameEntity.getLevel('shop_item_advanced_training') > 0;
     },
     unlockBySkills: [{
       id: "skill_courses_speed",
@@ -509,7 +509,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_mental_discount_2', {
+  index.gameEntity.registerGameEntity('skill_mental_discount_2', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Cognitive Optimization',
     description: 'Increase mental actions XP discount',
@@ -520,7 +520,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       top: -2
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_advanced_training') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0 && index.gameEntity.getLevel('shop_item_advanced_training') > 0;
     },
     unlockBySkills: [{
       id: "skill_courses_speed",
@@ -559,7 +559,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_physical_discount_2', {
+  index.gameEntity.registerGameEntity('skill_physical_discount_2', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Endurance Conditioning',
     description: 'Increase physical actions XP discount',
@@ -570,7 +570,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       top: 2
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_advanced_training') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0 && index.gameEntity.getLevel('shop_item_advanced_training') > 0;
     },
     unlockBySkills: [{
       id: "skill_courses_speed",
@@ -609,7 +609,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_mental_learn_rate', {
+  index.gameEntity.registerGameEntity('skill_mental_learn_rate', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Intellectual Mastery',
     description: 'Increase mental training speed',
@@ -620,7 +620,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       top: -1
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_advanced_training') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0 && index.gameEntity.getLevel('shop_item_advanced_training') > 0;
     },
     unlockBySkills: [{
       id: "skill_mental_discount_2",
@@ -662,7 +662,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_physical_learn_rate', {
+  index.gameEntity.registerGameEntity('skill_physical_learn_rate', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Peak Performance',
     description: 'Increase physical training speed',
@@ -673,7 +673,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       top: 1
     },
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_training_room') > 0 && game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_advanced_training') > 0;
+      return index.gameEntity.getLevel('shop_item_training_room') > 0 && index.gameEntity.getLevel('shop_item_advanced_training') > 0;
     },
     unlockBySkills: [{
       id: "skill_physical_discount_2",
@@ -715,7 +715,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_energizer', {
+  index.gameEntity.registerGameEntity('skill_energizer', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Energizer',
     description: 'Increase your energy gains',
@@ -761,7 +761,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_energy_regen_1', {
+  index.gameEntity.registerGameEntity('skill_energy_regen_1', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Stamina Reserves',
     description: 'Further increase your energy gains',
@@ -811,7 +811,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_oak_heart', {
+  index.gameEntity.registerGameEntity('skill_oak_heart', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Oak Heart',
     description: 'Increase your health regeneration',
@@ -826,7 +826,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       level: 2
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('action_pushup') > 1;
+      return index.gameEntity.getLevel('action_pushup') > 1;
     },
     attributes: {
       isCollectable: false
@@ -861,7 +861,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_resilience', {
+  index.gameEntity.registerGameEntity('skill_resilience', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Resilience',
     description: 'Increase your health and energy caps',
@@ -879,7 +879,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       level: 4
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('action_pushup') > 1;
+      return index.gameEntity.getLevel('action_pushup') > 1;
     },
     attributes: {
       isCollectable: false
@@ -919,7 +919,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_physical_talents', {
+  index.gameEntity.registerGameEntity('skill_physical_talents', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Physical Talents',
     description: 'Increase efficiency of physical activity learning by increasing its learn speed and decreasing XP requirements',
@@ -989,7 +989,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_crafting_effort', {
+  index.gameEntity.registerGameEntity('skill_crafting_effort', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Artisan\'s Drive',
     description: 'Increase crafting effort generated',
@@ -1004,7 +1004,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       level: 1
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     attributes: {
       isCollectable: false
@@ -1039,7 +1039,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_physical_actions_discount_3', {
+  index.gameEntity.registerGameEntity('skill_physical_actions_discount_3', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Tireless Worker',
     description: 'Increase efficiency of physical activity',
@@ -1089,7 +1089,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_energizer_2', {
+  index.gameEntity.registerGameEntity('skill_energizer_2', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Vital Surge',
     description: 'Increase energy income',
@@ -1139,7 +1139,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_oak_heart_2', {
+  index.gameEntity.registerGameEntity('skill_oak_heart_2', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Heart of the Oak II',
     description: 'Increase health income',
@@ -1189,7 +1189,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_crafting_efficiency', {
+  index.gameEntity.registerGameEntity('skill_crafting_efficiency', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Masterful Craft',
     description: 'Increase crafting efficiency',
@@ -1210,7 +1210,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       level: 8
     }],
     unlockCondition: function unlockCondition() {
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_crafting_courses') > 0;
+      return index.gameEntity.getLevel('shop_item_crafting_courses') > 0;
     },
     attributes: {
       isCollectable: false
@@ -1245,7 +1245,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_treasurer', {
+  index.gameEntity.registerGameEntity('skill_treasurer', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Treasurer',
     description: 'Increase your coins cap',
@@ -1300,14 +1300,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_merchant', {
+  index.gameEntity.registerGameEntity('skill_merchant', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Merchant',
     description: 'Increase amount of items you can sell',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') >= 1;
+      return index.gameEntity.getLevel('shop_item_backpack') >= 1;
     },
     unlockBySkills: [{
       id: "skill_treasurer",
@@ -1356,14 +1356,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_coin_cap1', {
+  index.gameEntity.registerGameEntity('skill_coin_cap1', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Vault Expansion',
     description: 'Increase coins capacity',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') >= 1;
+      return index.gameEntity.getLevel('shop_item_backpack') >= 1;
     },
     unlockBySkills: [{
       id: "skill_treasurer",
@@ -1407,14 +1407,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_social_learn', {
+  index.gameEntity.registerGameEntity('skill_social_learn', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Charismatic Insight',
     description: 'Increase social actions learning rate',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') >= 1;
+      return index.gameEntity.getLevel('shop_item_backpack') >= 1;
     },
     unlockBySkills: [{
       id: "skill_treasurer",
@@ -1458,14 +1458,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_trade_efficiency', {
+  index.gameEntity.registerGameEntity('skill_trade_efficiency', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Trade Efficiency',
     description: 'Further increase amount of items you can sell',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') >= 1;
+      return index.gameEntity.getLevel('shop_item_backpack') >= 1;
     },
     unlockBySkills: [{
       id: "skill_merchant",
@@ -1514,14 +1514,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_coin_income', {
+  index.gameEntity.registerGameEntity('skill_coin_income', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Prosperity',
     description: 'Increase coins income',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') >= 1;
+      return index.gameEntity.getLevel('shop_item_backpack') >= 1;
     },
     unlockBySkills: [{
       id: "skill_coin_cap1",
@@ -1565,14 +1565,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_social_discount', {
+  index.gameEntity.registerGameEntity('skill_social_discount', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Silver Tongue',
     description: 'Reduce amount of experience required for actions with tag "Social"',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') >= 1;
+      return index.gameEntity.getLevel('shop_item_backpack') >= 1;
     },
     unlockBySkills: [{
       id: "skill_social_learn",
@@ -1616,14 +1616,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_empathy', {
+  index.gameEntity.registerGameEntity('skill_empathy', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Empathic Influence',
     description: 'Learn people emotions better to learn manipulate their wishes.',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') >= 1;
+      return index.gameEntity.getLevel('shop_item_backpack') >= 1;
     },
     unlockBySkills: [{
       id: "skill_social_discount",
@@ -1684,14 +1684,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_gather_effort', {
+  index.gameEntity.registerGameEntity('skill_gather_effort', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Forager\'s Instinct',
     description: 'Increase gathering effort',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_map') > 0;
+      return index.gameEntity.getLevel('shop_item_map') > 0;
     },
     unlockBySkills: [{
       id: "skill_empathy",
@@ -1735,14 +1735,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_plantations_efficiency', {
+  index.gameEntity.registerGameEntity('skill_plantations_efficiency', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Cultivator\'s Mastery',
     description: 'Increase plantations efficiency',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameResources.getResource('plantation_slots').income > 0;
+      return index.gameResources.getResource('plantation_slots').income > 0;
     },
     unlockBySkills: [{
       id: "skill_gather_effort",
@@ -1786,14 +1786,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_routine_learning', {
+  index.gameEntity.registerGameEntity('skill_routine_learning', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Methodical Learning',
     description: 'Increase routine learning speed',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') >= 1;
+      return index.gameEntity.getLevel('shop_item_backpack') >= 1;
     },
     unlockBySkills: [{
       id: "skill_gather_effort",
@@ -1837,14 +1837,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_social_learning', {
+  index.gameEntity.registerGameEntity('skill_social_learning', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Social Awareness',
     description: 'Increase social learning speed',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') >= 1;
+      return index.gameEntity.getLevel('shop_item_backpack') >= 1;
     },
     unlockBySkills: [{
       id: "skill_gather_effort",
@@ -1888,14 +1888,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_improved_perception', {
+  index.gameEntity.registerGameEntity('skill_improved_perception', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Keen Observation',
     description: 'Increase your gathering perception',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_map') > 0;
+      return index.gameEntity.getLevel('shop_item_map') > 0;
     },
     unlockBySkills: [{
       id: "skill_routine_learning",
@@ -1942,14 +1942,14 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_improved_prosperity', {
+  index.gameEntity.registerGameEntity('skill_improved_prosperity', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Wealth Acumen',
     description: 'Increase your coins income and cap',
     level: 0,
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_backpack') >= 1;
+      return index.gameEntity.getLevel('shop_item_backpack') >= 1;
     },
     unlockBySkills: [{
       id: "skill_social_learning",
@@ -2005,7 +2005,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_highbrow', {
+  index.gameEntity.registerGameEntity('skill_highbrow', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Highbrow',
     description: 'Increase your knowledge capacity and regeneration',
@@ -2017,7 +2017,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
     },
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_library_entrance') >= 1;
+      return index.gameEntity.getLevel('shop_item_library_entrance') >= 1;
     },
     attributes: {
       isCollectable: false
@@ -2061,7 +2061,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_knowledge_generation2', {
+  index.gameEntity.registerGameEntity('skill_knowledge_generation2', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Profound Wisdom',
     description: 'Further increase knowledge generation and learn speed',
@@ -2077,7 +2077,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
     }],
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_library_entrance') >= 1;
+      return index.gameEntity.getLevel('shop_item_library_entrance') >= 1;
     },
     attributes: {
       isCollectable: false
@@ -2119,7 +2119,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_sorcer', {
+  index.gameEntity.registerGameEntity('skill_sorcer', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Sorcer',
     description: 'Increase mana generation and capacity',
@@ -2135,7 +2135,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
     }],
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') >= 1;
+      return index.gameEntity.getLevel('shop_item_spellbook') >= 1;
     },
     attributes: {
       isCollectable: false
@@ -2179,7 +2179,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_arcane_mind', {
+  index.gameEntity.registerGameEntity('skill_arcane_mind', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Arcane Mind',
     description: 'Increase knowledge and mana caps',
@@ -2198,7 +2198,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
     }],
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') >= 1;
+      return index.gameEntity.getLevel('shop_item_spellbook') >= 1;
     },
     attributes: {
       isCollectable: false
@@ -2238,7 +2238,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_mysticism', {
+  index.gameEntity.registerGameEntity('skill_mysticism', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Mysticism',
     description: 'Improves you feeling of magic, increasing spells XP rate and mana income',
@@ -2266,7 +2266,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
     }],
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') >= 1;
+      return index.gameEntity.getLevel('shop_item_spellbook') >= 1;
     },
     attributes: {
       isCollectable: false
@@ -2308,7 +2308,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_spell_xp_rate', {
+  index.gameEntity.registerGameEntity('skill_spell_xp_rate', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Arcane Mastery',
     description: 'Improves spells XP rate',
@@ -2324,7 +2324,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
     }],
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') >= 1;
+      return index.gameEntity.getLevel('shop_item_spellbook') >= 1;
     },
     attributes: {
       isCollectable: false
@@ -2359,7 +2359,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_spiritual_learning_rate', {
+  index.gameEntity.registerGameEntity('skill_spiritual_learning_rate', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Esoteric Insight',
     description: 'Improves spiritual learning rate',
@@ -2375,7 +2375,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
     }],
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') >= 1;
+      return index.gameEntity.getLevel('shop_item_spellbook') >= 1;
     },
     attributes: {
       isCollectable: false
@@ -2410,7 +2410,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_mana_gain_2', {
+  index.gameEntity.registerGameEntity('skill_mana_gain_2', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Flow of Essence',
     description: 'Improves mana income',
@@ -2426,7 +2426,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
     }],
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') >= 1;
+      return index.gameEntity.getLevel('shop_item_spellbook') >= 1;
     },
     attributes: {
       isCollectable: false
@@ -2461,7 +2461,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_knowledge_gain_2', {
+  index.gameEntity.registerGameEntity('skill_knowledge_gain_2', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Scholar’s Discipline',
     description: 'Improves knowledge income',
@@ -2477,7 +2477,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
     }],
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_library_entrance') >= 1;
+      return index.gameEntity.getLevel('shop_item_library_entrance') >= 1;
     },
     attributes: {
       isCollectable: false
@@ -2512,7 +2512,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_learning_mastery', {
+  index.gameEntity.registerGameEntity('skill_learning_mastery', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Learning Mastery',
     description: 'Improves overall learning rate',
@@ -2534,7 +2534,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
     }],
     unlockCondition: function unlockCondition() {
       // console.log('ACTLVL: ', )
-      return game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.getLevel('shop_item_spellbook') >= 1;
+      return index.gameEntity.getLevel('shop_item_spellbook') >= 1;
     },
     attributes: {
       isCollectable: false
@@ -2572,7 +2572,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
 
   // Ark skills
 
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_-0', {
+  index.gameEntity.registerGameEntity('skill_general_training_-0', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase general training learning speed',
@@ -2629,7 +2629,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_mental_training_0', {
+  index.gameEntity.registerGameEntity('skill_mental_training_0', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Mental Training',
     description: 'Increase mental training learning speed',
@@ -2686,7 +2686,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_0', {
+  index.gameEntity.registerGameEntity('skill_general_training_0', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase general training learning speed',
@@ -2743,7 +2743,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_mental_training_1', {
+  index.gameEntity.registerGameEntity('skill_mental_training_1', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Mental Training',
     description: 'Increase mental training learning speed',
@@ -2800,7 +2800,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_1', {
+  index.gameEntity.registerGameEntity('skill_general_training_1', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase mental training learning speed',
@@ -2857,7 +2857,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_3', {
+  index.gameEntity.registerGameEntity('skill_general_training_3', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase general training learning speed',
@@ -2914,7 +2914,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_social_training_0', {
+  index.gameEntity.registerGameEntity('skill_social_training_0', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Social Training',
     description: 'Increase social training learning speed',
@@ -2971,7 +2971,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_4', {
+  index.gameEntity.registerGameEntity('skill_general_training_4', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase general training learning speed',
@@ -3028,7 +3028,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_social_training_1', {
+  index.gameEntity.registerGameEntity('skill_social_training_1', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Social Training',
     description: 'Increase social training learning speed',
@@ -3085,7 +3085,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_5', {
+  index.gameEntity.registerGameEntity('skill_general_training_5', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase general training learning speed',
@@ -3142,7 +3142,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_6', {
+  index.gameEntity.registerGameEntity('skill_general_training_6', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase general training learning speed',
@@ -3199,7 +3199,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_physical_training_1', {
+  index.gameEntity.registerGameEntity('skill_physical_training_1', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Physical Training',
     description: 'Increase physical training learning speed',
@@ -3256,7 +3256,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_7', {
+  index.gameEntity.registerGameEntity('skill_general_training_7', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase general training learning speed',
@@ -3313,7 +3313,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_physical_training_2', {
+  index.gameEntity.registerGameEntity('skill_physical_training_2', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Physical Training',
     description: 'Increase physical training learning speed',
@@ -3370,7 +3370,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_8', {
+  index.gameEntity.registerGameEntity('skill_general_training_8', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase general training learning speed',
@@ -3427,7 +3427,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_9', {
+  index.gameEntity.registerGameEntity('skill_general_training_9', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase general training learning speed',
@@ -3484,7 +3484,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_routine_training_1', {
+  index.gameEntity.registerGameEntity('skill_routine_training_1', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Routine Learning',
     description: 'Increase routine learning speed',
@@ -3541,7 +3541,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_10', {
+  index.gameEntity.registerGameEntity('skill_general_training_10', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase general training learning speed',
@@ -3598,7 +3598,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_routine_training_2', {
+  index.gameEntity.registerGameEntity('skill_routine_training_2', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'Routine Learning',
     description: 'Increase routine learning speed',
@@ -3655,7 +3655,7 @@ var registerSkillsStage1 = function registerSkillsStage1() {
       };
     }
   });
-  game_framework__WEBPACK_IMPORTED_MODULE_0__.gameEntity.registerGameEntity('skill_general_training_11', {
+  index.gameEntity.registerGameEntity('skill_general_training_11', {
     tags: ["skill", "upgrade", "purchaseable"],
     name: 'General Training',
     description: 'Increase general training learning speed',

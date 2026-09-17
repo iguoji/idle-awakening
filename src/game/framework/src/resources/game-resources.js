@@ -1,6 +1,6 @@
-import * as _resource_modifiers__WEBPACK_IMPORTED_MODULE_0__ from './resource-modifiers.js';
-import * as _resource_calculators__WEBPACK_IMPORTED_MODULE_1__ from './resource-calculators.js';
-import * as _utils_consts__WEBPACK_IMPORTED_MODULE_2__ from '../utils/consts.js';
+import * as resource_modifiers from './resource-modifiers.js';
+import * as resource_calculators from './resource-calculators.js';
+import * as consts from '../utils/consts.js';
 
 class GameResources {
 
@@ -18,7 +18,7 @@ class GameResources {
                 modif.id = `resource_${id}`
             }
             modif.name = resource.name;
-            resource.modifier = _resource_modifiers__WEBPACK_IMPORTED_MODULE_0__.resourceModifiers.registerModifier(modif);
+            resource.modifier = resource_modifiers.resourceModifiers.registerModifier(modif);
         }
         this.resources[id] = resource;
         this.resources[id].id = id;
@@ -128,20 +128,20 @@ class GameResources {
         rs.amount += amtToAdd;
         if(rs.modifier && amtToAdd !== 0) {
             rs.modifier.level = rs.amount;
-            _resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.regenerateModifier(rs.modifier.id);
+            resource_calculators.resourceCalculators.regenerateModifier(rs.modifier.id);
             console.log('rs.mod', rs.modifier);
         }
-        if(amtToAdd > _utils_consts__WEBPACK_IMPORTED_MODULE_2__.SMALL_NUMBER*rs.consumption && rs.targetEfficiency < 1) {
+        if(amtToAdd > consts.SMALL_NUMBER*rs.consumption && rs.targetEfficiency < 1) {
             if(isDelayed) {
                 this.delayedResets[id] = amtToAdd;
             } else {
-                _resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.resetConsumingEfficiency(id, true);
+                resource_calculators.resourceCalculators.resetConsumingEfficiency(id, true);
             }
         }
         if(amtToAdd) {
-            _resource_modifiers__WEBPACK_IMPORTED_MODULE_0__.resourceModifiers.modifiersGroupped.byResourceDeps[id]?.forEach(modifierId => {
-                _resource_modifiers__WEBPACK_IMPORTED_MODULE_0__.resourceModifiers.cacheModifier(modifierId);
-                _resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.regenerateModifier(modifierId)
+            resource_modifiers.resourceModifiers.modifiersGroupped.byResourceDeps[id]?.forEach(modifierId => {
+                resource_modifiers.resourceModifiers.cacheModifier(modifierId);
+                resource_calculators.resourceCalculators.regenerateModifier(modifierId)
             })
         }
         return rs.amount;
@@ -156,26 +156,26 @@ class GameResources {
         }
         if(rs.modifier && amount > 0) {
             rs.modifier.level = rs.amount;
-            _resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.regenerateModifier(rs.modifier.id);
+            resource_calculators.resourceCalculators.regenerateModifier(rs.modifier.id);
             console.log('rs.mod', rs.modifier);
         }
-        if(pAmount !== rs.amount && Math.abs((pAmount - rs.amount) / (pAmount + rs.amount)) > _utils_consts__WEBPACK_IMPORTED_MODULE_2__.SMALL_NUMBER) {
+        if(pAmount !== rs.amount && Math.abs((pAmount - rs.amount) / (pAmount + rs.amount)) > consts.SMALL_NUMBER) {
             if(rs.isService && rs.targetEfficiency < 1 && !bPreventReset) {
                 console.log('resetEffService: ', rs, pAmount, amount, delayedReset);
                 if(delayedReset) {
                     this.delayedResets[id] = amount;
                 } else {
-                    _resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.resetConsumingEfficiency(id, true);
+                    resource_calculators.resourceCalculators.resetConsumingEfficiency(id, true);
                 }
 
             }
-            _resource_modifiers__WEBPACK_IMPORTED_MODULE_0__.resourceModifiers.modifiersGroupped.byResourceDeps[id]?.forEach(modifierId => {
-                _resource_modifiers__WEBPACK_IMPORTED_MODULE_0__.resourceModifiers.cacheModifier(modifierId);
-                _resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.regenerateModifier(modifierId)
+            resource_modifiers.resourceModifiers.modifiersGroupped.byResourceDeps[id]?.forEach(modifierId => {
+                resource_modifiers.resourceModifiers.cacheModifier(modifierId);
+                resource_calculators.resourceCalculators.regenerateModifier(modifierId)
             })
             if(rs.modifier) {
                 rs.modifier.level = rs.amount;
-                _resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.regenerateModifier(rs.modifier.id);
+                resource_calculators.resourceCalculators.regenerateModifier(rs.modifier.id);
                 console.log('rs.mod.setResource', rs.modifier);
             }
         }
@@ -184,7 +184,7 @@ class GameResources {
 
     handleDelayed() {
         for(const id in this.delayedResets) {
-            _resource_calculators__WEBPACK_IMPORTED_MODULE_1__.resourceCalculators.resetConsumingEfficiency(id, true);
+            resource_calculators.resourceCalculators.resetConsumingEfficiency(id, true);
         }
         this.delayedResets = {};
     }

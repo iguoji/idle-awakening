@@ -1,8 +1,8 @@
-import * as _shared_game_module__WEBPACK_IMPORTED_MODULE_0__ from '../../shared/game-module.js';
-import * as game_framework__WEBPACK_IMPORTED_MODULE_1__ from '../../../framework/index.js';
-import * as _shared_utils_rule_utils__WEBPACK_IMPORTED_MODULE_2__ from '../../shared/utils/rule-utils.js';
-import * as _shared_utils_objects__WEBPACK_IMPORTED_MODULE_3__ from '../../shared/utils/objects.js';
-import * as game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__ from '../../../framework/src/utils/consts.js';
+import * as game_module from '../../shared/game-module.js';
+import * as index from '../../../framework/index.js';
+import * as rule_utils from '../../shared/utils/rule-utils.js';
+import * as objects from '../../shared/utils/objects.js';
+import * as consts from '../../../framework/src/utils/consts.js';
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
@@ -106,7 +106,7 @@ var MapTileListsSubmodule = /*#__PURE__*/function (_GameModule) {
     key: "stopList",
     value: function stopList() {
       this.runningList = null;
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('map').stopRunningTiles();
+      index.gameCore.getModule('map').stopRunningTiles();
     }
   }, {
     key: "saveMapTilesList",
@@ -181,14 +181,14 @@ var MapTileListsSubmodule = /*#__PURE__*/function (_GameModule) {
         runningList: (_this$runningList4 = this.runningList) !== null && _this$runningList4 !== void 0 && _this$runningList4.id ? this.mapLists[this.runningList.id] : null,
         automationEnabled: this.automationEnabled,
         autotriggerIntervalSetting: this.autotriggerIntervalSetting,
-        automationUnlocked: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameEntity.getLevel('shop_item_planner') > 0
+        automationUnlocked: index.gameEntity.getLevel('shop_item_planner') > 0
       };
     }
   }, {
     key: "save",
     value: function save() {
       return {
-        list: (0,_shared_utils_objects__WEBPACK_IMPORTED_MODULE_3__.mapObject)(this.mapLists, function (one) {
+        list: (0,objects.mapObject)(this.mapLists, function (one) {
           return {
             id: one.id,
             name: one.name,
@@ -232,7 +232,7 @@ var MapTileListsSubmodule = /*#__PURE__*/function (_GameModule) {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var _this$mapLists$list$i, _this$mapLists$list$i2;
           var list = _step.value;
-          if ((0,_shared_utils_rule_utils__WEBPACK_IMPORTED_MODULE_2__.checkMatchingRules)((_this$mapLists$list$i = this.mapLists[list.id]) === null || _this$mapLists$list$i === void 0 || (_this$mapLists$list$i = _this$mapLists$list$i.autotrigger) === null || _this$mapLists$list$i === void 0 ? void 0 : _this$mapLists$list$i.rules, (_this$mapLists$list$i2 = this.mapLists[list.id]) === null || _this$mapLists$list$i2 === void 0 || (_this$mapLists$list$i2 = _this$mapLists$list$i2.autotrigger) === null || _this$mapLists$list$i2 === void 0 ? void 0 : _this$mapLists$list$i2.pattern)) {
+          if ((0,rule_utils.checkMatchingRules)((_this$mapLists$list$i = this.mapLists[list.id]) === null || _this$mapLists$list$i === void 0 || (_this$mapLists$list$i = _this$mapLists$list$i.autotrigger) === null || _this$mapLists$list$i === void 0 ? void 0 : _this$mapLists$list$i.rules, (_this$mapLists$list$i2 = this.mapLists[list.id]) === null || _this$mapLists$list$i2 === void 0 || (_this$mapLists$list$i2 = _this$mapLists$list$i2.autotrigger) === null || _this$mapLists$list$i2 === void 0 ? void 0 : _this$mapLists$list$i2.pattern)) {
             return list.id;
           }
         }
@@ -285,9 +285,9 @@ var MapTileListsSubmodule = /*#__PURE__*/function (_GameModule) {
       });
 
       // now registering entities for every action
-      game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('map').stopRunningTiles();
+      index.gameCore.getModule('map').stopRunningTiles();
       tileFractions.forEach(function (tileToRun) {
-        game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('map').setTileRunning(tileToRun.i, tileToRun.j, true, tileToRun.effortFraction);
+        index.gameCore.getModule('map').setTileRunning(tileToRun.i, tileToRun.j, true, tileToRun.effortFraction);
       });
     }
   }, {
@@ -312,7 +312,7 @@ var MapTileListsSubmodule = /*#__PURE__*/function (_GameModule) {
           time: Math.max(0, one.time)
         });
       });
-      if (total <= game_framework_src_utils_consts__WEBPACK_IMPORTED_MODULE_4__.SMALL_NUMBER) return [];
+      if (total <= consts.SMALL_NUMBER) return [];
       var generateColor = function generateColor(index, totalActions) {
         // Use HSL to generate deterministic colors based on the index
         var hue = index * 360 / totalActions % 360; // Spread hues evenly
@@ -356,9 +356,9 @@ var MapTileListsSubmodule = /*#__PURE__*/function (_GameModule) {
       var totalEffects = {};
       list.tiles.forEach(function (tile) {
         var weight = tile.time / totalTime;
-        var effects = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('map').mapTilesProcessed[tile.i][tile.j].drops.filter(function (d, index) {
+        var effects = index.gameCore.getModule('map').mapTilesProcessed[tile.i][tile.j].drops.filter(function (d, index) {
           var _gameCore$getModule$m;
-          return game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.isResourceUnlocked(d.id) && ((_gameCore$getModule$m = game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('map').mapTilesProcessed[tile.i][tile.j].r) === null || _gameCore$getModule$m === void 0 ? void 0 : _gameCore$getModule$m.includes(index));
+          return index.gameResources.isResourceUnlocked(d.id) && ((_gameCore$getModule$m = index.gameCore.getModule('map').mapTilesProcessed[tile.i][tile.j].r) === null || _gameCore$getModule$m === void 0 ? void 0 : _gameCore$getModule$m.includes(index));
         }).map(function (d) {
           return _objectSpread(_objectSpread({}, d), {}, {
             // rarityTier: gameResources.getResource(d.id)?.tags?.includes('rare') ? 'rare' : 'common',
@@ -375,7 +375,7 @@ var MapTileListsSubmodule = /*#__PURE__*/function (_GameModule) {
               probability: 0,
               amountMin: 0,
               amountMax: 0,
-              resource: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource(drop.id)
+              resource: index.gameResources.getResource(drop.id)
             };
           }
 
@@ -411,7 +411,7 @@ var MapTileListsSubmodule = /*#__PURE__*/function (_GameModule) {
       var totalCosts = {};
       list.tiles.forEach(function (tile) {
         var weight = tile.time / totalTime;
-        var costs = (0,_shared_utils_objects__WEBPACK_IMPORTED_MODULE_3__.mapObject)(game_framework__WEBPACK_IMPORTED_MODULE_1__.gameCore.getModule('map').mapTilesProcessed[tile.i][tile.j].cost, function (c, id) {
+        var costs = (0,objects.mapObject)(index.gameCore.getModule('map').mapTilesProcessed[tile.i][tile.j].cost, function (c, id) {
           return {
             id: id,
             value: c.value * weight
@@ -427,7 +427,7 @@ var MapTileListsSubmodule = /*#__PURE__*/function (_GameModule) {
           if (!totalCosts[cost.id]) {
             totalCosts[cost.id] = {
               id: cost.id,
-              name: game_framework__WEBPACK_IMPORTED_MODULE_1__.gameResources.getResource(cost.id).name,
+              name: index.gameResources.getResource(cost.id).name,
               cost: 0
             };
           }
@@ -439,6 +439,6 @@ var MapTileListsSubmodule = /*#__PURE__*/function (_GameModule) {
       return Object.values(totalCosts);
     }
   }]);
-}(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+}(game_module.GameModule);
 
 export { MapTileListsSubmodule };
