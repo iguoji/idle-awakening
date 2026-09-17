@@ -2,6 +2,7 @@ import './tokens.css';
 import { renderResourceCard } from './components/resource-card.js';
 import { renderActionsView } from './features/actions/actions-view.js';
 import { getDomainQueryConfig, renderDomainView } from './features/domain/domain-view.js';
+import { decodePortableSave, renderSettingsView } from './features/settings/settings-view.js';
 import { createUiState, setActiveView, toggleSidebar } from './ui-state.js';
 
 const NAV = [
@@ -26,23 +27,6 @@ function escapeHtml(value) {
     .replaceAll("'", '&#039;');
 }
 
-function renderSettingsView(snapshot) {
-  const save = snapshot?.raw?.['saved-string']?.string || '';
-  return `<section class="ui-page-head">
-    <div><div class="ui-kicker">System</div><h1>Settings</h1><p>Save, reset and inspect the new runtime without depending on the legacy UI.</p></div>
-  </section>
-  <section class="ui-grid ui-grid--single">
-    <article class="ui-card"><div class="ui-card__body">
-      <div class="ui-section-title"><div><strong>Game controls</strong><span>Runtime commands</span></div></div>
-      <div class="ui-actions">
-        <button class="ui-btn ui-btn--primary" data-command="get-save-string">Export save</button>
-        <button class="ui-btn" data-command="reset-game">Reset game</button>
-      </div>
-      ${save ? `<div class="ui-save-box"><div class="ui-save-box__label">Latest exported save</div><textarea readonly>${escapeHtml(save)}</textarea><button class="ui-btn" data-command="copy-save">Copy</button></div>` : '<p class="ui-muted">No save export requested yet.</p>'}
-    </div></article>
-  </section>`;
-}
-
 function renderAboutView(snapshot) {
   const rawCount = Object.keys(snapshot?.raw || {}).length;
   return `<section class="ui-page-head">
@@ -57,6 +41,26 @@ function renderAboutView(snapshot) {
   </section>`;
 }
 
+async function copyText(text) {
+  if (!text) return false;
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {}
+  const area = document.createElement('textarea');
+  area.value = text;
+  area.style.position = 'fixed';
+  area.style.opacity = '0';
+  document.body.appendChild(area);
+  area.select();
+  let copied = false;
+  try { copied = document.execCommand('copy'); } catch {}
+  area.remove();
+  return copied;
+}
+
 export function mountUiShell({ root, game }) {
   if (!root) throw new Error('UI root is required');
   if (!game || typeof game.getSnapshot !== 'function' || typeof game.subscribe !== 'function') {
@@ -66,22 +70,44 @@ export function mountUiShell({ root, game }) {
   let uiState = createUiState();
   let gameState = game.getSnapshot();
   const requested = new Set();
+  let refreshTimer = null;
 
-  function requestView(view) {
+  function requestView(view, force = false) {
     const config = getDomainQueryConfig(view);
     if (!config) return;
     for (const [command, payload] of config.queries) {
       const key = `${view}:${command}:${JSON.stringify(payload || {})}`;
-      if (requested.has(key)) continue;
+      if (!force && requested.has(key)) continue;
       requested.add(key);
       game.dispatch?.(command, payload);
     }
+  }
+
+  function scheduleViewRefresh(view) {
+    if (refreshTimer) clearInterval(refreshTimer);
+    refreshTimer = null;
+    const config = getDomainQueryConfig(view);
+    if (!config) return;
+    const interval = view === 'actions' ? 250 : view === 'world' ? 1500 : 750;
+    refreshTimer = setInterval(() => requestView(view, true), interval);
   }
 
   const unsubscribe = game.subscribe((snapshot) => {
     gameState = snapshot;
     render();
   });
+
+  async function loadTextSave(text) {
+    try {
+      const save = decodePortableSave(text);
+      game.loadSave?.(save, { persist: true });
+      return true;
+    } catch (error) {
+      console.error('[UI] Unable to import save:', error);
+      window.alert?.(error.message || 'Invalid save');
+      return false;
+    }
+  }
 
   function render() {
     const shell = document.createElement('div');
@@ -91,7 +117,7 @@ export function mountUiShell({ root, game }) {
       <header class="ui-shell__topbar">
         <button class="ui-btn ui-shell__mobile" data-action="menu" aria-label="Open menu">☰</button>
         <div class="ui-shell__brand">Idle Awakening</div>
-        <div class="ui-level">${gameState.initialized ? 'Online' : 'Starting…'}</div>
+        <div class="ui-level">${gameState.initialized ? (gameState.loading ? 'Loading…' : 'Online') : 'Starting…'}</div>
       </header>
       <div class="ui-shell__body">
         <aside class="ui-shell__nav">
@@ -115,6 +141,7 @@ export function mountUiShell({ root, game }) {
         const view = button.dataset.view;
         uiState = setActiveView(uiState, view);
         requestView(view);
+        scheduleViewRefresh(view);
         if (window.matchMedia('(max-width: 800px)').matches) {
           uiState = { ...uiState, sidebarOpen: false };
         }
@@ -143,11 +170,17 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, { type: 'manual' });
         } else if (command === 'copy-save') {
           const save = gameState?.raw?.['saved-string']?.string;
-          if (save) await navigator.clipboard?.writeText(save);
-        } else if (command === 'map-generate-map' || command === 'reset-game') {
+          if (await copyText(save)) button.textContent = 'Copied';
+        } else if (command === 'load-save-text') {
+          await loadTextSave(shell.querySelector('[data-action="save-text"]')?.value || '');
+        } else if (command === 'reset-game') {
+          game.resetGame?.();
+        } else if (command === 'map-generate-map') {
           game.dispatch?.(command, {});
         } else if (command === 'set-crafting-level') {
           game.dispatch?.(command, { id, level: amount, filterId, isForce: false });
+        } else if (command === 'set-plantation-watering') {
+          game.dispatch?.(command, { id, level: amount });
         } else if (command === 'purchase-furniture') {
           game.dispatch?.(command, { id, filterId });
         } else if (command === 'select-guild') {
@@ -163,6 +196,16 @@ export function mountUiShell({ root, game }) {
         }
       });
     });
+
+    shell.querySelector('[data-action="import-save-file"]')?.addEventListener('change', async (event) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try {
+        await loadTextSave(await file.text());
+      } finally {
+        event.target.value = '';
+      }
+    });
   }
 
   function renderView(view) {
@@ -173,9 +216,14 @@ export function mountUiShell({ root, game }) {
   }
 
   requestView(uiState.activeView);
+  scheduleViewRefresh(uiState.activeView);
   render();
   return {
     getState: () => uiState,
-    destroy: unsubscribe,
+    destroy: () => {
+      if (refreshTimer) clearInterval(refreshTimer);
+      refreshTimer = null;
+      unsubscribe();
+    },
   };
 }
