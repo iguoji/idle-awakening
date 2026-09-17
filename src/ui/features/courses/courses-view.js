@@ -28,7 +28,7 @@ export function renderCoursesView(snapshot) {
   const running = courses.find((course) => course.isRunning);
 
   return `<section class="ui-page-head">
-    <div><div class="ui-kicker">Training room</div><h1>Courses</h1><p>Run one course at a time, track its learning progress and optionally keep it resuming.</p></div>
+    <div><div class="ui-kicker">Training room</div><h1>Courses</h1><p>Run one course at a time and track its learning progress.</p></div>
     <div class="ui-status-pill">${running ? `Running: ${escapeHtml(running.name)}` : 'Idle'}</div>
   </section>
   <section class="ui-card">
@@ -38,7 +38,6 @@ export function renderCoursesView(snapshot) {
         ${courses.map((course) => {
           const active = Boolean(course.isRunning);
           const pct = progress(course.progress, course.maxProgress);
-          const autoResume = Boolean(course.isAutoResume);
           const canPurchase = course.affordable !== false && Number(course.level) < Number(course.max);
           return `<article class="ui-course" data-active="${active}">
             <div class="ui-course__main">
@@ -50,7 +49,6 @@ export function renderCoursesView(snapshot) {
             <div class="ui-course__controls">
               ${active ? `<button class="ui-btn" data-command="stop-course" data-id="${escapeHtml(course.id)}">Stop</button>` : `<button class="ui-btn" data-command="run-course" data-id="${escapeHtml(course.id)}">Run</button>`}
               ${canPurchase ? `<button class="ui-btn ui-btn--primary" data-command="purchase-item" data-id="${escapeHtml(course.id)}">Buy +1</button>` : ''}
-              <button class="ui-btn" data-command="set-course-autopurchase" data-id="${escapeHtml(course.id)}" data-flag="${!autoResume}">${autoResume ? 'Auto on' : 'Auto off'}</button>
             </div>
           </article>`;
         }).join('') || '<div class="ui-empty-state"><span class="ui-empty-state__icon">◎</span><h2>No courses unlocked</h2></div>'}
