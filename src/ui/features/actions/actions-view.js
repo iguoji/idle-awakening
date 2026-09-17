@@ -68,7 +68,7 @@ function renderFilterManager(meta) {
 
 function renderFilterModal(modal) {
   if (!modal || modal.type !== 'actions-filter') return '';
-  const draft = defaultFilterDraft({}, []).constructor === Object ? modal.draft || defaultFilterDraft() : defaultFilterDraft();
+  const draft = modal.draft || defaultFilterDraft();
   const rules = Array.isArray(draft.rules) && draft.rules.length ? draft.rules : [{ type: 'tag', object: '' }];
   const ruleRows = rules.map((rule, index) => `<div class="ui-filter-rule" data-rule-index="${index}">
     <select data-action="filter-rule-type" data-index="${index}" aria-label="Rule type">
