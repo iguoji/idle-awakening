@@ -140,3 +140,5 @@ var registerAttributes = function registerAttributes() {
     tags: ['attribute', 'mental']
   });
 };
+
+export { registerAttributes };

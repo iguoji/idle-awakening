@@ -646,3 +646,6 @@ var registerCourseItemsStage1 = function registerCourseItemsStage1() {
     }
   });
 };
+
+export { registerCourse };
+export { registerCourseItemsStage1 };

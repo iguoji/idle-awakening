@@ -74,3 +74,5 @@ var registerAspects = function registerAspects() {
     }
   });
 };
+
+export { registerAspects };

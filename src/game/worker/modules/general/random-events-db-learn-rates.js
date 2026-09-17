@@ -687,3 +687,6 @@ var registerRandomEventsLearnDb = function registerRandomEventsLearnDb() {
   });
   return randomEventsDB;
 };
+
+export { randomEventScalingFactor };
+export { registerRandomEventsLearnDb };

@@ -945,3 +945,9 @@ var initSpellsDB1 = function initSpellsDB1() {
     }
   });
 };
+
+export { getCostReduction };
+export { getMasteryId };
+export { getMaxId };
+export { initSpellsDB1 };
+export { registerSpell };

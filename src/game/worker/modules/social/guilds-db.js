@@ -499,3 +499,5 @@ var registerGuilds = function registerGuilds() {
     }
   });
 };
+
+export { registerGuilds };

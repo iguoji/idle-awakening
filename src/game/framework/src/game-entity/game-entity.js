@@ -691,3 +691,5 @@ class GameEntity {
 }
 
 const gameEntity = GameEntity.instance || new GameEntity();
+
+export { gameEntity };

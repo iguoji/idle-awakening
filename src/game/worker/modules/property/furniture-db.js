@@ -1845,3 +1845,6 @@ var registerFurnitureStage1 = function registerFurnitureStage1() {
     }
   });
 };
+
+export { registerFurniture };
+export { registerFurnitureStage1 };

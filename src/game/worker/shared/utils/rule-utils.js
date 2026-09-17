@@ -186,3 +186,14 @@ var checkMatchingRules = function checkMatchingRules(rules) {
     return false;
   }
 };
+
+export { checkMatchingActionLevelRule };
+export { checkMatchingActionListRule };
+export { checkMatchingActionRule };
+export { checkMatchingActionTagRule };
+export { checkMatchingAttributeValueRule };
+export { checkMatchingCraftingListRule };
+export { checkMatchingResourceRule };
+export { checkMatchingRule };
+export { checkMatchingRules };
+export { checkMatchingSpellRunningRule };

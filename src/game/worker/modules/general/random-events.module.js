@@ -402,3 +402,5 @@ var RandomEventsModule = /*#__PURE__*/function (_GameModule) {
     }
   }]);
 }(_shared_game_module__WEBPACK_IMPORTED_MODULE_0__.GameModule);
+
+export { RandomEventsModule };

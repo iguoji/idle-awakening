@@ -1796,3 +1796,6 @@ var registerShopItemsStage1 = function registerShopItemsStage1() {
     }
   });
 };
+
+export { charismaMod };
+export { registerShopItemsStage1 };

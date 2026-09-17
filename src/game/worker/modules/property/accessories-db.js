@@ -1092,3 +1092,6 @@ var registerAccessoriesStage1 = function registerAccessoriesStage1() {
     }
   });
 };
+
+export { registerAccessoriesStage1 };
+export { registerAccessory };

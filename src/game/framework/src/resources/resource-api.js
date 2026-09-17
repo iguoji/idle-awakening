@@ -183,3 +183,6 @@ class ResourceApi {
 }
 
 const resourceApi = ResourceApi.instance || new ResourceApi();
+
+export { ResourceApi };
+export { resourceApi };

@@ -129,3 +129,10 @@ class ResourcesManager {
 }
 
 const resourcesManager = ResourcesManager.instance || new ResourcesManager();
+
+export const gameEffects = _game_effects__WEBPACK_IMPORTED_MODULE_3__.gameEffects;
+export const gameResources = _game_resources__WEBPACK_IMPORTED_MODULE_0__.gameResources;
+export const resourceApi = _resource_api__WEBPACK_IMPORTED_MODULE_4__.resourceApi;
+export const resourceCalculators = _resource_calculators__WEBPACK_IMPORTED_MODULE_2__.resourceCalculators;
+export const resourceModifiers = _resource_modifiers__WEBPACK_IMPORTED_MODULE_1__.resourceModifiers;
+export { resourcesManager };

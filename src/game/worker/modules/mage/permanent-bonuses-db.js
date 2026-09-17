@@ -409,3 +409,5 @@ var registerPermanentBonuses = function registerPermanentBonuses() {
       }
   })*/
 };
+
+export { registerPermanentBonuses };

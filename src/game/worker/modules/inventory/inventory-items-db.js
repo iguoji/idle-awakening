@@ -1444,3 +1444,9 @@ var registerInventoryItems = function registerInventoryItems() {
     rarity: 5
   });
 };
+
+export { metabolismIntensityMod };
+export { metabolismMod };
+export { registerInventoryItem };
+export { registerInventoryItems };
+export { sellPriceMod };

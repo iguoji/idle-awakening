@@ -52,3 +52,5 @@ class Formulas {
     }
 
 }
+
+export { Formulas };

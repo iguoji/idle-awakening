@@ -1303,3 +1303,5 @@ var registerGuildUpgrades = function registerGuildUpgrades() {
     }
   });
 };
+
+export { registerGuildUpgrades };

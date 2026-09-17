@@ -3713,3 +3713,5 @@ var registerSkillsStage1 = function registerSkillsStage1() {
     }
   });
 };
+
+export { registerSkillsStage1 };

@@ -358,3 +358,5 @@ var registerCommomEffects = function registerCommomEffects() {
     saveBalanceTree: true
   });
 };
+
+export { registerCommomEffects };

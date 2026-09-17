@@ -46,3 +46,6 @@ function weightedRandomChoice(probMap) {
     }
   }
 }
+
+export { calculateTimeToLevelUp };
+export { weightedRandomChoice };

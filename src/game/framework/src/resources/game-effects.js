@@ -159,3 +159,5 @@ class GameEffects {
 }
 
 const gameEffects = GameEffects.instance || new GameEffects();
+
+export { gameEffects };

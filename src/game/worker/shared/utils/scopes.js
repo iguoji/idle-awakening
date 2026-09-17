@@ -25,3 +25,5 @@ var getScope = function getScope(entity) {
   }
   return '';
 };
+
+export { getScope };
