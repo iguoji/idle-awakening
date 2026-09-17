@@ -253,7 +253,7 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, { id });
         } else if (command === 'toggle-speedup') {
           game.dispatch?.(command, {});
-        } else if (command === 'query-action-details' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details') {
+        } else if (command === 'query-action-details' || command === 'query-action-xp-breakdown' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details') {
           game.dispatch?.(command, { id });
         } else if (command === 'run-course' || command === 'stop-course') {
           game.dispatch?.(command, { id });
@@ -282,6 +282,10 @@ export function mountUiShell({ root, game }) {
         game.dispatch?.('set-inventory-search', { searchData: { search, selectedScopes: ['name', 'tags', 'resources', 'effects'] } });
         game.dispatch?.('query-inventory-data', {});
       }, 180);
+    });
+
+    shell.querySelectorAll('[data-action="action-xp-breakdown"]').forEach((button) => {
+      button.addEventListener('click', () => game.dispatch?.('query-action-xp-breakdown', { id: button.dataset.id }));
     });
 
     shell.querySelector('[data-action="import-save-file"]')?.addEventListener('change', async (event) => {
