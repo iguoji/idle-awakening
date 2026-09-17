@@ -11,6 +11,23 @@ if (!root) {
 }
 
 const ui = mountUiShell({ root, game: adapter });
+
+root.addEventListener('change', async (event) => {
+  const input = event.target;
+  if (!(input instanceof HTMLInputElement) || input.dataset.action !== 'skill-draft-import-file') return;
+  const file = input.files?.[0];
+  if (!file) return;
+  try {
+    const content = await file.text();
+    adapter.dispatch('import-skill-draft', { content });
+  } catch (error) {
+    console.error('[UI] Unable to import skill draft:', error);
+    window.alert?.(error.message || 'Unable to import skill draft');
+  } finally {
+    input.value = '';
+  }
+});
+
 engine.start();
 
 window.addEventListener('beforeunload', () => engine.destroy(), { once: true });
