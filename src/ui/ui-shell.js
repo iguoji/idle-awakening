@@ -77,6 +77,30 @@ function downloadText(filename, text) {
   return true;
 }
 
+function captureFocusedField() {
+  const element = document.activeElement;
+  if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return null;
+  const action = element.dataset.action;
+  if (!action) return null;
+  return {
+    action,
+    value: element.value,
+    start: typeof element.selectionStart === 'number' ? element.selectionStart : null,
+    end: typeof element.selectionEnd === 'number' ? element.selectionEnd : null,
+  };
+}
+
+function restoreFocusedField(shell, state) {
+  if (!state) return;
+  const element = [...shell.querySelectorAll('[data-action]')].find((candidate) => candidate.dataset.action === state.action);
+  if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return;
+  element.value = state.value;
+  element.focus({ preventScroll: true });
+  if (state.start !== null && state.end !== null) {
+    try { element.setSelectionRange(state.start, state.end); } catch {}
+  }
+}
+
 export function mountUiShell({ root, game }) {
   if (!root) throw new Error('UI root is required');
   if (!game || typeof game.getSnapshot !== 'function' || typeof game.subscribe !== 'function') {
@@ -137,6 +161,7 @@ export function mountUiShell({ root, game }) {
   }
 
   function render() {
+    const focusedField = captureFocusedField();
     const shell = document.createElement('div');
     shell.className = 'ui-shell';
     shell.dataset.sidebarOpen = String(uiState.sidebarOpen);
@@ -268,6 +293,8 @@ export function mountUiShell({ root, game }) {
         event.target.value = '';
       }
     });
+
+    restoreFocusedField(shell, focusedField);
   }
 
   function renderView(view) {
