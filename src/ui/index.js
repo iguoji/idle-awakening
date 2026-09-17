@@ -1,10 +1,15 @@
 import { createGameAdapter } from './game-adapter.js';
+import { createPreviewEngine } from './preview-engine.js';
 import { mountUiShell } from './ui-shell.js';
 
-const adapter = createGameAdapter(globalThis);
-const root = document.getElementById('ui-root');
+const engine = createPreviewEngine();
+const adapter = createGameAdapter(engine);
+const root = document.getElementById('root');
 
-if (root) {
-  const ui = mountUiShell({ root, game: adapter.getState() });
-  globalThis.__IDLE_AWAKENING_UI__ = { adapter, ui };
+if (!root) {
+  throw new Error('Missing #root mount element');
 }
+
+const ui = mountUiShell({ root, game: adapter });
+
+window.IdleAwakening = Object.freeze({ adapter, ui });
