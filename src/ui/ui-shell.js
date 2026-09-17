@@ -2,6 +2,7 @@ import './tokens.css';
 import { renderResourceCard } from './components/resource-card.js';
 import { renderActionsView } from './features/actions/actions-view.js';
 import { getCharacterQueries, renderCharacterView } from './features/character/character-view.js';
+import { getCoursesQueries, renderCoursesView } from './features/courses/courses-view.js';
 import { getDomainQueryConfig, renderDomainView } from './features/domain/domain-view.js';
 import { decodePortableSave, renderSettingsView } from './features/settings/settings-view.js';
 import { createUiState, setActiveView, toggleSidebar } from './ui-state.js';
@@ -11,6 +12,7 @@ const NAV = [
   ['character', 'Character', '◉', null],
   ['shop', 'Shop', '◈', 'shop'],
   ['inventory', 'Inventory', '▦', 'inventory'],
+  ['courses', 'Courses', '▤', 'courses'],
   ['world', 'World', '◎', 'world'],
   ['property', 'Property', '⌂', 'property'],
   ['workshop', 'Workshop', '◇', 'workshop'],
@@ -96,22 +98,22 @@ export function mountUiShell({ root, game }) {
     }
   }
 
-  function requestView(view, force = false) {
-    const config = getDomainQueryConfig(view);
-    if (!config) return;
-    requestCommands(view, config.queries, force);
+  function getViewCommands(view) {
+    if (view === 'character') return getCharacterQueries();
+    if (view === 'courses') return getCoursesQueries();
+    return getDomainQueryConfig(view)?.queries || [];
   }
 
-  function requestCharacter(force = false) {
-    requestCommands('character', getCharacterQueries(), force);
+  function requestView(view, force = false) {
+    requestCommands(view, getViewCommands(view), force);
   }
 
   function scheduleViewRefresh(view) {
     if (refreshTimer) clearInterval(refreshTimer);
     refreshTimer = null;
-    const interval = view === 'character' ? 500 : view === 'actions' ? 250 : view === 'world' ? 1500 : 750;
-    if (view === 'character') refreshTimer = setInterval(() => requestCharacter(true), interval);
-    else if (getDomainQueryConfig(view)) refreshTimer = setInterval(() => requestView(view, true), interval);
+    const interval = view === 'character' ? 500 : view === 'actions' ? 250 : view === 'courses' ? 500 : view === 'world' ? 1500 : 750;
+    if (view === 'character') refreshTimer = setInterval(() => requestView(view, true), interval);
+    else if (getViewCommands(view).length) refreshTimer = setInterval(() => requestView(view, true), interval);
   }
 
   const unsubscribe = game.subscribe((snapshot) => {
@@ -167,7 +169,7 @@ export function mountUiShell({ root, game }) {
       button.addEventListener('click', () => {
         const view = button.dataset.view;
         uiState = setActiveView(uiState, view);
-        if (view === 'character') requestCharacter(); else requestView(view);
+        requestView(view);
         scheduleViewRefresh(view);
         if (window.matchMedia('(max-width: 800px)').matches) {
           uiState = { ...uiState, sidebarOpen: false };
@@ -225,6 +227,12 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, {});
         } else if (command === 'query-action-details') {
           game.dispatch?.(command, { id });
+        } else if (command === 'run-course' || command === 'stop-course') {
+          game.dispatch?.(command, { id });
+        } else if (command === 'purchase-course') {
+          game.dispatch?.('purchase-item', { id, amount: 1 });
+        } else if (command === 'set-course-autopurchase') {
+          game.dispatch?.(command, { id, flag: button.dataset.flag === 'true' });
         } else {
           game.dispatch?.(command, id ? { id } : {});
         }
@@ -270,12 +278,13 @@ export function mountUiShell({ root, game }) {
   function renderView(view) {
     if (view === 'actions') return renderActionsView(gameState);
     if (view === 'character') return renderCharacterView(gameState);
+    if (view === 'courses') return renderCoursesView(gameState);
     if (view === 'settings') return renderSettingsView(gameState);
     if (view === 'about') return renderAboutView(gameState);
     return renderDomainView(view, gameState);
   }
 
-  if (uiState.activeView === 'character') requestCharacter(); else requestView(uiState.activeView);
+  requestView(uiState.activeView);
   scheduleViewRefresh(uiState.activeView);
   render();
   return {
