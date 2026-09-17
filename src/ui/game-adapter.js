@@ -3,9 +3,12 @@ export function createGameAdapter(engine) {
     throw new TypeError('createGameAdapter requires an engine with getSnapshot() and subscribe()');
   }
 
-  return {
+  return Object.freeze({
     getSnapshot: () => engine.getSnapshot(),
     subscribe: (listener) => engine.subscribe(listener),
-    dispatch: (command, payload) => engine.dispatch(command, payload),
-  };
+    dispatch: (command, payload) => {
+      if (typeof engine.dispatch !== 'function') return undefined;
+      return engine.dispatch(command, payload);
+    },
+  });
 }
