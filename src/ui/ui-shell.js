@@ -239,6 +239,8 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, {});
         } else if (command === 'set-purchase-multiplier') {
           game.dispatch?.(command, { amount });
+        } else if (command === 'set-shop-autopurchase') {
+          game.dispatch?.(command, { id, flag: button.dataset.flag === 'true' });
         } else if (command === 'set-shop-show-maxed') {
           game.dispatch?.(command, { flag: button.checked });
         } else if (command === 'set-crafting-level') {
