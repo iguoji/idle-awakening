@@ -3,9 +3,14 @@ export const DOMAIN_CONFIG = {
     title: 'Shop',
     kicker: 'Economy',
     description: 'Purchase permanent upgrades and resources from the game economy.',
-    queries: [['query-items-data', {}]],
-    responses: ['items-data'],
+    queries: [
+      ['query-items-data', {}],
+      ['query-general-shop-stats', {}],
+      ['query-items-resources-data', {}],
+    ],
+    responses: ['items-data', 'general-shop-stats', 'items-resources-data'],
     primary: { command: 'purchase-item', label: 'Purchase' },
+    detailsCommand: 'query-item-details',
   },
   inventory: {
     title: 'Inventory',
@@ -17,6 +22,7 @@ export const DOMAIN_CONFIG = {
       { command: 'consume-inventory', label: 'Use', amount: 1 },
       { command: 'sell-inventory', label: 'Sell', amount: 1 },
     ],
+    detailsCommand: 'query-inventory-details',
   },
   property: {
     title: 'Property',
