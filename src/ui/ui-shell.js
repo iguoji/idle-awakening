@@ -112,8 +112,7 @@ export function mountUiShell({ root, game }) {
     if (refreshTimer) clearInterval(refreshTimer);
     refreshTimer = null;
     const interval = view === 'character' ? 500 : view === 'actions' ? 250 : view === 'courses' ? 500 : view === 'world' ? 1500 : 750;
-    if (view === 'character') refreshTimer = setInterval(() => requestView(view, true), interval);
-    else if (getViewCommands(view).length) refreshTimer = setInterval(() => requestView(view, true), interval);
+    if (getViewCommands(view).length) refreshTimer = setInterval(() => requestView(view, true), interval);
   }
 
   const unsubscribe = game.subscribe((snapshot) => {
@@ -229,10 +228,6 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, { id });
         } else if (command === 'run-course' || command === 'stop-course') {
           game.dispatch?.(command, { id });
-        } else if (command === 'purchase-course') {
-          game.dispatch?.('purchase-item', { id, amount: 1 });
-        } else if (command === 'set-course-autopurchase') {
-          game.dispatch?.(command, { id, flag: button.dataset.flag === 'true' });
         } else {
           game.dispatch?.(command, id ? { id } : {});
         }
