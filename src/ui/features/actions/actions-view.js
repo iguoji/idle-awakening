@@ -4,6 +4,17 @@ function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>\"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#039;' }[c]));
 }
 
+function renderBreakdown(data) {
+  if (!data || typeof data !== 'object') return '';
+  const entries = Object.entries(data).filter(([key, value]) => key !== 'nextEtas' && value && typeof value === 'object' && typeof value.value !== 'undefined');
+  const etas = data.nextEtas && typeof data.nextEtas === 'object' ? Object.entries(data.nextEtas).slice(0, 4) : [];
+  if (!entries.length && !etas.length) return '';
+  return `<div class="ui-action-breakdown">
+    ${entries.slice(0, 8).map(([key, item]) => `<div class="ui-action-breakdown__row"><span>${escapeHtml(item.title || item.name || key)}</span><strong>${escapeHtml(item.value)}</strong></div>`).join('')}
+    ${etas.length ? `<div class="ui-action-breakdown__eta"><strong>Next levels</strong>${etas.map(([level, value]) => `<span>Lv ${escapeHtml(level)} · ${escapeHtml(value)}</span>`).join('')}</div>` : ''}
+  </div>`;
+}
+
 export function renderActionsView(gameState) {
   const actions = gameState.actions || [];
   const meta = gameState.actionsMeta || {};
@@ -13,7 +24,10 @@ export function renderActionsView(gameState) {
   const showHidden = Boolean(meta.showHidden);
   const nextAction = actions.find((action) => !action.active);
   const detailEntries = Object.entries(gameState.actionDetails || {});
-  const detail = detailEntries.length ? detailEntries[detailEntries.length - 1][1] : null;
+  const detailEntry = detailEntries.length ? detailEntries[detailEntries.length - 1] : null;
+  const detailId = detailEntry?.[0] || '';
+  const detail = detailEntry?.[1] || null;
+  const breakdown = detailId ? gameState.actionXpBreakdowns?.[detailId] : null;
 
   return `
     <section class="ui-page-head">
@@ -32,7 +46,7 @@ export function renderActionsView(gameState) {
         </div>
       </div>
     </section>
-    ${detail ? `<article class="ui-card ui-action-detail"><div class="ui-card__body"><div class="ui-section-title"><div><strong>${escapeHtml(detail.name || detail.id)}</strong><span>Details</span></div></div><p>${escapeHtml(detail.description || '')}</p><div class="ui-stat-grid"><div class="ui-stat"><div class="ui-stat__label">Level</div><div class="ui-stat__value">${escapeHtml(detail.level ?? '—')}</div></div><div class="ui-stat"><div class="ui-stat__label">XP</div><div class="ui-stat__value">${escapeHtml(detail.xp ?? 0)} / ${escapeHtml(detail.maxXP ?? 0)}</div></div><div class="ui-stat"><div class="ui-stat__label">XP rate</div><div class="ui-stat__value">${escapeHtml(detail.xpRate ?? '—')}</div></div></div></div></article>` : ''}
+    ${detail ? `<article class="ui-card ui-action-detail"><div class="ui-card__body"><div class="ui-section-title"><div><strong>${escapeHtml(detail.name || detail.id)}</strong><span>Details</span></div></div><p>${escapeHtml(detail.description || '')}</p><div class="ui-stat-grid"><div class="ui-stat"><div class="ui-stat__label">Level</div><div class="ui-stat__value">${escapeHtml(detail.level ?? '—')}</div></div><div class="ui-stat"><div class="ui-stat__label">XP</div><div class="ui-stat__value">${escapeHtml(detail.xp ?? 0)} / ${escapeHtml(detail.maxXP ?? 0)}</div></div><div class="ui-stat"><div class="ui-stat__label">XP rate</div><div class="ui-stat__value">${escapeHtml(detail.xpRate ?? '—')}</div></div></div>${breakdown ? renderBreakdown(breakdown) : `<button class="ui-btn" data-action="action-xp-breakdown" data-id="${escapeHtml(detailId)}">Show XP breakdown</button>`}</div></article>` : ''}
     <section class="ui-grid">
       <article class="ui-card">
         <div class="ui-card__body">
@@ -47,8 +61,7 @@ export function renderActionsView(gameState) {
           <div class="ui-kicker">Runtime boundary</div>
           <h2>Engine → UI</h2>
           <p class="ui-muted">Search, filters, details and running state are backed by the original ActionsModule protocols; the page only issues commands through the adapter.</p>
-          <div class="ui-boundary"><span>Worker snapshot</span><b>→</b><span>UI DTO</span></div>
-          <div class="ui-boundary"><span>UI command</span><b>→</b><span>ActionsModule</span></div>
+          <div class="ui-boundary"><span>Worker snapshot</span><b>→</b><span>ActionsModule</span></div>
         </div>
       </aside>
     </section>
