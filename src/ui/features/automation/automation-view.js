@@ -12,7 +12,7 @@ export function renderAutomationView(snapshot) {
   const data = snapshot?.raw?.['actions-lists'] || [];
   const lists = Array.isArray(data) ? data : [];
   const meta = snapshot?.actionsMeta || {};
-  const running = meta.current?.[0] || null;
+  const running = meta.runningList || null;
   const enabled = Boolean(meta.automationEnabled);
   const interval = Number(meta.autotriggerIntervalSetting ?? 10) || 10;
 
