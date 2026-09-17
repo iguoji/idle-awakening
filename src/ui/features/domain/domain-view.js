@@ -15,6 +15,10 @@ function renderItemCard(item, config, context = {}) {
         amount: Math.max(0, Number(item?.wateringLevel || 0) + 1),
       });
     }
+  } else if (context.type === 'shop-resource') {
+    const amount = Math.max(1, Number(item?.purchaseMultiplier || context.purchaseMultiplier || 1));
+    controls = renderButton('purchase-resource', `Buy ×${amount}`, item, { amount });
+    controls += `<button class="ui-btn" data-command="query-item-resource-details" data-id="${escapeHtml(id)}">Details</button>`;
   } else if (config.primary?.command === 'purchase-furniture') {
     controls = renderButton(config.primary.command, config.primary.label, item, { filterId: 'furniture' });
   } else if (config.primary?.command === 'set-crafting-level') {
@@ -28,10 +32,10 @@ function renderItemCard(item, config, context = {}) {
     controls = renderButton(config.primary.command, config.primary.label, item, { amount: 1 });
   }
 
-  if (config.actions) {
+  if (config.actions && context.type !== 'shop-resource') {
     controls = config.actions.map((action) => renderButton(action.command, action.label, item, { amount: action.amount })).join('');
   }
-  if (config.detailsCommand && id) {
+  if (config.detailsCommand && context.type !== 'shop-resource' && id) {
     controls += `<button class="ui-btn" data-command="${escapeHtml(config.detailsCommand)}" data-id="${escapeHtml(id)}">Details</button>`;
   }
 
@@ -40,6 +44,7 @@ function renderItemCard(item, config, context = {}) {
       <div class="ui-domain-item__title"><strong>${escapeHtml(title)}</strong><span>${renderMeta(item)}</span></div>
       ${description ? `<p>${escapeHtml(description)}</p>` : ''}
       ${item?.resourceAmount !== undefined ? `<div class="ui-domain-item__sub">Resource: ${escapeHtml(formatNumber(item.resourceAmount))}</div>` : ''}
+      ${item?.stock !== undefined ? `<div class="ui-domain-item__sub">Stock: ${escapeHtml(formatNumber(item.stock))}</div>` : ''}
     </div>
     <div class="ui-domain-item__controls">${controls}</div>
   </article>`;
@@ -113,6 +118,10 @@ function renderDataBlock(label, data, config) {
     </div></article>`;
   }
   if (config.title === 'Social') return renderSocial(data);
+  if (config.title === 'Shop' && label === 'items resources data') {
+    const list = Array.isArray(data.available) ? data.available : [];
+    return renderListBlock('Purchasable resources', list, config, { type: 'shop-resource', purchaseMultiplier: data.purchaseMultiplier });
+  }
   if (config.title === 'Workshop' && label === 'plantations data' && Array.isArray(data.available)) {
     return renderListBlock('Plantations', data.available, config, {
       type: 'plantation',
@@ -168,6 +177,7 @@ function renderDetailBlock(data) {
     ['Max', data.max],
     ['Amount', data.amount],
     ['Sell price', data.sellPrice],
+    ['Purchase multiplier', data.purchaseMultiplier],
   ].filter(([, value]) => value !== undefined && value !== null);
   const effects = Array.isArray(data.effects) ? data.effects : Array.isArray(data.potentialEffects) ? data.potentialEffects : [];
   return `<article class="ui-card ui-domain-detail"><div class="ui-card__body">
