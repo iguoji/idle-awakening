@@ -35,7 +35,28 @@ function resolveImport(importedId, outputFile) {
   return ensureRelative(rel);
 }
 
-function transformModule(content, outputFile) {
+function parseExports(content) {
+  const block = content.match(/\/\* harmony export \*\/ __webpack_require__\.d\(__webpack_exports__, \{([\s\S]*?)\n\/\* harmony export \*\/ \}\);/m)?.[1];
+  if (!block) return [];
+
+  const result = [];
+  for (const line of block.split('\n')) {
+    let match = line.match(/^\s*([A-Za-z0-9_$]+): \(\) => \(\/\* binding \*\/ ([A-Za-z0-9_$]+)\),?$/);
+    if (match) {
+      result.push({ type: 'binding', name: match[1], local: match[2] });
+      continue;
+    }
+    match = line.match(/^\s*([A-Za-z0-9_$]+): \(\) => \(\/\* reexport safe \*\/ ([A-Za-z0-9_$]+)\.([A-Za-z0-9_$]+)\),?$/);
+    if (match) result.push({ type: 'reexport', name: match[1], namespace: match[2], local: match[3] });
+  }
+  return result;
+}
+
+function transformModule(content, outputFile, normalizedRel) {
+  if (normalizedRel === 'framework/index.js' && /module\.exports\s*=\s*__webpack_require__/.test(content)) {
+    return "export * from './src/index.js';\n";
+  }
+
   let code = content;
   const imports = [];
 
@@ -53,34 +74,20 @@ function transformModule(content, outputFile) {
   });
 
   code = code.replace(/^__webpack_require__\.r\(__webpack_exports__\);\s*/m, '');
-  code = code.replace(/\/\* harmony export \*\/ __webpack_require__\.d\(__webpack_exports__, \{[\s\S]*?\}\);\s*/m, '');
+  code = code.replace(/\/\* harmony export \*\/ __webpack_require__\.d\(__webpack_exports__, \{[\s\S]*?\n\/\* harmony export \*\/ \}\);\s*/m, '');
   code = code.replace(/\/\/#[ \t]*sourceURL=.*$/m, '');
 
   for (const { alias, defaultAlias } of imports) {
     if (defaultAlias) code = code.split(defaultAlias).join(alias);
   }
 
-  const exportMatches = [...content.matchAll(/\/\* harmony export \*\/ __webpack_require__\.d\(__webpack_exports__, \{([\s\S]*?)\}\);/g)];
-  const exports = [];
-  for (const match of exportMatches) {
-    for (const item of match[1].matchAll(/([A-Za-z0-9_$]+): \(\) => \(\/\* binding \*\/ ([A-Za-z0-9_$]+)\)/g)) {
-      exports.push({ type: 'binding', name: item[1], local: item[2] });
-    }
-    for (const item of match[1].matchAll(/([A-Za-z0-9_$]+): \(\) => \(\/\* reexport safe \*\/ ([A-Za-z0-9_$]+)\.([A-Za-z0-9_$]+)\)/g)) {
-      exports.push({ type: 'reexport', name: item[1], namespace: item[2], local: item[3] });
-    }
-  }
-
-  // Keep the compiler-generated identifiers stable for the first migration.
-  // Native ESM imports are still vastly easier to navigate and build than the
-  // original webpack module registry, and lodash namespace access remains valid.
   const importText = imports.length
     ? `${imports.map(({ alias, importedId }) => `import * as ${alias} from '${resolveImport(importedId, outputFile)}';`).join('\n')}\n\n`
     : '';
 
   const exportLines = [];
   const seenExports = new Set();
-  for (const entry of exports) {
+  for (const entry of parseExports(content)) {
     if (seenExports.has(entry.name)) continue;
     seenExports.add(entry.name);
     if (entry.type === 'reexport') exportLines.push(`export const ${entry.name} = ${entry.namespace}.${entry.local};`);
@@ -114,7 +121,7 @@ for (const file of files) {
   const rel = path.relative(inputRoot, file).split(path.sep).join('/');
   const normalizedRel = rel.startsWith('src/') ? rel.slice('src/'.length) : rel;
   const outputFile = path.join(outputRoot, normalizedRel);
-  const transformed = transformModule(fs.readFileSync(file, 'utf8'), outputFile);
+  const transformed = transformModule(fs.readFileSync(file, 'utf8'), outputFile, normalizedRel);
   fs.mkdirSync(path.dirname(outputFile), { recursive: true });
   fs.writeFileSync(outputFile, `${transformed.trim()}\n`, 'utf8');
 }
