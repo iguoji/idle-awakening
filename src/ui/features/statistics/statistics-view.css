@@ -1,5 +1,0 @@
-.ui-stat-ranking { display:grid; gap:7px; }
-.ui-stat-ranking__row { display:grid; grid-template-columns:26px minmax(0,1fr) auto; align-items:center; gap:10px; padding:9px 10px; border:1px solid var(--ui-border); border-radius:var(--ui-radius-sm); background:rgba(17,21,29,.64); font-size:11px; }
-.ui-stat-ranking__rank { color:var(--ui-primary); text-align:center; font-weight:750; }
-.ui-stat-ranking__row strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.ui-stat-ranking__row > span:last-child { color:var(--ui-muted); }
