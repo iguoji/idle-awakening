@@ -1,0 +1,67 @@
+export const DOMAIN_CONFIG = {
+  shop: {
+    title: 'Shop',
+    kicker: 'Economy',
+    description: 'Purchase permanent upgrades and resources from the game economy.',
+    queries: [['query-items-data', {}]],
+    responses: ['items-data'],
+    primary: { command: 'purchase-item', label: 'Purchase' },
+  },
+  inventory: {
+    title: 'Inventory',
+    kicker: 'Storage',
+    description: 'Inspect carried items and perform item actions without exposing engine internals to the UI.',
+    queries: [['query-inventory-data', {}]],
+    responses: ['inventory-data'],
+    actions: [
+      { command: 'consume-inventory', label: 'Use', amount: 1 },
+      { command: 'sell-inventory', label: 'Sell', amount: 1 },
+    ],
+  },
+  property: {
+    title: 'Property',
+    kicker: 'Home',
+    description: 'Manage furniture, permanent effects and property progression.',
+    queries: [
+      ['query-furnitures-data', { filterId: 'furniture' }],
+      ['query-general-property-stats', {}],
+    ],
+    responses: ['furnitures-data', 'general-property-stats'],
+    primary: { command: 'purchase-furniture', label: 'Upgrade' },
+  },
+  workshop: {
+    title: 'Workshop',
+    kicker: 'Production',
+    description: 'Run crafting, alchemy and plantation systems through the extracted worker runtime.',
+    queries: [
+      ['query-crafting-data', { filterId: 'crafting' }],
+      ['query-crafting-data', { filterId: 'alchemy' }],
+      ['query-plantation-data', {}],
+    ],
+    responses: ['crafting-data-crafting', 'crafting-data-alchemy', 'plantations-data'],
+    primary: { command: 'set-crafting-level', label: 'Run +1' },
+  },
+  spellbook: {
+    title: 'Spellbook',
+    kicker: 'Magic',
+    description: 'Cast unlocked spells and inspect magical progression.',
+    queries: [['query-spell-data', {}]],
+    responses: ['spell-data'],
+    primary: { command: 'use-spell', label: 'Cast' },
+  },
+  social: {
+    title: 'Social',
+    kicker: 'Guilds',
+    description: 'Choose a guild and purchase unlocked guild upgrades.',
+    queries: [['query-guild-items-data', {}]],
+    responses: ['guild-items-data'],
+  },
+  world: {
+    title: 'World',
+    kicker: 'Exploration',
+    description: 'Explore the generated map and inspect the current exploration state.',
+    queries: [['query-map-data', {}], ['map-query-general-data', {}]],
+    responses: ['map-data', 'map-general-data'],
+    primary: { command: 'map-generate-map', label: 'Generate Map' },
+  },
+};
