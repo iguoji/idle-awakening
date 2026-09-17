@@ -1,5 +1,5 @@
 export const initialUiState = {
-  activeView: 'home',
+  activeView: 'actions',
   sidebarOpen: false,
   modal: null,
 };
