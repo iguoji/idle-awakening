@@ -231,6 +231,10 @@ export function mountUiShell({ root, game }) {
           game.resetGame?.();
         } else if (command === 'map-generate-map') {
           game.dispatch?.(command, {});
+        } else if (command === 'set-purchase-multiplier') {
+          game.dispatch?.(command, { amount });
+        } else if (command === 'set-shop-show-maxed') {
+          game.dispatch?.(command, { flag: button.checked });
         } else if (command === 'set-crafting-level') {
           game.dispatch?.(command, { id, level: amount, filterId, isForce: false });
         } else if (command === 'set-plantation-watering') {
@@ -249,7 +253,7 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, { id });
         } else if (command === 'toggle-speedup') {
           game.dispatch?.(command, {});
-        } else if (command === 'query-action-details') {
+        } else if (command === 'query-action-details' || command === 'query-item-details' || command === 'query-inventory-details') {
           game.dispatch?.(command, { id });
         } else if (command === 'run-course' || command === 'stop-course') {
           game.dispatch?.(command, { id });
@@ -259,29 +263,25 @@ export function mountUiShell({ root, game }) {
       });
     });
 
-    shell.querySelectorAll('[data-action="action-filter"]').forEach((button) => {
+    shell.querySelector('[data-action="shop-show-maxed"]')?.addEventListener('change', (event) => {
+      game.dispatch?.('set-shop-show-maxed', { flag: event.target.checked });
+      game.dispatch?.('query-items-data', {});
+    });
+
+    shell.querySelectorAll('[data-action="inventory-filter"]').forEach((button) => {
       button.addEventListener('click', () => {
-        game.dispatch?.('set-selected-actions-filter', { filterId: button.dataset.filterId });
-        game.dispatch?.('query-actions-data', {});
+        game.dispatch?.('set-selected-inventory-filter', { filterId: button.dataset.filterId });
+        game.dispatch?.('query-inventory-data', {});
       });
     });
 
-    shell.querySelector('[data-action="toggle-show-hidden"]')?.addEventListener('change', (event) => {
-      game.dispatch?.('toggle-show-hidden', event.target.checked);
-      game.dispatch?.('query-actions-data', {});
-    });
-
-    shell.querySelector('[data-action="action-search"]')?.addEventListener('input', (event) => {
+    shell.querySelector('[data-action="inventory-search"]')?.addEventListener('input', (event) => {
       const search = event.target.value;
       clearTimeout(actionSearchDebounce);
       actionSearchDebounce = setTimeout(() => {
-        game.dispatch?.('set-actions-search', { searchData: { search, selectedScopes: ['name', 'tags', 'description', 'resources', 'effects'] } });
-        game.dispatch?.('query-actions-data', {});
+        game.dispatch?.('set-inventory-search', { searchData: { search, selectedScopes: ['name', 'tags', 'resources', 'effects'] } });
+        game.dispatch?.('query-inventory-data', {});
       }, 180);
-    });
-
-    shell.querySelectorAll('[data-action="action-details"]').forEach((button) => {
-      button.addEventListener('click', () => game.dispatch?.('query-action-details', { id: button.dataset.id }));
     });
 
     shell.querySelector('[data-action="import-save-file"]')?.addEventListener('change', async (event) => {
