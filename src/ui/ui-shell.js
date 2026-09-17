@@ -182,9 +182,7 @@ export function mountUiShell({ root, game }) {
     });
 
     shell.querySelectorAll('[data-action="run-action"]').forEach((button) => {
-      button.addEventListener('click', () => {
-        game.dispatch?.('run-action', { id: button.dataset.id, isForce: true });
-      });
+      button.addEventListener('click', () => game.dispatch?.('run-action', { id: button.dataset.id, isForce: true }));
     });
 
     shell.querySelectorAll('[data-command]').forEach((button) => {
@@ -225,30 +223,24 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, { id });
         } else if (command === 'toggle-speedup') {
           game.dispatch?.(command, {});
-        } else if (command === 'action-filter') {
-          game.dispatch?.('set-selected-actions-filter', { filterId: button.dataset.filterId });
-          requestCommands('actions', [['query-actions-data', {}]], true);
-        } else if (command === 'toggle-show-hidden') {
-          game.dispatch?.('toggle-show-hidden', event.target.checked);
         } else if (command === 'query-action-details') {
-          game.dispatch?.('query-action-details', { id });
+          game.dispatch?.(command, { id });
         } else {
           game.dispatch?.(command, id ? { id } : {});
         }
       });
     });
 
-    shell.querySelector('[data-action="action-filter"]');
     shell.querySelectorAll('[data-action="action-filter"]').forEach((button) => {
       button.addEventListener('click', () => {
-        const filterId = button.dataset.filterId;
-        game.dispatch?.('set-selected-actions-filter', { filterId });
+        game.dispatch?.('set-selected-actions-filter', { filterId: button.dataset.filterId });
         game.dispatch?.('query-actions-data', {});
       });
     });
 
     shell.querySelector('[data-action="toggle-show-hidden"]')?.addEventListener('change', (event) => {
-      game.dispatch?.('toggle-show-hidden', { payload: event.target.checked });
+      game.dispatch?.('toggle-show-hidden', event.target.checked);
+      game.dispatch?.('query-actions-data', {});
     });
 
     shell.querySelector('[data-action="action-search"]')?.addEventListener('input', (event) => {
