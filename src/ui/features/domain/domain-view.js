@@ -32,6 +32,10 @@ function renderItemCard(item, config, context = {}) {
     controls = renderButton(config.primary.command, config.primary.label, item, { amount: 1 });
   }
 
+  if (config.title === 'Shop' && context.automationUnlocked && item?.isAutoPurchase !== undefined && !item?.isCapped) {
+    controls += `<button class="ui-btn ${item.isAutoPurchase ? 'ui-btn--primary' : ''}" data-command="set-shop-autopurchase" data-id="${escapeHtml(id)}" data-flag="${!item.isAutoPurchase}">${item.isAutoPurchase ? 'Auto on' : 'Auto off'}</button>`;
+  }
+
   if (config.actions && context.type !== 'shop-resource') {
     controls = config.actions.map((action) => renderButton(action.command, action.label, item, { amount: action.amount })).join('');
   }
@@ -129,7 +133,11 @@ function renderDataBlock(label, data, config) {
     });
   }
   const collection = pickCollection(data);
-  if (collection.length) return renderListBlock(label, collection, config);
+  if (collection.length) {
+    return renderListBlock(label, collection, config, {
+      automationUnlocked: config.title === 'Shop' && Boolean(data.isAutomationUnlocked),
+    });
+  }
 
   const stats = Object.entries(data).filter(([, value]) => ['string', 'number', 'boolean'].includes(typeof value));
   if (stats.length) {
