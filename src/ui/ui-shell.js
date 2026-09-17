@@ -1,7 +1,7 @@
 import './tokens.css';
 import { renderResourceCard } from './components/resource-card.js';
 import { renderActionsView } from './features/actions/actions-view.js';
-import { getAutomationQueries, renderAutomationView } from './features/automation/automation-view.js';
+import { beginAutomationCreate, beginAutomationEdit, closeAutomationEditor, getAutomationEditorDraft, getAutomationQueries, renderAutomationView } from './features/automation/automation-view.js';
 import { getCharacterQueries, renderCharacterView } from './features/character/character-view.js';
 import { getCoursesQueries, renderCoursesView } from './features/courses/courses-view.js';
 import { getDomainQueryConfig, renderDomainView } from './features/domain/domain-view.js';
@@ -213,6 +213,62 @@ export function mountUiShell({ root, game }) {
       render();
     });
 
+    shell.querySelector('[data-action="automation-new"]')?.addEventListener('click', () => {
+      beginAutomationCreate();
+      scheduleViewRefresh('automation');
+      render();
+    });
+
+    shell.querySelectorAll('[data-action="automation-edit"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const id = button.dataset.id;
+        const list = (gameState?.raw?.['actions-lists'] || []).find((candidate) => candidate?.id === id);
+        if (!list) return;
+        beginAutomationEdit(list);
+        scheduleViewRefresh('automation');
+        render();
+      });
+    });
+
+    shell.querySelector('[data-action="automation-cancel"]')?.addEventListener('click', () => {
+      closeAutomationEditor();
+      requestView('automation', true);
+      scheduleViewRefresh('automation');
+      render();
+    });
+
+    shell.querySelectorAll('[data-action="automation-action"]').forEach((checkbox) => {
+      checkbox.addEventListener('change', () => {
+        const time = shell.querySelector(`[data-action="automation-action-time"][data-id="${CSS.escape(checkbox.dataset.id)}"]`);
+        if (time) time.disabled = !checkbox.checked;
+      });
+    });
+
+    shell.querySelector('[data-action="automation-save"]')?.addEventListener('click', () => {
+      const draft = getAutomationEditorDraft();
+      if (!draft) return;
+      const actions = [...shell.querySelectorAll('[data-action="automation-action"]:checked')].map((checkbox) => {
+        const timeInput = shell.querySelector(`[data-action="automation-action-time"][data-id="${CSS.escape(checkbox.dataset.id)}"]`);
+        return { id: checkbox.dataset.id, time: Math.max(0.1, Number(timeInput?.value) || 10) };
+      });
+      const payload = {
+        name: shell.querySelector('[data-action="automation-draft-name"]')?.value?.trim() || 'Untitled list',
+        sort: Math.max(0, Number(shell.querySelector('[data-action="automation-draft-sort"]')?.value) || draft.sort || 0),
+        actions,
+        autotrigger: {
+          ...(draft.autotrigger || {}),
+          isEnabled: Boolean(shell.querySelector('[data-action="automation-draft-autotrigger"]')?.checked),
+          priority: Math.max(0, Number(shell.querySelector('[data-action="automation-draft-priority"]')?.value) || 0),
+        },
+      };
+      if (draft.id) payload.id = draft.id;
+      game.dispatch?.('save-action-list', payload);
+      closeAutomationEditor();
+      requestView('automation', true);
+      scheduleViewRefresh('automation');
+      render();
+    });
+
     shell.querySelectorAll('[data-action="run-action"]').forEach((button) => {
       button.addEventListener('click', () => game.dispatch?.('run-action', { id: button.dataset.id, isForce: true }));
     });
@@ -280,6 +336,13 @@ export function mountUiShell({ root, game }) {
           game.dispatch?.(command, { id });
         } else if (command === 'run-list' || command === 'stop-list') {
           game.dispatch?.(command, { id });
+        } else if (command === 'delete-action-list') {
+          if (!id) return;
+          game.dispatch?.(command, { id });
+          closeAutomationEditor();
+          requestView('automation', true);
+          scheduleViewRefresh('automation');
+          render();
         } else if (command === 'set-automation-enabled') {
           game.dispatch?.(command, { flag: button.checked });
         } else if (command === 'set-autotrigger-interval') {
