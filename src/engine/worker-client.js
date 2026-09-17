@@ -47,6 +47,12 @@ function writeStoredSave(payload) {
   }
 }
 
+function clearStoredSave() {
+  try { localStorage.removeItem(SAVE_STORAGE_KEY); } catch (error) {
+    console.warn('[GameWorker] Unable to clear local save', error);
+  }
+}
+
 export class GameWorkerClient {
   #worker;
   #listeners = new Set();
@@ -91,12 +97,19 @@ export class GameWorkerClient {
     this.#worker.postMessage(JSON.stringify({ event, payload }));
   }
 
-  loadSave(saveObject) {
-    this.dispatch('load-game', saveObject || {});
+  loadSave(saveObject, { persist = true } = {}) {
+    if (!saveObject || typeof saveObject !== 'object') throw new TypeError('Save object must be an object');
+    if (persist) writeStoredSave(saveObject);
+    this.dispatch('load-game', saveObject);
   }
 
   resetGame() {
+    clearStoredSave();
     this.dispatch('reset-game', {});
+  }
+
+  clearStoredSave() {
+    clearStoredSave();
   }
 
   destroy() {
