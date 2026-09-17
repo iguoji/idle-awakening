@@ -158,16 +158,6 @@ export class GameWorkerClient {
     );
   }
 
-  #bootQueries() {
-    this.#dispatchQuiet('query-unlocks', {});
-    this.#dispatchQuiet('query-resources-data', { includePinned: true });
-    this.#dispatchQuiet('query-attributes-data', {});
-    this.#dispatchQuiet('query-actions-data', {});
-    this.#dispatchQuiet('query-actions-running', {});
-    this.#startRefreshLoops();
-    this.#dispatchQuiet('start-ticking');
-  }
-
   #refreshAfterLoad() {
     this.#dispatchQuiet('query-unlocks', {});
     this.#dispatchQuiet('query-resources-data', { includePinned: true });
@@ -212,6 +202,7 @@ export class GameWorkerClient {
       case 'loaded':
         patch.loading = false;
         this.#refreshAfterLoad();
+        this.#dispatchQuiet('start-ticking');
         break;
       case 'save-game':
         writeStoredSave(payload);
