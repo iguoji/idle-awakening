@@ -46,6 +46,8 @@ function normalizeActionsMeta(payload) {
     runningList: payload.runningList || null,
     actionLists: payload.actionLists || [],
     aspects: payload.aspects || null,
+    customFilters: payload.customFilters && typeof payload.customFilters === 'object' ? payload.customFilters : {},
+    customFiltersOrder: Array.isArray(payload.customFiltersOrder) ? payload.customFiltersOrder : [],
   };
 }
 
@@ -70,7 +72,7 @@ function writeStoredSave(payload) {
 
 function clearStoredSave() {
   try { localStorage.removeItem(SAVE_STORAGE_KEY); } catch (error) {
-    console.warn('[GameWorker] Unable to clear local save', error);
+    console.warn('[GameWorker] Unable to clear save', error);
   }
 }
 
