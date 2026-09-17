@@ -48,7 +48,10 @@ html, body { margin:0; min-height:100%; background:var(--ui-bg); }
 }
 .ui-shell__nav button:hover { background:var(--ui-surface-2); color:var(--ui-text); }
 .ui-shell__nav button[data-active="true"] { background:rgba(217,179,108,.12); color:var(--ui-primary-strong); }
+.ui-shell__nav button[data-locked="true"] { opacity:.42; cursor:not-allowed; }
+.ui-shell__nav button[data-locked="true"]:hover { background:transparent; color:var(--ui-muted); transform:none; }
 .ui-nav__icon { width:22px; text-align:center; opacity:.85; }
+.ui-nav__lock { margin-left:auto; color:#596477; font-size:10px; }
 .ui-nav__section-title { margin:4px 10px 10px; color:#626d80; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.13em; }
 .ui-nav__section-title--lower { margin-top:24px; }
 .ui-shell__main { padding:var(--ui-space-8); max-width:1500px; width:100%; margin:0 auto; }
