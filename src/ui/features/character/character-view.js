@@ -37,10 +37,12 @@ function renderSkills(data) {
     : Array.isArray(data?.available) ? data.available : [];
   if (!skills.length) return '<div class="ui-domain-empty">No skills loaded.</div>';
   const points = data?.sp?.total ?? 0;
+  const editMode = Boolean(data?.isEditMode);
 
   return `<div class="ui-character-skills">
     ${skills.filter((skill) => skill.isUnlocked || skill.level > 0).slice(0, 120).map((skill) => {
       const canBuy = skill.isUnlocked && skill.isRequirementsMet !== false && !skill.isCapped && points > 0;
+      const canRemove = editMode && Number(skill.level || 0) > 0;
       const progress = skill.max ? Math.min(100, (Number(skill.level || 0) / Number(skill.max || 1)) * 100) : 0;
       return `<article class="ui-character-skill" data-locked="${!skill.isUnlocked}">
         <div class="ui-character-skill__main">
@@ -49,7 +51,10 @@ function renderSkills(data) {
           <div class="ui-progress"><i style="width:${progress}%"></i></div>
           ${skill.unlockBySkills?.length ? `<small>${skill.isRequirementsMet === false ? 'Prerequisites unmet' : 'Prerequisites met'}</small>` : ''}
         </div>
-        <button class="ui-btn ${canBuy ? 'ui-btn--primary' : ''}" data-command="purchase-skill" data-id="${escapeHtml(skill.id)}" ${canBuy ? '' : 'disabled'}>${skill.isCapped ? 'Maxed' : canBuy ? 'Buy +1' : 'Locked'}</button>
+        <div class="ui-character-skill__controls">
+          <button class="ui-btn ${canBuy ? 'ui-btn--primary' : ''}" data-command="purchase-skill" data-id="${escapeHtml(skill.id)}" ${canBuy ? '' : 'disabled'}>${skill.isCapped ? 'Maxed' : canBuy ? 'Buy +1' : 'Locked'}</button>
+          ${canRemove ? `<button class="ui-btn" data-command="remove-skill" data-id="${escapeHtml(skill.id)}">Remove</button>` : ''}
+        </div>
       </article>`;
     }).join('')}
   </div>`;
@@ -59,6 +64,14 @@ function renderEffects(data) {
   const list = Array.isArray(data?.list) ? data.list : [];
   if (!list.length) return '<div class="ui-domain-empty">No active effects.</div>';
   return `<div class="ui-character-effects">${list.slice(0, 80).map((effect) => `<div class="ui-character-effect"><strong>${escapeHtml(effect.name || effect.id)}</strong><span>${escapeHtml(number(effect.duration ?? ''))}</span></div>`).join('')}</div>`;
+}
+
+function renderDrafts(data) {
+  const drafts = Array.isArray(data?.drafts) ? data.drafts : [];
+  return `<div class="ui-character-drafts">
+    <div class="ui-character-draft-create"><input class="ui-save-input" data-action="skill-draft-name" placeholder="Draft name" /><button class="ui-btn" data-command="save-skill-draft">Save draft</button></div>
+    ${drafts.map((draft) => `<div class="ui-character-draft"><div><strong>${escapeHtml(draft.name || draft.id)}</strong><span>${draft.timestamp ? new Date(draft.timestamp).toLocaleString() : ''}</span></div><div class="ui-character-draft__controls"><button class="ui-btn" data-command="load-skill-draft" data-id="${escapeHtml(draft.id)}">Load</button><button class="ui-btn" data-command="delete-skill-draft" data-id="${escapeHtml(draft.id)}">Delete</button></div></div>`).join('') || '<p class="ui-muted">No saved skill drafts.</p>'}
+  </div>`;
 }
 
 export function getCharacterQueries() {
@@ -80,10 +93,11 @@ export function renderCharacterView(snapshot) {
   const effects = raw['active-effects'] || {};
   const statistics = raw.statistics || {};
   const unlocks = raw['total-unlocks'] || {};
+  const editMode = Boolean(skills.isEditMode);
 
   return `<section class="ui-page-head">
     <div><div class="ui-kicker">Character</div><h1>Mage</h1><p>Your long-term progression, attributes, skills and active effects.</p></div>
-    <div class="ui-status-pill">${snapshot?.loading ? 'Loading save…' : 'Live worker data'}</div>
+    <div class="ui-status-pill">${snapshot?.loading ? 'Loading save…' : editMode ? 'Editing skills' : 'Live worker data'}</div>
   </section>
   <section class="ui-grid">
     <article class="ui-card"><div class="ui-card__body">
@@ -95,6 +109,7 @@ export function renderCharacterView(snapshot) {
       </div>
       <div class="ui-actions">
         <button class="ui-btn" data-command="toggle-speedup">Toggle speed-up</button>
+        ${editMode ? '<button class="ui-btn ui-btn--primary" data-command="apply-skill-changes">Apply changes</button><button class="ui-btn" data-command="discard-skill-changes">Discard</button>' : '<button class="ui-btn" data-command="begin-skill-edit">Edit skills</button>'}
       </div>
     </div></article>
     <article class="ui-card"><div class="ui-card__body">
@@ -111,7 +126,11 @@ export function renderCharacterView(snapshot) {
     <article class="ui-card"><div class="ui-card__body"><div class="ui-section-title"><div><strong>Active effects</strong><span>Current buffs and debuffs</span></div></div>${renderEffects(effects)}</div></article>
   </section>
   <section class="ui-card" style="margin-top:20px"><div class="ui-card__body">
-    <div class="ui-section-title"><div><strong>Skills</strong><span>${escapeHtml(number(skills.sp?.total ?? 0))} points available</span></div><span class="ui-muted">Purchases use the extracted MageModule</span></div>
+    <div class="ui-section-title"><div><strong>Skills</strong><span>${escapeHtml(number(skills.sp?.total ?? 0))} points available</span></div><span class="ui-muted">${editMode ? 'Changes are staged until applied' : 'Ready-only view'}</span></div>
     ${renderSkills(skills)}
+  </div></section>
+  <section class="ui-card" style="margin-top:20px"><div class="ui-card__body">
+    <div class="ui-section-title"><div><strong>Skill drafts</strong><span>${Array.isArray(skills.drafts) ? skills.drafts.length : 0} saved</span></div></div>
+    ${renderDrafts(skills)}
   </div></section>`;
 }
