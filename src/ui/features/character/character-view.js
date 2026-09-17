@@ -50,6 +50,7 @@ function renderSkills(data) {
           <p>${escapeHtml(skill.description || '')}</p>
           <div class="ui-progress"><i style="width:${progress}%"></i></div>
           ${skill.unlockBySkills?.length ? `<small>${skill.isRequirementsMet === false ? 'Prerequisites unmet' : 'Prerequisites met'}</small>` : ''}
+          ${Number(skill.diff || 0) !== 0 ? `<small class="ui-character-skill__diff">${skill.diff > 0 ? '+' : ''}${escapeHtml(number(skill.diff))} staged</small>` : ''}
         </div>
         <div class="ui-character-skill__controls">
           <button class="ui-btn ${canBuy ? 'ui-btn--primary' : ''}" data-command="purchase-skill" data-id="${escapeHtml(skill.id)}" ${canBuy ? '' : 'disabled'}>${skill.isCapped ? 'Maxed' : canBuy ? 'Buy +1' : 'Locked'}</button>
@@ -109,7 +110,7 @@ export function renderCharacterView(snapshot) {
       </div>
       <div class="ui-actions">
         <button class="ui-btn" data-command="toggle-speedup">Toggle speed-up</button>
-        ${editMode ? '<button class="ui-btn ui-btn--primary" data-command="apply-skill-changes">Apply changes</button><button class="ui-btn" data-command="discard-skill-changes">Discard</button>' : '<button class="ui-btn" data-command="begin-skill-edit">Edit skills</button>'}
+        ${editMode ? '<button class="ui-btn ui-btn--primary" data-command="apply-skill-changes">Apply changes</button><button class="ui-btn" data-command="discard-skill-changes">Discard</button>' : '<span class="ui-muted ui-character-edit-hint">Choose a skill to begin a staged edit.</span>'}
       </div>
     </div></article>
     <article class="ui-card"><div class="ui-card__body">
@@ -126,7 +127,7 @@ export function renderCharacterView(snapshot) {
     <article class="ui-card"><div class="ui-card__body"><div class="ui-section-title"><div><strong>Active effects</strong><span>Current buffs and debuffs</span></div></div>${renderEffects(effects)}</div></article>
   </section>
   <section class="ui-card" style="margin-top:20px"><div class="ui-card__body">
-    <div class="ui-section-title"><div><strong>Skills</strong><span>${escapeHtml(number(skills.sp?.total ?? 0))} points available</span></div><span class="ui-muted">${editMode ? 'Changes are staged until applied' : 'Ready-only view'}</span></div>
+    <div class="ui-section-title"><div><strong>Skills</strong><span>${escapeHtml(number(skills.sp?.total ?? 0))} points available</span></div><span class="ui-muted">${editMode ? 'Changes are staged until applied' : 'Purchases start a staged edit'}</span></div>
     ${renderSkills(skills)}
   </div></section>
   <section class="ui-card" style="margin-top:20px"><div class="ui-card__body">
