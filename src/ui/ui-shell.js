@@ -6,11 +6,13 @@ import { getCharacterQueries, renderCharacterView } from './features/character/c
 import { getCoursesQueries, renderCoursesView } from './features/courses/courses-view.js';
 import { getDomainQueryConfig, renderDomainView } from './features/domain/domain-view.js';
 import { decodePortableSave, renderSettingsView } from './features/settings/settings-view.js';
+import { getStatisticsQueries, renderStatisticsView } from './features/statistics/statistics-view.js';
 import { createUiState, setActiveView, toggleSidebar } from './ui-state.js';
 
 const NAV = [
   ['actions', 'Actions', '⚔', 'actions'],
   ['character', 'Character', '◉', null],
+  ['statistics', 'Statistics', '▤', null],
   ['shop', 'Shop', '◈', 'shop'],
   ['inventory', 'Inventory', '▦', 'inventory'],
   ['courses', 'Courses', '▤', 'courses'],
@@ -128,6 +130,7 @@ export function mountUiShell({ root, game }) {
     if (view === 'character') return getCharacterQueries();
     if (view === 'courses') return getCoursesQueries();
     if (view === 'automation') return getAutomationQueries();
+    if (view === 'statistics') return getStatisticsQueries();
     return getDomainQueryConfig(view)?.queries || [];
   }
 
@@ -138,7 +141,7 @@ export function mountUiShell({ root, game }) {
   function scheduleViewRefresh(view) {
     if (refreshTimer) clearInterval(refreshTimer);
     refreshTimer = null;
-    const interval = view === 'character' ? 500 : view === 'actions' ? 250 : view === 'courses' ? 500 : view === 'automation' ? 750 : view === 'world' ? 1500 : 750;
+    const interval = view === 'character' ? 500 : view === 'actions' ? 250 : view === 'courses' ? 500 : view === 'automation' ? 750 : view === 'statistics' ? 1000 : view === 'world' ? 1500 : 750;
     if (getViewCommands(view).length) refreshTimer = setInterval(() => requestView(view, true), interval);
   }
 
@@ -328,6 +331,7 @@ export function mountUiShell({ root, game }) {
     if (view === 'character') return renderCharacterView(gameState);
     if (view === 'courses') return renderCoursesView(gameState);
     if (view === 'automation') return renderAutomationView(gameState);
+    if (view === 'statistics') return renderStatisticsView(gameState);
     if (view === 'settings') return renderSettingsView(gameState);
     if (view === 'about') return renderAboutView(gameState);
     return renderDomainView(view, gameState);
