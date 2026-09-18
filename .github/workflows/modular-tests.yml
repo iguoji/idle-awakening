@@ -1,0 +1,19 @@
+name: 模块化测试
+
+on:
+  push:
+    branches: ["main", "refactor/**"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 运行模块测试
+        run: npm test
