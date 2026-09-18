@@ -40,4 +40,4 @@ if (violations.length) {
   process.exit(1);
 }
 
-console.log('Architecture check passed: no bundle runtime dependency in index.html/src/.');
+console.log('Architecture check passed: no legacy bundle runtime or floating-service dependency in index.html/src/.');

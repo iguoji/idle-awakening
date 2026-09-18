@@ -9,7 +9,7 @@ import { getPropertyQueries, renderPropertyView } from './features/property/prop
 import { decodePortableSave, renderSettingsView } from './features/settings/settings-view.js';
 import { getStatisticsQueries, renderStatisticsView } from './features/statistics/statistics-view.js';
 import { getRandomEventsQueries, renderRandomEventsView } from './features/random-events/random-events-view.js';
-import { createUiState } from './ui-state.js';
+import { createUiState } from './ui-state.js';\nimport { localizeDom } from './i18n.js';
 import { createUiEventBinder } from './ui-event-binder.js';
 
 const NAV = [
