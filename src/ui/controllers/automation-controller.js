@@ -1,7 +1,8 @@
-import { beginAutomationCreate, beginAutomationEdit, closeAutomationEditor, getAutomationEditorDraft, requestAutomationEffectsPreview } from './features/automation/automation-view.js';
+import { beginAutomationCreate, beginAutomationEdit, closeAutomationEditor, getAutomationEditorDraft, requestAutomationEffectsPreview } from '../features/automation/automation-view.js';
 
 export function createAutomationController(context) {
   const { game, getGameState, requestView, scheduleViewRefresh, render } = context;
+
   function bind(shell) {
     shell.querySelector('[data-action="automation-new"]')?.addEventListener('click', () => {
       beginAutomationCreate();
@@ -92,5 +93,6 @@ export function createAutomationController(context) {
 
 
   }
+
   return { bind, destroy() {} };
 }
