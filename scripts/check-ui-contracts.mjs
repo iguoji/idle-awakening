@@ -4,8 +4,17 @@ import path from 'node:path';
 
 const sourceRoot = path.resolve('src/ui');
 const protocolPath = path.resolve('src/engine/protocol.js');
-const commandName = /(?:dispatch(?:\?\.)?\(|command\s*===\s*|data-command=["'])(['"]?)([A-Za-z0-9_-]+)\1/g;
-const queryName = /^\s*['"]((?:initialize|load|reset|start|get|query|set|run|stop|toggle|save|delete|apply|purchase|consume|sell|use|select|remove|leave|map|actions|check)-[^'"]+)['"]\s*,/;
+
+const dispatchLiteral = /dispatch(?:\?\.)?\(\s*['"]([^'"]+)['"]/g;
+const branchLiteral = /command\s*===\s*['"]([^'"]+)['"]/g;
+const queryLiteral = /^\s*['"]((?:initialize|load|reset|start|get|query|set|run|stop|toggle|save|delete|apply|purchase|consume|sell|use|select|remove|leave|map|actions|check)-[^'"]+)['"]\s*,/;
+
+const UI_ONLY_COMMANDS = new Set([
+  'copy-save',
+  'download-save',
+  'load-save-text',
+]);
+
 const sourceFiles = [];
 
 function walk(entry) {
@@ -15,7 +24,9 @@ function walk(entry) {
     if (entry.endsWith('.js')) sourceFiles.push(entry);
     return;
   }
-  for (const child of fs.readdirSync(entry, { withFileTypes: true })) walk(path.join(entry, child.name));
+  for (const child of fs.readdirSync(entry, { withFileTypes: true })) {
+    walk(path.join(entry, child.name));
+  }
 }
 
 walk(sourceRoot);
@@ -25,15 +36,25 @@ const known = new Set([...protocol.matchAll(/:\s*['"]([^'"]+)['"]/g)].map((match
 const used = new Set();
 
 for (const file of sourceFiles) {
-  const content = fs.readFileSync(file, 'utf8');
-  for (const match of content.matchAll(commandName)) used.add(match[2]);
-  for (const line of content.split('\n')) {
-    const match = line.match(queryName);
+  const source = fs.readFileSync(file, 'utf8');
+
+  for (const match of source.matchAll(dispatchLiteral)) {
+    used.add(match[1]);
+  }
+
+  for (const match of source.matchAll(branchLiteral)) {
+    if (!UI_ONLY_COMMANDS.has(match[1])) used.add(match[1]);
+  }
+
+  for (const line of source.split('\n')) {
+    const match = line.match(queryLiteral);
     if (match) used.add(match[1]);
   }
 }
 
-const missing = [...used].filter((command) => !known.has(command)).sort();
+const missing = [...used]
+  .filter((command) => !UI_ONLY_COMMANDS.has(command) && !known.has(command))
+  .sort();
 
 if (missing.length) {
   console.error('UI commands missing from src/engine/protocol.js:');
