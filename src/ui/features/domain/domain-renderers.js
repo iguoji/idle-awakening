@@ -168,7 +168,19 @@ export function renderWorldMap(data, detail = null) {
   if (!data) return '';
   const tiles = data.tiles || data.mapTiles || data.mapTilesProcessed;
   if (!Array.isArray(tiles) || !Array.isArray(tiles[0])) return '';
-  const detailBlock = detail ? '<pre class="ui-domain-json ui-world-detail-json">' + escapeHtml(JSON.stringify(detail, null, 2).slice(0, 7000)) + '</pre>' : '';
+  const drops = Array.isArray(detail?.drops) ? detail.drops : [];
+  const detailBlock = detail
+    ? '<div class="ui-world-tile-detail">' +
+      '<div class="ui-section-title"><div><strong>' + escapeHtml(detail.name || detail.metaData?.name || 'Tile') + '</strong><span>Tile ' + escapeHtml(detail.i) + ':' + escapeHtml(detail.j) + '</span></div>' +
+      '<button class="ui-btn" data-command="toggle-map-tile-running" data-i="' + escapeHtml(detail.i) + '" data-j="' + escapeHtml(detail.j) + '" data-flag="' + String(!detail.isRunning) + '">' + (detail.isRunning ? 'Stop exploration' : 'Explore tile') + '</button></div>' +
+      '<div class="ui-stat-grid">' +
+        '<div class="ui-stat"><div class="ui-stat__label">Distance</div><div class="ui-stat__value">' + escapeHtml(formatNumber(detail.distance)) + '</div></div>' +
+        '<div class="ui-stat"><div class="ui-stat__label">Gathering effort</div><div class="ui-stat__value">' + escapeHtml(formatNumber(detail.cost?.gathering_effort?.value)) + '</div></div>' +
+        '<div class="ui-stat"><div class="ui-stat__label">Visible drops</div><div class="ui-stat__value">' + drops.length + '</div></div>' +
+      '</div>' +
+      (drops.length ? '<div class="ui-world-drops">' + drops.map((drop) => '<span>' + escapeHtml(drop.resource?.name || drop.id) + '</span>').join('') + '</div>' : '<div class="ui-muted">No revealed drops on this tile yet.</div>') +
+      '</div>'
+    : '';
   return '<article class="ui-card"><div class="ui-card__body">' +
     '<div class="ui-section-title"><div><strong>Map</strong><span>' + tiles.length + ' × ' + tiles[0].length + '</span></div></div>' +
     '<div class="ui-map-grid">' +
