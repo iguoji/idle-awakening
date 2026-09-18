@@ -46,7 +46,7 @@ export const DOMAIN_CONFIG = {
       ['query-crafting-data', { filterId: 'alchemy' }],
       ['query-plantation-data', {}],
     ],
-    responses: ['crafting-data-crafting', 'crafting-data-alchemy', 'plantations-data', 'crafting-general-data'],
+    responses: ['crafting-data-crafting', 'crafting-data-alchemy', 'plantations-data'],
     detailResponses: ['crafting-details', 'plantation-details'],
     primary: { command: 'set-crafting-level', label: 'Run +1' },
   },
