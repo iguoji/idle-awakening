@@ -50,6 +50,10 @@ export function getAutomationEditorDraft() {
   return clone(editorDraft);
 }
 
+export function requestAutomationEffectsPreview() {
+  editorEffectsRequested = true;
+}
+
 function renderEffectsPreview(snapshot) {
   if (!editorEffectsRequested) return '<div class="ui-muted">Preview is calculated from the current draft; saving is not required.</div>';
   const data = snapshot?.raw?.['action-list-effects'];
