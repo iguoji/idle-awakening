@@ -32,7 +32,7 @@ export function createUiEventBinder(context) {
   } = context;
   let actionSearchDebounce = null;
 
-  function bind(shell) {
+  function bind(shell, focusedField) {
     shell.querySelectorAll('[data-view]:not(:disabled)').forEach((button) => {
       button.addEventListener('click', () => {
         const view = button.dataset.view;
