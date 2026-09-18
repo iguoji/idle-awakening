@@ -6,7 +6,7 @@ import { getCharacterQueries, renderCharacterView } from './features/character/c
 import { getCoursesQueries, renderCoursesView } from './features/courses/courses-view.js';
 import { getDomainQueryConfig, renderDomainView } from './features/domain/domain-view.js';
 import { getPropertyQueries, renderPropertyView } from './features/property/property-view.js';
-import { decodePortableSave, renderSettingsView } from './features/settings/settings-view.js';
+import { decodePortableSave, getSettingsQueries, renderSettingsView } from './features/settings/settings-view.js';
 import { getStatisticsQueries, renderStatisticsView } from './features/statistics/statistics-view.js';
 import { getRandomEventsQueries, renderRandomEventsView } from './features/random-events/random-events-view.js';
 import { createUiState } from './ui-state.js';
@@ -162,6 +162,7 @@ export function mountUiShell({ root, game }) {
     if (view === 'statistics') return getStatisticsQueries();
     if (view === 'events') return getRandomEventsQueries();
     if (view === 'property') return getPropertyQueries();
+    if (view === 'settings') return getSettingsQueries();
     return getDomainQueryConfig(view)?.queries || [];
   }
 
@@ -172,7 +173,7 @@ export function mountUiShell({ root, game }) {
   function scheduleViewRefresh(view) {
     if (refreshTimer) clearInterval(refreshTimer);
     refreshTimer = null;
-    const interval = view === 'character' ? 500 : view === 'actions' ? 250 : view === 'courses' ? 500 : view === 'automation' ? 750 : view === 'statistics' ? 1000 : view === 'events' ? 1000 : view === 'property' ? 750 : view === 'world' ? 1500 : 750;
+    const interval = view === 'character' ? 500 : view === 'actions' ? 250 : view === 'courses' ? 500 : view === 'automation' ? 750 : view === 'statistics' ? 1000 : view === 'events' ? 1000 : view === 'property' ? 750 : view === 'settings' ? 1500 : view === 'world' ? 1500 : 750;
     if (getViewCommands(view).length) refreshTimer = setInterval(() => requestView(view, true), interval);
   }
 
