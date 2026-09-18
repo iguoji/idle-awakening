@@ -22,7 +22,7 @@ export function mountModularUI() {
   const content = panel.querySelector('[data-content]');
   const actions = { openPanel: () => { panel.hidden = !panel.hidden; }, toggleMonitoring: () => show('monitor'), toggleTour: () => show('tour') };
   const cleanup = new Map();
-  const show = (tab) => { cleanup.get(tab)?.(); content.innerHTML = ''; if (tab === 'hotkeys') cleanup.set(tab, mountHotkeysPanel(content, actions)); if (tab === 'monitor') cleanup.set(tab, mountMonitoringPanel(content)); if (tab === 'tour') cleanup.set(tab, mountTourPanel(content)); };
+  const show = (tab) => { cleanup.get(tab)?.(); content.innerHTML = ''; if (tab === 'hotkeys') cleanup.set(tab, mountHotkeysPanel(content, actions)); if (tab === 'monitor') cleanup.set(tab, mountMonitoringPanel(content, globalThis.worker)); if (tab === 'tour') cleanup.set(tab, mountTourPanel(content)); };
   panel.querySelectorAll('[data-tab]').forEach((button) => button.addEventListener('click', () => show(button.dataset.tab)));
   fab.addEventListener('click', () => { panel.hidden = !panel.hidden; if (!panel.hidden && !content.children.length) show('hotkeys'); });
   installHotkeys(actions);
