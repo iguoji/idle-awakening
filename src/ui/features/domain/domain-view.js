@@ -23,8 +23,11 @@ export function renderDomainView(view, snapshot) {
   if (view === 'shop') blocks.unshift(renderShopToolbar(raw['items-data']));
   if (view === 'inventory') blocks.unshift(renderInventoryToolbar(raw['inventory-data']));
   if (view === 'world') { blocks.unshift(renderWorldMap(raw['map-data'])); blocks.unshift(renderWorldToolbar()); }
-  const detail = config.detailsCommand ? raw['item-details'] : null;
-  if (detail) blocks.splice(1, 0, renderDetailBlock(detail));
+  const detailKeys = Array.isArray(config.detailResponses) ? config.detailResponses : config.detailResponse ? [config.detailResponse] : [];
+  for (const detailKey of detailKeys) {
+    const detail = raw[detailKey];
+    if (detail) blocks.splice(1, 0, renderDetailBlock(detail));
+  }
 
   return `<section class="ui-page-head">
     <div><div class="ui-kicker">${escapeHtml(config.kicker)}</div><h1>${escapeHtml(config.title)}</h1><p>${escapeHtml(config.description)}</p></div>
