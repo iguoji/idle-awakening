@@ -12,3 +12,10 @@ test('known commands are accepted and unknown commands fail early', () => {
   assert.doesNotThrow(() => assertKnownCommand('query-actions-data'));
   assert.throws(() => assertKnownCommand('definitely-not-a-worker-command'), /Unknown game command/);
 });
+
+test('unsupported settings and tour commands are not advertised by the restored worker', () => {
+  assert.equal(Object.values(COMMANDS).includes('query-settings'), false);
+  assert.equal(Object.values(COMMANDS).includes('set-setting'), false);
+  assert.equal(Object.values(COMMANDS).includes('query_tour_status'), false);
+  assert.equal(Object.values(COMMANDS).includes('set_tour_finished'), false);
+});

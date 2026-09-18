@@ -1,6 +1,6 @@
 const SAVE_STORAGE_KEY = 'idlemanceryV2Reworked';
 
-function normalizeResources(payload) {
+export function normalizeResources(payload) {
   const list = Array.isArray(payload) ? payload : payload?.resources || [];
   return list.map((resource) => ({
     id: resource.id,
@@ -12,7 +12,7 @@ function normalizeResources(payload) {
   }));
 }
 
-function normalizeActions(payload) {
+export function normalizeActions(payload) {
   const list = Array.isArray(payload) ? payload : payload?.available || payload?.actions || [];
   return list.map((action) => ({
     id: action.id,
@@ -32,7 +32,7 @@ function normalizeActions(payload) {
   }));
 }
 
-function normalizeActionsMeta(payload) {
+export function normalizeActionsMeta(payload) {
   if (!payload || typeof payload !== 'object') return {};
   return {
     actionCategories: Array.isArray(payload.actionCategories) ? payload.actionCategories : [],
@@ -76,7 +76,7 @@ function clearStoredSave() {
   }
 }
 
-export class GameWorkerClient {
+export function buildWorkerMessage(event, payload = {}) {\n  if (!event || typeof event !== 'string') throw new TypeError('Worker event must be a non-empty string');\n  return JSON.stringify({ event, payload });\n}\n\nexport class GameWorkerClient {
   #worker;
   #listeners = new Set();
   #timers = [];
@@ -119,7 +119,7 @@ export class GameWorkerClient {
   }
 
   dispatch(event, payload = {}) {
-    this.#worker.postMessage(JSON.stringify({ event, payload }));
+    this.#worker.postMessage(buildWorkerMessage(event, payload));
   }
 
   loadSave(saveObject, { persist = true } = {}) {

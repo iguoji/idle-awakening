@@ -64,10 +64,6 @@ export const COMMANDS = Object.freeze({
   STOP_COURSE: 'stop-course',
 
   TOGGLE_SPEEDUP: 'toggle-speedup',
-  QUERY_SETTINGS: 'query-settings',
-  SET_SETTING: 'set-setting',
-  QUERY_TOUR_STATUS: 'query_tour_status',
-  SET_TOUR_FINISHED: 'set_tour_finished',
   QUERY_SKILLS: 'query-skills-data',
   PURCHASE_SKILL: 'purchase-skill',
   REMOVE_SKILL: 'remove-skill',

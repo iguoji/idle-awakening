@@ -100,10 +100,10 @@ Work:
 Several restored modules are functional but have no dedicated new-UI surface yet.
 
 Work:
-- [ ] Add hotkey management UI.
-- [ ] Add monitoring controls where useful.
-- [ ] Add tour/status controls if they remain part of the intended experience.
-- [ ] Expose any required runtime settings without reviving the old DOM mutation/localization hack.
+- [x] Add hotkey management UI.
+- [x] Add monitoring controls where useful.
+- [x] Audit tour/status controls; the restored Worker does not register a Tour module, so no unsupported Tour UI is exposed.
+- [x] Expose runtime controls through the dedicated Settings view without reviving the old DOM mutation/localization hack.
 
 ### 10. Controller decomposition
 UI DOM/event handling is now split into navigation, Actions, Automation, Domain and Command/Save controllers; `ui-event-binder.js` is a thin orchestrator.
@@ -120,7 +120,7 @@ Work:
 
 Work:
 - [x] Complete command/event constants for the restored subsystem.
-- [ ] Centralize payload construction for commands with non-trivial shapes.
+- [x] Centralize payload construction for commands with non-trivial shapes in `src/engine/command-builders.js`.
 - [x] Add lightweight protocol contract checks so UI typos are caught before runtime.
 
 ### 12. Test coverage
@@ -128,12 +128,12 @@ The current repository has architecture and production-build CI, but no browser-
 
 Work:
 - [x] Add JS-level tests for pure UI helpers and protocol payload builders.
-- [ ] Add Worker/client smoke tests where the environment permits.
-- [ ] Add browser E2E for startup, save restore, Actions, Shop, Character and Automation.
+- [x] Add Worker/client smoke tests for transport envelopes and client normalizers.
+- [ ] Add browser E2E for startup, save restore, Actions, Shop, Character and Automation (browser runner is not available in the current execution environment).
 - [x] Add a small regression test for the no-bundle architecture rule.
 
 ## Source-level cleanup discovered during the audit
 
 - [x] Property custom-filter ordering bug fixed: reordering now updates the category-specific `customFiltersOrder` entry.
 - [x] Property custom-filter save/delete now re-index `sortIndex`; the original TODO is removed.
-- [ ] Several recovered Worker modules still contain generated Babel helper wrappers; convert them incrementally only when touching the affected module.
+- [x] Modernize the touched Hotkeys and Monitoring Worker modules; remaining generated helpers are isolated to untouched recovered modules.
