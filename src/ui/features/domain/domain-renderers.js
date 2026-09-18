@@ -1,6 +1,5 @@
 import './domain-view.css';
 import { escapeHtml, formatNumber, itemId, pickCollection, renderButton, renderMeta } from './format.js';
-import { escapeHtml, formatNumber, itemId, pickCollection, renderButton, renderMeta } from './format.js';
 
 export function renderItemCard(item, config, context = {}) {
   const id = itemId(item);
