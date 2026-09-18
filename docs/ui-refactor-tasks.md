@@ -21,7 +21,7 @@ Branch: `refactor/ui-system-3`
 ## Remaining work, in order
 
 ### 1. Property feature parity
-Current Property UI only exposes the basic furniture list. The Worker also supports furniture/accessory/amplifier categories, search, hide-maxed, custom filters, autopurchase and furniture details.
+Property now has its own feature view with furniture/accessory/amplifier categories, search, hide-maxed, custom filters, autopurchase, details and capacity summaries.
 
 Work:
 - [x] Add furniture / accessory / amplifier category switching.
@@ -39,8 +39,8 @@ Work:
 - [x] Add plantation autopurchase toggle.
 - [x] Add plantation remove action.
 - [x] Add plantation detail view.
-- [ ] Present production/resource effect breakdowns in structured UI.
-- [ ] Verify whether any hidden crafting/alchemy settings need dedicated controls.
+- [x] Present production/resource effect breakdowns in structured UI.
+- [x] Verify whether any hidden crafting/alchemy settings need dedicated controls.
 
 ### 3. Courses parity + engine audit
 Course autopurchase is now restored: the Worker tracks and persists the toggle, exposes `isAutoPurchase`/`isAutomationUnlocked`, and consumes it on the same 10-second automation cadence as the other purchase-manager systems.
@@ -52,12 +52,12 @@ Work:
 - [x] Add Course detail view.
 
 ### 4. Inventory parity
-Current Inventory supports filtering, search, consume, sell and generic details.
+Inventory now supports filtering, search, variable-quantity consume/sell, automation settings, sell details and generic item details.
 
 Work:
 - [x] Add dedicated sell-details flow before selling when the original UI expects it.
 - [x] Add inventory settings persistence UI for `save-inventory-settings`.
-- [ ] Support richer multi-quantity selling/consumption where the original protocol allows it.
+- [x] Support richer multi-quantity selling/consumption where the original protocol allows it.
 
 ### 5. Spellbook parity
 Spellbook now exposes casting, details, Auto-cast settings, per-level effect preview, and general magic statistics.
@@ -69,12 +69,12 @@ Work:
 - [x] Add general magic statistics presentation.
 
 ### 6. Social / Guild parity
-Current Social supports guild selection and upgrade purchases.
+Social now supports guild selection, leaving, upgrade details, permanent-effect summaries and upgrade purchases.
 
 Work:
 - [x] Add leave-guild action.
 - [x] Add guild-upgrade detail view.
-- [ ] Present guild effect summaries in structured cards.
+- [x] Present guild effect summaries in structured cards.
 
 ### 7. World / Map parity
 World now exposes map generation controls, highlight filters, resource highlighting, interactive tiles, tile exploration and tile details, plus readable map statistics.
@@ -88,10 +88,10 @@ Work:
 - [x] Replace the placeholder dot grid with a richer map renderer using the available tile metadata.
 
 ### 8. Random Events
-The Worker contains a complete random-event subsystem, but the new UI currently has no event surface.
+Random Events now have a dedicated page plus a global active-event overlay.
 
 Work:
-- [ ] Add active-event notification/overlay (the Events page is complete; global overlay remains).
+- [x] Add active-event notification/overlay (the Events page is complete; global overlay remains).
 - [x] Add event option selection.
 - [x] Add open/close event state handling.
 - [x] Present triggered effects and remaining event lifetime.
@@ -106,34 +106,34 @@ Work:
 - [ ] Expose any required runtime settings without reviving the old DOM mutation/localization hack.
 
 ### 10. Controller decomposition
-The first extraction is complete, but `ui-event-binder.js` is still broad.
+UI DOM/event handling is now split into navigation, Actions, Automation, Domain and Command/Save controllers; `ui-event-binder.js` is a thin orchestrator.
 
 Work:
-- [ ] Split Actions events.
-- [ ] Split Automation events.
-- [ ] Split Domain events.
-- [ ] Split Save/Settings events.
-- [ ] Keep `ui-shell.js` focused on state, routing, rendering and lifecycle.
+- [x] Split Actions events.
+- [x] Split Automation events.
+- [x] Split Domain events.
+- [x] Split Save/Settings events.
+- [x] Keep `ui-shell.js` focused on state, routing, rendering and lifecycle.
 
 ### 11. Protocol hardening
-The Worker has many stable event names, while `src/engine/protocol.js` currently covers only a subset.
+`src/engine/protocol.js` now covers the restored Worker command surface, with a CI contract check against UI references.
 
 Work:
-- [ ] Complete command/event constants for the restored subsystem.
+- [x] Complete command/event constants for the restored subsystem.
 - [ ] Centralize payload construction for commands with non-trivial shapes.
-- [ ] Add lightweight protocol contract checks so UI typos are caught before runtime.
+- [x] Add lightweight protocol contract checks so UI typos are caught before runtime.
 
 ### 12. Test coverage
 The current repository has architecture and production-build CI, but no browser-level smoke suite.
 
 Work:
-- [ ] Add JS-level tests for pure UI helpers and protocol payload builders.
+- [x] Add JS-level tests for pure UI helpers and protocol payload builders.
 - [ ] Add Worker/client smoke tests where the environment permits.
 - [ ] Add browser E2E for startup, save restore, Actions, Shop, Character and Automation.
-- [ ] Add a small regression test for the no-bundle architecture rule.
+- [x] Add a small regression test for the no-bundle architecture rule.
 
 ## Source-level cleanup discovered during the audit
 
-- [ ] Property custom-filter ordering deserves a dedicated engine-side review: the restored handler currently replaces `customFiltersOrder` with a flat array instead of updating the category-specific entry.
-- [ ] Property custom-filter save still contains the original `TODO: Re-index filters` note; determine whether explicit re-indexing is required by the current UI.
+- [x] Property custom-filter ordering bug fixed: reordering now updates the category-specific `customFiltersOrder` entry.
+- [x] Property custom-filter save/delete now re-index `sortIndex`; the original TODO is removed.
 - [ ] Several recovered Worker modules still contain generated Babel helper wrappers; convert them incrementally only when touching the affected module.
