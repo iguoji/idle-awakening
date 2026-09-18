@@ -538,6 +538,8 @@ export function createUiEventBinder(context) {
           game.dispatch?.(command, { id });
         } else if (command === 'run-course' || command === 'stop-course') {
           game.dispatch?.(command, { id });
+        } else if (command === 'set-course-autopurchase') {
+          game.dispatch?.(command, { id, flag: button.dataset.flag === 'true' });
         } else if (command === 'run-list' || command === 'stop-list') {
           game.dispatch?.(command, { id });
         } else if (command === 'delete-action-list') {
