@@ -24,7 +24,7 @@ export const DOMAIN_CONFIG = {
       { command: 'sell-inventory', label: 'Sell', amount: 1 },
     ],
     detailsCommand: 'query-inventory-details',
-    detailResponse: 'inventory-details',
+    detailResponses: ['inventory-details', 'sell-details'],
   },
   property: {
     title: 'Property',
