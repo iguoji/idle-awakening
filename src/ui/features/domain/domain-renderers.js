@@ -37,6 +37,9 @@ export function renderItemCard(item, config, context = {}) {
   } else if (config.primary?.command) {
     controls = renderButton(config.primary.command, config.primary.label, item, { amount: 1 });
     if (config.title === 'Spellbook') {
+      const autocastEnabled = Boolean(item?.autocast?.isEnabled);
+      controls += '<label class="ui-inline-check"><input type="checkbox" data-action="spell-autocast" data-id="' + escapeHtml(id) + '" ' + (autocastEnabled ? 'checked' : '') + '/> Auto-cast</label>';
+      controls += '<button class="ui-btn" data-command="get-spell-level-effects" data-id="' + escapeHtml(id) + '" data-level="' + Math.max(1, Number(item?.level || 1) + 1) + '">Next level</button>';
       controls += `<button class="ui-btn" data-command="query-spell-details" data-id="${escapeHtml(id)}">Details</button>`;
     }
   }
