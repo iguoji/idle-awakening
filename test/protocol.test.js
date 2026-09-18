@@ -13,9 +13,9 @@ test('known commands are accepted and unknown commands fail early', () => {
   assert.throws(() => assertKnownCommand('definitely-not-a-worker-command'), /Unknown game command/);
 });
 
-test('unsupported settings and tour commands are not advertised by the restored worker', () => {
-  assert.equal(Object.values(COMMANDS).includes('query-settings'), false);
-  assert.equal(Object.values(COMMANDS).includes('set-setting'), false);
-  assert.equal(Object.values(COMMANDS).includes('query_tour_status'), false);
-  assert.equal(Object.values(COMMANDS).includes('set_tour_finished'), false);
+test('Mage exposes the actual runtime settings and tour command set', () => {
+  assert.equal(COMMANDS.QUERY_SETTINGS, 'query-settings');
+  assert.equal(COMMANDS.SET_SETTING, 'set-setting');
+  assert.equal(COMMANDS.QUERY_TOUR_STATUS, 'query_tour_status');
+  assert.equal(COMMANDS.SET_TOUR_FINISHED, 'set_tour_finished');
 });
