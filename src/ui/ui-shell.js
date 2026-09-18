@@ -5,6 +5,7 @@ import { getAutomationQueries, renderAutomationView } from './features/automatio
 import { getCharacterQueries, renderCharacterView } from './features/character/character-view.js';
 import { getCoursesQueries, renderCoursesView } from './features/courses/courses-view.js';
 import { getDomainQueryConfig, renderDomainView } from './features/domain/domain-view.js';
+import { getPropertyQueries, renderPropertyView } from './features/property/property-view.js';
 import { decodePortableSave, renderSettingsView } from './features/settings/settings-view.js';
 import { getStatisticsQueries, renderStatisticsView } from './features/statistics/statistics-view.js';
 import { createUiState } from './ui-state.js';
@@ -279,6 +280,7 @@ export function mountUiShell({ root, game }) {
     if (view === 'statistics') return renderStatisticsView(gameState);
     if (view === 'settings') return renderSettingsView(gameState);
     if (view === 'about') return renderAboutView(gameState);
+    if (view === 'property') return renderPropertyView(gameState);
     return renderDomainView(view, gameState);
   }
 
