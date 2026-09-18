@@ -13,6 +13,13 @@ export function renderItemCard(item, config, context = {}) {
         amount: Math.max(0, Number(item?.wateringLevel || 0) + 1),
       });
     }
+    if (context.automationUnlocked && item?.isAutoPurchase !== undefined && !item?.isCapped) {
+      controls += `<button class="ui-btn ${item.isAutoPurchase ? 'ui-btn--primary' : ''}" data-command="set-plantation-autopurchase" data-id="${escapeHtml(id)}" data-flag="${!item.isAutoPurchase}">${item.isAutoPurchase ? 'Auto on' : 'Auto off'}</button>`;
+    }
+    if (context.showRemove && Number(item?.level || 0) > 0) {
+      controls += `<button class="ui-btn" data-command="remove-plantation" data-id="${escapeHtml(id)}">Remove</button>`;
+    }
+    controls += `<button class="ui-btn" data-command="query-plantation-details" data-id="${escapeHtml(id)}">Details</button>`;
   } else if (context.type === 'shop-resource') {
     const amount = Math.max(1, Number(item?.purchaseMultiplier || context.purchaseMultiplier || 1));
     controls = renderButton('purchase-resource', `Buy ×${amount}`, item, { amount });
@@ -26,14 +33,21 @@ export function renderItemCard(item, config, context = {}) {
       filterId,
       amount: running ? 0 : Math.max(1, Number(item?.level || 0) + 1),
     });
+    controls += `<button class="ui-btn" data-command="query-crafting-details" data-id="${escapeHtml(id)}">Details</button>`;
   } else if (config.primary?.command) {
     controls = renderButton(config.primary.command, config.primary.label, item, { amount: 1 });
+    if (config.title === 'Spellbook') {
+      controls += `<button class="ui-btn" data-command="query-spell-details" data-id="${escapeHtml(id)}">Details</button>`;
+    }
   }
 
   if (config.title === 'Shop' && context.automationUnlocked && item?.isAutoPurchase !== undefined && !item?.isCapped) {
     controls += `<button class="ui-btn ${item.isAutoPurchase ? 'ui-btn--primary' : ''}" data-command="set-shop-autopurchase" data-id="${escapeHtml(id)}" data-flag="${!item.isAutoPurchase}">${item.isAutoPurchase ? 'Auto on' : 'Auto off'}</button>`;
   }
 
+  if (context.guildUpgrade && id) {
+    controls += `<button class="ui-btn" data-command="query-guild-item-details" data-id="${escapeHtml(id)}">Details</button>`;
+  }
   if (config.actions && context.type !== 'shop-resource') {
     controls = config.actions.map((action) => renderButton(action.command, action.label, item, { amount: action.amount })).join('');
   }
@@ -75,12 +89,12 @@ export function renderSocial(data) {
             <div class="ui-domain-item__title"><strong>${escapeHtml(guild.name || guild.id)}</strong><span>${guild.id === selected ? 'Selected' : 'Available'}</span></div>
             <p>${escapeHtml(guild.description || '')}</p>
           </div>
-          <div class="ui-domain-item__controls">${guild.id === selected ? '' : renderButton('select-guild', 'Join', guild)}</div>
+          <div class="ui-domain-item__controls">${guild.id === selected ? '<button class="ui-btn" data-command="leave-guild" data-id="' + escapeHtml(guild.id) + '">Leave</button>' : renderButton('select-guild', 'Join', guild)}</div>
         </article>`).join('')}</div>
       </div></article>`
     : '';
   const upgradeBlock = upgrades.length
-    ? renderListBlock('Guild upgrades', upgrades, { primary: { command: 'purchase-guild-item', label: 'Upgrade' } })
+    ? renderListBlock('Guild upgrades', upgrades, { primary: { command: 'purchase-guild-item', label: 'Upgrade' } }, { guildUpgrade: true })
     : '';
   return guildBlock + upgradeBlock;
 }
@@ -164,6 +178,8 @@ export function renderDataBlock(label, data, config) {
     return renderListBlock('Plantations', data.available, config, {
       type: 'plantation',
       wateringUnlocked: Boolean(data.isWateringUnlocked),
+      automationUnlocked: Boolean(data.isAutomationUnlocked),
+      showRemove: true,
     });
   }
   const collection = pickCollection(data);
