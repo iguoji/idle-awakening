@@ -1,7 +1,8 @@
-import { beginPropertyFilterCreate, beginPropertyFilterEdit, closePropertyFilterEditor, getPropertyFilter, getPropertyFilterEditorDraft, patchPropertyFilterDraft, setPropertyFilter } from './features/property/property-view.js';
+import { beginPropertyFilterCreate, beginPropertyFilterEdit, closePropertyFilterEditor, getPropertyFilter, getPropertyFilterEditorDraft, patchPropertyFilterDraft, setPropertyFilter } from '../features/property/property-view.js';
 
 export function createDomainController(context) {
   const { game, getGameState, getUiState, requestView, scheduleViewRefresh, render } = context;
+
   function bind(shell) {
     shell.querySelectorAll('[data-action="property-category"]').forEach((button) => {
       button.addEventListener('click', () => {
@@ -264,7 +265,6 @@ export function createDomainController(context) {
     });
 
 
-
     shell.querySelector('[data-action="shop-show-maxed"]')?.addEventListener('change', (event) => {
       game.dispatch?.('set-shop-show-maxed', { flag: event.target.checked });
       game.dispatch?.('query-items-data', {});
@@ -288,5 +288,6 @@ export function createDomainController(context) {
 
 
   }
+
   return { bind, destroy() {} };
 }
