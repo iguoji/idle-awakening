@@ -212,9 +212,20 @@ export function mountUiShell({ root, game }) {
     const index = draft.id ? Math.max(0, order.indexOf(draft.id)) : order.length;
     draft.name = String(draft.name || '').trim() || 'Untitled filter';
     draft.condition = String(draft.condition || '').trim();
-    draft.rules = (Array.isArray(draft.rules) ? draft.rules : []).filter((rule) => rule?.object);
-    if (!draft.rules.length) draft.rules = [];
+    draft.rules = (Array.isArray(draft.rules) ? draft.rules : [])
+      .filter((rule) => rule && ['tag', 'resource', 'attribute'].includes(rule.type) && String(rule.object || '').trim())
+      .map((rule) => ({ type: rule.type, object: String(rule.object).trim() }));
+    if (draft.condition && !/^(?:\\s*(?:\\d+|AND|OR|NOT|\\(|\\))\\s*)+$/i.test(draft.condition)) {
+      window.alert?.('Condition may only contain rule numbers, parentheses, AND, OR and NOT.');
+      return;
+    }
+    const references = [...draft.condition.matchAll(/\\d+/g)].map((match) => Number(match[0]));
+    if (references.some((reference) => reference < 1 || reference > draft.rules.length)) {
+      window.alert?.('Condition references a rule that does not exist.');
+      return;
+    }
     draft.sortIndex = index;
+    draft.isPinned = Boolean(draft.isPinned);
     if (!draft.id) delete draft.id;
     game.dispatch?.('save-actions-custom-filter', draft);
     closeFilterEditor();
