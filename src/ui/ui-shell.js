@@ -8,6 +8,7 @@ import { getDomainQueryConfig, renderDomainView } from './features/domain/domain
 import { getPropertyQueries, renderPropertyView } from './features/property/property-view.js';
 import { decodePortableSave, renderSettingsView } from './features/settings/settings-view.js';
 import { getStatisticsQueries, renderStatisticsView } from './features/statistics/statistics-view.js';
+import { getRandomEventsQueries, renderRandomEventsView } from './features/random-events/random-events-view.js';
 import { createUiState } from './ui-state.js';
 import { createUiEventBinder } from './ui-event-binder.js';
 
@@ -15,6 +16,7 @@ const NAV = [
   ['actions', 'Actions', '⚔', 'actions'],
   ['character', 'Character', '◉', null],
   ['statistics', 'Statistics', '▤', null],
+  ['events', 'Events', '◈', null],
   ['shop', 'Shop', '◈', 'shop'],
   ['inventory', 'Inventory', '▦', 'inventory'],
   ['courses', 'Courses', '▤', 'courses'],
@@ -278,6 +280,7 @@ export function mountUiShell({ root, game }) {
     if (view === 'courses') return renderCoursesView(gameState);
     if (view === 'automation') return renderAutomationView(gameState);
     if (view === 'statistics') return renderStatisticsView(gameState);
+    if (view === 'events') return renderRandomEventsView(gameState);
     if (view === 'settings') return renderSettingsView(gameState);
     if (view === 'about') return renderAboutView(gameState);
     if (view === 'property') return renderPropertyView(gameState);
