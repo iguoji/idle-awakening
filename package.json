@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "check:architecture": "node scripts/check-no-bundle-runtime.mjs",
     "check:contracts": "node scripts/check-ui-contracts.mjs",
-    "test": "node --test",
+    "test": "node --test test/*.test.js",
     "test:e2e": "playwright test"
   },
   "dependencies": {
