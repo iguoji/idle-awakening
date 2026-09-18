@@ -1,31 +1,7 @@
 export function createCommandController(context) {
-  const { game, getGameState, getUiState, requestView, scheduleViewRefresh, render, loadTextSave, copyText, downloadText, closeAutomationEditor } = context;
+  const { game, getGameState, requestView, scheduleViewRefresh, render, loadTextSave, copyText, downloadText, closeAutomationEditor } = context;
+
   function bind(shell) {
-    shell.querySelectorAll('[data-action="run-action"]').forEach((button) => {
-      button.addEventListener('click', () => game.dispatch?.('run-action', { id: button.dataset.id, isForce: true }));
-    });
-
-    shell.querySelectorAll('[data-action="action-filter"]').forEach((button) => {
-      button.addEventListener('click', () => {
-        game.dispatch?.('set-selected-actions-filter', { filterId: button.dataset.filterId });
-        game.dispatch?.('query-actions-data', {});
-      });
-    });
-
-    shell.querySelector('[data-action="action-search"]')?.addEventListener('input', (event) => {
-      const search = event.target.value;
-      clearTimeout(actionSearchDebounce);
-      actionSearchDebounce = setTimeout(() => {
-        game.dispatch?.('set-actions-search', { searchData: { search, selectedScopes: ['name', 'tags'] } });
-        game.dispatch?.('query-actions-data', {});
-      }, 180);
-    });
-
-    shell.querySelector('[data-action="toggle-show-hidden"]')?.addEventListener('change', (event) => {
-      game.dispatch?.('toggle-show-hidden', event.target.checked);
-      game.dispatch?.('query-actions-data', {});
-    });
-
     shell.querySelectorAll('[data-command]').forEach((button) => {
       button.addEventListener('click', async () => {
         const command = button.dataset.command;
@@ -134,7 +110,6 @@ export function createCommandController(context) {
     });
 
 
-
     shell.querySelector('[data-action="automation-enabled"]')?.addEventListener('change', (event) => {
       game.dispatch?.('set-automation-enabled', { flag: event.target.checked });
     });
@@ -158,5 +133,6 @@ export function createCommandController(context) {
 
 
   }
+
   return { bind, destroy() {} };
 }
