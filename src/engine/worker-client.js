@@ -180,6 +180,7 @@ export class GameWorkerClient {
       refresh('query-actions-running', {}, 150),
       refresh('query-attributes-data', {}, 500),
       refresh('query-unlocks', {}, 1000),
+      refresh('query-event-data', {}, 1000),
     );
   }
 
@@ -189,6 +190,7 @@ export class GameWorkerClient {
     this.#dispatchQuiet('query-attributes-data', {});
     this.#dispatchQuiet('query-actions-data', {});
     this.#dispatchQuiet('query-actions-running', {});
+    this.#dispatchQuiet('query-event-data', {});
   }
 
   #handleMessage(event) {
