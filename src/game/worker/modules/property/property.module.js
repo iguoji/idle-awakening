@@ -453,7 +453,9 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
       }
       this.generateFilterCache(payload.filterId, id);
 
-      //TODO: Re-index filters
+      this.customFiltersOrder[payload.filterId].forEach(function (filterId, index) {
+        if (this.customFilters[payload.filterId][filterId]) this.customFilters[payload.filterId][filterId].sortIndex = index;
+      }, this);
       this.sendFurnituresData({
         filterId: payload.filterId
       }, {
@@ -471,12 +473,15 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
       var _defaultFlt$id;
       var filterId = _ref3.filterId,
         id = _ref3.id;
-      var defaultFlt = filterId === 'furniture' ? DEFAULT_PROPERTY_FILTERS : DEFAULT_ACCESSORY_FILTERS;
+      var defaultFlt = filterId === 'furniture' ? DEFAULT_PROPERTY_FILTERS : filterId === 'accessory' ? DEFAULT_ACCESSORY_FILTERS : DEFAULT_AMPLIFIERS_FILTERS;
       if (this.customFilters[filterId][id] && !((_defaultFlt$id = defaultFlt[id]) !== null && _defaultFlt$id !== void 0 && _defaultFlt$id.isRequired)) {
         delete this.customFilters[filterId][id];
         this.customFiltersOrder[filterId] = this.customFiltersOrder[filterId].filter(function (fid) {
           return fid !== id;
         });
+        this.customFiltersOrder[filterId].forEach(function (filterId, index) {
+          if (this.customFilters[filterId][filterId]) this.customFilters[filterId][filterId].sortIndex = index;
+        }, this);
         this.sendFurnituresData({
           filterId: filterId
         }, {
