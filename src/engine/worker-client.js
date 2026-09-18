@@ -76,7 +76,12 @@ function clearStoredSave() {
   }
 }
 
-export function buildWorkerMessage(event, payload = {}) {\n  if (!event || typeof event !== 'string') throw new TypeError('Worker event must be a non-empty string');\n  return JSON.stringify({ event, payload });\n}\n\nexport class GameWorkerClient {
+export function buildWorkerMessage(event, payload = {}) {
+  if (!event || typeof event !== 'string') throw new TypeError('Worker event must be a non-empty string');
+  return JSON.stringify({ event, payload });
+}
+
+export class GameWorkerClient {
   #worker;
   #listeners = new Set();
   #timers = [];
