@@ -27,6 +27,7 @@ export function renderCoursesView(snapshot) {
   const courses = Array.isArray(data.available) ? data.available : [];
   const running = courses.find((course) => course.isRunning);
   const detail = snapshot?.raw?.['item-details'];
+  const automationUnlocked = Boolean(data.isAutomationUnlocked);
 
   return `<section class="ui-page-head">
     <div><div class="ui-kicker">Training room</div><h1>Courses</h1><p>Run one course at a time and track its learning progress.</p></div>
@@ -61,6 +62,7 @@ export function renderCoursesView(snapshot) {
               ${active ? `<button class="ui-btn" data-command="stop-course" data-id="${escapeHtml(course.id)}">Stop</button>` : `<button class="ui-btn" data-command="run-course" data-id="${escapeHtml(course.id)}">Run</button>`}
               ${canPurchase ? `<button class="ui-btn ui-btn--primary" data-command="purchase-item" data-id="${escapeHtml(course.id)}">Buy +1</button>` : ''}
               <button class="ui-btn" data-command="query-course-details" data-id="${escapeHtml(course.id)}">Details</button>
+              ${automationUnlocked && Number(course.level) < Number(course.max) ? `<button class="ui-btn ${course.isAutoPurchase ? 'ui-btn--primary' : ''}" data-command="set-course-autopurchase" data-id="${escapeHtml(course.id)}" data-flag="${!course.isAutoPurchase}">${course.isAutoPurchase ? 'Auto on' : 'Auto off'}</button>` : ''}
             </div>
           </article>`;
         }).join('') || '<div class="ui-empty-state"><span class="ui-empty-state__icon">◎</span><h2>No courses unlocked</h2></div>'}
