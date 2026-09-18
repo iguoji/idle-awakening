@@ -5,7 +5,7 @@ function escapeHtml(value) {
 }
 
 function number(value) {
-  return Number.isFinite(Number(value)) ? new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 }).format(Number(value)) : '—';
+  return Number.isFinite(Number(value)) ? new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 2 }).format(Number(value)) : '—';
 }
 
 function formatTime(seconds) {
