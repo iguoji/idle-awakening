@@ -2,6 +2,7 @@ import { setActiveView, toggleSidebar } from '../ui-state.js';
 
 export function createNavigationController(context) {
   const { getUiState, setUiState, requestView, scheduleViewRefresh, render } = context;
+
   function bind(shell) {
     shell.querySelectorAll('[data-view]:not(:disabled)').forEach((button) => {
       button.addEventListener('click', () => {
@@ -23,5 +24,6 @@ export function createNavigationController(context) {
 
 
   }
+
   return { bind, destroy() {} };
 }
