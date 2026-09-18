@@ -301,6 +301,26 @@ export function createUiEventBinder(context) {
       });
     });
 
+    shell.querySelectorAll('[data-command="set-event-data-opened"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        game.dispatch?.('set-event-data-opened', {
+          isOpened: button.dataset.opened === 'true',
+          eventId: button.dataset.eventId,
+        });
+        requestView('events', true);
+      });
+    });
+
+    shell.querySelectorAll('[data-command="select-event-option"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        game.dispatch?.('select-event-option', {
+          eventId: button.dataset.eventId,
+          optionId: button.dataset.optionId,
+        });
+        requestView('events', true);
+      });
+    });
+
     shell.querySelector('[data-action="automation-new"]')?.addEventListener('click', () => {
       beginAutomationCreate();
       scheduleViewRefresh('automation');
