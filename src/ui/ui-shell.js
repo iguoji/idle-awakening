@@ -1,7 +1,7 @@
 import './tokens.css';
 import { renderResourceCard } from './components/resource-card.js';
 import { renderActionsView } from './features/actions/actions-view.js';
-import { beginAutomationCreate, beginAutomationEdit, closeAutomationEditor, getAutomationEditorDraft, getAutomationQueries, renderAutomationView } from './features/automation/automation-view.js';
+import { getAutomationQueries, renderAutomationView } from './features/automation/automation-view.js';
 import { getCharacterQueries, renderCharacterView } from './features/character/character-view.js';
 import { getCoursesQueries, renderCoursesView } from './features/courses/courses-view.js';
 import { getDomainQueryConfig, renderDomainView } from './features/domain/domain-view.js';
@@ -112,16 +112,6 @@ function captureFocusedField() {
   };
 }
 
-function restoreFocusedField(shell, state) {
-  if (!state) return;
-  const element = [...shell.querySelectorAll('[data-action]')].find((candidate) => candidate.dataset.action === state.action);
-  if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return;
-  element.value = state.value;
-  element.focus({ preventScroll: true });
-  if (state.start !== null && state.end !== null) {
-    try { element.setSelectionRange(state.start, state.end); } catch {}
-  }
-}
 
 export function mountUiShell({ root, game }) {
   if (!root) throw new Error('UI root is required');
