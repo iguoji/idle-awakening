@@ -1,3 +1,5 @@
+import { payloadActionFilterOrder, payloadById, payloadEventOpened, payloadEventOption, payloadFurnitureAutomation, payloadHotkey, payloadInventoryAmount, payloadSetCraftingLevel, payloadSetPlantationWatering, payloadWithAmount, payloadWithFlag, payloadMonitored, payloadWithFilter } from '../../engine/command-builders.js';
+
 export function createCommandController(context) {
   const { game, getGameState, requestView, scheduleViewRefresh, render, loadTextSave, copyText, downloadText, closeAutomationEditor } = context;
 
@@ -28,31 +30,31 @@ export function createCommandController(context) {
         } else if (command === 'set-purchase-multiplier') {
           game.dispatch?.(command, { amount });
         } else if (command === 'set-shop-autopurchase') {
-          game.dispatch?.(command, { id, flag: button.dataset.flag === 'true' });
+          game.dispatch?.(command, payloadWithFlag(id, button.dataset.flag === 'true'));
         } else if (command === 'set-shop-show-maxed') {
           game.dispatch?.(command, { flag: button.checked });
         } else if (command === 'set-crafting-level') {
-          game.dispatch?.(command, { id, level: amount, filterId, isForce: false });
+          game.dispatch?.(command, payloadSetCraftingLevel(id, amount, filterId));
         } else if (command === 'set-plantation-watering') {
-          game.dispatch?.(command, { id, level: amount });
+          game.dispatch?.(command, payloadSetPlantationWatering(id, amount));
         } else if (command === 'set-plantation-autopurchase') {
           game.dispatch?.(command, { id, flag: button.dataset.flag === 'true' });
         } else if (command === 'remove-plantation') {
-          game.dispatch?.(command, { id });
+          game.dispatch?.(command, payloadById(id));
         } else if (command === 'set-furniture-autopurchase') {
-          game.dispatch?.(command, { id, flag: button.dataset.flag === 'true', filterId });
+          game.dispatch?.(command, payloadFurnitureAutomation(id, button.dataset.flag === 'true', filterId));
         } else if (command === 'purchase-furniture') {
-          game.dispatch?.(command, { id, filterId });
+          game.dispatch?.(command, payloadWithFilter(id, filterId));
         } else if (command === 'select-guild') {
           game.dispatch?.(command, { id });
         } else if (command === 'purchase-guild-item') {
           game.dispatch?.(command, { id });
         } else if (command === 'consume-inventory' || command === 'sell-inventory') {
-          game.dispatch?.(command, { id, amount: amount || 1, sendDetails: false });
+          game.dispatch?.(command, payloadInventoryAmount(id, amount));
         } else if (command === 'purchase-item' || command === 'use-spell') {
-          game.dispatch?.(command, { id, amount: amount || 1 });
+          game.dispatch?.(command, payloadWithAmount(id, amount));
         } else if (command === 'purchase-resource') {
-          game.dispatch?.(command, { id, amount: amount || 1 });
+          game.dispatch?.(command, payloadWithAmount(id, amount));
         } else if (command === 'purchase-skill') {
           game.dispatch?.(command, { id });
         } else if (command === 'remove-skill') {
@@ -68,6 +70,19 @@ export function createCommandController(context) {
           game.dispatch?.(command, { id, isViewMode: false });
         } else if (command === 'toggle-speedup') {
           game.dispatch?.(command, {});
+        } else if (command === 'update-hotkey') {
+          let payload;
+          try {
+            payload = payloadHotkey(JSON.parse(shell.querySelector('[data-action="hotkey-json"][data-id="' + CSS.escape(id) + '"]')?.value || '{}'), id);
+          } catch (error) {
+            window.alert?.(error.message || '快捷键配置格式错误');
+            return;
+          }
+          game.dispatch?.(command, payload);
+        } else if (command === 'set-monitored') {
+          const raw = shell.querySelector('[data-action="monitor-target"]')?.value || '';
+          const [scope = 'effects', type = 'action', monitorId = ''] = raw.split('|');
+          game.dispatch?.(command, payloadMonitored(scope, type, monitorId || null));
         } else if (command === 'query-action-details' || command === 'query-action-xp-breakdown' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details' || command === 'query-course-details' || command === 'query-furniture-details' || command === 'query-crafting-details' || command === 'query-plantation-details' || command === 'query-spell-details' || command === 'query-guild-item-details' || command === 'query-sell-details') {
           game.dispatch?.(command, { id });
         } else if (command === 'run-course' || command === 'stop-course') {
@@ -98,13 +113,10 @@ export function createCommandController(context) {
           game.dispatch?.(command, { id });
           game.dispatch?.('query-actions-data', {});
         } else if (command === 'actions-change-custom-filters-order') {
-          game.dispatch?.(command, {
-            sourceIndex: Number(button.dataset.sourceIndex),
-            destinationIndex: Number(button.dataset.destinationIndex),
-          });
+          game.dispatch?.(command, payloadActionFilterOrder(button.dataset.sourceIndex, button.dataset.destinationIndex));
           game.dispatch?.('query-actions-data', {});
         } else {
-          game.dispatch?.(command, id ? { id } : {});
+          game.dispatch?.(command, id ? payloadById(id) : {});
         }
       });
     });
