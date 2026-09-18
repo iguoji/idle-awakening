@@ -266,7 +266,7 @@ export function createUiEventBinder(context) {
           game.dispatch?.(command, { id, isViewMode: false });
         } else if (command === 'toggle-speedup') {
           game.dispatch?.(command, {});
-        } else if (command === 'query-action-details' || command === 'query-action-xp-breakdown' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details') {
+        } else if (command === 'query-action-details' || command === 'query-action-xp-breakdown' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details' || command === 'query-course-details') {
           game.dispatch?.(command, { id });
         } else if (command === 'run-course' || command === 'stop-course') {
           game.dispatch?.(command, { id });
