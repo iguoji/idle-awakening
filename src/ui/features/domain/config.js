@@ -75,7 +75,6 @@ export const DOMAIN_CONFIG = {
     description: 'Explore the generated map and inspect the current exploration state.',
     queries: [['query-map-data', {}], ['map-query-general-data', {}]],
     responses: ['map-data', 'map-general-data'],
-    detailResponse: 'map-tile-details',
-    primary: { command: 'map-generate-map', label: 'Generate Map' },
+        primary: { command: 'map-generate-map', label: 'Generate Map' },
   },
 };
