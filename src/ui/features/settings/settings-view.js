@@ -51,6 +51,27 @@ function renderHotkeys(data) {
   '</div></article>';
 }
 
+function renderRuntimeSettings(data) {
+  const entries = entriesFromObject(data);
+  if (!entries.length) {
+    return '<article class="ui-card"><div class="ui-card__body"><div class="ui-section-title"><div><strong>运行时设置</strong><span>暂无自定义设置</span></div></div><div class="ui-domain-empty">当前 Worker 没有额外运行时设置。</div></div></article>';
+  }
+  return '<article class="ui-card"><div class="ui-card__body"><div class="ui-section-title"><div><strong>运行时设置</strong><span>原始键值</span></div></div><div class="ui-settings-stack">' +
+    entries.map(([key, value]) => '<label class="ui-settings-setting"><span>' + escapeHtml(key) + '</span><input data-action="runtime-setting-value" data-key="' + escapeHtml(key) + '" value="' + escapeHtml(typeof value === 'string' ? value : safeJson(value)) + '" /></label>').join('') +
+    '<div class="ui-actions"><button class="ui-btn ui-btn--primary" data-command="save-runtime-settings">保存运行时设置</button></div></div></div></article>';
+}
+
+function renderTourStatus(data) {
+  const status = data && typeof data === 'object' ? data : null;
+  const complete = Boolean(status?.isComplete);
+  return '<article class="ui-card"><div class="ui-card__body">' +
+    '<div class="ui-section-title"><div><strong>新手引导状态</strong><span>Tour</span></div></div>' +
+    '<div class="ui-stat-grid"><div class="ui-stat"><div class="ui-stat__label">状态</div><div class="ui-stat__value">' + (complete ? '已完成' : '未完成') + '</div></div>' +
+    '<div class="ui-stat"><div class="ui-stat__label">跳过步骤</div><div class="ui-stat__value">' + escapeHtml(status?.skipStep ?? '—') + '</div></div></div>' +
+    '<div class="ui-actions"><input class="ui-number" type="number" min="0" step="1" data-action="tour-skip-step" placeholder="跳过步骤（可选）"/><button class="ui-btn ' + (complete ? '' : 'ui-btn--primary') + '" data-command="set_tour_finished">标记引导已完成</button></div>' +
+  '</div></article>';
+}
+
 function renderMonitorTargets(snapshot) {
   const actions = Array.isArray(snapshot?.actions) ? snapshot.actions : [];
   const spells = flattenAvailable(snapshot?.raw?.['spell-data']?.available);
@@ -93,6 +114,8 @@ export function getSettingsQueries() {
     ['query-all-hotkeys', {}],
     ['query-spell-data', { includeAutomations: true }],
     ['query-furnitures-data', {}],
+    ['query-settings', {}],
+    ['query_tour_status', {}],
   ];
 }
 
@@ -136,6 +159,8 @@ export function renderSettingsView(snapshot) {
   '<section class="ui-grid" style="margin-top:20px">' +
     renderHotkeys(snapshot?.raw?.['all-hotkeys']) +
     renderMonitorTargets(snapshot) +
+    renderRuntimeSettings(snapshot?.raw?.settings) +
+    renderTourStatus(snapshot?.raw?.tour_status) +
   '</section>';
 }
 
