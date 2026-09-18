@@ -30,7 +30,7 @@ for (const root of roots) {
     if (ignored.has(normalized) || normalized.includes(`${path.sep}recovered${path.sep}`)) continue;
     if (!/\.(html|js|jsx|ts|tsx|css)$/.test(file)) continue;
     const content = fs.readFileSync(file, 'utf8');
-    if (forbidden.test(content)) violations.push(file);
+    if (forbidden.test(content) || forbiddenExternal.some((token) => content.includes(token))) violations.push(file);
   }
 }
 
