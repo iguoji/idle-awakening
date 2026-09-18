@@ -102,7 +102,7 @@ Several restored modules are functional but have no dedicated new-UI surface yet
 Work:
 - [x] Add hotkey management UI.
 - [x] Add monitoring controls where useful.
-- [x] Audit tour/status controls; the restored Worker does not register a Tour module, so no unsupported Tour UI is exposed.
+- [x] Add Tour/status controls through the existing MageModule `query_tour_status` / `set_tour_finished` protocol.
 - [x] Expose runtime controls through the dedicated Settings view without reviving the old DOM mutation/localization hack.
 
 ### 10. Controller decomposition
@@ -129,7 +129,7 @@ The current repository has architecture and production-build CI, but no browser-
 Work:
 - [x] Add JS-level tests for pure UI helpers and protocol payload builders.
 - [x] Add Worker/client smoke tests for transport envelopes and client normalizers.
-- [ ] Add browser E2E for startup, save restore, Actions, Shop, Character and Automation (browser runner is not available in the current execution environment).
+- [x] Add browser E2E for startup, save restore, Actions, Shop, Character and Automation through the dedicated Playwright workflow.
 - [x] Add a small regression test for the no-bundle architecture rule.
 
 ## Source-level cleanup discovered during the audit
