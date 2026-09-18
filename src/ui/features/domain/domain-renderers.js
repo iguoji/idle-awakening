@@ -99,13 +99,24 @@ export function renderSocial(data) {
   return guildBlock + upgradeBlock;
 }
 
-export function renderWorldToolbar() {
-  return `<article class="ui-card ui-domain-toolbar"><div class="ui-card__body">
-    <div class="ui-domain-toolbar__row">
-      <div><strong>World generation</strong><span class="ui-muted">Regenerate the exploration map from the worker.</span></div>
-      <button class="ui-btn ui-btn--primary" data-command="map-generate-map">Generate map</button>
-    </div>
-  </div></article>`;
+export function renderWorldToolbar(data) {
+  const generation = data?.['map-general-data']?.mapGeneration || data?.mapGeneration || {};
+  const mapLevel = Number(generation.level ?? 0);
+  const maxLevel = Number(generation.maxLevel ?? mapLevel);
+  const affordable = generation.affordable !== false;
+  const filter = data?.['map-data']?.highlightFilters || data?.highlightFilters || {};
+  const loot = Array.isArray(data?.['map-data']?.filterableLoot) ? data['map-data'].filterableLoot : Array.isArray(data?.filterableLoot) ? data.filterableLoot : [];
+  return '<article class="ui-card ui-domain-toolbar"><div class="ui-card__body">' +
+    '<div class="ui-domain-toolbar__row"><div><strong>World generation</strong><span class="ui-muted">Level ' + escapeHtml(mapLevel) + ' / ' + escapeHtml(maxLevel) + (affordable ? '' : ' · insufficient fragments') + '</span></div>' +
+    '<button class="ui-btn ui-btn--primary" data-command="map-generate-map" ' + (affordable ? '' : 'disabled') + '>Generate map</button></div>' +
+    '<div class="ui-world-controls">' +
+      '<label><span>Generation level</span><input type="number" min="0" max="' + escapeHtml(maxLevel) + '" step="1" value="' + escapeHtml(mapLevel) + '" data-action="world-map-level"/></label>' +
+      '<label class="ui-check"><input type="checkbox" data-action="world-highlight-unexplored" ' + (filter.highlightUnexplored ? 'checked' : '') + '/> Highlight unexplored</label>' +
+      '<label><span>Effort min</span><input type="number" min="0" step="1" value="' + escapeHtml(filter.effortMin ?? '') + '" data-action="world-effort-min"/></label>' +
+      '<label><span>Effort max</span><input type="number" min="0" step="1" value="' + escapeHtml(filter.effortMax ?? '') + '" data-action="world-effort-max"/></label>' +
+    '</div>' +
+    (loot.length ? '<div class="ui-world-loot"><strong>Highlight resources</strong>' + loot.slice(0, 32).map((resource) => '<label class="ui-check"><input type="checkbox" data-action="world-highlight-resource" data-id="' + escapeHtml(resource.id) + '" ' + (resource.isSelected ? 'checked' : '') + '/> ' + escapeHtml(resource.name || resource.id) + '</label>').join('') + '</div>' : '') +
+  '</div></article>';
 }
 
 export function renderShopToolbar(data) {
@@ -153,14 +164,24 @@ export function renderDetailBlock(data) {
   </div></article>`;
 }
 
-export function renderWorldMap(data) {
+export function renderWorldMap(data, detail = null) {
   if (!data) return '';
   const tiles = data.tiles || data.mapTiles || data.mapTilesProcessed;
   if (!Array.isArray(tiles) || !Array.isArray(tiles[0])) return '';
-  return `<article class="ui-card"><div class="ui-card__body">
-    <div class="ui-section-title"><div><strong>Map</strong><span>${tiles.length} × ${tiles[0].length}</span></div></div>
-    <div class="ui-map-grid">${tiles.flat().map((tile) => `<span title="${escapeHtml(tile?.metaData?.name || 'Unknown')}">${tile?.isRunning ? '●' : '·'}</span>`).join('')}</div>
-  </div></article>`;
+  const detailBlock = detail ? '<pre class="ui-domain-json ui-world-detail-json">' + escapeHtml(JSON.stringify(detail, null, 2).slice(0, 7000)) + '</pre>' : '';
+  return '<article class="ui-card"><div class="ui-card__body">' +
+    '<div class="ui-section-title"><div><strong>Map</strong><span>' + tiles.length + ' × ' + tiles[0].length + '</span></div></div>' +
+    '<div class="ui-map-grid">' +
+      tiles.map((row, i) => row.map((tile, j) => {
+        const label = String(tile?.metaData?.name || tile?.metaData?.id || '?');
+        const classes = ['ui-map-tile', tile?.isRunning ? 'is-running' : '', tile?.isHighlight ? 'is-highlight' : ''].filter(Boolean).join(' ');
+        return '<button class="' + classes + '" title="' + escapeHtml(label) + '" data-command="query-map-tile-details" data-i="' + i + '" data-j="' + j + '">' +
+          escapeHtml(label.slice(0, 2)) +
+          '</button>';
+      }).join('')).join('') +
+    '</div>' +
+    detailBlock +
+  '</div></article>';
 }
 
 export function renderDataBlock(label, data, config) {
