@@ -3,7 +3,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const roots = ['index.html', 'src'];
-const forbidden = /(?:^|[\\/'\"`])bundle(?:\\.worker)?\\.js(?:$|[\\/'\"`?])|g8hh\\.github\\.io\\/static\\/(?:js\\/(?:jquery\\.min|kf)|css\\/kf)\\./i;
+const forbiddenTokens = [
+  'bundle.js',
+  'bundle.worker.js',
+  'g8hh.github.io/static/js/jquery.min.js',
+  'g8hh.github.io/static/js/kf.js',
+  'g8hh.github.io/static/css/kf.css',
+];
 const ignored = new Set([
   path.normalize('scripts/check-no-bundle-runtime.mjs'),
   path.normalize('src/recovered'),
@@ -30,7 +36,7 @@ for (const root of roots) {
     if (ignored.has(normalized) || normalized.includes(`${path.sep}recovered${path.sep}`)) continue;
     if (!/\.(html|js|jsx|ts|tsx|css)$/.test(file)) continue;
     const content = fs.readFileSync(file, 'utf8');
-    if (forbidden.test(content) || forbiddenExternal.some((token) => content.includes(token))) violations.push(file);
+    if (forbiddenTokens.some((token) => content.includes(token))) violations.push(file);
   }
 }
 
