@@ -61,8 +61,8 @@ function renderEffectsPreview(snapshot) {
   return `<div class="ui-automation-effects">${merged.slice(0, 16).map((item) => {
     const scope = item.scope || 'effect';
     const sign = scope === 'consumption' ? '−' : '+';
-    return \`<div class="ui-automation-effect"><span>${escapeHtml(item.name || item.title || item.id)}</span><strong>${sign}${escapeHtml(Math.abs(Number(item.value) || 0))}</strong><small>${escapeHtml(scope)}</small></div>\`;
-  }).join('')}</div>`;
+    return '<div class="ui-automation-effect"><span>' + escapeHtml(item.name || item.title || item.id) + '</span><strong>' + sign + escapeHtml(Math.abs(Number(item.value) || 0)) + '</strong><small>' + escapeHtml(scope) + '</small></div>';
+  }).join('') + '</div>';
 }
 
 function renderEditor(snapshot) {
