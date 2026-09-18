@@ -1,5 +1,5 @@
 // Stable transport names recovered from the existing worker modules.
-// Keep these strings stable while the implementation is moved out of bundle.worker.js.
+// Keep these strings stable while the implementation is moved out of the legacy worker bundle.
 
 export const COMMANDS = Object.freeze({
   INITIALIZE_GAME: 'initialize-game',
