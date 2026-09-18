@@ -1,4 +1,4 @@
-import { payloadActionFilterOrder, payloadById, payloadEventOpened, payloadEventOption, payloadFurnitureAutomation, payloadHotkey, payloadInventoryAmount, payloadSetCraftingLevel, payloadSetPlantationWatering, payloadWithAmount, payloadWithFlag, payloadMonitored, payloadWithFilter } from '../../engine/command-builders.js';
+import { payloadActionFilterOrder, payloadById, payloadEventOpened, payloadEventOption, payloadFurnitureAutomation, payloadHotkey, payloadInventoryAmount, payloadSetCraftingLevel, payloadSetPlantationWatering, payloadSetting, payloadTourFinished, payloadWithAmount, payloadWithFlag, payloadMonitored, payloadWithFilter } from '../../engine/command-builders.js';
 
 export function createCommandController(context) {
   const { game, getGameState, requestView, scheduleViewRefresh, render, loadTextSave, copyText, downloadText, closeAutomationEditor } = context;
@@ -79,6 +79,20 @@ export function createCommandController(context) {
             return;
           }
           game.dispatch?.(command, payload);
+        } else if (command === 'save-runtime-settings') {
+          const fields = [...shell.querySelectorAll('[data-action="runtime-setting-value"]')];
+          for (const field of fields) {
+            const key = field.dataset.key;
+            if (!key) continue;
+            let value = field.value;
+            try { value = JSON.parse(value); } catch {}
+            game.dispatch?.('set-setting', payloadSetting(key, value));
+          }
+          requestView('settings', true);
+        } else if (command === 'set_tour_finished') {
+          const raw = shell.querySelector('[data-action="tour-skip-step"]')?.value || '';
+          game.dispatch?.('set_tour_finished', payloadTourFinished(raw));
+          requestView('settings', true);
         } else if (command === 'set-monitored') {
           const raw = shell.querySelector('[data-action="monitor-target"]')?.value || '';
           const [scope = 'effects', type = 'action', monitorId = ''] = raw.split('|');
