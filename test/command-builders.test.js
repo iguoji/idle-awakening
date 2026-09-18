@@ -11,6 +11,8 @@ import {
   payloadMonitored,
   payloadSetCraftingLevel,
   payloadSetPlantationWatering,
+  payloadSetting,
+  payloadTourFinished,
   payloadWithAmount,
   payloadWithFlag,
 } from '../src/engine/command-builders.js';
@@ -28,6 +30,9 @@ test('command builders normalize non-trivial payloads', () => {
   assert.deepEqual(payloadEventOption('event-1', 'choice-2'), { eventId: 'event-1', optionId: 'choice-2' });
   assert.deepEqual(payloadActionFilterOrder('1', '3'), { sourceIndex: 1, destinationIndex: 3 });
   assert.deepEqual(payloadMonitored('effects', 'action', 'walk'), { scope: 'effects', type: 'action', id: 'walk' });
+  assert.deepEqual(payloadSetting('theme', 'dark'), { key: 'theme', value: 'dark' });
+  assert.deepEqual(payloadTourFinished('3'), { skipStep: 3 });
+  assert.deepEqual(payloadTourFinished(''), { skipStep: undefined });
 });
 
 test('hotkey builder preserves the original worker payload shape', () => {
