@@ -1,4 +1,3 @@
-import './domain-view.css';
 import { escapeHtml, formatNumber, itemId, pickCollection, renderButton, renderMeta } from './format.js';
 
 export function renderItemCard(item, config, context = {}) {
@@ -111,6 +110,33 @@ export function renderInventoryToolbar(data) {
     <div class="ui-action-filters">
       ${categories.map((category) => `<button class="ui-filter ${selected === category.id ? 'is-active' : ''}" data-action="inventory-filter" data-filter-id="${escapeHtml(category.id)}">${escapeHtml(category.name || category.id)}<span>${category.items?.length ?? 0}</span></button>`).join('')}
     </div>
+  </div></article>`;
+}
+
+export function renderDetailBlock(data) {
+  const stats = [
+    ['Level', data.level],
+    ['Max', data.max],
+    ['Amount', data.amount],
+    ['Sell price', data.sellPrice],
+    ['Purchase multiplier', data.purchaseMultiplier],
+  ].filter(([, value]) => value !== undefined && value !== null);
+  const effects = Array.isArray(data.effects) ? data.effects : Array.isArray(data.potentialEffects) ? data.potentialEffects : [];
+  return `<article class="ui-card ui-domain-detail"><div class="ui-card__body">
+    <div class="ui-section-title"><div><strong>${escapeHtml(data.name || data.id || 'Item')}</strong><span>Details</span></div></div>
+    ${data.description ? `<p class="ui-muted">${escapeHtml(data.description)}</p>` : ''}
+    <div class="ui-stat-grid">${stats.map(([label, value]) => `<div class="ui-stat"><div class="ui-stat__label">${escapeHtml(label)}</div><div class="ui-stat__value">${escapeHtml(formatNumber(value))}</div></div>`).join('')}</div>
+    ${effects.length ? `<div class="ui-detail-effects"><strong>Effects</strong><pre class="ui-domain-json">${escapeHtml(JSON.stringify(effects, null, 2).slice(0, 8000))}</pre></div>` : ''}
+  </div></article>`;
+}
+
+export function renderWorldMap(data) {
+  if (!data) return '';
+  const tiles = data.tiles || data.mapTiles || data.mapTilesProcessed;
+  if (!Array.isArray(tiles) || !Array.isArray(tiles[0])) return '';
+  return `<article class="ui-card"><div class="ui-card__body">
+    <div class="ui-section-title"><div><strong>Map</strong><span>${tiles.length} × ${tiles[0].length}</span></div></div>
+    <div class="ui-map-grid">${tiles.flat().map((tile) => `<span title="${escapeHtml(tile?.metaData?.name || 'Unknown')}">${tile?.isRunning ? '●' : '·'}</span>`).join('')}</div>
   </div></article>`;
 }
 
