@@ -50,6 +50,13 @@ export function renderItemCard(item, config, context = {}) {
   }
   if (config.actions && context.type !== 'shop-resource') {
     controls = config.actions.map((action) => renderButton(action.command, action.label, item, { amount: action.amount })).join('');
+    if (config.title === 'Inventory') {
+      const consumeEnabled = Boolean(item?.autoconsume?.isEnabled);
+      const sellEnabled = Boolean(item?.autosell?.isEnabled);
+      if (item?.isConsumable) controls += '<label class="ui-inline-check"><input type="checkbox" data-action="inventory-autoconsume" data-id="' + escapeHtml(id) + '" ' + (consumeEnabled ? 'checked' : '') + '/> Auto use</label>';
+      if (item?.isSellable) controls += '<label class="ui-inline-check"><input type="checkbox" data-action="inventory-autosell" data-id="' + escapeHtml(id) + '" ' + (sellEnabled ? 'checked' : '') + '/> Auto sell</label>';
+      controls += '<button class="ui-btn" data-command="query-sell-details" data-id="' + escapeHtml(id) + '">Sell details</button>';
+    }
   }
   if (config.detailsCommand && context.type !== 'shop-resource' && id) {
     controls += `<button class="ui-btn" data-command="${escapeHtml(config.detailsCommand)}" data-id="${escapeHtml(id)}">Details</button>`;
