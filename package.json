@@ -1,0 +1,22 @@
+{
+  "name": "idle-awakening-ui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check:architecture": "node scripts/check-no-bundle-runtime.mjs",
+    "check:contracts": "node scripts/check-ui-contracts.mjs",
+    "test": "node --test test/*.test.js",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "vite": "^7.1.4",
+    "@playwright/test": "^1.63.0"
+  }
+}

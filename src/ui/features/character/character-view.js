@@ -1,0 +1,144 @@
+import './character-view.css';
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function number(value) {
+  return typeof value === 'number' && Number.isFinite(value) ? new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 2 }).format(value) : String(value ?? '—');
+}
+
+function percent(value) {
+  return `${Math.max(0, Math.min(100, Number(value) * 100))}%`;
+}
+
+function renderStat(label, value, detail = '') {
+  return `<div class="ui-stat"><div class="ui-stat__label">${escapeHtml(label)}</div><div class="ui-stat__value">${escapeHtml(number(value))}</div>${detail ? `<div class="ui-character-stat__detail">${escapeHtml(detail)}</div>` : ''}</div>`;
+}
+
+function renderAttributes(data) {
+  const list = Array.isArray(data?.list) ? data.list : [];
+  if (!list.length) return '<div class="ui-domain-empty">No unlocked attributes yet.</div>';
+  return `<div class="ui-character-attributes">${list.map((attribute) => `<div class="ui-character-attribute">
+    <div><strong>${escapeHtml(attribute.name || attribute.id)}</strong><span>${escapeHtml(number(attribute.value))}</span></div>
+    <div class="ui-progress"><i style="width:${percent(attribute.nextProgress || 0)}"></i></div>
+    ${attribute.nextUnlocks?.length ? `<small>Next unlock at ${escapeHtml(number(attribute.nextUnlocks[0].level))}</small>` : ''}
+  </div>`).join('')}</div>`;
+}
+
+function renderSkills(data) {
+  const skills = data?.available && typeof data.available === 'object' && !Array.isArray(data.available)
+    ? Object.values(data.available)
+    : Array.isArray(data?.available) ? data.available : [];
+  if (!skills.length) return '<div class="ui-domain-empty">No skills loaded.</div>';
+  const points = data?.sp?.total ?? 0;
+  const editMode = Boolean(data?.isEditMode);
+
+  return `<div class="ui-character-skills">
+    ${skills.filter((skill) => skill.isUnlocked || skill.level > 0).slice(0, 120).map((skill) => {
+      const canBuy = skill.isUnlocked && skill.isRequirementsMet !== false && !skill.isCapped && points > 0;
+      const canRemove = editMode && Number(skill.level || 0) > 0;
+      const progress = skill.max ? Math.min(100, (Number(skill.level || 0) / Number(skill.max || 1)) * 100) : 0;
+      return `<article class="ui-character-skill" data-locked="${!skill.isUnlocked}">
+        <div class="ui-character-skill__main">
+          <div class="ui-character-skill__title"><strong>${escapeHtml(skill.name || skill.id)}</strong><span>Lv ${escapeHtml(number(skill.level))} / ${escapeHtml(number(skill.max))}</span></div>
+          <p>${escapeHtml(skill.description || '')}</p>
+          <div class="ui-progress"><i style="width:${progress}%"></i></div>
+          ${skill.unlockBySkills?.length ? `<small>${skill.isRequirementsMet === false ? 'Prerequisites unmet' : 'Prerequisites met'}</small>` : ''}
+          ${Number(skill.diff || 0) !== 0 ? `<small class="ui-character-skill__diff">${skill.diff > 0 ? '+' : ''}${escapeHtml(number(skill.diff))} staged</small>` : ''}
+        </div>
+        <div class="ui-character-skill__controls">
+          <button class="ui-btn ${canBuy ? 'ui-btn--primary' : ''}" data-command="purchase-skill" data-id="${escapeHtml(skill.id)}" ${canBuy ? '' : 'disabled'}>${skill.isCapped ? 'Maxed' : canBuy ? 'Buy +1' : 'Locked'}</button>
+          ${canRemove ? `<button class="ui-btn" data-command="remove-skill" data-id="${escapeHtml(skill.id)}">Remove</button>` : ''}
+        </div>
+      </article>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderEffects(data) {
+  const list = Array.isArray(data?.list) ? data.list : [];
+  if (!list.length) return '<div class="ui-domain-empty">No active effects.</div>';
+  return `<div class="ui-character-effects">${list.slice(0, 80).map((effect) => `<div class="ui-character-effect"><strong>${escapeHtml(effect.name || effect.id)}</strong><span>${escapeHtml(number(effect.duration ?? ''))}</span></div>`).join('')}</div>`;
+}
+
+function renderDrafts(data, exportedDraft) {
+  const drafts = Array.isArray(data?.drafts) ? data.drafts : [];
+  let exportBlock = '';
+  if (exportedDraft && typeof exportedDraft === 'object') {
+    const filename = `skill-draft-${String(exportedDraft.name || exportedDraft.id || 'export').replace(/[^a-z0-9-_]+/gi, '-').replace(/^-|-$/g, '') || 'export'}.json`;
+    const href = `data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify(exportedDraft, null, 2))}`;
+    exportBlock = `<div class="ui-character-export"><span>Export ready: ${escapeHtml(exportedDraft.name || exportedDraft.id || 'draft')}</span><a class="ui-btn ui-btn--primary" href="${escapeHtml(href)}" download="${escapeHtml(filename)}">Download JSON</a></div>`;
+  }
+  return `<div class="ui-character-drafts">
+    <div class="ui-character-draft-create"><input class="ui-save-input" data-action="skill-draft-name" placeholder="Draft name" /><button class="ui-btn" data-command="save-skill-draft">Save draft</button><label class="ui-btn"><input type="file" accept="application/json,.json,.txt" data-action="skill-draft-import-file" hidden />Import</label></div>
+    ${exportBlock}
+    ${drafts.map((draft) => `<div class="ui-character-draft"><div><strong>${escapeHtml(draft.name || draft.id)}</strong><span>${draft.timestamp ? new Date(draft.timestamp).toLocaleString('zh-CN') : ''}</span></div><div class="ui-character-draft__controls"><button class="ui-btn" data-command="load-skill-draft" data-id="${escapeHtml(draft.id)}">Load</button><button class="ui-btn" data-command="export-skill-draft" data-id="${escapeHtml(draft.id)}">Export</button><button class="ui-btn" data-command="delete-skill-draft" data-id="${escapeHtml(draft.id)}">Delete</button></div></div>`).join('') || '<p class="ui-muted">No saved skill drafts.</p>'}
+  </div>`;
+}
+
+export function getCharacterQueries() {
+  return [
+    ['query-mage-data', {}],
+    ['query-skills-data', {}],
+    ['query-attributes-data', {}],
+    ['query-active-effects', {}],
+    ['query-statistics', {}],
+    ['query-total-unlocks', {}],
+  ];
+}
+
+export function renderCharacterView(snapshot) {
+  const raw = snapshot?.raw || {};
+  const mage = raw['mage-data'] || {};
+  const skills = raw['skills-data'] || {};
+  const attributes = raw['attributes-data'] || {};
+  const effects = raw['active-effects'] || {};
+  const statistics = raw.statistics || {};
+  const unlocks = raw['total-unlocks'] || {};
+  const editMode = Boolean(skills.isEditMode);
+
+  return `<section class="ui-page-head">
+    <div><div class="ui-kicker">Character</div><h1>Mage</h1><p>Your long-term progression, attributes, skills and active effects.</p></div>
+    <div class="ui-status-pill">${snapshot?.loading ? 'Loading save…' : editMode ? 'Editing skills' : 'Live worker data'}</div>
+  </section>
+  <section class="ui-grid">
+    <article class="ui-card"><div class="ui-card__body">
+      <div class="ui-section-title"><div><strong>Progression</strong><span>Mage level and skill points</span></div></div>
+      <div class="ui-stat-grid">
+        ${renderStat('Mage level', mage.mageLevel ?? 1, `${number(mage.mageXP)} / ${number(mage.mageMaxXP)} XP`)}
+        ${renderStat('Skill points', mage.skillPoints ?? skills.sp?.total ?? 0, `${number(skills.sp?.max ?? 0)} income`)}
+        ${renderStat('Time played', mage.timeSpent ?? 0, 'simulation seconds')}
+      </div>
+      <div class="ui-actions">
+        <button class="ui-btn" data-command="toggle-speedup">Toggle speed-up</button>
+        ${editMode ? '<button class="ui-btn ui-btn--primary" data-command="apply-skill-changes">Apply changes</button><button class="ui-btn" data-command="discard-skill-changes">Discard</button>' : '<span class="ui-muted ui-character-edit-hint">Choose a skill to begin a staged edit.</span>'}
+      </div>
+    </div></article>
+    <article class="ui-card"><div class="ui-card__body">
+      <div class="ui-section-title"><div><strong>Account</strong><span>Runtime totals</span></div></div>
+      <div class="ui-stat-grid">
+        ${renderStat('Unlocks', unlocks.total ?? unlocks.unlocked ?? '—')}
+        ${renderStat('Actions unlocked', statistics.actionsUnlocked ?? '—')}
+        ${renderStat('Active effects', Array.isArray(effects.list) ? effects.list.length : 0)}
+      </div>
+    </div></article>
+  </section>
+  <section class="ui-grid" style="margin-top:20px">
+    <article class="ui-card"><div class="ui-card__body"><div class="ui-section-title"><div><strong>Attributes</strong><span>${Array.isArray(attributes.list) ? attributes.list.length : 0} unlocked</span></div></div>${renderAttributes(attributes)}</div></article>
+    <article class="ui-card"><div class="ui-card__body"><div class="ui-section-title"><div><strong>Active effects</strong><span>Current buffs and debuffs</span></div></div>${renderEffects(effects)}</div></article>
+  </section>
+  <section class="ui-card" style="margin-top:20px"><div class="ui-card__body">
+    <div class="ui-section-title"><div><strong>Skills</strong><span>${escapeHtml(number(skills.sp?.total ?? 0))} points available</span></div><span class="ui-muted">${editMode ? 'Changes are staged until applied' : 'Purchases start a staged edit'}</span></div>
+    ${renderSkills(skills)}
+  </div></section>
+  <section class="ui-card" style="margin-top:20px"><div class="ui-card__body">
+    <div class="ui-section-title"><div><strong>Skill drafts</strong><span>${Array.isArray(skills.drafts) ? skills.drafts.length : 0} saved</span></div></div>
+    ${renderDrafts(skills, raw['export-skill-draft-blob'])}
+  </div></section>`;
+}
