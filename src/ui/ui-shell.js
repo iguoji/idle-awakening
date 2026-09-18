@@ -159,6 +159,8 @@ export function mountUiShell({ root, game }) {
     if (view === 'courses') return getCoursesQueries();
     if (view === 'automation') return getAutomationQueries();
     if (view === 'statistics') return getStatisticsQueries();
+    if (view === 'events') return getRandomEventsQueries();
+    if (view === 'property') return getPropertyQueries();
     return getDomainQueryConfig(view)?.queries || [];
   }
 
@@ -169,7 +171,7 @@ export function mountUiShell({ root, game }) {
   function scheduleViewRefresh(view) {
     if (refreshTimer) clearInterval(refreshTimer);
     refreshTimer = null;
-    const interval = view === 'character' ? 500 : view === 'actions' ? 250 : view === 'courses' ? 500 : view === 'automation' ? 750 : view === 'statistics' ? 1000 : view === 'world' ? 1500 : 750;
+    const interval = view === 'character' ? 500 : view === 'actions' ? 250 : view === 'courses' ? 500 : view === 'automation' ? 750 : view === 'statistics' ? 1000 : view === 'events' ? 1000 : view === 'property' ? 750 : view === 'world' ? 1500 : 750;
     if (getViewCommands(view).length) refreshTimer = setInterval(() => requestView(view, true), interval);
   }
 
@@ -285,7 +287,6 @@ export function mountUiShell({ root, game }) {
         <main class="ui-shell__main">${renderView(uiState.activeView)}</main>
       </div>
       ${renderEventOverlay(gameState)}
-          </div>
     `;
 
     root.replaceChildren(shell);
