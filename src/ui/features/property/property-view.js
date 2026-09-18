@@ -64,6 +64,14 @@ export function getPropertyFilterEditorDraft() {
   return clone(filterEditorDraft);
 }
 
+export function patchPropertyFilterDraft(mutator, rerender = false) {
+  if (!filterEditorDraft || typeof mutator !== 'function') return;
+  const draft = clone(filterEditorDraft);
+  mutator(draft);
+  filterEditorDraft = draft;
+  return rerender;
+}
+
 function renderStats(data) {
   const space = data?.space;
   if (!space || typeof space !== 'object') return '';
