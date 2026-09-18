@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const roots = ['index.html', 'src'];
-const forbidden = /(?:^|[\/'"`])bundle(?:\.worker)?\.js(?:$|[\/'"`?])/i;
+const forbidden = /(?:^|[\\/'\"`])bundle(?:\\.worker)?\\.js(?:$|[\\/'\"`?])|g8hh\\.github\\.io\\/static\\/(?:js\\/(?:jquery\\.min|kf)|css\\/kf)\\./i;
 const ignored = new Set([
   path.normalize('scripts/check-no-bundle-runtime.mjs'),
   path.normalize('src/recovered'),
