@@ -54,7 +54,7 @@ export const DOMAIN_CONFIG = {
     title: 'Spellbook',
     kicker: 'Magic',
     description: 'Cast unlocked spells and inspect magical progression.',
-    queries: [['query-spell-data', {}], ['query-general-magic-stats', {}]],
+    queries: [['query-spell-data', { includeAutomations: true }], ['query-general-magic-stats', {}]],
     responses: ['spell-data', 'general-magic-stats'],
     detailsCommand: 'query-spell-details',
     detailResponse: 'spell-details',
