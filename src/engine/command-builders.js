@@ -66,3 +66,13 @@ export function payloadHotkey(rawPayload, id) {
 export function payloadMonitored(scope, type, id = null) {
   return { scope, type, id: id || null };
 }
+
+export function payloadSetting(key, value) {
+  if (!key) throw new TypeError('Setting key is required');
+  return { key, value };
+}
+
+export function payloadTourFinished(skipStep) {
+  const numeric = Number(skipStep);
+  return { skipStep: Number.isFinite(numeric) && numeric >= 0 ? Math.floor(numeric) : undefined };
+}
