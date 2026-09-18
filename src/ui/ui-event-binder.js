@@ -475,8 +475,11 @@ export function createUiEventBinder(context) {
       button.addEventListener('click', async () => {
         const command = button.dataset.command;
         const id = button.dataset.id;
-        const amount = button.dataset.amount ? Number(button.dataset.amount) : undefined;
+        let amount = button.dataset.amount ? Number(button.dataset.amount) : undefined;
         const filterId = button.dataset.filterId;
+        if ((command === 'consume-inventory' || command === 'sell-inventory') && id) {
+          amount = Math.max(1, Math.floor(Number(shell.querySelector('[data-action="inventory-amount"][data-id="' + CSS.escape(id) + '"]')?.value) || 1));
+        }
         if (command === 'get-save-string') {
           game.dispatch?.(command, { type: 'manual' });
         } else if (command === 'copy-save') {
