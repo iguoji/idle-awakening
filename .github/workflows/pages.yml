@@ -33,6 +33,8 @@ jobs:
         run: npm run check:architecture
       - name: Command contract check
         run: npm run check:contracts
+      - name: Unit tests
+        run: npm test
       - name: Build
         run: npm run build
       - name: Configure Pages
