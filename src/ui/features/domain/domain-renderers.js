@@ -85,6 +85,15 @@ export function renderSocial(data) {
   return guildBlock + upgradeBlock;
 }
 
+export function renderWorldToolbar() {
+  return `<article class="ui-card ui-domain-toolbar"><div class="ui-card__body">
+    <div class="ui-domain-toolbar__row">
+      <div><strong>World generation</strong><span class="ui-muted">Regenerate the exploration map from the worker.</span></div>
+      <button class="ui-btn ui-btn--primary" data-command="map-generate-map">Generate map</button>
+    </div>
+  </div></article>`;
+}
+
 export function renderShopToolbar(data) {
   const multiplier = Number(data?.purchaseMultiplier) || 1;
   const showMaxed = Boolean(data?.showMaxed);
