@@ -1984,4 +1984,4 @@ export const ZH_CN_CATALOG = Object.freeze({
   "Maxed": "已满级",
   "Locked": "未解锁",
   "Buy +1": "购买 +1"
-});\n
+});
