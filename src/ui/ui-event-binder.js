@@ -1,5 +1,6 @@
 import { beginAutomationCreate, beginAutomationEdit, closeAutomationEditor, getAutomationEditorDraft, requestAutomationEffectsPreview } from './features/automation/automation-view.js';
 import { setActiveView, toggleSidebar } from './ui-state.js';
+import { beginPropertyFilterCreate, beginPropertyFilterEdit, closePropertyFilterEditor, getPropertyFilter, getPropertyFilterEditorDraft, patchPropertyFilterDraft, setPropertyFilter } from './features/property/property-view.js';
 
 function restoreFocusedField(shell, state) {
   if (!state) return;
@@ -96,6 +97,171 @@ export function createUiEventBinder(context) {
       });
     });
     shell.querySelector('[data-action="filter-save"]')?.addEventListener('click', saveFilterDraft);
+
+
+    shell.querySelectorAll('[data-action="property-category"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        setPropertyFilter(button.dataset.category);
+        requestView('property', true);
+        scheduleViewRefresh('property');
+        render();
+      });
+    });
+
+    shell.querySelector('[data-action="property-search"]')?.addEventListener('input', (event) => {
+      const filterId = getPropertyFilter();
+      game.dispatch?.('set-furniture-search-text', {
+        filterId,
+        searchData: { search: event.target.value, selectedScopes: ['name'] },
+      });
+      requestView('property', true);
+    });
+
+    shell.querySelector('[data-action="property-hide-maxed"]')?.addEventListener('change', (event) => {
+      game.dispatch?.('set-furniture-hide-maxed', {
+        filterId: getPropertyFilter(),
+        hideMaxed: event.target.checked,
+      });
+      requestView('property', true);
+    });
+
+    shell.querySelector('[data-action="property-filter-new"]')?.addEventListener('click', () => {
+      beginPropertyFilterCreate(getGameState()?.raw?.['furnitures-data'] || {});
+      render();
+    });
+
+    shell.querySelectorAll('[data-action="property-filter-edit"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const data = getGameState()?.raw?.['furnitures-data'] || {};
+        const filter = data?.customFilters?.[button.dataset.id];
+        if (!filter) return;
+        beginPropertyFilterEdit(filter);
+        render();
+      });
+    });
+
+    shell.querySelectorAll('[data-action="property-filter-delete"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        game.dispatch?.('delete-property-custom-filter', { filterId: getPropertyFilter(), id: button.dataset.id });
+        requestView('property', true);
+      });
+    });
+
+    shell.querySelectorAll('[data-action="property-toggle-pin"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        game.dispatch?.('toggle-property-custom-filter-pinned', {
+          filterId: getPropertyFilter(),
+          id: button.dataset.id,
+          flag: button.dataset.flag === 'true',
+        });
+        requestView('property', true);
+      });
+    });
+
+    shell.querySelectorAll('[data-action="property-apply-filter"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        game.dispatch?.('apply-property-custom-filter', { filterId: getPropertyFilter(), id: button.dataset.id });
+        requestView('property', true);
+      });
+    });
+
+    shell.querySelectorAll('[data-action="property-filter-move"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const data = getGameState()?.raw?.['furnitures-data'] || {};
+        const order = Array.isArray(data.customFiltersOrder) ? data.customFiltersOrder : [];
+        const index = order.indexOf(button.dataset.id);
+        const destination = index + (button.dataset.direction === 'up' ? -1 : 1);
+        if (index < 0 || destination < 0 || destination >= order.length) return;
+        game.dispatch?.('actions-change-custom-filters-order', {
+          filterId: getPropertyFilter(),
+          sourceIndex: index,
+          destinationIndex: destination,
+        });
+        requestView('property', true);
+      });
+    });
+
+    shell.querySelector('[data-action="property-filter-modal-backdrop"]')?.addEventListener('click', (event) => {
+      if (event.target === event.currentTarget) {
+        closePropertyFilterEditor();
+        render();
+      }
+    });
+    shell.querySelectorAll('[data-action="property-filter-close"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        closePropertyFilterEditor();
+        render();
+      });
+    });
+    shell.querySelector('[data-action="property-filter-name"]')?.addEventListener('input', (event) => {
+      patchPropertyFilterDraft((draft) => { draft.name = event.target.value; });
+    });
+    shell.querySelector('[data-action="property-filter-condition"]')?.addEventListener('input', (event) => {
+      patchPropertyFilterDraft((draft) => { draft.condition = event.target.value; });
+    });
+    shell.querySelector('[data-action="property-filter-pinned"]')?.addEventListener('change', (event) => {
+      patchPropertyFilterDraft((draft) => { draft.isPinned = event.target.checked; });
+    });
+    shell.querySelectorAll('[data-action="property-filter-rule-type"]').forEach((select) => {
+      select.addEventListener('change', (event) => {
+        patchPropertyFilterDraft((draft) => {
+          const index = Number(select.dataset.index);
+          if (draft.rules?.[index]) draft.rules[index].type = event.target.value;
+        });
+        render();
+      });
+    });
+    shell.querySelectorAll('[data-action="property-filter-rule-object"]').forEach((input) => {
+      input.addEventListener('input', (event) => {
+        patchPropertyFilterDraft((draft) => {
+          const index = Number(input.dataset.index);
+          if (draft.rules?.[index]) draft.rules[index].object = event.target.value;
+        });
+      });
+    });
+    shell.querySelector('[data-action="property-filter-rule-add"]')?.addEventListener('click', () => {
+      patchPropertyFilterDraft((draft) => {
+        draft.rules = [...(draft.rules || []), { type: 'tag', object: getPropertyFilter() }];
+      });
+      render();
+    });
+    shell.querySelectorAll('[data-action="property-filter-rule-remove"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        patchPropertyFilterDraft((draft) => {
+          const index = Number(button.dataset.index);
+          draft.rules = (draft.rules || []).filter((_, i) => i !== index);
+        });
+        render();
+      });
+    });
+    shell.querySelector('[data-action="property-filter-save"]')?.addEventListener('click', () => {
+      const draft = getPropertyFilterEditorDraft();
+      if (!draft) return;
+      draft.filterId = getPropertyFilter();
+      draft.name = String(draft.name || '').trim() || 'Untitled filter';
+      draft.condition = String(draft.condition || '').trim();
+      draft.rules = (Array.isArray(draft.rules) ? draft.rules : [])
+        .filter((rule) => rule && ['tag', 'resource', 'attribute'].includes(rule.type) && String(rule.object || '').trim())
+        .map((rule) => ({ type: rule.type, object: String(rule.object).trim() }));
+      if (draft.condition && !/^(?:\s*(?:\d+|AND|OR|NOT|\(|\))\s*)+$/i.test(draft.condition)) {
+        window.alert?.('Condition may only contain rule numbers, parentheses, AND, OR and NOT.');
+        return;
+      }
+      const references = [...draft.condition.matchAll(/\d+/g)].map((match) => Number(match[0]));
+      if (references.some((reference) => reference < 1 || reference > draft.rules.length)) {
+        window.alert?.('Condition references a rule that does not exist.');
+        return;
+      }
+      const data = getGameState()?.raw?.['furnitures-data'] || {};
+      const order = Array.isArray(data.customFiltersOrder) ? data.customFiltersOrder : [];
+      draft.sortIndex = draft.id ? Math.max(0, order.indexOf(draft.id)) : order.length;
+      draft.isPinned = Boolean(draft.isPinned);
+      if (!draft.id) delete draft.id;
+      game.dispatch?.('save-property-custom-filter', draft);
+      closePropertyFilterEditor();
+      requestView('property', true);
+      render();
+    });
 
     shell.querySelector('[data-action="automation-new"]')?.addEventListener('click', () => {
       beginAutomationCreate();
@@ -239,6 +405,8 @@ export function createUiEventBinder(context) {
           game.dispatch?.(command, { id, level: amount, filterId, isForce: false });
         } else if (command === 'set-plantation-watering') {
           game.dispatch?.(command, { id, level: amount });
+        } else if (command === 'set-furniture-autopurchase') {
+          game.dispatch?.(command, { id, flag: button.dataset.flag === 'true', filterId });
         } else if (command === 'purchase-furniture') {
           game.dispatch?.(command, { id, filterId });
         } else if (command === 'select-guild') {
@@ -266,7 +434,7 @@ export function createUiEventBinder(context) {
           game.dispatch?.(command, { id, isViewMode: false });
         } else if (command === 'toggle-speedup') {
           game.dispatch?.(command, {});
-        } else if (command === 'query-action-details' || command === 'query-action-xp-breakdown' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details' || command === 'query-course-details') {
+        } else if (command === 'query-action-details' || command === 'query-action-xp-breakdown' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details' || command === 'query-course-details' || command === 'query-furniture-details') {
           game.dispatch?.(command, { id });
         } else if (command === 'run-course' || command === 'stop-course') {
           game.dispatch?.(command, { id });
