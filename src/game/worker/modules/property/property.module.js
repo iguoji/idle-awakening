@@ -806,7 +806,8 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
         hideMaxed: options === null || options === void 0 ? void 0 : options.hideMaxed,
         isAutomationUnlocked: index.gameEntity.getLevel('shop_item_purchase_manager') > 0,
         customFilters: this.customFilters[payload.filterId],
-        customFiltersOrder: this.customFiltersOrder[payload.filterId]
+        customFiltersOrder: this.customFiltersOrder[payload.filterId],
+        filterId: payload.filterId
       };
     }
   }, {
