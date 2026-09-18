@@ -87,7 +87,7 @@ export function createActionsController(context) {
 
     shell.querySelector('[data-action="action-xp-breakdown"]')?.addEventListener('click', (event) => {
       game.dispatch?.('query-action-xp-breakdown', { id: event.currentTarget.dataset.id });
-      event.currentTarget.textContent = 'Refreshing…';
+      event.currentTarget.textContent = '刷新中…';
     });
 
 
