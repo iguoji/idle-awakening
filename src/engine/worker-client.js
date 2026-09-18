@@ -211,6 +211,9 @@ export class GameWorkerClient {
 
     const { event: type, payload } = message;
     const patch = { raw: { ...this.#snapshot.raw, [type]: payload } };
+    if (type === 'worker-error') {
+      console.error('[GameWorker]', payload?.message || 'Unknown worker error', payload?.stack || '');
+    }
 
     switch (type) {
       case 'initialized': {
