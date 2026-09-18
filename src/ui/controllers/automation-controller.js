@@ -48,7 +48,7 @@ export function createAutomationController(context) {
         listData: { ...draft, actions },
       });
       const button = shell.querySelector('[data-action="automation-preview-effects"]');
-      if (button) button.textContent = 'Calculating…';
+      if (button) button.textContent = '计算中…';
     });
 
     shell.querySelectorAll('[data-action="automation-move"]').forEach((button) => {
@@ -74,7 +74,7 @@ export function createAutomationController(context) {
         return { id: checkbox.dataset.id, time: Math.max(0.1, Number(timeInput?.value) || 10) };
       });
       const payload = {
-        name: shell.querySelector('[data-action="automation-draft-name"]')?.value?.trim() || 'Untitled list',
+        name: shell.querySelector('[data-action="automation-draft-name"]')?.value?.trim() || '未命名列表',
         sort: Math.max(0, Number(shell.querySelector('[data-action="automation-draft-sort"]')?.value) || draft.sort || 0),
         actions,
         autotrigger: {
