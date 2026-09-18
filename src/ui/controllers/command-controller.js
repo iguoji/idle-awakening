@@ -17,7 +17,7 @@ export function createCommandController(context) {
           game.dispatch?.(command, { type: 'manual' });
         } else if (command === 'copy-save') {
           const save = getGameState()?.raw?.['saved-string']?.string;
-          if (await copyText(save)) button.textContent = 'Copied';
+          if (await copyText(save)) button.textContent = '已复制';
         } else if (command === 'download-save') {
           const save = getGameState()?.raw?.['saved-string']?.string;
           downloadText('idle-awakening-save.txt', save);
@@ -62,7 +62,7 @@ export function createCommandController(context) {
         } else if (command === 'apply-skill-changes' || command === 'discard-skill-changes') {
           game.dispatch?.(command, {});
         } else if (command === 'save-skill-draft') {
-          const name = shell.querySelector('[data-action="skill-draft-name"]')?.value?.trim() || 'Untitled draft';
+          const name = shell.querySelector('[data-action="skill-draft-name"]')?.value?.trim() || '未命名草稿';
           game.dispatch?.(command, { name });
         } else if (command === 'delete-skill-draft') {
           game.dispatch?.(command, { id });
