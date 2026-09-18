@@ -9,12 +9,14 @@
     "preview": "vite preview",
     "check:architecture": "node scripts/check-no-bundle-runtime.mjs",
     "check:contracts": "node scripts/check-ui-contracts.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "vite": "^7.1.4"
+    "vite": "^7.1.4",
+    "@playwright/test": "^1.63.0"
   }
 }
