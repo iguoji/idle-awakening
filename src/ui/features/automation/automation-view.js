@@ -58,7 +58,7 @@ function renderEffectsPreview(snapshot) {
   const effects = Array.isArray(data.effectEffects) ? data.effectEffects : [];
   const merged = [...resources, ...effects].filter((item) => item && typeof item.value !== 'undefined');
   if (!merged.length) return '<div class="ui-muted">No measurable effects for the current draft.</div>';
-  return `<div class="ui-automation-effects">${merged.slice(0, 16).map((item) => {
+  return '<div class="ui-automation-effects">' + merged.slice(0, 16).map((item) => {
     const scope = item.scope || 'effect';
     const sign = scope === 'consumption' ? '−' : '+';
     return '<div class="ui-automation-effect"><span>' + escapeHtml(item.name || item.title || item.id) + '</span><strong>' + sign + escapeHtml(Math.abs(Number(item.value) || 0)) + '</strong><small>' + escapeHtml(scope) + '</small></div>';
