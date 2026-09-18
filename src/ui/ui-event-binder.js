@@ -321,6 +321,20 @@ export function createUiEventBinder(context) {
       });
     });
 
+    shell.querySelectorAll('[data-action="inventory-autoconsume"], [data-action="inventory-autosell"]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const data = getGameState()?.raw?.['inventory-data'] || {};
+        const item = (Array.isArray(data.available) ? data.available : []).find((candidate) => String(candidate?.id) === String(input.dataset.id));
+        if (!item) return;
+        const autoconsume = { ...(item.autoconsume || { rules: [] }) };
+        const autosell = { ...(item.autosell || { rules: [] }) };
+        if (input.dataset.action === 'inventory-autoconsume') autoconsume.isEnabled = input.checked;
+        else autosell.isEnabled = input.checked;
+        game.dispatch?.('save-inventory-settings', { id: item.id, autoconsume, autosell });
+        requestView('inventory', true);
+      });
+    });
+
     shell.querySelector('[data-action="automation-new"]')?.addEventListener('click', () => {
       beginAutomationCreate();
       scheduleViewRefresh('automation');
@@ -496,7 +510,7 @@ export function createUiEventBinder(context) {
           game.dispatch?.(command, { id, isViewMode: false });
         } else if (command === 'toggle-speedup') {
           game.dispatch?.(command, {});
-        } else if (command === 'query-action-details' || command === 'query-action-xp-breakdown' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details' || command === 'query-course-details' || command === 'query-furniture-details' || command === 'query-crafting-details' || command === 'query-plantation-details' || command === 'query-spell-details' || command === 'query-guild-item-details') {
+        } else if (command === 'query-action-details' || command === 'query-action-xp-breakdown' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details' || command === 'query-course-details' || command === 'query-furniture-details' || command === 'query-crafting-details' || command === 'query-plantation-details' || command === 'query-spell-details' || command === 'query-guild-item-details' || command === 'query-sell-details') {
           game.dispatch?.(command, { id });
         } else if (command === 'run-course' || command === 'stop-course') {
           game.dispatch?.(command, { id });
