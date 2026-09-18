@@ -479,8 +479,8 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
         this.customFiltersOrder[filterId] = this.customFiltersOrder[filterId].filter(function (fid) {
           return fid !== id;
         });
-        this.customFiltersOrder[filterId].forEach(function (filterId, index) {
-          if (this.customFilters[filterId][filterId]) this.customFilters[filterId][filterId].sortIndex = index;
+        this.customFiltersOrder[filterId].forEach(function (customFilterId, index) {
+          if (this.customFilters[filterId][customFilterId]) this.customFilters[filterId][customFilterId].sortIndex = index;
         }, this);
         this.sendFurnituresData({
           filterId: filterId
