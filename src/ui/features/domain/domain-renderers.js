@@ -56,6 +56,7 @@ export function renderItemCard(item, config, context = {}) {
     if (config.title === 'Inventory') {
       const consumeEnabled = Boolean(item?.autoconsume?.isEnabled);
       const sellEnabled = Boolean(item?.autosell?.isEnabled);
+      controls = '<label class="ui-quantity"><span>Amount</span><input type="number" min="1" step="1" value="1" data-action="inventory-amount" data-id="' + escapeHtml(id) + '"/></label>' + controls;
       if (item?.isConsumable) controls += '<label class="ui-inline-check"><input type="checkbox" data-action="inventory-autoconsume" data-id="' + escapeHtml(id) + '" ' + (consumeEnabled ? 'checked' : '') + '/> Auto use</label>';
       if (item?.isSellable) controls += '<label class="ui-inline-check"><input type="checkbox" data-action="inventory-autosell" data-id="' + escapeHtml(id) + '" ' + (sellEnabled ? 'checked' : '') + '/> Auto sell</label>';
       controls += '<button class="ui-btn" data-command="query-sell-details" data-id="' + escapeHtml(id) + '">Sell details</button>';
