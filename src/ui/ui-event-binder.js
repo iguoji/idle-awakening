@@ -405,6 +405,10 @@ export function createUiEventBinder(context) {
           game.dispatch?.(command, { id, level: amount, filterId, isForce: false });
         } else if (command === 'set-plantation-watering') {
           game.dispatch?.(command, { id, level: amount });
+        } else if (command === 'set-plantation-autopurchase') {
+          game.dispatch?.(command, { id, flag: button.dataset.flag === 'true' });
+        } else if (command === 'remove-plantation') {
+          game.dispatch?.(command, { id });
         } else if (command === 'set-furniture-autopurchase') {
           game.dispatch?.(command, { id, flag: button.dataset.flag === 'true', filterId });
         } else if (command === 'purchase-furniture') {
@@ -434,7 +438,7 @@ export function createUiEventBinder(context) {
           game.dispatch?.(command, { id, isViewMode: false });
         } else if (command === 'toggle-speedup') {
           game.dispatch?.(command, {});
-        } else if (command === 'query-action-details' || command === 'query-action-xp-breakdown' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details' || command === 'query-course-details' || command === 'query-furniture-details') {
+        } else if (command === 'query-action-details' || command === 'query-action-xp-breakdown' || command === 'query-item-details' || command === 'query-inventory-details' || command === 'query-item-resource-details' || command === 'query-course-details' || command === 'query-furniture-details' || command === 'query-crafting-details' || command === 'query-plantation-details' || command === 'query-spell-details' || command === 'query-guild-item-details') {
           game.dispatch?.(command, { id });
         } else if (command === 'run-course' || command === 'stop-course') {
           game.dispatch?.(command, { id });
