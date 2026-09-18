@@ -84,6 +84,28 @@ export function renderListBlock(label, list, config, context = {}, limit = 100) 
   </div></article>`;
 }
 
+export function renderSpellLevelEffects(data) {
+  if (!data || typeof data !== 'object') return '';
+  const effects = Array.isArray(data.effects) ? data.effects : [];
+  const potential = Array.isArray(data.potentialEffects) ? data.potentialEffects : [];
+  return '<article class="ui-card ui-domain-detail"><div class="ui-card__body">' +
+    '<div class="ui-section-title"><div><strong>Next spell level</strong><span>' + (data.affordable === false ? 'Not currently affordable' : 'Affordable') + '</span></div></div>' +
+    '<div class="ui-stat-grid"><div class="ui-stat"><div class="ui-stat__label">XP rate</div><div class="ui-stat__value">' + escapeHtml(formatNumber(data.xpRate)) + '</div></div></div>' +
+    (effects.length ? '<div class="ui-detail-effects"><strong>Cast effects</strong><div class="ui-effect-list">' + effects.map((effect) => '<div class="ui-effect-row"><span>' + escapeHtml(effect.name || effect.id) + '</span><strong>' + escapeHtml(formatNumber(effect.value)) + '</strong></div>').join('') + '</div></div>' : '') +
+    (potential.length ? '<div class="ui-detail-effects"><strong>Permanent effects</strong><div class="ui-effect-list">' + potential.map((effect) => '<div class="ui-effect-row"><span>' + escapeHtml(effect.name || effect.id) + '</span><strong>' + escapeHtml(formatNumber(effect.value)) + '</strong></div>').join('') + '</div></div>' : '') +
+  '</div></article>';
+}
+
+export function renderWorldGeneralData(data) {
+  const generation = data?.mapGeneration || {};
+  const effects = Array.isArray(data?.stats?.effects) ? data.stats.effects : [];
+  return '<article class="ui-card"><div class="ui-card__body">' +
+    '<div class="ui-section-title"><div><strong>World statistics</strong><span>Generation and exploration</span></div></div>' +
+    '<div class="ui-stat-grid"><div class="ui-stat"><div class="ui-stat__label">Map level</div><div class="ui-stat__value">' + escapeHtml(formatNumber(generation.level)) + ' / ' + escapeHtml(formatNumber(generation.maxLevel)) + '</div></div><div class="ui-stat"><div class="ui-stat__label">Generation</div><div class="ui-stat__value">' + (generation.isUnlocked ? (generation.affordable ? 'Available' : 'Needs fragments') : 'Locked') + '</div></div><div class="ui-stat"><div class="ui-stat__label">Gathering</div><div class="ui-stat__value">' + (data.isProducingGathering ? 'Producing' : 'Idle') + '</div></div></div>' +
+    (effects.length ? '<div class="ui-effect-list">' + effects.map((effect) => '<div class="ui-effect-row"><span>' + escapeHtml(effect.name || effect.id) + '</span><strong>' + escapeHtml(formatNumber(effect.value)) + '</strong></div>').join('') + '</div>' : '') +
+  '</div></article>';
+}
+
 export function renderMagicStats(data) {
   if (!data || typeof data !== 'object') return '';
   const groups = Object.entries(data).filter(([, effects]) => Array.isArray(effects) && effects.length);
@@ -232,6 +254,8 @@ export function renderDataBlock(label, data, config) {
   }
   if (config.title === 'Social') return label === 'all guilds effects' ? renderGuildEffects(data) : renderSocial(data);
   if (config.title === 'Spellbook' && label === 'general magic stats') return renderMagicStats(data);
+  if (config.title === 'Spellbook' && label === 'spell level effects') return renderSpellLevelEffects(data);
+  if (config.title === 'World' && label === 'map general data') return renderWorldGeneralData(data);
   if (config.title === 'Shop' && label === 'items resources data') {
     const list = Array.isArray(data.available) ? data.available : [];
     return renderListBlock('Purchasable resources', list, config, { type: 'shop-resource', purchaseMultiplier: data.purchaseMultiplier });
