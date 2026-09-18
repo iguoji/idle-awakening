@@ -7,7 +7,7 @@ import { getCoursesQueries, renderCoursesView } from './features/courses/courses
 import { getDomainQueryConfig, renderDomainView } from './features/domain/domain-view.js';
 import { decodePortableSave, renderSettingsView } from './features/settings/settings-view.js';
 import { getStatisticsQueries, renderStatisticsView } from './features/statistics/statistics-view.js';
-import { createUiState, setActiveView, toggleSidebar } from './ui-state.js';
+import { createUiState } from './ui-state.js';
 import { createUiEventBinder } from './ui-event-binder.js';
 
 const NAV = [
@@ -277,7 +277,7 @@ export function mountUiShell({ root, game }) {
 
     root.replaceChildren(shell);
 
-    eventBinder.bind(shell);
+    eventBinder.bind(shell, focusedField);
 
   }
 
