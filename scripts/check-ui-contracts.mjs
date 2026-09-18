@@ -11,6 +11,7 @@ const queryLiteral = /^\s*['"]((?:initialize|load|reset|start|get|query|set|run|
 
 const UI_ONLY_COMMANDS = new Set([
   'copy-save',
+  'save-runtime-settings',
   'download-save',
   'load-save-text',
 ]);
