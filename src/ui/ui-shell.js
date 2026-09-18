@@ -39,6 +39,24 @@ function escapeHtml(value) {
     .replaceAll("'", '&#039;');
 }
 
+function renderEventOverlay(snapshot) {
+  const data = snapshot?.raw?.['random-events-data'];
+  const list = Array.isArray(data?.list) ? data.list : [];
+  const opened = data?.openedEventData;
+  if (!list.length && !opened) return '';
+  const primary = opened || list[0];
+  const label = opened ? opened.name : primary?.name || 'Active event';
+  const time = opened ? list.find((item) => item.id === opened.id)?.expiresIn : primary?.expiresIn;
+  return '<aside class="ui-event-overlay" aria-live="polite">' +
+    '<div><div class="ui-kicker">Event</div><strong>' + escapeHtml(label) + '</strong><span>' + (time !== undefined ? escapeHtml(Math.max(0, Number(time) || 0).toFixed(0)) + 's remaining' : 'Active') + '</span></div>' +
+    '<div class="ui-event-overlay__actions">' +
+      '<button class="ui-btn" data-view="events">Open Events</button>' +
+      (opened ? '<button class="ui-btn" data-command="set-event-data-opened" data-event-id="' + escapeHtml(opened.id) + '" data-opened="false">Close</button>' : '') +
+    '</div>' +
+  '</aside>';
+}
+
+
 function clone(value) {
   return value == null ? value : JSON.parse(JSON.stringify(value));
 }
@@ -266,6 +284,8 @@ export function mountUiShell({ root, game }) {
         </aside>
         <main class="ui-shell__main">${renderView(uiState.activeView)}</main>
       </div>
+      ${renderEventOverlay(gameState)}
+          </div>
     `;
 
     root.replaceChildren(shell);
