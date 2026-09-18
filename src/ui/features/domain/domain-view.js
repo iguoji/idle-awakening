@@ -22,7 +22,7 @@ export function renderDomainView(view, snapshot) {
   const blocks = responseData.map(([key, data]) => renderDataBlock(key.replaceAll('-', ' '), data, config));
   if (view === 'shop') blocks.unshift(renderShopToolbar(raw['items-data']));
   if (view === 'inventory') blocks.unshift(renderInventoryToolbar(raw['inventory-data']));
-  if (view === 'world') { blocks.unshift(renderWorldMap(raw['map-data'])); blocks.unshift(renderWorldToolbar()); }
+  if (view === 'world') { blocks.unshift(renderWorldMap(raw['map-data'], raw['map-tile-details'])); blocks.unshift(renderWorldToolbar(raw)); }
   const detailKeys = Array.isArray(config.detailResponses) ? config.detailResponses : config.detailResponse ? [config.detailResponse] : [];
   for (const detailKey of detailKeys) {
     const detail = raw[detailKey];
