@@ -292,6 +292,15 @@ export function createUiEventBinder(context) {
       });
     });
 
+    shell.querySelectorAll('[data-command="get-spell-level-effects"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        game.dispatch?.('get-spell-level-effects', {
+          id: button.dataset.id,
+          level: Math.max(1, Number(button.dataset.level) || 1),
+        });
+      });
+    });
+
     shell.querySelectorAll('[data-command="query-map-tile-details"]').forEach((button) => {
       button.addEventListener('click', () => {
         game.dispatch?.('query-map-tile-details', {
@@ -318,6 +327,21 @@ export function createUiEventBinder(context) {
           optionId: button.dataset.optionId,
         });
         requestView('events', true);
+      });
+    });
+
+    shell.querySelectorAll('[data-action="spell-autocast"]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const data = getGameState()?.raw?.['spell-data'] || {};
+        const spell = (Array.isArray(data.available) ? data.available : []).find((item) => String(item?.id) === String(input.dataset.id));
+        if (!spell) return;
+        const autocast = { ...(spell.autocast || { rules: [] }), isEnabled: input.checked };
+        game.dispatch?.('save-spell-settings', {
+          id: spell.id,
+          actualLevel: spell.level || 1,
+          autocast,
+        });
+        requestView(getUiState().activeView, true);
       });
     });
 
