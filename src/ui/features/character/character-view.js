@@ -10,7 +10,7 @@ function escapeHtml(value) {
 }
 
 function number(value) {
-  return typeof value === 'number' && Number.isFinite(value) ? new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 }).format(value) : String(value ?? '—');
+  return typeof value === 'number' && Number.isFinite(value) ? new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 2 }).format(value) : String(value ?? '—');
 }
 
 function percent(value) {
@@ -78,7 +78,7 @@ function renderDrafts(data, exportedDraft) {
   return `<div class="ui-character-drafts">
     <div class="ui-character-draft-create"><input class="ui-save-input" data-action="skill-draft-name" placeholder="Draft name" /><button class="ui-btn" data-command="save-skill-draft">Save draft</button><label class="ui-btn"><input type="file" accept="application/json,.json,.txt" data-action="skill-draft-import-file" hidden />Import</label></div>
     ${exportBlock}
-    ${drafts.map((draft) => `<div class="ui-character-draft"><div><strong>${escapeHtml(draft.name || draft.id)}</strong><span>${draft.timestamp ? new Date(draft.timestamp).toLocaleString() : ''}</span></div><div class="ui-character-draft__controls"><button class="ui-btn" data-command="load-skill-draft" data-id="${escapeHtml(draft.id)}">Load</button><button class="ui-btn" data-command="export-skill-draft" data-id="${escapeHtml(draft.id)}">Export</button><button class="ui-btn" data-command="delete-skill-draft" data-id="${escapeHtml(draft.id)}">Delete</button></div></div>`).join('') || '<p class="ui-muted">No saved skill drafts.</p>'}
+    ${drafts.map((draft) => `<div class="ui-character-draft"><div><strong>${escapeHtml(draft.name || draft.id)}</strong><span>${draft.timestamp ? new Date(draft.timestamp).toLocaleString('zh-CN') : ''}</span></div><div class="ui-character-draft__controls"><button class="ui-btn" data-command="load-skill-draft" data-id="${escapeHtml(draft.id)}">Load</button><button class="ui-btn" data-command="export-skill-draft" data-id="${escapeHtml(draft.id)}">Export</button><button class="ui-btn" data-command="delete-skill-draft" data-id="${escapeHtml(draft.id)}">Delete</button></div></div>`).join('') || '<p class="ui-muted">No saved skill drafts.</p>'}
   </div>`;
 }
 
