@@ -24,21 +24,21 @@ Branch: `refactor/ui-system-3`
 Current Property UI only exposes the basic furniture list. The Worker also supports furniture/accessory/amplifier categories, search, hide-maxed, custom filters, autopurchase and furniture details.
 
 Work:
-- [ ] Add furniture / accessory / amplifier category switching.
-- [ ] Add per-category search and hide-maxed controls.
-- [ ] Add property custom-filter management using the Worker payload shape.
-- [ ] Add furniture autopurchase toggle with `filterId`.
-- [ ] Add furniture detail view.
-- [ ] Add property space/effect summary with useful presentation instead of raw response fallback.
+- [x] Add furniture / accessory / amplifier category switching.
+- [x] Add per-category search and hide-maxed controls.
+- [x] Add property custom-filter management using the Worker payload shape.
+- [x] Add furniture autopurchase toggle with `filterId`.
+- [x] Add furniture detail view.
+- [x] Add property space/effect summary with useful presentation instead of raw response fallback.
 
 ### 2. Workshop / production parity
 Current Workshop covers basic crafting/alchemy/plantation actions, but several Worker capabilities are still not surfaced.
 
 Work:
-- [ ] Add crafting/alchemy detail dialogs.
-- [ ] Add plantation autopurchase toggle.
-- [ ] Add plantation remove action.
-- [ ] Add plantation detail view.
+- [x] Add crafting/alchemy detail dialogs.
+- [x] Add plantation autopurchase toggle.
+- [x] Add plantation remove action.
+- [x] Add plantation detail view.
 - [ ] Present production/resource effect breakdowns in structured UI.
 - [ ] Verify whether any hidden crafting/alchemy settings need dedicated controls.
 
@@ -55,46 +55,46 @@ Work:
 Current Inventory supports filtering, search, consume, sell and generic details.
 
 Work:
-- [ ] Add dedicated sell-details flow before selling when the original UI expects it.
-- [ ] Add inventory settings persistence UI for `save-inventory-settings`.
+- [x] Add dedicated sell-details flow before selling when the original UI expects it.
+- [x] Add inventory settings persistence UI for `save-inventory-settings`.
 - [ ] Support richer multi-quantity selling/consumption where the original protocol allows it.
 
 ### 5. Spellbook parity
 Current Spellbook supports casting, but several Worker protocols are not surfaced.
 
 Work:
-- [ ] Add spell detail view.
-- [ ] Add spell level-effect inspection.
-- [ ] Add spell settings persistence.
-- [ ] Add general magic statistics presentation.
+- [x] Add spell detail view.
+- [x] Add spell level-effect inspection.
+- [x] Add spell settings persistence.
+- [x] Add general magic statistics presentation.
 
 ### 6. Social / Guild parity
 Current Social supports guild selection and upgrade purchases.
 
 Work:
-- [ ] Add leave-guild action.
-- [ ] Add guild-upgrade detail view.
+- [x] Add leave-guild action.
+- [x] Add guild-upgrade detail view.
 - [ ] Present guild effect summaries in structured cards.
 
 ### 7. World / Map parity
 Current World supports map querying and generation plus a basic grid.
 
 Work:
-- [ ] Add tile detail inspection.
-- [ ] Add highlighted-resource / highlighted-tile controls.
-- [ ] Add generated-level control.
-- [ ] Add tile running/interaction control.
-- [ ] Present general map statistics.
-- [ ] Replace the placeholder dot grid with a richer map renderer using the available tile metadata.
+- [x] Add tile detail inspection.
+- [x] Add highlighted-resource / highlighted-tile controls.
+- [x] Add generated-level control.
+- [x] Add tile running/interaction control.
+- [x] Present general map statistics.
+- [x] Replace the placeholder dot grid with a richer map renderer using the available tile metadata.
 
 ### 8. Random Events
 The Worker contains a complete random-event subsystem, but the new UI currently has no event surface.
 
 Work:
-- [ ] Add active-event notification/overlay.
-- [ ] Add event option selection.
-- [ ] Add open/close event state handling.
-- [ ] Present triggered effects and remaining event lifetime.
+- [ ] Add active-event notification/overlay (the Events page is complete; global overlay remains).
+- [x] Add event option selection.
+- [x] Add open/close event state handling.
+- [x] Present triggered effects and remaining event lifetime.
 
 ### 9. Runtime settings / secondary systems
 Several restored modules are functional but have no dedicated new-UI surface yet.
