@@ -163,6 +163,34 @@ const TEXT = new Map(Object.entries({
   'Social': '社交',
   'Save': '保存',
   'Export': '导出',
+  'Run +1': '运行 +1',
+  'Run': '运行',
+  'Running': '运行中',
+  'Unavailable': '不可用',
+  'general': '通用',
+  'Not currently affordable': '当前无法购买',
+  'Active slots': '进行中槽位',
+  'Slot capacity': '槽位容量',
+  'Effort income': '行动力收益',
+  'Guild upgrades': '公会升级',
+  'Purchasable resources': '可购买资源',
+  'Purchase multiplier': '购买倍率',
+  'Sell price': '出售价格',
+  'Show maxed': '显示满级',
+  'New action list': '新建行动列表',
+  'Edit action list': '编辑行动列表',
+  'Create action list': '创建行动列表',
+  'Auto eligible': '支持自动化',
+  'Empty list': '空列表',
+  'No data yet.': '暂无数据。',
+  'all guilds effects': '全部公会效果',
+  'general magic stats': '魔法总览',
+  'spell level effects': '法术等级效果',
+  'map general data': '地图总览',
+  'items resources data': '物品资源数据',
+  'crafting data crafting': '制作数据',
+  'crafting data alchemy': '炼金数据',
+  'plantations data': '种植园数据',
 }));
 
 const ATTRIBUTE_TEXT = new Map(Object.entries({
@@ -199,6 +227,8 @@ export function translateText(value) {
     [/^Resolved choice:\s*/, '已选择：'],
     [/^\s*Space usage:\s*/, '空间占用：'],
     [/^\s*Export ready:\s*/, '导出完成：'],
+    [/^Needs\s+/, '需要 '],
+    [/^Focus\s+/, '专注 '],
   ];
   for (const [pattern, replacement] of dynamic) {
     if (pattern.test(trimmed)) return preserveWhitespace(original, trimmed.replace(pattern, replacement));
