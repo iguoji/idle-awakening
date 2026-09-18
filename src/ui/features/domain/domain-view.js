@@ -7,6 +7,7 @@ import {
   renderInventoryToolbar,
   renderShopToolbar,
   renderWorldMap,
+  renderWorldToolbar,
 } from './domain-renderers.js';
 export function getDomainQueryConfig(view) {
   return DOMAIN_CONFIG[view] || null;
@@ -21,7 +22,7 @@ export function renderDomainView(view, snapshot) {
   const blocks = responseData.map(([key, data]) => renderDataBlock(key.replaceAll('-', ' '), data, config));
   if (view === 'shop') blocks.unshift(renderShopToolbar(raw['items-data']));
   if (view === 'inventory') blocks.unshift(renderInventoryToolbar(raw['inventory-data']));
-  if (view === 'world') blocks.unshift(renderWorldMap(raw['map-data']));
+  if (view === 'world') { blocks.unshift(renderWorldMap(raw['map-data'])); blocks.unshift(renderWorldToolbar()); }
   const detail = config.detailsCommand ? raw['item-details'] : null;
   if (detail) blocks.splice(1, 0, renderDetailBlock(detail));
 
