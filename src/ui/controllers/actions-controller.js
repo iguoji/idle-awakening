@@ -1,6 +1,15 @@
 export function createActionsController(context) {
-  const { game, getGameState, requestView, openFilterEditor, closeFilterEditor, patchFilterDraft, saveFilterDraft, render } = context;
+  const {
+    game,
+    getGameState,
+    requestView,
+    openFilterEditor,
+    closeFilterEditor,
+    patchFilterDraft,
+    saveFilterDraft,
+  } = context;
   let actionSearchDebounce = null;
+
   function bind(shell) {
     shell.querySelector('[data-action="filter-new"]')?.addEventListener('click', () => openFilterEditor());
     shell.querySelectorAll('[data-action="filter-edit"]').forEach((button) => {
@@ -50,6 +59,31 @@ export function createActionsController(context) {
 
 
 
+    shell.querySelectorAll('[data-action="run-action"]').forEach((button) => {
+      button.addEventListener('click', () => game.dispatch?.('run-action', { id: button.dataset.id, isForce: true }));
+    });
+
+    shell.querySelectorAll('[data-action="action-filter"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        game.dispatch?.('set-selected-actions-filter', { filterId: button.dataset.filterId });
+        game.dispatch?.('query-actions-data', {});
+      });
+    });
+
+    shell.querySelector('[data-action="action-search"]')?.addEventListener('input', (event) => {
+      const search = event.target.value;
+      clearTimeout(actionSearchDebounce);
+      actionSearchDebounce = setTimeout(() => {
+        game.dispatch?.('set-actions-search', { searchData: { search, selectedScopes: ['name', 'tags'] } });
+        game.dispatch?.('query-actions-data', {});
+      }, 180);
+    });
+
+    shell.querySelector('[data-action="toggle-show-hidden"]')?.addEventListener('change', (event) => {
+      game.dispatch?.('toggle-show-hidden', event.target.checked);
+      game.dispatch?.('query-actions-data', {});
+    });
+
 
     shell.querySelector('[data-action="action-xp-breakdown"]')?.addEventListener('click', (event) => {
       game.dispatch?.('query-action-xp-breakdown', { id: event.currentTarget.dataset.id });
@@ -58,5 +92,12 @@ export function createActionsController(context) {
 
 
   }
-  return { bind, destroy() { clearTimeout(actionSearchDebounce); actionSearchDebounce = null; } };
+
+  return {
+    bind,
+    destroy() {
+      clearTimeout(actionSearchDebounce);
+      actionSearchDebounce = null;
+    },
+  };
 }
