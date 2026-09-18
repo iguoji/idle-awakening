@@ -6,6 +6,8 @@ test('default UI language is simplified Chinese', () => {
   assert.equal(DEFAULT_LANGUAGE, 'zh-CN');
   assert.equal(translateText('Actions'), '行动');
   assert.equal(translateText('Search'), '搜索');
+  assert.equal(translateText('Perform some walking exercises to improve your stamina'), '进行一些散步运动，以提高你的体力');
+  assert.equal(translateText('A Mysterious Stranger'), '神秘的陌生人');
 });
 
 test('common dynamic UI counters are localized', () => {
