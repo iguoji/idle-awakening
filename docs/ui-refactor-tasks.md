@@ -43,12 +43,12 @@ Work:
 - [ ] Verify whether any hidden crafting/alchemy settings need dedicated controls.
 
 ### 3. Courses parity + engine audit
-The Worker exposes `set-course-autopurchase`, but the current extracted Courses module does not expose an `isAutoPurchase` field in `course-data` and the module does not currently consume that state in its tick loop.
+Course autopurchase is now restored: the Worker tracks and persists the toggle, exposes `isAutoPurchase`/`isAutomationUnlocked`, and consumes it on the same 10-second automation cadence as the other purchase-manager systems.
 
 Work:
-- [ ] Decide and document the intended Course autopurchase semantics from the original implementation.
-- [ ] Fix/preserve the engine state only after the semantics are verified.
-- [ ] Add Course autopurchase UI only after the Worker returns a trustworthy state.
+- [x] Decide and document the intended Course autopurchase semantics from the original implementation.
+- [x] Fix/preserve the engine state only after the semantics are verified.
+- [x] Add Course autopurchase UI only after the Worker returns a trustworthy state.
 - [x] Add Course detail view.
 
 ### 4. Inventory parity
@@ -60,7 +60,7 @@ Work:
 - [ ] Support richer multi-quantity selling/consumption where the original protocol allows it.
 
 ### 5. Spellbook parity
-Current Spellbook supports casting, but several Worker protocols are not surfaced.
+Spellbook now exposes casting, details, Auto-cast settings, per-level effect preview, and general magic statistics.
 
 Work:
 - [x] Add spell detail view.
@@ -77,7 +77,7 @@ Work:
 - [ ] Present guild effect summaries in structured cards.
 
 ### 7. World / Map parity
-Current World supports map querying and generation plus a basic grid.
+World now exposes map generation controls, highlight filters, resource highlighting, interactive tiles, tile exploration and tile details, plus readable map statistics.
 
 Work:
 - [x] Add tile detail inspection.
