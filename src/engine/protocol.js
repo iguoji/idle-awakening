@@ -97,6 +97,7 @@ export const COMMANDS = Object.freeze({
   QUERY_FURNITURE_DETAILS: 'query-furniture-details',
   QUERY_GENERAL_PROPERTY_STATS: 'query-general-property-stats',
   SET_FURNITURE_AUTO_PURCHASE: 'set-furniture-autopurchase',
+  PURCHASE_FURNITURE: 'purchase-furniture',
   SET_FURNITURE_HIDE_MAXED: 'set-furniture-hide-maxed',
   SET_FURNITURE_SEARCH: 'set-furniture-search-text',
   SAVE_PROPERTY_CUSTOM_FILTER: 'save-property-custom-filter',
