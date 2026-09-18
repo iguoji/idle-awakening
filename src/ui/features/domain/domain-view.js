@@ -19,6 +19,7 @@ export function renderDomainView(view, snapshot) {
   const raw = snapshot?.raw || {};
   const readiness = snapshot?.initialized ? 'Live worker data' : 'Waiting for game runtime';
   const responseData = config.responses.map((key) => [key, raw[key]]);
+  if (view === 'spellbook' && raw['spell-level-effects']) responseData.push(['spell level effects', raw['spell-level-effects']]);
   const blocks = responseData.map(([key, data]) => renderDataBlock(key.replaceAll('-', ' '), data, config));
   if (view === 'shop') blocks.unshift(renderShopToolbar(raw['items-data']));
   if (view === 'inventory') blocks.unshift(renderInventoryToolbar(raw['inventory-data']));
