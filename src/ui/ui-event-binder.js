@@ -263,6 +263,44 @@ export function createUiEventBinder(context) {
       render();
     });
 
+    shell.querySelector('[data-action="world-map-level"]')?.addEventListener('change', (event) => {
+      const level = Math.max(0, Number(event.target.value) || 0);
+      game.dispatch?.('map-set-generated-level', { level });
+      requestView('world', true);
+    });
+
+    shell.querySelector('[data-action="world-highlight-unexplored"]')?.addEventListener('change', (event) => {
+      game.dispatch?.('map-highlight-filter', { highlightUnexplored: event.target.checked });
+    });
+
+    for (const action of ['world-effort-min', 'world-effort-max']) {
+      shell.querySelector('[data-action="' + action + '"]')?.addEventListener('change', () => {
+        const min = Number(shell.querySelector('[data-action="world-effort-min"]')?.value) || 0;
+        const max = Number(shell.querySelector('[data-action="world-effort-max"]')?.value) || 0;
+        const payload = {};
+        payload[action === 'world-effort-min' ? 'effortMin' : 'effortMax'] = Math.max(0, Number(shell.querySelector('[data-action="' + action + '"]')?.value) || 0);
+        if (action === 'world-effort-min') payload.effortMax = max || undefined;
+        else payload.effortMin = min || undefined;
+        game.dispatch?.('map-highlight-filter', payload);
+      });
+    }
+
+    shell.querySelectorAll('[data-action="world-highlight-resource"]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const ids = [...shell.querySelectorAll('[data-action="world-highlight-resource"]:checked')].map((node) => node.dataset.id);
+        game.dispatch?.('map-highlight-resources', { ids });
+      });
+    });
+
+    shell.querySelectorAll('[data-command="query-map-tile-details"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        game.dispatch?.('query-map-tile-details', {
+          i: Number(button.dataset.i),
+          j: Number(button.dataset.j),
+        });
+      });
+    });
+
     shell.querySelector('[data-action="automation-new"]')?.addEventListener('click', () => {
       beginAutomationCreate();
       scheduleViewRefresh('automation');
