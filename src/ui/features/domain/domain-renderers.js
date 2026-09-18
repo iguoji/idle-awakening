@@ -81,6 +81,24 @@ export function renderListBlock(label, list, config, context = {}, limit = 100) 
   </div></article>`;
 }
 
+export function renderMagicStats(data) {
+  if (!data || typeof data !== 'object') return '';
+  const groups = Object.entries(data).filter(([, effects]) => Array.isArray(effects) && effects.length);
+  if (!groups.length) return '<article class="ui-card"><div class="ui-card__body ui-domain-empty">No active magic modifiers.</div></article>';
+  return groups.map(([group, effects]) => '<article class="ui-card"><div class="ui-card__body">' +
+    '<div class="ui-section-title"><div><strong>' + escapeHtml(group.replaceAll('_', ' ')) + '</strong><span>Magic modifiers</span></div></div>' +
+    '<div class="ui-effect-list">' + effects.map((effect) => '<div class="ui-effect-row"><span>' + escapeHtml(effect.name || effect.id) + '</span><strong>' + escapeHtml(formatNumber(effect.value)) + '</strong></div>').join('') + '</div>' +
+  '</div></article>').join('');
+}
+
+export function renderGuildEffects(data) {
+  if (!Array.isArray(data) || !data.length) return '<article class="ui-card"><div class="ui-card__body ui-domain-empty">No guild permanent effects yet.</div></article>';
+  return '<article class="ui-card"><div class="ui-card__body">' +
+    '<div class="ui-section-title"><div><strong>Guild permanent effects</strong><span>Retained progression</span></div></div>' +
+    '<div class="ui-domain-list">' + data.map((guild) => '<article class="ui-domain-item"><div class="ui-domain-item__main"><div class="ui-domain-item__title"><strong>' + escapeHtml(guild.name || guild.id) + '</strong></div><pre class="ui-domain-json">' + escapeHtml(JSON.stringify(guild.effects || {}, null, 2).slice(0, 4000)) + '</pre></div></article>').join('') + '</div>' +
+  '</div></article>';
+}
+
 export function renderSocial(data) {
   if (!data) return `<article class="ui-card"><div class="ui-card__body ui-domain-empty">No guild data yet.</div></article>`;
   const guilds = Array.isArray(data.guilds) ? data.guilds : [];
@@ -209,7 +227,8 @@ export function renderDataBlock(label, data, config) {
       <span>No data yet.</span><small>Enter this page after the game is initialized to request its live worker snapshot.</small>
     </div></article>`;
   }
-  if (config.title === 'Social') return renderSocial(data);
+  if (config.title === 'Social') return label === 'all guilds effects' ? renderGuildEffects(data) : renderSocial(data);
+  if (config.title === 'Spellbook' && label === 'general magic stats') return renderMagicStats(data);
   if (config.title === 'Shop' && label === 'items resources data') {
     const list = Array.isArray(data.available) ? data.available : [];
     return renderListBlock('Purchasable resources', list, config, { type: 'shop-resource', purchaseMultiplier: data.purchaseMultiplier });
