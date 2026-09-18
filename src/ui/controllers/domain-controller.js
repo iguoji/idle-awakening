@@ -143,18 +143,18 @@ export function createDomainController(context) {
       const draft = getPropertyFilterEditorDraft();
       if (!draft) return;
       draft.filterId = getPropertyFilter();
-      draft.name = String(draft.name || '').trim() || 'Untitled filter';
+      draft.name = String(draft.name || '').trim() || '未命名筛选器';
       draft.condition = String(draft.condition || '').trim();
       draft.rules = (Array.isArray(draft.rules) ? draft.rules : [])
         .filter((rule) => rule && ['tag', 'resource', 'attribute'].includes(rule.type) && String(rule.object || '').trim())
         .map((rule) => ({ type: rule.type, object: String(rule.object).trim() }));
       if (draft.condition && !/^(?:\s*(?:\d+|AND|OR|NOT|\(|\))\s*)+$/i.test(draft.condition)) {
-        window.alert?.('Condition may only contain rule numbers, parentheses, AND, OR and NOT.');
+        window.alert?.('条件只能包含规则编号、括号、AND、OR 和 NOT。');
         return;
       }
       const references = [...draft.condition.matchAll(/\d+/g)].map((match) => Number(match[0]));
       if (references.some((reference) => reference < 1 || reference > draft.rules.length)) {
-        window.alert?.('Condition references a rule that does not exist.');
+        window.alert?.('条件引用了不存在的规则。');
         return;
       }
       const data = getGameState()?.raw?.['furnitures-data'] || {};
