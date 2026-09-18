@@ -1,6 +1,7 @@
 import './automation-view.css';
 
 let editorDraft = null;
+let editorEffectsRequested = false;
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>\"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#039;' }[c]));
@@ -15,6 +16,7 @@ export function getAutomationQueries() {
 }
 
 export function beginAutomationCreate() {
+  editorEffectsRequested = false;
   editorDraft = {
     id: null,
     name: 'New action list',
@@ -25,6 +27,7 @@ export function beginAutomationCreate() {
 }
 
 export function beginAutomationEdit(list) {
+  editorEffectsRequested = false;
   editorDraft = clone(list) || null;
   if (editorDraft) {
     editorDraft.actions = Array.isArray(editorDraft.actions) ? editorDraft.actions : [];
@@ -40,10 +43,26 @@ export function beginAutomationEdit(list) {
 
 export function closeAutomationEditor() {
   editorDraft = null;
+  editorEffectsRequested = false;
 }
 
 export function getAutomationEditorDraft() {
   return clone(editorDraft);
+}
+
+function renderEffectsPreview(snapshot) {
+  if (!editorEffectsRequested) return '<div class="ui-muted">Preview is calculated from the current draft; saving is not required.</div>';
+  const data = snapshot?.raw?.['action-list-effects'];
+  if (!data || typeof data !== 'object') return '<div class="ui-muted">Calculating preview…</div>';
+  const resources = Object.values(data.resourcesEffects || {}).filter((item) => item && typeof item === 'object');
+  const effects = Array.isArray(data.effectEffects) ? data.effectEffects : [];
+  const merged = [...resources, ...effects].filter((item) => item && typeof item.value !== 'undefined');
+  if (!merged.length) return '<div class="ui-muted">No measurable effects for the current draft.</div>';
+  return `<div class="ui-automation-effects">${merged.slice(0, 16).map((item) => {
+    const scope = item.scope || 'effect';
+    const sign = scope === 'consumption' ? '−' : '+';
+    return \`<div class="ui-automation-effect"><span>${escapeHtml(item.name || item.title || item.id)}</span><strong>${sign}${escapeHtml(Math.abs(Number(item.value) || 0))}</strong><small>${escapeHtml(scope)}</small></div>\`;
+  }).join('')}</div>`;
 }
 
 function renderEditor(snapshot) {
@@ -81,6 +100,10 @@ function renderEditor(snapshot) {
           <label class="ui-check"><input type="checkbox" data-action="automation-draft-autotrigger" ${auto.isEnabled ? 'checked' : ''}/> Enable this list for auto trigger</label>
           <label><span>Priority</span><input type="number" min="0" step="1" value="${escapeHtml(auto.priority ?? 0)}" data-action="automation-draft-priority" /></label>
         </div>
+      </div>
+      <div class="ui-automation-editor__section">
+        <div class="ui-automation-editor__section-title"><strong>Effects preview</strong><button class="ui-btn" data-action="automation-preview-effects">Preview draft</button></div>
+        ${renderEffectsPreview(snapshot)}
       </div>
       <div class="ui-actions">
         <button class="ui-btn ui-btn--primary" data-action="automation-save">Save list</button>
@@ -120,7 +143,7 @@ export function renderAutomationView(snapshot) {
     <div class="ui-card__body">
       <div class="ui-section-title"><div><strong>Saved lists</strong><span>${lists.length} lists</span></div></div>
       <div class="ui-automation-list">
-        ${lists.map((list) => {
+        ${lists.map((list, index) => {
           const isRunning = running?.id === list.id;
           const actions = Array.isArray(list.actions) ? list.actions : [];
           const auto = Boolean(list.autotrigger?.isEnabled || list.autotrigger?.rules?.length);
@@ -131,6 +154,8 @@ export function renderAutomationView(snapshot) {
             </div>
             <div class="ui-automation-item__controls">
               <button class="ui-btn" data-action="automation-edit" data-id="${escapeHtml(list.id)}">Edit</button>
+              <button class="ui-btn" data-action="automation-move" data-id="${escapeHtml(list.id)}" data-direction="up" ${index === 0 ? 'disabled' : ''}>↑</button>
+              <button class="ui-btn" data-action="automation-move" data-id="${escapeHtml(list.id)}" data-direction="down" ${index === lists.length - 1 ? 'disabled' : ''}>↓</button>
               ${isRunning ? `<button class="ui-btn" data-command="stop-list" data-id="${escapeHtml(list.id)}">Stop</button>` : `<button class="ui-btn ui-btn--primary" data-command="run-list" data-id="${escapeHtml(list.id)}">Run</button>`}
             </div>
           </article>`;
