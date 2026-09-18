@@ -220,7 +220,7 @@ var PropertyModule = /*#__PURE__*/function (_GameModule) {
       newOrder.splice(destinationIndex, 0, removed);
 
       // Зберігаємо оновлений масив
-      _this.customFiltersOrder = newOrder;
+      _this.customFiltersOrder[filterId] = newOrder;
 
       // console.log('Re-sorted', payload, newOrder);
 
