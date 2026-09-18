@@ -34,6 +34,8 @@ var CoursesModule = /*#__PURE__*/function (_GameModule) {
     _this.leveledId = null;
     _this.purchaseMultiplier = 1;
     _this.runningCourse = null;
+    _this.autoPurchase = {};
+    _this.autoPurchaseCd = 10;
     _this.eventHandler.registerHandler('set-course-autopurchase', function (_ref) {
       var id = _ref.id,
         flag = _ref.flag;
@@ -79,6 +81,27 @@ var CoursesModule = /*#__PURE__*/function (_GameModule) {
     key: "tick",
     value: function tick(game, delta) {
       this.leveledId = null;
+      if (index.gameEntity.getLevel('shop_item_purchase_manager') > 0) {
+        this.autoPurchaseCd -= delta;
+        if (this.autoPurchaseCd <= 0) {
+          this.autoPurchaseCd = 10;
+          var autoEntities = index.gameEntity.listEntitiesByTags(['course']).filter(function (one) {
+            return one.isUnlocked && !one.isCapped;
+          });
+          for (var autoIndex = 0; autoIndex < autoEntities.length; autoIndex += 1) {
+            var autoEntity = autoEntities[autoIndex];
+            if (!this.autoPurchase[autoEntity.id]) continue;
+            var autoResult = index.gameEntity.levelUpEntity(autoEntity.id);
+            if (autoResult.success) {
+              this.leveledId = autoEntity.id;
+              index.gameCore.getModule('unlock-notifications').generateNotifications();
+              break;
+            } else if (index.gameEntity.isCapped(autoEntity.id)) {
+              this.autoPurchase[autoEntity.id] = false;
+            }
+          }
+        }
+      }
       if (this.runningCourse) {
         var learningEntity = index.gameEntity.getEntity("learning_".concat(this.runningCourse));
         var eff = index.gameEntity.getEntityEfficiency(learningEntity.id);
@@ -100,7 +123,8 @@ var CoursesModule = /*#__PURE__*/function (_GameModule) {
     value: function save() {
       return {
         courses: this.courses,
-        runningCourse: this.runningCourse
+        runningCourse: this.runningCourse,
+        autoPurchase: this.autoPurchase
       };
     }
   }, {
@@ -125,6 +149,8 @@ var CoursesModule = /*#__PURE__*/function (_GameModule) {
       if (saveObject !== null && saveObject !== void 0 && saveObject.runningCourse) {
         this.runCourse(saveObject.runningCourse);
       }
+      this.autoPurchase = (saveObject === null || saveObject === void 0 ? void 0 : saveObject.autoPurchase) || {};
+      this.autoPurchaseCd = 10;
       this.sendItemsData();
     }
   }, {
@@ -195,11 +221,12 @@ var CoursesModule = /*#__PURE__*/function (_GameModule) {
             name: entity.name,
             description: entity.description,
             max: index.gameEntity.getEntityMaxLevel(entity.id),
-            level: ((_this2$courses$entity = _this2.courses[entity.id]) === null || _this2$courses$entity === void 0 ? void 0 : _this2$courses$entity.level) || 0,
+            level: index.gameEntity.getLevel(entity.id),
             affordable: index.gameEntity.getAffordable(entity.id),
             potentialEffects: index.gameEntity.getEffects(entity.id, 1),
             isLeveled: _this2.leveledId === entity.id,
             isAutoResume: (_this2$courses$entity2 = (_this2$courses$entity3 = _this2.courses[entity.id]) === null || _this2$courses$entity3 === void 0 ? void 0 : _this2$courses$entity3.autoResume) !== null && _this2$courses$entity2 !== void 0 ? _this2$courses$entity2 : false,
+            isAutoPurchase: Boolean(_this2.autoPurchase[entity.id]),
             progress: (_this2$courses$entity4 = _this2.courses[entity.id]) === null || _this2$courses$entity4 === void 0 ? void 0 : _this2$courses$entity4.progress,
             maxProgress: _this2.getDuration(entity.id),
             isRunning: index.gameEntity.entityExists("learning_".concat(entity.id)),
