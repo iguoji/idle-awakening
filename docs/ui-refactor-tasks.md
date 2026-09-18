@@ -49,7 +49,7 @@ Work:
 - [ ] Decide and document the intended Course autopurchase semantics from the original implementation.
 - [ ] Fix/preserve the engine state only after the semantics are verified.
 - [ ] Add Course autopurchase UI only after the Worker returns a trustworthy state.
-- [ ] Add Course detail view.
+- [x] Add Course detail view.
 
 ### 4. Inventory parity
 Current Inventory supports filtering, search, consume, sell and generic details.
