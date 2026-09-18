@@ -55,6 +55,10 @@ const PLACEHOLDERS = new Map(Object.entries({
   'Example: 1 AND 2': '例如：1 AND 2',
 }));
 
+const CATALOG_KEYS = Object.keys(ZH_CN_CATALOG)
+  .filter((source) => source.length >= 4 && /[A-Za-z]/.test(source))
+  .sort((a, b) => b.length - a.length);
+
 const DYNAMIC = [
   [/^(\d+) filters$/, '$1 个筛选器'],
   [/^(\d+) rules$/, '$1 条规则'],
@@ -96,12 +100,7 @@ export function translateText(value) {
   }
 
   let localized = trimmed;
-  const candidates = Object.keys(ZH_CN_CATALOG)
-    .filter((source) => source.length >= 4 && /[A-Za-z]/.test(source))
-    .sort((a, b) => b.length - a.length)
-    .slice(0, 2400);
-
-  for (const source of candidates) {
+  for (const source of CATALOG_KEYS) {
     if (!localized.includes(source)) continue;
     localized = localized.split(source).join(ZH_CN_CATALOG[source]);
   }
