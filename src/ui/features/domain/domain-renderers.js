@@ -120,8 +120,46 @@ export function renderGuildEffects(data) {
   if (!Array.isArray(data) || !data.length) return '<article class="ui-card"><div class="ui-card__body ui-domain-empty">No guild permanent effects yet.</div></article>';
   return '<article class="ui-card"><div class="ui-card__body">' +
     '<div class="ui-section-title"><div><strong>Guild permanent effects</strong><span>Retained progression</span></div></div>' +
-    '<div class="ui-domain-list">' + data.map((guild) => '<article class="ui-domain-item"><div class="ui-domain-item__main"><div class="ui-domain-item__title"><strong>' + escapeHtml(guild.name || guild.id) + '</strong></div><pre class="ui-domain-json">' + escapeHtml(JSON.stringify(guild.effects || {}, null, 2).slice(0, 4000)) + '</pre></div></article>').join('') + '</div>' +
+    '<div class="ui-domain-list">' + data.map((guild) => {
+      const effects = Object.values(guild.effects || {}).filter((effect) => effect && typeof effect === 'object').slice(0, 24);
+      return '<article class="ui-domain-item"><div class="ui-domain-item__main">' +
+        '<div class="ui-domain-item__title"><strong>' + escapeHtml(guild.name || guild.id) + '</strong><span>' + effects.length + ' effects</span></div>' +
+        (effects.length ? '<div class="ui-effect-list">' + effects.map((effect) => '<div class="ui-effect-row"><span>' + escapeHtml(effect.name || effect.id) + '</span><strong>' + escapeHtml(formatNumber(effect.value)) + '</strong></div>').join('') + '</div>' : '<span class="ui-muted">No numeric effects exposed.</span>') +
+        '</div></article>';
+    }).join('') + '</div>' +
   '</div></article>';
+}
+
+export function renderProductionBlock(label, data, config, context = {}) {
+  const list = Array.isArray(data?.available) ? data.available : [];
+  const slots = data?.slots;
+  const effort = data?.efforts;
+  const headerStats = [];
+  if (slots && typeof slots === 'object') {
+    if (slots.total !== undefined) headerStats.push(['Active slots', slots.total]);
+    if (slots.max !== undefined) headerStats.push(['Slot capacity', slots.max]);
+  }
+  if (effort && typeof effort === 'object' && effort.value !== undefined) headerStats.push(['Effort income', effort.value]);
+  const summary = headerStats.length
+    ? '<div class="ui-stat-grid">' + headerStats.map(([key, value]) => '<div class="ui-stat"><div class="ui-stat__label">' + escapeHtml(key) + '</div><div class="ui-stat__value">' + escapeHtml(formatNumber(value)) + '</div></div>').join('') + '</div>'
+    : '';
+  const breakdowns = list.filter((item) => item?.breakDown && typeof item.breakDown === 'object').slice(0, 6);
+  const breakdownBlock = breakdowns.length
+    ? '<div class="ui-production-breakdowns"><div class="ui-section-title"><div><strong>Resource flow</strong><span>Current recipe outputs</span></div></div>' +
+      breakdowns.map((item) => {
+        const entries = Object.values(item.breakDown || {}).filter((entry) => entry && typeof entry === 'object' && entry.value !== undefined).slice(0, 6);
+        if (!entries.length) return '';
+        return '<div class="ui-production-breakdown"><strong>' + escapeHtml(item.name || item.id) + '</strong>' +
+          entries.map((entry) => '<div class="ui-effect-row"><span>' + escapeHtml(entry.name || entry.id) + '</span><strong>' + escapeHtml(formatNumber(entry.value)) + '</strong></div>').join('') +
+        '</div>';
+      }).join('') + '</div>'
+    : '';
+  return '<article class="ui-card"><div class="ui-card__body">' +
+    '<div class="ui-section-title"><div><strong>' + escapeHtml(label) + '</strong><span>Production</span></div></div>' +
+    summary +
+    breakdownBlock +
+    '<div class="ui-domain-list">' + list.slice(0, 100).map((item) => renderItemCard(item, config, { filterId: context.filterId || (label.includes('alchemy') ? 'alchemy' : 'crafting') })).join('') + '</div>' +
+    '</div></article>';
 }
 
 export function renderSocial(data) {
@@ -259,6 +297,9 @@ export function renderDataBlock(label, data, config) {
   if (config.title === 'Shop' && label === 'items resources data') {
     const list = Array.isArray(data.available) ? data.available : [];
     return renderListBlock('Purchasable resources', list, config, { type: 'shop-resource', purchaseMultiplier: data.purchaseMultiplier });
+  }
+  if (config.title === 'Workshop' && (label === 'crafting data crafting' || label === 'crafting data alchemy') && Array.isArray(data.available)) {
+    return renderProductionBlock(label, data, config, { filterId: label.endsWith('alchemy') ? 'alchemy' : 'crafting' });
   }
   if (config.title === 'Workshop' && label === 'plantations data' && Array.isArray(data.available)) {
     return renderListBlock('Plantations', data.available, config, {
